@@ -4,7 +4,7 @@ This is the place where great ideas will flourish and replenish under the light 
 
 Check out our wiki page for more information !
 
-## MEMBERS OF GROUP10
+## Members
 
 * [Yavuz Demir](https://github.com/bounswe/bounswe2019group10/wiki/yavuzdemir) (communicator)
 * [Murat Buldu](https://github.com/bounswe/bounswe2019group10/wiki/muratbuldu)
