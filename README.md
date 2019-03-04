@@ -14,6 +14,9 @@ Check out our wiki page for more information !
 * [Melih Demir](https://github.com/bounswe/bounswe2019group10/wiki/melihdemir)
 * [Nevzat Ersoy](https://github.com/bounswe/bounswe2019group10/wiki/nevzatersoy)
 * [Sümeyra Yılmaz](https://github.com/bounswe/bounswe2019group10/wiki/sumeyrayilmaz)
-* [İsmet Sarı](https://github.com/bounswe/bounswe2019group10/wiki/ismetsari)
 * [Kaan Dura](https://github.com/bounswe/bounswe2019group10/wiki/kaandura)
 
+## Former Members
+
+* [İsmet Sarı](https://github.com/bounswe/bounswe2019group10/wiki/ismetsari)
+* [Erdinç Oğuz](https://github.com/bounswe/bounswe2019group10/wiki/Erdin%C3%A7-O%C4%9Fuz)
