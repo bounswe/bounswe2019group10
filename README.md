@@ -18,5 +18,5 @@ Check out our wiki page for more information !
 
 ## Former Members
 
-* [İsmet Sarı](https://github.com/bounswe/bounswe2019group10/wiki/ismetsari)
+* İsmet Sarı
 * Erdinç Oğuz
