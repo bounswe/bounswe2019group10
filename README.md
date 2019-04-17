@@ -10,13 +10,12 @@ Check out our wiki page for more information !
 * [Murat Buldu](https://github.com/bounswe/bounswe2019group10/wiki/muratbuldu)
 * [Fahri Can Şanlı](https://github.com/bounswe/bounswe2019group10/wiki/fahricansanli)
 * [Hasan Basri Balaban](https://github.com/bounswe/bounswe2019group10/wiki/hasanbasribalaban)
-* [Abdurrahman Emre Yılmaz](https://github.com/bounswe/bounswe2019group10/wiki/abdurrahmanemreyilmaz)
 * [Melih Demir](https://github.com/bounswe/bounswe2019group10/wiki/melihdemir)
 * [Nevzat Ersoy](https://github.com/bounswe/bounswe2019group10/wiki/nevzatersoy)
 * [Sümeyra Yılmaz](https://github.com/bounswe/bounswe2019group10/wiki/sumeyrayilmaz)
 * [Kaan Dura](https://github.com/bounswe/bounswe2019group10/wiki/kaandura)
 
 ## Former Members
-
+* Abdurrahman Emre Yılmaz
 * İsmet Sarı
 * Erdinç Oğuz
