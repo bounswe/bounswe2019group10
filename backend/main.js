@@ -36,6 +36,6 @@ app.use('/', function (req, res) {
 });
 
 // start servers
-httpServer.listen(1010,function(){
-    console.log('HTTP SERVER listening on port 1010!');
+httpServer.listen(8080,function(){
+    console.log('HTTP SERVER listening on port 8080!');
 });

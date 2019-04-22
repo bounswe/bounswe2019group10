@@ -6,17 +6,17 @@ var _db = null;
 
 exports.connect = function(callback){
   if(_db === null){
-  MongoClient.connect(url, function(err, db) {
-    //console.log(err);
-    if(err === null){
-      _db = db.db("sorutabani");
-    }
-    callback(err);
-  });
+    MongoClient.connect(url,{ useNewUrlParser: true }, function(err, db) {
+      //console.log(err);
+      if(err === null){
+        _db = db.db("sorutabani");
+      }
+      callback(err);
+    });
   }else{
-      callback(null);
+    callback(null);
   }
-}
+};
 
 exports.isConnected = function(){
   if(_db === null){
@@ -27,7 +27,7 @@ exports.isConnected = function(){
 
 exports.getDB = function(){
   return _db;
-}
+};
 
 exports.close = function(){
     _db.close();
