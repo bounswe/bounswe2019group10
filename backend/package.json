@@ -31,6 +31,7 @@
     "express": "latest",
     "forever": "latest",
     "mongodb": "latest",
-    "request": "latest"
+    "request": "latest",
+    "unirest": "latest"
   }
 }
