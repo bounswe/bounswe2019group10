@@ -20,4 +20,13 @@ router.use('/register',function(req,res){
   }
   user.register(db,req,res);
 });
+
+router.use('/login',function(req,res){
+  if(!db.isConnected()){
+    res.send("9");
+    return;
+  }
+  user.login(db,req,res);
+});
+
 module.exports = router;
