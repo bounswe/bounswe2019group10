@@ -2,10 +2,12 @@ const { sendRequest } = require("../util/baseUtil");
 
 exports.synonym = async function(db,req,res) {
 
+  const {word} = req.query;
+
   console.time("wordsApi");
 
   let params = {
-    url:"https://wordsapiv1.p.mashape.com/words/example/synonyms",
+    url:"https://wordsapiv1.p.mashape.com/words/"+word+"/synonyms",
     options:{
       headers:{
   			"X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
@@ -20,3 +22,4 @@ exports.synonym = async function(db,req,res) {
   res.send(data)
 
 }
+
