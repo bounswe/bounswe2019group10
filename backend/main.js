@@ -7,6 +7,11 @@ var cookieParser = require('cookie-parser');
 // import api route
 var api = require('./api/Api');
 
+
+const unirest = require('unirest');
+
+
+
 // create servers
 var httpServer = http.createServer(app);
 
@@ -43,11 +48,7 @@ httpServer.listen(8080,function(){
 function handleGetRequest(word) {
 
 
-	var unirest = require('unirest');
-
-
-
-	unirest.get("https://wordsapiv1.p.rapidapi.com/words/"+word+"/typeOf")
+	unirest.get("https://wordsapiv1.p.rapidapi.com/words/"+word+"/definitions")
 		.header("X-RapidAPI-Host", "wordsapiv1.p.rapidapi.com")
 		.header("X-RapidAPI-Key", "f227a30e8fmshf11d3973463d146p107dd6jsn39a197ef13b2")
 		.end(function (result) {
