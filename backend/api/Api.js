@@ -1,7 +1,8 @@
-var express = require('express');
+const express = require('express');
 var router = express.Router();
-var db = require('./DataBase');
-var user=require('./User');
+const db = require('./DataBase');
+const user = require('./User');
+const words = require('./Words');
 
 db.connect(function(err){
   if(err === null){
@@ -19,5 +20,13 @@ router.use('/register',function(req,res){
     return;
   }
   user.register(db,req,res);
+});
+
+router.use('/synonym',function(req,res){
+  if(!db.isConnected()){
+    res.send("9");
+    return;
+  }
+  words.synonym(db,req,res);
 });
 module.exports = router;

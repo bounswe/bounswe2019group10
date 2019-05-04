@@ -3,14 +3,11 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var request = require('request');
+var unirest = require('unirest');
 
 // import api route
 var api = require('./api/Api');
-
-
-const unirest = require('unirest');
-
-
 
 // create servers
 var httpServer = http.createServer(app);
@@ -32,8 +29,28 @@ app.use(function(req,res,next){
 	next();
 });
 
+app.use('/synonym', function (req, res) {
+  res.sendFile('/htmls/synonym.html', {root: __dirname })
+});
+
 // api route
 app.use('/api/',api);
+
+app.use('/wordsapi/:word', function (req, res) {
+	var word = req.params.word;
+	var option = {
+		"headers":{
+			"X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
+			"X-RapidAPI-Key": "f227a30e8fmshf11d3973463d146p107dd6jsn39a197ef13b2"
+		}
+	};
+	request.get("https://wordsapiv1.p.rapidapi.com/words/"+word+"/typeOf",option, function(err,response,body){
+		console.log(body);
+		res.send(body);
+	});
+
+});
+
 
 //opening page
 app.use('/', function (req, res) {
@@ -46,15 +63,14 @@ httpServer.listen(8080,function(){
 });
 
 function handleGetRequest(word) {
-
-
-	unirest.get("https://wordsapiv1.p.rapidapi.com/words/"+word+"/definitions")
+	var r;
+	unirest.get("https://wordsapiv1.p.rapidapi.com/words/"+word+"/typeOf")
 		.header("X-RapidAPI-Host", "wordsapiv1.p.rapidapi.com")
 		.header("X-RapidAPI-Key", "f227a30e8fmshf11d3973463d146p107dd6jsn39a197ef13b2")
 		.end(function (result) {
-			console.log(result.body);
+			r =  result;
 		});
-
+	return r;
 }
 
 //if you want to see the result of the get request uncomment the below code.
