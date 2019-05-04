@@ -4,7 +4,8 @@
   "description": "Yallp backend",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "test": "jest"
   },
   "jest": {
     "testEnvironment": "node"
@@ -33,6 +34,7 @@
     "mongodb": "latest",
     "request": "latest",
     "unirest": "latest",
-    "bluebird": "latest"
+    "bluebird": "latest",
+    "jest": "^23.3.0"
   }
 }

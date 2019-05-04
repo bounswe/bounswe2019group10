@@ -44,7 +44,7 @@ app.use('/wordsapi/:word', function (req, res) {
 			"X-RapidAPI-Key": "f227a30e8fmshf11d3973463d146p107dd6jsn39a197ef13b2"
 		}
 	};
-	request.get("https://wordsapiv1.p.rapidapi.com/words/"+"word"+"/typeOf",option, function(err,response,body){
+	request.get("https://wordsapiv1.p.rapidapi.com/words/"+word+"/typeOf",option, function(err,response,body){
 		console.log(body);
 		res.send(body);
 	});
