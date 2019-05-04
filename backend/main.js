@@ -54,7 +54,7 @@ app.use('/wordsapi/:word', function (req, res) {
 
 //opening page
 app.use('/', function (req, res) {
-	res.send("opening page!");
+	res.send("opening page nevzat!");
 });
 
 // start servers
