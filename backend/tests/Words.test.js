@@ -1,11 +1,15 @@
 
 
-const words = require('../api/Words');
+const {synonym} = require('../api/Words');
 
 
 
-console.log(words());
+console.log(synonym);
 
-test('string returning hello', () => {
-    expect(words()).toMatch('hello there jest');
+
+
+/*
+test('boolean returning true', () => {
+    expect(words().toString()).toMatch("true");
 });
+*/
