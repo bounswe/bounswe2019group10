@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var request = require('request');
 var unirest = require('unirest');
 const synonymTest = require('./tests/synonymTest')
+const definitionTest = require('./tests/definitionTest')
 
 // import api route
 var api = require('./api/Api');
@@ -51,6 +52,10 @@ httpServer.listen(8080,function(){
 	console.log('HTTP SERVER listening on port 8080!');
 	setTimeout(async()=>{
 		const test = await synonymTest()
+		console.log(test)
+	},500);
+	setTimeout(async()=>{
+		const test = await definitionTest()
 		console.log(test)
 	},500);
 });
