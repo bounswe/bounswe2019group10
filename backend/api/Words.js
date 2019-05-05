@@ -64,4 +64,4 @@ exports.definition = async function(db,req,res) {
     const data = JSON.parse(body);
     res.send(data)
   
-  }
+};
