@@ -33,24 +33,12 @@ app.use('/synonym', function (req, res) {
   res.sendFile('/htmls/synonym.html', {root: __dirname })
 });
 
-// api route
-app.use('/api/',api);
-
-app.use('/wordsapi/:word', function (req, res) {
-	var word = req.params.word;
-	var option = {
-		"headers":{
-			"X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
-			"X-RapidAPI-Key": "f227a30e8fmshf11d3973463d146p107dd6jsn39a197ef13b2"
-		}
-	};
-	request.get("https://wordsapiv1.p.rapidapi.com/words/"+word+"/typeOf",option, function(err,response,body){
-		console.log(body);
-		res.send(body);
-	});
-
+app.use('/antonym', function (req, res) {
+  res.sendFile('/htmls/antonym.html', {root: __dirname })
 });
 
+// api route
+app.use('/api/',api);
 
 //opening page
 app.use('/', function (req, res) {
