@@ -1,8 +1,6 @@
 const { sendRequest } = require("../util/baseUtil");
 
 
-
-
 exports.synonym = async function (db, req, res) {
 
     const {word} = req.query;
@@ -21,7 +19,8 @@ exports.synonym = async function (db, req, res) {
 
     const {error, response, body} = await sendRequest(params);
     const data = JSON.parse(body);
-    res.send(data)
+
+    res.send(data);
 
 };
 
