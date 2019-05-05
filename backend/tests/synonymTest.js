@@ -4,11 +4,16 @@ var request = require('request');
 
 function synonymTest() {
 
-
+    var res;
     request("http://localhost:8080/api/synonym?word=bad", function (error, response, body) {
+        res = testSynonym(body);
+    });
 
+    return new Promise(resolve => {
 
-        return testSynonym(body);
+        setTimeout(() => {
+            resolve(res);
+        }, 2000);
 
     });
 
@@ -41,14 +46,25 @@ function testSynonym(body) {
         ]
     };
 
-    if(JSON.stringify(body_obj) == JSON.stringify(bad_json)){
+    return JSON.stringify(body_obj) === JSON.stringify(bad_json);
 
-        console.log("working");
+}
+
+
+async function asyncSynonymTest(){
+
+    let res = await synonymTest();
+
+    console.log(res);
+
+    if(res){
+        return "working";
     }else{
-        console.log("not working");
+        return "not working";
     }
 
 }
 
 
-module.exports = synonymTest;
+
+module.exports = asyncSynonymTest;
