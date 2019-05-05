@@ -1,5 +1,3 @@
-
-
 var request = require('request');
 
 async function definitionTest() {
@@ -60,9 +58,7 @@ function testDefinition(body) {
 async function asyncDefinitionTest(){
 
     let res = await definitionTest();
-
-    console.log(res);
-
+    
     if(res){
         return "working";
     }else{
