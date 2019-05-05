@@ -2,18 +2,13 @@
 
 var request = require('request');
 
-function synonymTest() {
+async function synonymTest() {
 
-    var res;
-    request("http://localhost:8080/api/synonym?word=bad", function (error, response, body) {
-        res = testSynonym(body);
-    });
+    return new Promise((resolve, reject) => {
 
-    return new Promise(resolve => {
-
-        setTimeout(() => {
-            resolve(res);
-        }, 2000);
+      request("http://localhost:8080/api/synonym?word=bad", function (error, response, body) {
+          resolve(testSynonym(body));
+      });
 
     });
 

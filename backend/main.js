@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var request = require('request');
 var unirest = require('unirest');
+const synonymTest = require('./tests/synonymTest')
 
 // import api route
 var api = require('./api/Api');
@@ -48,6 +49,10 @@ app.use('/', function (req, res) {
 // start servers
 httpServer.listen(8080,function(){
 	console.log('HTTP SERVER listening on port 8080!');
+	setTimeout(async()=>{
+		const test = await synonymTest()
+		console.log(test)
+	},500);
 });
 
 function handleGetRequest(word) {
