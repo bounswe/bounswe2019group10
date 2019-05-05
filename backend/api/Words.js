@@ -1,13 +1,13 @@
 const { sendRequest } = require("../util/baseUtil");
 
-
-
-
 exports.synonym = async function (db, req, res) {
-
     const {word} = req.query;
-    console.time("wordsApi");
+    const data = await exports.getSynonym(word);
+    res.send(data)
+};
 
+exports.getSynonym = async function (word){
+    console.time("wordsApi");
     let params = {
         url: "https://wordsapiv1.p.mashape.com/words/" + word + "/synonyms",
         options: {
@@ -18,18 +18,19 @@ exports.synonym = async function (db, req, res) {
         }
     };
     console.timeEnd("wordsApi");
-
     const {error, response, body} = await sendRequest(params);
     const data = JSON.parse(body);
-    res.send(data)
-
-};
+    return data;
+}
 
 exports.antonym = async function (db, req, res) {
-
     const word = req.query.antonym;
-    console.time("wordsApi");
+    const data = await exports.getAntonym(word);
+    res.send(data)
+};
 
+exports.getAntonym = async function (word){
+    console.time("wordsApi");
     let params = {
         url: "https://wordsapiv1.p.mashape.com/words/" + word + "/antonyms",
         options: {
@@ -40,9 +41,7 @@ exports.antonym = async function (db, req, res) {
         }
     };
     console.timeEnd("wordsApi");
-
     const {error, response, body} = await sendRequest(params);
     const data = JSON.parse(body);
-    res.send(data)
-
-};
+    return data;
+}
