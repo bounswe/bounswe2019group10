@@ -1,9 +1,9 @@
 import Layout from '../components/MyLayout.js'
 
-export default function Index() {
+export default function Synonym() {
   return (
     <Layout>
-      <p>Hello Next.js</p>
+      <p>Synonym</p>
     </Layout>
   )
 }
