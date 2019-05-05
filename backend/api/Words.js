@@ -5,7 +5,7 @@ const { sendRequest } = require("../util/baseUtil");
 
 exports.synonym = async function (db, req, res) {
 
-    const word = req.query.synonym;
+    const {word} = req.query;
     console.time("wordsApi");
 
     let params = {
