@@ -29,4 +29,13 @@ router.use('/synonym',function(req,res){
   }
   words.synonym(db,req,res);
 });
+
+router.use('/antonym',function(req,res){
+  if(!db.isConnected()){
+    res.send("9");
+    return;
+  }
+  words.antonym(db,req,res);
+});
+
 module.exports = router;
