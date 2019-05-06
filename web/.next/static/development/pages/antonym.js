@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static/development/pages/synonym.js"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static/development/pages/antonym.js"],{
 
 /***/ "./Constants.js":
 /*!**********************!*\
@@ -7470,21 +7470,21 @@ exports.formatWithValidation = formatWithValidation;
 
 /***/ }),
 
-/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fsynonym&absolutePagePath=%2FUsers%2Fdura%2Fapps%2Fapps%2Fcmpe%2Fweb%2Fpages%2Fsynonym.js!./":
+/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fantonym&absolutePagePath=%2FUsers%2Fdura%2Fapps%2Fapps%2Fcmpe%2Fweb%2Fpages%2Fantonym.js!./":
 /*!***********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fsynonym&absolutePagePath=%2FUsers%2Fdura%2Fapps%2Fapps%2Fcmpe%2Fweb%2Fpages%2Fsynonym.js ***!
+  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fantonym&absolutePagePath=%2FUsers%2Fdura%2Fapps%2Fapps%2Fcmpe%2Fweb%2Fpages%2Fantonym.js ***!
   \***********************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    (window.__NEXT_P=window.__NEXT_P||[]).push(["/synonym", function() {
-      var page = __webpack_require__(/*! ./pages/synonym.js */ "./pages/synonym.js")
+    (window.__NEXT_P=window.__NEXT_P||[]).push(["/antonym", function() {
+      var page = __webpack_require__(/*! ./pages/antonym.js */ "./pages/antonym.js")
       if(true) {
-        module.hot.accept(/*! ./pages/synonym.js */ "./pages/synonym.js", function() {
-          if(!next.router.components["/synonym"]) return
-          var updatedPage = __webpack_require__(/*! ./pages/synonym.js */ "./pages/synonym.js")
-          next.router.update("/synonym", updatedPage.default || updatedPage)
+        module.hot.accept(/*! ./pages/antonym.js */ "./pages/antonym.js", function() {
+          if(!next.router.components["/antonym"]) return
+          var updatedPage = __webpack_require__(/*! ./pages/antonym.js */ "./pages/antonym.js")
+          next.router.update("/antonym", updatedPage.default || updatedPage)
         })
       }
       return { page: page.default || page }
@@ -12029,9 +12029,9 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./pages/synonym.js":
+/***/ "./pages/antonym.js":
 /*!**************************!*\
-  !*** ./pages/synonym.js ***!
+  !*** ./pages/antonym.js ***!
   \**************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -12066,7 +12066,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _jsxFileName = "/Users/dura/apps/apps/cmpe/web/pages/synonym.js";
+var _jsxFileName = "/Users/dura/apps/apps/cmpe/web/pages/antonym.js";
 
 
 
@@ -12105,7 +12105,7 @@ function (_Component) {
                 //stops submitting the form
                 event.preventDefault();
                 _context.next = 3;
-                return _this.getSynonyms(_this.state.word);
+                return _this.getAntonyms(_this.state.word);
 
               case 3:
               case "end":
@@ -12128,9 +12128,9 @@ function (_Component) {
   }
 
   Object(_babel_runtime_corejs2_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_4__["default"])(Synonym, [{
-    key: "getSynonyms",
+    key: "getAntonyms",
     value: function () {
-      var _getSynonyms = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
+      var _getAntonyms = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
       /*#__PURE__*/
       _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2(word) {
         var url, response, words;
@@ -12146,8 +12146,8 @@ function (_Component) {
                 return _context2.abrupt("return");
 
               case 2:
-                url = new URL(Constants.API_URL + 'synonym');
-                url.searchParams.append('word', word);
+                url = new URL(Constants.API_URL + 'antonym');
+                url.searchParams.append('antonym', word);
                 _context2.next = 6;
                 return axios__WEBPACK_IMPORTED_MODULE_11___default.a.post(url);
 
@@ -12155,8 +12155,8 @@ function (_Component) {
                 response = _context2.sent;
 
                 if (response.status == 200) {
-                  if (response.data.synonyms) {
-                    words = response.data.synonyms.map(function (word) {
+                  if (response.data.antonyms) {
+                    words = response.data.antonyms.map(function (word) {
                       return {
                         text: word
                       };
@@ -12179,11 +12179,11 @@ function (_Component) {
         }, _callee2, this);
       }));
 
-      function getSynonyms(_x2) {
-        return _getSynonyms.apply(this, arguments);
+      function getAntonyms(_x2) {
+        return _getAntonyms.apply(this, arguments);
       }
 
-      return getSynonyms;
+      return getAntonyms;
     }()
   }, {
     key: "render",
@@ -12201,7 +12201,7 @@ function (_Component) {
           lineNumber: 57
         },
         __self: this
-      }, "Synonym"), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("form", {
+      }, "Antonym"), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("form", {
         onSubmit: this._handleSubmit,
         __source: {
           fileName: _jsxFileName,
@@ -12250,14 +12250,14 @@ function (_Component) {
 
 /***/ }),
 
-/***/ 0:
+/***/ 1:
 /*!***************************************************************************************************************************************!*\
-  !*** multi next-client-pages-loader?page=%2Fsynonym&absolutePagePath=%2FUsers%2Fdura%2Fapps%2Fapps%2Fcmpe%2Fweb%2Fpages%2Fsynonym.js ***!
+  !*** multi next-client-pages-loader?page=%2Fantonym&absolutePagePath=%2FUsers%2Fdura%2Fapps%2Fapps%2Fcmpe%2Fweb%2Fpages%2Fantonym.js ***!
   \***************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2Fsynonym&absolutePagePath=%2FUsers%2Fdura%2Fapps%2Fapps%2Fcmpe%2Fweb%2Fpages%2Fsynonym.js! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fsynonym&absolutePagePath=%2FUsers%2Fdura%2Fapps%2Fapps%2Fcmpe%2Fweb%2Fpages%2Fsynonym.js!./");
+module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2Fantonym&absolutePagePath=%2FUsers%2Fdura%2Fapps%2Fapps%2Fcmpe%2Fweb%2Fpages%2Fantonym.js! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fantonym&absolutePagePath=%2FUsers%2Fdura%2Fapps%2Fapps%2Fcmpe%2Fweb%2Fpages%2Fantonym.js!./");
 
 
 /***/ }),
@@ -12273,5 +12273,5 @@ module.exports = dll_43fdc562a96c55866f3e;
 
 /***/ })
 
-},[[0,"static/runtime/webpack.js"]]]);
-//# sourceMappingURL=synonym.js.map
+},[[1,"static/runtime/webpack.js"]]]);
+//# sourceMappingURL=antonym.js.map

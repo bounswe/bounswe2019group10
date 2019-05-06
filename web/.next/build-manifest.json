@@ -11,6 +11,10 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
+    "/antonym": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
     "/synonym": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
