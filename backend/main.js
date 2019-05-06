@@ -35,14 +35,6 @@ app.use(function(req,res,next){
 	next();
 });
 
-app.use('/synonym', function (req, res) {
-  res.sendFile('/htmls/synonym.html', {root: __dirname })
-});
-
-app.use('/antonym', function (req, res) {
-  res.sendFile('/htmls/antonym.html', {root: __dirname })
-});
-
 // api route
 app.use('/api/',api);
 
@@ -52,7 +44,7 @@ app.use('/', function (req, res) {
 });
 
 // start servers
-httpServer.listen(8080,function(){
+httpServer.listen(8786,function(){
 	console.log('HTTP SERVER listening on port 8080!');
 	setTimeout(async()=>{
 		const test = await synonymTest()
