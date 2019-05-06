@@ -33,6 +33,7 @@
     "express": "latest",
     "forever": "latest",
     "mongodb": "latest",
+    "forever": "latest",
     "request": "latest",
     "unirest": "latest",
     "bluebird": "latest",
