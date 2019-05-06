@@ -45,24 +45,5 @@ app.use('/', function (req, res) {
 
 // start servers
 httpServer.listen(8786,function(){
-	console.log('HTTP SERVER listening on port 8080!');
-	setTimeout(async()=>{
-		const test = await synonymTest()
-		console.log(test)
-	},500);
+    console.log('HTTP SERVER listening on port 8786!');
 });
-
-function handleGetRequest(word) {
-	var r;
-	unirest.get("https://wordsapiv1.p.rapidapi.com/words/"+word+"/typeOf")
-		.header("X-RapidAPI-Host", "wordsapiv1.p.rapidapi.com")
-		.header("X-RapidAPI-Key", "f227a30e8fmshf11d3973463d146p107dd6jsn39a197ef13b2")
-		.end(function (result) {
-			r =  result;
-		});
-	return r;
-}
-
-//if you want to see the result of the get request uncomment the below code.
-//Since we have limited requests do not call this function unnecessarily
-//handleGetRequest("school");
