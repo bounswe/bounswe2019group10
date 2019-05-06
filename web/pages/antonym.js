@@ -21,14 +21,14 @@ export default class Synonym extends Component {
     this.setState({word: event.target.value});
   }
 
-  async getSynonyms(word){
+  async getAntonyms(word){
     if(!word || word == "") return;
-    var url = new URL(Constants.API_URL+'synonym');
-    url.searchParams.append('word', word);
+    var url = new URL(Constants.API_URL+'antonym');
+    url.searchParams.append('antonym', word);
     const response = await axios.post(url);
     if(response.status == 200){
-      if(response.data.synonyms){
-        const words = response.data.synonyms.map(word=>(
+      if(response.data.antonyms){
+        const words = response.data.antonyms.map(word=>(
           {
             text:word
           }
@@ -47,14 +47,14 @@ export default class Synonym extends Component {
   _handleSubmit = async(event) => {
     //stops submitting the form
     event.preventDefault();
-    await this.getSynonyms(this.state.word);
+    await this.getAntonyms(this.state.word);
   }
 
   render(){
     let {data} = this.state;
     return (
       <Layout>
-        <p>Synonym</p>
+        <p>Antonym</p>
         <form onSubmit={this._handleSubmit}>
           <label>
             Word:

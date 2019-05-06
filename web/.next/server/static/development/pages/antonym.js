@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1175,9 +1175,9 @@ module.exports = __webpack_require__(/*! ./dist/client/link */ "./node_modules/n
 
 /***/ }),
 
-/***/ "./pages/synonym.js":
+/***/ "./pages/antonym.js":
 /*!**************************!*\
-  !*** ./pages/synonym.js ***!
+  !*** ./pages/antonym.js ***!
   \**************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -1212,7 +1212,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _jsxFileName = "/Users/dura/apps/apps/cmpe/web/pages/synonym.js";
+var _jsxFileName = "/Users/dura/apps/apps/cmpe/web/pages/antonym.js";
 
 
 
@@ -1251,7 +1251,7 @@ function (_Component) {
                 //stops submitting the form
                 event.preventDefault();
                 _context.next = 3;
-                return _this.getSynonyms(_this.state.word);
+                return _this.getAntonyms(_this.state.word);
 
               case 3:
               case "end":
@@ -1274,9 +1274,9 @@ function (_Component) {
   }
 
   Object(_babel_runtime_corejs2_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_4__["default"])(Synonym, [{
-    key: "getSynonyms",
+    key: "getAntonyms",
     value: function () {
-      var _getSynonyms = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
+      var _getAntonyms = Object(_babel_runtime_corejs2_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
       /*#__PURE__*/
       _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2(word) {
         var url, response, words;
@@ -1292,8 +1292,8 @@ function (_Component) {
                 return _context2.abrupt("return");
 
               case 2:
-                url = new URL(Constants.API_URL + 'synonym');
-                url.searchParams.append('word', word);
+                url = new URL(Constants.API_URL + 'antonym');
+                url.searchParams.append('antonym', word);
                 _context2.next = 6;
                 return axios__WEBPACK_IMPORTED_MODULE_11___default.a.post(url);
 
@@ -1301,8 +1301,8 @@ function (_Component) {
                 response = _context2.sent;
 
                 if (response.status == 200) {
-                  if (response.data.synonyms) {
-                    words = response.data.synonyms.map(function (word) {
+                  if (response.data.antonyms) {
+                    words = response.data.antonyms.map(function (word) {
                       return {
                         text: word
                       };
@@ -1325,11 +1325,11 @@ function (_Component) {
         }, _callee2, this);
       }));
 
-      function getSynonyms(_x2) {
-        return _getSynonyms.apply(this, arguments);
+      function getAntonyms(_x2) {
+        return _getAntonyms.apply(this, arguments);
       }
 
-      return getSynonyms;
+      return getAntonyms;
     }()
   }, {
     key: "render",
@@ -1347,7 +1347,7 @@ function (_Component) {
           lineNumber: 57
         },
         __self: this
-      }, "Synonym"), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("form", {
+      }, "Antonym"), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("form", {
         onSubmit: this._handleSubmit,
         __source: {
           fileName: _jsxFileName,
@@ -1396,14 +1396,14 @@ function (_Component) {
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!********************************!*\
-  !*** multi ./pages/synonym.js ***!
+  !*** multi ./pages/antonym.js ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/dura/apps/apps/cmpe/web/pages/synonym.js */"./pages/synonym.js");
+module.exports = __webpack_require__(/*! /Users/dura/apps/apps/cmpe/web/pages/antonym.js */"./pages/antonym.js");
 
 
 /***/ }),
@@ -1596,4 +1596,4 @@ module.exports = require("url");
 /***/ })
 
 /******/ });
-//# sourceMappingURL=synonym.js.map
+//# sourceMappingURL=antonym.js.map

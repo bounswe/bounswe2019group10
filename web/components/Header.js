@@ -12,6 +12,9 @@ const Header = () => (
     <Link href="/synonym">
       <a style={linkStyle}>Synonym</a>
     </Link>
+    <Link href="/antonym">
+      <a style={linkStyle}>Antonym</a>
+    </Link>
   </div>
 )
 
