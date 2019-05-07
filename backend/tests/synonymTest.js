@@ -66,5 +66,6 @@ async function asyncSynonymTest(){
 }
 
 
+console.log(asyncSynonymTest());
 
 module.exports = asyncSynonymTest;
