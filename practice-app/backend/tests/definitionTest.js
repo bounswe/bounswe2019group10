@@ -67,6 +67,4 @@ async function asyncDefinitionTest(){
 
 }
 
-
-
 module.exports = asyncDefinitionTest;

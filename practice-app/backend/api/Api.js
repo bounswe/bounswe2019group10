@@ -45,5 +45,4 @@ router.use('/definition',function(req,res){
   }
   words.definition(db,req,res);
 });
-
 module.exports = router;
