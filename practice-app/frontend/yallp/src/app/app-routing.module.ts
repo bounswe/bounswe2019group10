@@ -6,10 +6,11 @@ import { SynonymComponent } from '../app/synonym/synonym.component';
 import { AntonymComponent } from '../app/antonym/antonym.component';
 
 const routes: Routes = [
-  {path:"" , component: HomeComponent},
+  {path:"home" , component: HomeComponent},
   {path:"definition" , component: DefinitionComponent},
   {path:"synonym" , component: SynonymComponent},
-  {path:"antonym" , component: AntonymComponent}
+  {path:"antonym" , component: AntonymComponent},
+  {path:"**" , redirectTo:"/home", pathMatch:"full"}
 ];
 
 @NgModule({
