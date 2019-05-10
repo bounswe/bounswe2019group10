@@ -4,22 +4,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { DefinitionComponent } from './definition/definition.component';
-import { SynonymComponent } from './synonym/synonym.component';
-import { AntonymComponent } from './antonym/antonym.component';
+import { FormsModule }   from '@angular/forms';
+import { PropertyComponent } from './property/property.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    DefinitionComponent,
-    SynonymComponent,
-    AntonymComponent
+    PropertyComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
