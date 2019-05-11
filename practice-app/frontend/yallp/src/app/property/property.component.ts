@@ -2,9 +2,9 @@ import { Component, OnInit} from '@angular/core';
 import { ApiService } from '../api.service'
 import { filter, take,} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router' ;
-import { DefinitionModel, SynonymModel, AntonymModel } from '../model';
+import {DefinitionModel, SynonymModel, AntonymModel, SimilarModel} from '../model';
 
-// Propert component where we show the input and button and the results
+// Property component where we show the input and button and the results
 // It uses property.component.html and property.component.scss
 
 @Component({
@@ -62,6 +62,11 @@ export class PropertyComponent implements OnInit {
     else if(this.property=="antonym"){
       this.api.getAntonym(this.searchWord).pipe(filter( data => Object.keys(data).length > 0),take(1)).subscribe(async (data:AntonymModel) => {
         this.data = data.antonyms;
+      });
+    }
+    else if(this.property=="similarTo"){
+      this.api.getSimilar(this.searchWord).pipe(filter( data => Object.keys(data).length > 0),take(1)).subscribe(async (data:SimilarModel) => {
+        this.data = data.similars;
       });
     }
   };

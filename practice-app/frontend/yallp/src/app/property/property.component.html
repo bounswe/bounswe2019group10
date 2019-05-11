@@ -25,6 +25,9 @@
                 <tr *ngIf="property=='antonym'">
                   <th>Antonyms</th>
                 </tr>
+                <tr *ngIf="property=='similarTo'">
+                    <th>Similars</th>
+                </tr>
               </thead>
               <tbody>
 
@@ -32,7 +35,7 @@
                   we iterate data array and take each index as instance
                 -->
 
-                <ng-container *ngIf="(property=='synonym' && data)|| property=='antonym' && data">
+                <ng-container *ngIf="(property=='synonym' && data)|| (property=='antonym' && data) || (property=='similarTo' && data)">
                     <tr *ngFor="let instance of data">
                         <td>{{instance}}</td>
                     </tr>

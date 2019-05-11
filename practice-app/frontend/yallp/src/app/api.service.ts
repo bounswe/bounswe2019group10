@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 // Service is a feature of angular. Services are usually used for making get or post request to the endpoints
 // Necessary function is defined for each endpoint and the result is returned
 
-// You have to add necessary funtion to this service
+// You have to add necessary function to this service
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +18,11 @@ export class ApiService {
   }
   getAntonym(word:string) {
     return this.http.get("http://172.104.144.149:8786/api/antonym?antonym="+word);
+  }
+
+  //TO DO  after deployment localhost has to be updated!
+  getSimilar(word:string) {
+    return this.http.get("http://localhost:8786/api/similarTo?word="+word);
   }
 
   postDefinition(wordToPost:string) {
