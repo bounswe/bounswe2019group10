@@ -38,11 +38,4 @@ router.use('/antonym',function(req,res){
   words.antonym(db,req,res);
 });
 
-router.use('/definition',function(req,res){
-  if(!db.isConnected()){
-    res.send("9");
-    return;
-  }
-  words.definition(db,req,res);
-});
 module.exports = router;
