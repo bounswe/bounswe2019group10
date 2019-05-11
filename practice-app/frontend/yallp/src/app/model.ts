@@ -38,3 +38,11 @@ export interface AntonymModel{
     
 
 };
+
+export interface SimilarModel{
+
+    word: string,
+    similars: [string]
+
+
+};
