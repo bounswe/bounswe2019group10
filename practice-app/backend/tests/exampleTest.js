@@ -1,15 +1,15 @@
 var request = require('request');
 
-async function synonymTest() {
+async function exampleTest() {
     return new Promise((resolve, reject) => {
       request("http://localhost:8786/api/examples?word=example", function (error, response, body) {
-          resolve(testSynonym(body));
+          resolve(testExample(body));
       });
     });
 }
 
 
-function testSynonym(body) {
+function testExample(body) {
 
   let body_obj = JSON.parse(body);
 
@@ -30,9 +30,9 @@ function testSynonym(body) {
 }
 
 
-async function asyncSynonymTest(){
+async function asyncExampleTest(){
 
-  let res = await synonymTest();
+  let res = await exampleTest();
 
   if(res){
       return "working";
@@ -42,4 +42,4 @@ async function asyncSynonymTest(){
 
 }
 
-module.exports = asyncSynonymTest;
+module.exports = asyncExampleTest;
