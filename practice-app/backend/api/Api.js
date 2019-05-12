@@ -53,4 +53,11 @@ router.use('/definition',function(req,res){
   }
   words.definition(db,req,res);
 });
+router.use('/examples',function(req,res){
+  if(!db.isConnected()){
+    res.send("9");
+    return;
+  }
+  words.examples(db,req,res);
+});
 module.exports = router;

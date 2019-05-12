@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { ApiService } from '../api.service'
 import { filter, take,} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router' ;
-import {DefinitionModel, SynonymModel, AntonymModel, SimilarModel} from '../model';
+import {DefinitionModel, SynonymModel, AntonymModel, SimilarModel,ExampleModel} from '../model';
 
 // Propert component where we show the input and button and the results
 // It uses property.component.html and property.component.scss
@@ -27,7 +27,7 @@ export class PropertyComponent implements OnInit {
   ngOnInit() {
     // We subscribe the current url to reset the data and searchword and to understand which page we are currently in
     // for example if we change the url from /home/definition to /home/synonym
-    // data and searchword is resetted and propert variable changes to synonym
+    // data and searchword is resetted and property variable changes to synonym
     this.route.paramMap.subscribe(params => {
       this.resetState();
       this.property = params.get("property");
@@ -67,6 +67,11 @@ export class PropertyComponent implements OnInit {
     else if(this.property=="similarTo"){
       this.api.getSimilar(this.searchWord).pipe(filter( data => Object.keys(data).length > 0),take(1)).subscribe(async (data:SimilarModel) => {
         this.data = data.similars;
+      });
+    }
+    else if(this.property=="example"){
+      this.api.getExample(this.searchWord).pipe(filter( data => Object.keys(data).length > 0),take(1)).subscribe(async (data:ExampleModel) => {
+        this.data = data.examples;
       });
     }
   };
