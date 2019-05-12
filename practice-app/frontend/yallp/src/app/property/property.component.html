@@ -1,0 +1,62 @@
+<div class="definition">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-sm-8 no-padding">
+          <input [(ngModel)]="searchWord" type="text" class="form-control search-bar" id="word">
+        </div>
+        <div class="col-12 col-sm-4 no-padding">
+            <button type="button" (click)="submit()"  class="btn btn-success search-button">Submit</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 no-padding">
+            <table class="table table-hover">
+              <thead>
+                <!-- *ngIf is like normal if
+                  this part is showed if property is equal to definition
+                  you have to add a <tr> according to your endpoint
+                -->
+                <tr *ngIf="property=='definition'">
+                  <th>Definitions</th>
+                </tr>
+                <tr *ngIf="property=='synonym'">
+                  <th>Synoynms</th>
+                </tr>
+                <tr *ngIf="property=='antonym'">
+                  <th>Antonyms</th>
+                </tr>
+                <tr *ngIf="property=='similarTo'">
+                    <th>Similars</th>
+                </tr>
+                <tr *ngIf="property=='example'">
+                  <th>Examples</th>
+                </tr>
+                <tr *ngIf="property=='rhyme'">
+                  <th>Rhymes</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <!-- *ngfor is like normal for
+                  we iterate data array and take each index as instance
+                -->
+
+                <ng-container *ngIf="(property=='synonym' && data)||
+                  (property=='antonym' && data) || (property=='similarTo' && data)||
+                  (property=='example' && data) || (property=='rhyme' && data)">
+                    <tr *ngFor="let instance of data">
+                        <td>{{instance}}</td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="property=='definition' && data">
+                    <tr *ngFor="let instance of data">
+                      <td>{{instance.definition}}</td>
+                    </tr>
+                </ng-container>
+              </tbody>
+            </table>
+
+        </div>
+      </div>
+    </div>
+</div>
