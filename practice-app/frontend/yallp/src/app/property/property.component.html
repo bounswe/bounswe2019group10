@@ -28,6 +28,9 @@
                 <tr *ngIf="property=='similarTo'">
                     <th>Similars</th>
                 </tr>
+                <tr *ngIf="property=='example'">
+                  <th>Examples</th>
+                </tr>
               </thead>
               <tbody>
 
@@ -35,7 +38,9 @@
                   we iterate data array and take each index as instance
                 -->
 
-                <ng-container *ngIf="(property=='synonym' && data)|| (property=='antonym' && data) || (property=='similarTo' && data)">
+                <ng-container *ngIf="(property=='synonym' && data)|| 
+                  (property=='antonym' && data) || (property=='similarTo' && data)|| 
+                  (property=='example' && data)">
                     <tr *ngFor="let instance of data">
                         <td>{{instance}}</td>
                     </tr>
