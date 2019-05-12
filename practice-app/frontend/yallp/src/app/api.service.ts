@@ -22,16 +22,16 @@ export class ApiService {
 
   //TODO  after deployment localhost has to be updated!
   getSimilar(word:string) {
-    return this.http.get("http://localhost:8786/api/similarTo?word="+word);
+    return this.http.get("http://172.104.144.149:8786/api/similarTo?word="+word);
   }
   //TODO  after deployment localhost has to be updated!
   getExample(word:string) {
-    return this.http.get("http://localhost:8786/api/examples?word="+word);
+    return this.http.get("http://172.104.144.149:8786/api/examples?word="+word);
   }
 
   //TODO  after deployment localhost has to be updated!
   getRhyme(word:string) {
-    return this.http.get("http://localhost:8786/api/rhymes?word="+word);
+    return this.http.get("http://172.104.144.149:8786/api/rhymes?word="+word);
   }
 
   postDefinition(wordToPost:string) {
