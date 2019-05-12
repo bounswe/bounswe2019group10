@@ -1,5 +1,5 @@
 // Angular has feature of defining type of variables. These models are shape of the response object
-// For each endpoint we will call in our app we have to define corressponding model to be able to refer 
+// For each endpoint we will call in our app we have to define corressponding model to be able to refer
 // fields of response object inside our components
 // word: string means there is a variable of type string
 // synonyms: [string] means synonyms is a array of strings
@@ -21,7 +21,7 @@ export interface DefinitionModel{
                 definition: string;
                 partOfSpeech: string;
             }
-        ];  
+        ];
 };
 
 export interface SynonymModel{
@@ -42,4 +42,12 @@ export interface SimilarModel{
 export interface ExampleModel{
     word: string,
     examples: [string]
+};
+
+export interface RhymeModel{
+    word: string,
+    rhymes: 
+        {
+            all: [string]
+        }
 };

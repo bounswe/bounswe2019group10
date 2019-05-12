@@ -53,6 +53,7 @@ router.use('/definition',function(req,res){
   }
   words.definition(db,req,res);
 });
+
 router.use('/examples',function(req,res){
   if(!db.isConnected()){
     res.send("9");
@@ -60,4 +61,13 @@ router.use('/examples',function(req,res){
   }
   words.examples(db,req,res);
 });
+
+router.use('/rhymes',function(req,res){
+  if(!db.isConnected()){
+    res.send("9");
+    return;
+  }
+  words.rhymes(db,req,res);
+});
+
 module.exports = router;
