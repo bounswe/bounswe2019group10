@@ -29,6 +29,11 @@ export class ApiService {
     return this.http.get("http://localhost:8786/api/examples?word="+word);
   }
 
+  //TODO  after deployment localhost has to be updated!
+  getRhyme(word:string) {
+    return this.http.get("http://localhost:8786/api/rhymes?word="+word);
+  }
+
   postDefinition(wordToPost:string) {
     const jsonBody={
       word:wordToPost

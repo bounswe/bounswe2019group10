@@ -9,10 +9,10 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12 no-padding">            
+        <div class="col-12 no-padding">
             <table class="table table-hover">
               <thead>
-                <!-- *ngIf is like normal if 
+                <!-- *ngIf is like normal if
                   this part is showed if property is equal to definition
                   you have to add a <tr> according to your endpoint
                 -->
@@ -31,6 +31,9 @@
                 <tr *ngIf="property=='example'">
                   <th>Examples</th>
                 </tr>
+                <tr *ngIf="property=='rhyme'">
+                  <th>Examples</th>
+                </tr>
               </thead>
               <tbody>
 
@@ -38,9 +41,9 @@
                   we iterate data array and take each index as instance
                 -->
 
-                <ng-container *ngIf="(property=='synonym' && data)|| 
-                  (property=='antonym' && data) || (property=='similarTo' && data)|| 
-                  (property=='example' && data)">
+                <ng-container *ngIf="(property=='synonym' && data)||
+                  (property=='antonym' && data) || (property=='similarTo' && data)||
+                  (property=='example' && data) || (property=='rhyme' && data)">
                     <tr *ngFor="let instance of data">
                         <td>{{instance}}</td>
                     </tr>
