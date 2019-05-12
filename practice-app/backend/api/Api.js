@@ -70,12 +70,12 @@ router.use('/rhymes',function(req,res){
   words.rhymes(db,req,res);
 });
 
-router.use('/typeOf',function(req,res){
+router.use('/frequency',function(req,res){
   if(!db.isConnected()){
     res.send("9");
     return;
   }
-  words.typeOf(db,req,res);
+  words.frequency(db,req,res);
 });
 
 module.exports = router;

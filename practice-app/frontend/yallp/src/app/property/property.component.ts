@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { ApiService } from '../api.service'
 import { filter, take,} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router' ;
-import {DefinitionModel, SynonymModel, AntonymModel, SimilarModel,ExampleModel,RhymeModel} from '../model';
+import {DefinitionModel, SynonymModel, AntonymModel, SimilarModel,ExampleModel,RhymeModel,FrequencyModel} from '../model';
 
 // Propert component where we show the input and button and the results
 // It uses property.component.html and property.component.scss
@@ -77,6 +77,11 @@ export class PropertyComponent implements OnInit {
     else if(this.property=="rhyme"){
       this.api.getRhyme(this.searchWord).pipe(filter( data => Object.keys(data).length > 0),take(1)).subscribe(async (data:RhymeModel) => {
         this.data = data.rhymes.all;
+      });
+    }
+    else if(this.property=="frequency"){
+      this.api.getFrequency(this.searchWord).pipe(filter( data => Object.keys(data).length > 0),take(1)).subscribe(async (data:FrequencyModel) => {
+        this.data = data.frequency;
       });
     }
   };

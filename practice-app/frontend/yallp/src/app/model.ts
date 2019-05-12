@@ -24,6 +24,17 @@ export interface DefinitionModel{
         ];
 };
 
+export interface FrequencyModel{
+    word: string;
+    frequency:
+        {
+            zipf: number;
+            perMillion: number;
+            diversity: number;
+        }
+        ;
+};
+
 export interface SynonymModel{
     word: string;
     synonyms: [string];

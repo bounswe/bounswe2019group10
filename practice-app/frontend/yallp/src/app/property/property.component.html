@@ -34,6 +34,9 @@
                 <tr *ngIf="property=='rhyme'">
                   <th>Rhymes</th>
                 </tr>
+                <tr *ngIf="property=='frequency'">
+                    <th>Frequency</th>
+                </tr>
               </thead>
               <tbody>
 
@@ -43,7 +46,8 @@
 
                 <ng-container *ngIf="(property=='synonym' && data)||
                   (property=='antonym' && data) || (property=='similarTo' && data)||
-                  (property=='example' && data) || (property=='rhyme' && data)">
+                  (property=='example' && data) || (property=='rhyme' && data)
+                   || (property=='frequency' && data)">
                     <tr *ngFor="let instance of data">
                         <td>{{instance}}</td>
                     </tr>

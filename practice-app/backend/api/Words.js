@@ -136,13 +136,13 @@ exports.rhymes = async function (db, req, res) {
 
 };
 
-exports.typeOf = async function (db, req, res) {
+exports.frequency = async function (db, req, res) {
 
     const {word} = req.query;
     console.time("wordsApi");
 
     let params = {
-        url: "https://wordsapiv1.p.mashape.com/words/" + word + "/typeOf",
+        url: "https://wordsapiv1.p.mashape.com/words/" + word + "/frequency",
         options: {
             headers: {
                 "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
