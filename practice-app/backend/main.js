@@ -3,9 +3,6 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var request = require('request');
-var unirest = require('unirest');
-const synonymTest = require('./tests/synonymTest')
 
 // import api route
 var api = require('./api/Api');
