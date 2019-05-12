@@ -1,0 +1,29 @@
+<!--
+    This part is the main html file executed when program is run. The links is placed in every page and
+    router-outlet part is to show the html that other components like home, property have according to url.
+    When one clicks any of the link below url changes according to routerLink of the link clicked.
+     Then, app-routing.module.ts works which component to use and its html is showed in <router-outlet></router-outlet>
+-->
+<nav class="navbar navbar-expand-sm .bg-dark navbar-light">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/home"><img src="../assets/logo.png"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/home/definition">Definition</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/home/synonym">Synonynm</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/home/antonym">Antonym</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/home/similarTo">Similar</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/home/example">Examples</a>
+        </li>
+    </ul>     
+</nav>
+<router-outlet></router-outlet>
