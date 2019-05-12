@@ -113,7 +113,7 @@ exports.examples = async function (db, req, res) {
 
 };
 
-exports.rhyme = async function (db, req, res) {
+exports.rhymes = async function (db, req, res) {
 
   const {word} = req.query;
   console.time("wordsApi");

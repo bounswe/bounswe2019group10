@@ -46,5 +46,8 @@ export interface ExampleModel{
 
 export interface RhymeModel{
     word: string,
-    examples: [string]
+    rhymes: 
+        {
+            all: [string]
+        }
 };

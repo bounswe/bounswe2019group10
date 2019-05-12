@@ -67,7 +67,7 @@ router.use('/rhymes',function(req,res){
     res.send("9");
     return;
   }
-  user.rhymes(db,req,res);
+  words.rhymes(db,req,res);
 });
 
 module.exports = router;

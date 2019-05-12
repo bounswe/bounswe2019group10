@@ -76,7 +76,7 @@ export class PropertyComponent implements OnInit {
     }
     else if(this.property=="rhyme"){
       this.api.getRhyme(this.searchWord).pipe(filter( data => Object.keys(data).length > 0),take(1)).subscribe(async (data:RhymeModel) => {
-        this.data = data.rhymes;
+        this.data = data.rhymes.all;
       });
     }
   };
