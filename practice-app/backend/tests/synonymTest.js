@@ -2,7 +2,7 @@ var request = require('request');
 
 async function synonymTest() {
     return new Promise((resolve, reject) => {
-      request("http://localhost:8080/api/synonym?word=bad", function (error, response, body) {
+      request("http://172.104.144.149:8786/api/synonym?word=bad", function (error, response, body) {
           resolve(testSynonym(body));
       });
     });

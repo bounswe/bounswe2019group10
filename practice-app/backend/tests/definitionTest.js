@@ -3,7 +3,7 @@ var request = require('request');
 async function definitionTest() {
 
     return new Promise((resolve, reject) => {
-    const url = "http://localhost:8080/api/definition"
+    const url = "http://172.104.144.149:8786/api/definition"
     const jsonBody= {
         "word":"car"
     };

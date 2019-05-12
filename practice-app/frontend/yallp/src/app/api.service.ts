@@ -20,6 +20,11 @@ export class ApiService {
     return this.http.get("http://172.104.144.149:8786/api/antonym?antonym="+word);
   }
 
+  //TO DO  after deployment localhost has to be updated!
+  getSimilar(word:string) {
+    return this.http.get("http://localhost:8786/api/similarTo?word="+word);
+  }
+
   postDefinition(wordToPost:string) {
     const jsonBody={
       word:wordToPost
