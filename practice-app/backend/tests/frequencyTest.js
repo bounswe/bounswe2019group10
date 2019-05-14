@@ -2,7 +2,7 @@ var request = require('request');
 
 async function frequencyTest() {
     return new Promise((resolve, reject) => {
-      request("http://localhost:8786/api/examples?word=cool", function (error, response, body) {
+      request("http://localhost:8786/api/frequency?word=cool", function (error, response, body) {
           resolve(testFrequency(body));
       });
     });

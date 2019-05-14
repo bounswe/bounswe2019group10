@@ -1,4 +1,4 @@
-const frequencyTest = require('./similarToTest');
+const frequencyTest = require('./frequencyTest');
 
 test('string returning working', async() => {
     const testResult = await frequencyTest();
