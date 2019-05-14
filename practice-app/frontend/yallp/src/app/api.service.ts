@@ -34,6 +34,11 @@ export class ApiService {
     return this.http.get("http://172.104.144.149:8786/api/rhymes?word="+word);
   }
 
+  //TODO  after deployment localhost has to be updated!
+  getFrequency(word:string) {
+    return this.http.get("http://172.104.144.149:8786/api/frequency?word="+word);
+  }
+
   postDefinition(wordToPost:string) {
     const jsonBody={
       word:wordToPost
