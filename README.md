@@ -14,6 +14,7 @@ Check out our wiki page for more information !
 * [Nevzat Ersoy](https://github.com/bounswe/bounswe2019group10/wiki/nevzatersoy)
 * [Sümeyra Yılmaz](https://github.com/bounswe/bounswe2019group10/wiki/sumeyrayilmaz)
 * [Kaan Dura](https://github.com/bounswe/bounswe2019group10/wiki/kaandura)
+* [A.Selim Karaduman](https://github.com/bounswe/bounswe2019group10/wiki/selimkaraduman)
 
 ## Former Members
 * Abdurrahman Emre Yılmaz
