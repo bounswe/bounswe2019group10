@@ -16,6 +16,7 @@ Check out our wiki page for more information !
 * [Kaan Dura](https://github.com/bounswe/bounswe2019group10/wiki/kaandura)
 * [A.Selim Karaduman](https://github.com/bounswe/bounswe2019group10/wiki/selimkaraduman)
 * [Burak Tepedelen](https://github.com/bounswe/bounswe2019group10/wiki/buraktepedelen)
+* [Hatice Melike Ecevit](https://github.com/bounswe/bounswe2019group10/wiki/haticemelikeecevit)
 
 ## Former Members
 * Abdurrahman Emre Yılmaz
