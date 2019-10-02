@@ -11,9 +11,7 @@ Check out our wiki page for more information !
 * [Fahri Can Şanlı](https://github.com/bounswe/bounswe2019group10/wiki/fahricansanli)
 * [Hasan Basri Balaban](https://github.com/bounswe/bounswe2019group10/wiki/hasanbasribalaban)
 * [Melih Demir](https://github.com/bounswe/bounswe2019group10/wiki/melihdemir)
-* [Nevzat Ersoy](https://github.com/bounswe/bounswe2019group10/wiki/nevzatersoy)
 * [Sümeyra Yılmaz](https://github.com/bounswe/bounswe2019group10/wiki/sumeyrayilmaz)
-* [Kaan Dura](https://github.com/bounswe/bounswe2019group10/wiki/kaandura)
 * [A.Selim Karaduman](https://github.com/bounswe/bounswe2019group10/wiki/selimkaraduman)
 * [Burak Tepedelen](https://github.com/bounswe/bounswe2019group10/wiki/buraktepedelen)
 * [Hatice Melike Ecevit](https://github.com/bounswe/bounswe2019group10/wiki/Hatice-Melike-Ecevit)
@@ -22,3 +20,5 @@ Check out our wiki page for more information !
 * Abdurrahman Emre Yılmaz
 * İsmet Sarı
 * Erdinç Oğuz
+* Kaan Dura
+* Nevzat Ersoy
