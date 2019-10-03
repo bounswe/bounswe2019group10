@@ -13,8 +13,8 @@ public class MemberService {
     public Member getMember(int id){
         return memberRepository.findById(id).get();
     }
-    public Member createMember(String nickname, String password){
-        Member member = new Member(nickname, password);
+    public Member createMember(String nickname, String password, String bio, String mail, boolean isExpert){
+        Member member = new Member(isExpert, bio, password, nickname, mail);
         return memberRepository.save(member);
     }
 
