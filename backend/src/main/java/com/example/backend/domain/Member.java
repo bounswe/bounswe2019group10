@@ -9,21 +9,39 @@ public class Member {
     @Id
     @GeneratedValue
     private int id;
+
+    @Column(name = "is_expert")
     private boolean isExpert;
+
+    @Column(name = "bio")
     private String bio;
 
     @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    public Member() {
-    }
+    @Column(name = "mail")
+    private String mail;
 
-    public Member(String password, String name) {
+    public Member(boolean isExpert, String bio, String password, String name, String mail) {
+        this.isExpert = isExpert;
+        this.bio = bio;
         this.password = password;
         this.name = name;
+        this.mail = mail;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public Member() {
     }
 
     public int getId() {
