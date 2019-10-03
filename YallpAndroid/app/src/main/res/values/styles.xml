@@ -8,4 +8,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MainTitle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">casual</item>
+    </style>
+
+    <style name="SignInButtonTheme" parent="Widget.AppCompat.Button.Borderless">
+
+        <item name="android:background">@drawable/signin_button_shape</item>
+        <item name="android:layout_marginLeft">40dp</item>
+        <item name="android:layout_marginRight">40dp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="GetStartedButtonTheme" parent="Widget.AppCompat.Button.Borderless">
+
+        <item name="android:background">@drawable/getstarted_button_shape</item>
+        <item name="android:layout_marginLeft">40dp</item>
+        <item name="android:layout_marginRight">40dp</item>
+        <item name="android:textColor">@color/colorOrange</item>
+        <item name="android:textSize">20dp</item>
+    </style>
 </resources>
