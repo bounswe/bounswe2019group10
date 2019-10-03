@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#fff">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
         <ImageView
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:src="@drawable/Orangebird"
+            android:src="@drawable/orangebird"
             android:layout_gravity="center"
             android:layout_marginBottom="50dp"/>
 
