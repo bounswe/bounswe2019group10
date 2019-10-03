@@ -9,6 +9,8 @@ public class Member {
     @Id
     @GeneratedValue
     private int id;
+    private boolean isExpert;
+    private String bio;
 
     @Column(nullable = false)
     private String password;
@@ -46,5 +48,21 @@ public class Member {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isExpert() {
+        return isExpert;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setExpert(boolean expert) {
+        isExpert = expert;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

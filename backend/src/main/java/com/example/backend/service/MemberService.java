@@ -17,4 +17,6 @@ public class MemberService {
         Member member = new Member(nickname, password);
         return memberRepository.save(member);
     }
+
 }
+
