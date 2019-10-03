@@ -7,11 +7,11 @@ import javax.persistence.*;
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "is_expert")
-    private boolean isExpert;
+    private Boolean isExpert;
 
     @Column(name = "bio")
     private String bio;
@@ -25,12 +25,28 @@ public class Member {
     @Column(name = "mail")
     private String mail;
 
-    public Member(boolean isExpert, String bio, String password, String name, String mail) {
-        this.isExpert = isExpert;
-        this.bio = bio;
+    public Member() {
+        this.password = null;
+        this.name = null;
+        this.mail = null;
+        this.bio = null;
+        this.isExpert = null;
+    }
+
+    public Member(String name, String password) {
         this.password = password;
         this.name = name;
+        this.mail = null;
+        this.bio = null;
+        this.isExpert = null;
+    }
+
+    public Member(String name, String password, String mail, String bio, Boolean isExpert) {
+        this.name = name;
+        this.password = password;
         this.mail = mail;
+        this.bio = bio;
+        this.isExpert = isExpert;
     }
 
     public String getMail() {
@@ -41,8 +57,6 @@ public class Member {
         this.mail = mail;
     }
 
-    public Member() {
-    }
 
     public int getId() {
         return id;
@@ -68,7 +82,7 @@ public class Member {
         this.name = name;
     }
 
-    public boolean isExpert() {
+    public Boolean isExpert() {
         return isExpert;
     }
 
@@ -76,7 +90,7 @@ public class Member {
         return bio;
     }
 
-    public void setExpert(boolean expert) {
+    public void setExpert(Boolean expert) {
         isExpert = expert;
     }
 
