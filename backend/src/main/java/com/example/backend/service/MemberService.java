@@ -6,6 +6,8 @@ import com.example.backend.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MemberService {
     @Autowired
@@ -27,6 +29,10 @@ public class MemberService {
     public Member createAccount(String nickname, String password){
         Member member = new Member(nickname, password);
         return memberRepository.save(member);
+    }
+
+    public void deleteMember(int id){
+        memberRepository.deleteById(id);
     }
 
 }

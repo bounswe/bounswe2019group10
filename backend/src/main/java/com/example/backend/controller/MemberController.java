@@ -29,6 +29,12 @@ public class MemberController {
         return "done";
     }
 
+    @DeleteMapping("/delete")
+    public String deleteMember(@RequestParam(value="id") int id){
+       memberService.deleteMember(id);
+       return "done";
+    }
+
 
 
 }
