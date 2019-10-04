@@ -1,7 +1,10 @@
 package com.example.yallp_android;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 
 public class MainActivity extends AppCompatActivity {
@@ -12,5 +15,9 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+    }
+    public void getStarted(View view){
+        Intent i = new Intent(this,GetStartedActivity.class);
+        startActivity(i);
     }
 }

@@ -18,7 +18,8 @@
             android:layout_height="200dp"
             android:src="@drawable/orangebird"
             android:layout_gravity="center"
-            android:layout_marginBottom="50dp"/>
+            android:layout_marginBottom="50dp">
+        </ImageView>
 
         <LinearLayout
             android:id="@+id/signInLayout"
@@ -32,15 +33,15 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:gravity="center"
-                android:text="Already have an account?" />
+                android:text="Already have an account?">
+            </TextView>
 
             <Button
                 android:id="@+id/signInButton"
                 style="@style/SignInButtonTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="SIGN IN" />
+                android:text="SIGN IN">
+            </Button>
 
         </LinearLayout>
 
@@ -49,7 +50,8 @@
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"/>
+            android:layout_marginBottom="40dp">
+        </View>
 
         <LinearLayout
             android:id="@+id/getStartedLayout"
@@ -57,28 +59,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <TextView
                 style="@style/MainTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:gravity="center"
-                android:text="New to YALLP?" />
+                android:text="New to YALLP?">
+            </TextView>
 
             <Button
                 android:id="@+id/getStartedButton"
                 style="@style/GetStartedButtonTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="GET STARTED"
-                />
+                android:onClick="getStarted">
+            </Button>
 
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </RelativeLayout>
