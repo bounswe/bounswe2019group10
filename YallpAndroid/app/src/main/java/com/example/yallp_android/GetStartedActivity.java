@@ -19,7 +19,7 @@ public class GetStartedActivity extends AppCompatActivity {
     private ImageView btnBack;
     private Button signUpButton;
     private  EditText password;
-    
+
     @SuppressLint("ClickableViewAccessibility")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,35 +43,5 @@ public class GetStartedActivity extends AppCompatActivity {
             public void onClick(View v) {
             }
         });
-
-        password.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_RIGHT = 2;
-
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    final int x = (int) event.getX();
-                    final int y = (int) event.getY();
-                    final Rect bounds = password.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds();
-                    int right = v.getWidth() - v.getPaddingRight();
-                    int left = right - bounds.width();
-                    int top = (v.getHeight() / 2) - (bounds.height() / 2);
-                    int bottom = (v.getHeight() / 2) + (bounds.height() / 2);
-                    Rect rect = new Rect(left, top, right, bottom);
-                    if(rect.contains(x, y)) {
-                        if(password.getInputType() == InputType.TYPE_CLASS_TEXT){
-                            password.setInputType(129);
-                        }
-                        else if(password.getInputType() == 129){
-                            password.setInputType(InputType.TYPE_CLASS_TEXT);
-                        }
-                        password.setSelection(password.getText().length());
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-
     }
 }
