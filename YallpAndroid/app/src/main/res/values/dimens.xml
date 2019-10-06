@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="titleTextSize">20sp</dimen>
+    <dimen name="hintTextSize">18sp</dimen>
+    <dimen name="buttonMargin">40dp</dimen>
+    <dimen name="inputMarginHorizontal">40dp</dimen>
+    <dimen name="inputBottomMargin">20dp</dimen>
+    <dimen name="inputHorizantalPadding">20dp</dimen>
+    <dimen name="inputVerticalPaddings">10dp</dimen>
+    <dimen name="leftArrowSize">40dp</dimen>
+</resources>

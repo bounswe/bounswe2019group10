@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#fff">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:id="@+id/enterDetailsLayout">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/leftArrowSize"
+                android:layout_height="@dimen/leftArrowSize"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/leftArrow"
+                android:src="@drawable/leftarrow">
+            </androidx.appcompat.widget.AppCompatImageView>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Enter your details"
+                android:textSize="@dimen/titleTextSize"
+                android:id="@+id/enterDetailsText">
+            </androidx.appcompat.widget.AppCompatTextView>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="40dp">
+        </View>
+
+
+        <LinearLayout
+            android:id="@+id/signUpLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/nameLayout"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/hintText">
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/name"
+                    style="@style/InputModel"
+                    android:hint="Your name...">
+                </androidx.appcompat.widget.AppCompatEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/emailLayout"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/hintText">
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/email"
+                    style="@style/InputModel"
+                    android:hint="Your email adress...">
+                </androidx.appcompat.widget.AppCompatEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/passwordLayout"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorPrimary"
+                app:hintTextAppearance="@style/hintText">
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/password"
+                    style="@style/InputModel"
+                    android:inputType="textPassword"
+                    android:hint="Your password...">
+                </androidx.appcompat.widget.AppCompatEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/signUpButton"
+                style="@style/SignInButtonTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="SIGN UP"
+                android:layout_marginBottom="40dp">
+            </Button>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/MainTitle"
+                android:text="Or, take an example tour"
+                android:textColor="@android:color/holo_blue_dark"
+                android:paddingLeft="10dp" android:paddingRight="10dp"
+                android:gravity="center">
+            </androidx.appcompat.widget.AppCompatTextView>
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
