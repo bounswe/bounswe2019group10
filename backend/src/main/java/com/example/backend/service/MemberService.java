@@ -14,7 +14,7 @@ public class MemberService {
     private MemberRepository memberRepository;
 
     public Member getMember(int id){
-        return memberRepository.findById(id).get();
+        return memberRepository.getOne(id);
     }
 
     public Member getMember(String name, String pass){
