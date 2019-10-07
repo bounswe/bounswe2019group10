@@ -1,4 +1,4 @@
-package com.example.yallp_android;
+package com.example.yallp_android.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+
+import com.example.yallp_android.R;
 
 public class MainActivity extends AppCompatActivity {
 
