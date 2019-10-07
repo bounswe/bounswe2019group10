@@ -18,6 +18,8 @@
         </activity>
         <activity android:name=".activities.GetStartedActivity" >
         </activity>
+        <activity android:name=".activities.SignInActivity" >
+        </activity>
     </application>
 
 </manifest>

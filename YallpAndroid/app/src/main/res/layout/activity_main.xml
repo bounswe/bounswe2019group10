@@ -40,7 +40,8 @@
                 android:id="@+id/signInButton"
                 style="@style/SignInButtonTheme"
                 android:layout_gravity="center"
-                android:text="SIGN IN">
+                android:text="SIGN IN"
+                android:onClick="signIn">
             </Button>
 
         </LinearLayout>
