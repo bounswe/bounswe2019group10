@@ -30,8 +30,8 @@ public class MemberService  implements UserDetailsService {
         return memberRepository.getByNameAndPassword(name, pass);
     }
 
-    public Member createMember(String nickname, String password, String mail, String bio, Boolean isExpert) {
-        Member member = new Member(nickname, password, mail, bio, isExpert);
+    public Member createMember(String nickname, String password, String mail, String bio, Boolean isExpert, String role) {
+        Member member = new Member(nickname, password, mail, bio, isExpert, role);
         return memberRepository.save(member);
     }
 

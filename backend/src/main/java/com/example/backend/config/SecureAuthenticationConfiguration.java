@@ -35,8 +35,7 @@ public class SecureAuthenticationConfiguration extends  WebSecurityConfigurerAda
 
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/login/**").permitAll()
-                .antMatchers("/member/**").hasAuthority("USER")
+                .antMatchers("/member/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
 

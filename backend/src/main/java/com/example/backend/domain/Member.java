@@ -25,12 +25,16 @@ public class Member {
     @Column(name = "mail")
     private String mail;
 
+    @Column(name = "role")
+    private String role;
+
     public Member() {
         this.password = null;
         this.name = null;
         this.mail = null;
         this.bio = null;
         this.isExpert = null;
+        this.role = null;
     }
 
     public Member(String name, String password) {
@@ -39,14 +43,16 @@ public class Member {
         this.mail = null;
         this.bio = null;
         this.isExpert = null;
+        this.role = "USER";
     }
 
-    public Member(String name, String password, String mail, String bio, Boolean isExpert) {
+    public Member(String name, String password, String mail, String bio, Boolean isExpert, String role) {
         this.name = name;
         this.password = password;
         this.mail = mail;
         this.bio = bio;
         this.isExpert = isExpert;
+        this.role = role;
     }
 
     public Member(Member member){
@@ -55,6 +61,7 @@ public class Member {
         this.mail = member.mail;
         this.bio = member.bio;
         this.isExpert = member.isExpert;
+        this.role = member.role;
     }
 
     public String getMail() {
@@ -106,4 +113,11 @@ public class Member {
         this.bio = bio;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
