@@ -49,6 +49,14 @@ public class Member {
         this.isExpert = isExpert;
     }
 
+    public Member(Member member){
+        this.name = member.name;
+        this.password = member.password;
+        this.mail = member.mail;
+        this.bio = member.bio;
+        this.isExpert = member.isExpert;
+    }
+
     public String getMail() {
         return mail;
     }

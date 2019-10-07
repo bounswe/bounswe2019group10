@@ -1,15 +1,20 @@
 package com.example.backend.service;
 
 
+import com.example.backend.domain.CustomUserDetails;
 import com.example.backend.domain.Member;
 import com.example.backend.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 
 import java.util.Optional;
 
 @Service
-public class MemberService {
+public class MemberService  implements UserDetailsService {
     @Autowired
     private MemberRepository memberRepository;
 
@@ -17,8 +22,8 @@ public class MemberService {
         return memberRepository.getOne(id);
     }
 
-    public Member getMember(String uname) {
-        return memberRepository.getByName(uname);
+    public Optional<Member> getMember(String uname) {
+        return memberRepository.findByName(uname);
     }
 
     public Member getMember(String name, String pass) {
@@ -39,5 +44,12 @@ public class MemberService {
         memberRepository.deleteById(id);
     }
 
+
+    @Override
+    public  UserDetails loadUserByUsername(String uname) throws UsernameNotFoundException {
+        Optional<Member> member = memberRepository.findByName(uname);
+        member.orElseThrow(()->new UsernameNotFoundException("Username is Wrong"));
+        return member.map(CustomUserDetails::new).get();
+    }
 }
 
