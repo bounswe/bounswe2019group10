@@ -21,7 +21,7 @@ public class AuthenticationController {
     @PostMapping("/sign-up")
     public String getMember(@RequestParam(value="nickname") String name, @RequestParam(value="password") String pass,
                             @RequestParam("email") String email){
-        Member member = memberService.createMember(name, pass, email, "", false);
+        Member member = memberService.createMember(name, pass, email, "", false, "USER");
         return "Created account";
     }
 
