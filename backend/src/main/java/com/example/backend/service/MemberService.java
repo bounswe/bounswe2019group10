@@ -13,25 +13,29 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
-    public Member getMember(int id){
+    public Member getMember(int id) {
         return memberRepository.getOne(id);
     }
 
-    public Member getMember(String name, String pass){
+    public Member getMember(String uname) {
+        return memberRepository.getByName(uname);
+    }
+
+    public Member getMember(String name, String pass) {
         return memberRepository.getByNameAndPassword(name, pass);
     }
 
-    public Member createMember(String nickname, String password, String mail, String bio, Boolean isExpert){
+    public Member createMember(String nickname, String password, String mail, String bio, Boolean isExpert) {
         Member member = new Member(nickname, password, mail, bio, isExpert);
         return memberRepository.save(member);
     }
 
-    public Member createAccount(String nickname, String password){
+    public Member createAccount(String nickname, String password) {
         Member member = new Member(nickname, password);
         return memberRepository.save(member);
     }
 
-    public void deleteMember(int id){
+    public void deleteMember(int id) {
         memberRepository.deleteById(id);
     }
 
