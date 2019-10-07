@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#fff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/signInLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="50dp">
+
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/orangebird"
+                android:layout_gravity="center"
+                android:background="@drawable/border_image"/>
+
+            <TextView
+                style="@style/MainTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:gravity="center"
+                android:text="Melih Demir" />
+
+            <TextView
+                style="@style/MainTitle"
+                android:textSize="15dp"
+                android:textColor="#888"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="demirmelih@gmail.com" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:columnCount="3"
+                android:background="@drawable/border_image">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src=""
+                    android:background="@drawable/border_image"
+                    android:layout_rowSpan="2">
+
+                </ImageView>
+
+                <TextView
+                    style="@style/MainTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="English" >
+
+                </TextView>
+
+                <TextView
+                    style="@style/MainTitle"
+                    android:textColor="#f80"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Intermediate" >
+
+                </TextView>
+
+            </GridLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:columnCount="3"
+                android:background="@drawable/border_image">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src=""
+                    android:background="@drawable/border_image"
+                    android:layout_rowSpan="2">
+
+                </ImageView>
+
+                <TextView
+                    style="@style/MainTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Spanish" >
+
+                </TextView>
+
+                <TextView
+                    style="@style/MainTitle"
+                    android:textColor="#f80"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Beginner" >
+
+                </TextView>
+
+            </GridLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:columnCount="3"
+                android:background="@drawable/border_image">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/plus_sign"
+                    android:background="@drawable/border_image"
+                    android:layout_rowSpan="2">
+
+                </ImageView>
+
+                <TextView
+                    style="@style/MainTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_row="0"
+                    android:layout_rowSpan="2"
+                    android:layout_column="1"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="fill_vertical"
+                    android:text="Add New Language" >
+
+                </TextView>
+
+
+            </GridLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="30dp">
+
+            <TextView
+                style="@style/MainTitle"
+                android:textColor="#f80"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Edit Profile..." >
+
+            </TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
