@@ -56,7 +56,24 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/name"
                     style="@style/InputModel"
-                    android:hint="Your name...">
+                    android:hint="Your name..."
+                    android:maxLines="1">
+                </androidx.appcompat.widget.AppCompatEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/surnameLayout"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextAppearance="@style/hintText">
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/surname"
+                    style="@style/InputModel"
+                    android:hint="Your surname..."
+                    android:maxLines="1">
                 </androidx.appcompat.widget.AppCompatEditText>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,7 +87,8 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/email"
                     style="@style/InputModel"
-                    android:hint="Your email adress...">
+                    android:hint="Your email adress..."
+                    android:maxLines="1">
                 </androidx.appcompat.widget.AppCompatEditText>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +105,8 @@
                     android:id="@+id/password"
                     style="@style/InputModel"
                     android:inputType="textPassword"
-                    android:hint="Your password...">
+                    android:hint="Your password..."
+                    android:maxLines="1">
                 </androidx.appcompat.widget.AppCompatEditText>
             </com.google.android.material.textfield.TextInputLayout>
 
