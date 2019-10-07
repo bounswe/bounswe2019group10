@@ -42,7 +42,7 @@
 
 
         <LinearLayout
-            android:id="@+id/signUpLayout"
+            android:id="@+id/signInLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -90,6 +90,7 @@
                 android:text="SIGN IN"></Button>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/forgotPasswordButton"
                 style="@style/MainTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
