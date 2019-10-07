@@ -40,6 +40,7 @@ public class SecureAuthenticationConfiguration extends  WebSecurityConfigurerAda
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
 
+
     }
 
     @Bean
