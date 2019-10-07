@@ -17,11 +17,6 @@ public class MemberController {
         return "user";
     }
 
-    @GetMapping("/login")
-    public String getMember(@RequestParam(value="nickname") String name, @RequestParam(value="password") String pass){
-        Member member = memberService.getMember(name, pass);
-        return member.getName() + " " + member.getPassword();
-    }
 
     @PostMapping("/create")
     public String createMember(@RequestParam(value="nickname") String name, @RequestParam(value="password") String pass){
