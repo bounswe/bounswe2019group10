@@ -32,13 +32,16 @@ public class SecureAuthenticationConfiguration extends  WebSecurityConfigurerAda
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+/*
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/member/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
 
+*/
+
+        http.authorizeRequests().antMatchers("/**").permitAll();
 
     }
 

@@ -1,9 +1,9 @@
 package com.example.backend.service;
 
 
-import com.example.backend.domain.CustomUserDetails;
 import com.example.backend.domain.Member;
 import com.example.backend.repository.MemberRepository;
+import com.example.backend.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +22,7 @@ public class MemberService  implements UserDetailsService {
         return memberRepository.getOne(id);
     }
 
-    public Optional<Member> getMember(String uname) {
+    public Member getMember(String uname) {
         return memberRepository.findByName(uname);
     }
 
@@ -47,9 +47,12 @@ public class MemberService  implements UserDetailsService {
 
     @Override
     public  UserDetails loadUserByUsername(String uname) throws UsernameNotFoundException {
-        Optional<Member> member = memberRepository.findByName(uname);
-        member.orElseThrow(()->new UsernameNotFoundException("Username is Wrong"));
-        return member.map(CustomUserDetails::new).get();
+        Member member = memberRepository.findByName(uname);
+        if(member==null){
+            throw new UsernameNotFoundException("Username is Wrong");
+        }
+        CustomUserDetails memberDetails = new CustomUserDetails(member);
+        return memberDetails;
     }
 }
 

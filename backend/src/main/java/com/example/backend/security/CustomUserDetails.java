@@ -1,43 +1,53 @@
-package com.example.backend.domain;
+package com.example.backend.security;
 
+import com.example.backend.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class CustomUserDetails extends Member implements UserDetails {
+    private Collection<? extends GrantedAuthority>  auths;
 
     public CustomUserDetails(final Member member){
         super(member);
+        List<GrantedAuthority> memberAuthList = new ArrayList<>();
+        SimpleGrantedAuthority memberAuth = new SimpleGrantedAuthority(member.getRole());
+        memberAuthList.add(memberAuth);
+        auths = (Collection<? extends GrantedAuthority> ) memberAuthList;
+
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return auths;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return super.getName();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

@@ -1,6 +1,10 @@
 package com.example.backend.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "member")
@@ -46,6 +50,15 @@ public class Member {
         this.role = "USER";
     }
 
+    public Member(String name, String password, String email) {
+        this.password = password;
+        this.name = name;
+        this.mail = email;
+        this.bio = null;
+        this.isExpert = null;
+        this.role = "USER";
+    }
+
     public Member(String name, String password, String mail, String bio, Boolean isExpert, String role) {
         this.name = name;
         this.password = password;
@@ -80,6 +93,7 @@ public class Member {
     public void setId(int id) {
         this.id = id;
     }
+
 
     public String getPassword() {
         return password;
