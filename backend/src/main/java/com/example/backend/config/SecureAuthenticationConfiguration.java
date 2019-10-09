@@ -2,6 +2,7 @@ package com.example.backend.config;
 
 import com.example.backend.repository.MemberRepository;
 import com.example.backend.security.JwtAuthenticationEntryPoint;
+import com.example.backend.security.JwtAuthenticationTokenFilter;
 import com.example.backend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
@@ -40,16 +42,13 @@ public class SecureAuthenticationConfiguration extends  WebSecurityConfigurerAda
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-/*
+        //TODO IMPLEMENT THIS PART TO COMPLETE AUTHORIZATION ROUTINE
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/member/**").permitAll()
+                .antMatchers("/login-page/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/member/**").hasAuthority("USER")
                 .anyRequest().authenticated();
-
-*/
-
-        http.authorizeRequests().antMatchers("/**").permitAll();
 
     }
 
@@ -62,6 +61,11 @@ public class SecureAuthenticationConfiguration extends  WebSecurityConfigurerAda
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
+        return new JwtAuthenticationTokenFilter();
     }
 
 }
