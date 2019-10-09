@@ -56,3 +56,12 @@ public class MemberService  implements UserDetailsService {
     }
 }
 
+
+/*
+*
+Not relevant
+#spring.datasource.url=localhost:5432
+#spring.datasource.username=postgres
+#spring.datasource.password=password
+
+* */

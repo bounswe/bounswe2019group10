@@ -2,7 +2,6 @@ package com.example.backend.controller;
 
 import com.example.backend.domain.Member;
 import com.example.backend.service.AuthenticationService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +12,8 @@ public class AuthenticationController {
     @Autowired
     AuthenticationService authenticationService;
 
-    @Autowired
-    private ModelMapper modelMapper;
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String getMember(@RequestParam(value="nickname") String name, @RequestParam(value="password") String pass){
         Member member = new Member(name, pass);
         return authenticationService.login(member);

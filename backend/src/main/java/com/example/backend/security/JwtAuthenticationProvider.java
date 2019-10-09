@@ -6,15 +6,17 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
+@Component
 public class JwtAuthenticationProvider {
     @Value("${secret-key}")
-    private String secret_key;
+    private String secret_key ;
     @Value("${expiration-length}")
-    private long exDuration;
+    private long exDuration ;
 
     public String generateToken(Member member){
         Claims claims = Jwts.claims().setSubject(member.getName());
