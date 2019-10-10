@@ -5,10 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Component
@@ -19,7 +17,7 @@ public class JwtAuthenticationProvider {
     private long exDuration ;
 
     public String generateToken(Member member){
-        Claims claims = Jwts.claims().setSubject(member.getName());
+        Claims claims = Jwts.claims().setSubject(member.getUsername());
         claims.put("role", member.getRole());
         Date curDate = new Date();
         Date expirationDate = new Date(curDate.getTime() + exDuration);

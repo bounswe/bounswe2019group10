@@ -5,7 +5,6 @@ import com.example.backend.repository.MemberRepository;
 import com.example.backend.security.JwtAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,22 +22,27 @@ public class AuthenticationService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public String signUp(Member member) {
+    public String signUp(String name, String pass, String email) {
+        Member member = new Member();
+        member.setUsername(name);
+        member.setMail(email);
+        member.setId(0);
+
         try {
-            if (memberRepository.findByName(member.getName()) != null ||
+            if (memberRepository.findByUsername(member.getUsername()) != null ||
                     memberRepository.findByMail(member.getMail()) != null) {
                 throw new Exception("User already exists");
             }
         }catch (Exception e){System.out.println(e);}
 
         //TODO assure member ID is not null
-        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        //member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberRepository.save(member);
         return "Sign up success!";
     }
 
     public String login(Member member){
-        Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member.getName(), member.getPassword()));
+        Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member.getUsername(), member.getPassword()));
         String sessionToken = jwtAuthenticationProvider.generateToken(member);
         SecurityContextHolder.getContext().setAuthentication(auth);
         return "Bearer " + sessionToken;

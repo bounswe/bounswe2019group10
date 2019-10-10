@@ -5,8 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 
-    Member getByNameAndPassword(String name, String pass);
-    Member findByName(String name);
+    Member findByUsernameAndPassword(String username, String pass);
+    Member findByUsername(String username);
+    Member findByMailAndPassword(String mail, String password);
     Member findByMail(String mail);
 
 }
