@@ -11,8 +11,7 @@ import java.util.Collection;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "is_expert")
@@ -24,7 +23,7 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "name")
+    @Column(name = "username")
     private String name;
 
     @Column(name = "mail")
@@ -32,6 +31,11 @@ public class Member {
 
     @Column(name = "role")
     private String role;
+
+    @Column(name = "name")
+    private String real_name;
+
+
 
     public Member() {
         this.password = null;
