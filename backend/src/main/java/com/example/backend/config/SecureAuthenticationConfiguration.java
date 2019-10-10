@@ -9,12 +9,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -31,7 +33,12 @@ public class SecureAuthenticationConfiguration extends  WebSecurityConfigurerAda
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    public SecureAuthenticationConfiguration(MemberService memberService,
+                                             JwtAuthenticationEntryPoint jwtEntry){
+        this.memberService = memberService;
+        jwtAuthenticationEntryPoint = jwtEntry;
 
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -42,13 +49,21 @@ public class SecureAuthenticationConfiguration extends  WebSecurityConfigurerAda
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //TODO IMPLEMENT THIS PART TO COMPLETE AUTHORIZATION ROUTINE
+
+        //TODO IMPLEMENT THIS PART TO COMPLETE AUTHORIXZTION ROUTINE
         http.csrf().disable();
-        http.authorizeRequests()
+        //http.addFilter(new JwtAuthenticationTokenFilter());
+        http.cors().and()
+                .csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
                 .antMatchers("/login-page/**").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/admin/").hasAuthority("ADMIN")
                 .antMatchers("/member/**").hasAuthority("USER")
-                .anyRequest().authenticated();
+               .anyRequest().authenticated();
+        http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
 
     }
 

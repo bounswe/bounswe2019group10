@@ -11,8 +11,9 @@ import java.util.Collection;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(nullable = false)
+    private Integer id;
 
     @Column(name = "is_expert")
     private Boolean isExpert;
@@ -86,11 +87,11 @@ public class Member {
     }
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

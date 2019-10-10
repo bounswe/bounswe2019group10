@@ -23,6 +23,14 @@ public class AuthenticationController {
     public String signUp(@RequestParam(value="nickname") String name, @RequestParam(value="password") String pass, @RequestParam(value="email") String email){
         Member member = new Member(name, pass, email);
         System.out.println(member.getName());
+        System.out.println("**************************************************");
+        System.out.println("**************************************************");
+        System.out.println("**************************************************");
+        System.out.println("**************************************************");
+        System.out.println("**************************************************");
+        System.out.println("**************************************************");
+
+
         return authenticationService.signUp(member);
     }
 

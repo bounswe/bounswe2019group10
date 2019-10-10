@@ -27,11 +27,11 @@ public class AuthenticationService {
         try {
             if (memberRepository.findByName(member.getName()) != null ||
                     memberRepository.findByMail(member.getMail()) != null) {
-                //username already exists
                 throw new Exception("User already exists");
             }
         }catch (Exception e){System.out.println(e);}
 
+        //TODO assure member ID is not null
         member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberRepository.save(member);
         return "Sign up success!";

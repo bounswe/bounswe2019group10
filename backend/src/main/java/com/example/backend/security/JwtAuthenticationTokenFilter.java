@@ -35,6 +35,7 @@ public class JwtAuthenticationTokenFilter  extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
+
     }
 
     public String getToken(HttpServletRequest request){
