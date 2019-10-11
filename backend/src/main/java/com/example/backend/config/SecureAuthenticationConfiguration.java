@@ -4,7 +4,7 @@ import com.example.backend.repository.MemberRepository;
 import com.example.backend.security.JwtAuthenticationEntryPoint;
 import com.example.backend.security.JwtAuthenticationTokenFilter;
 import com.example.backend.service.MemberService;
-import com.example.backend.service.UserDetailsService;
+import com.example.backend.service.UserDetailsServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,14 +29,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecureAuthenticationConfiguration extends  WebSecurityConfigurerAdapter{
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsServiceImp userDetailsService;
 
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    public SecureAuthenticationConfiguration(UserDetailsService userDetailsService,
+    public SecureAuthenticationConfiguration(UserDetailsServiceImp userDetailsService,
                                              JwtAuthenticationEntryPoint jwtEntry){
-        this.userDetailsService = userDetailsService;
+        this.UserDetailsServiceImp = userDetailsService;
         jwtAuthenticationEntryPoint = jwtEntry;
 
     }

@@ -46,12 +46,3 @@ public class MemberService{
 
 }
 
-
-/*
-*
-Not relevant
-#spring.datasource.url=localhost:5432
-#spring.datasource.username=postgres
-#spring.datasource.password=password
-
-* */
