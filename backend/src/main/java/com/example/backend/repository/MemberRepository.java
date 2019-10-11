@@ -2,12 +2,13 @@ package com.example.backend.repository;
 
 import com.example.backend.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface MemberRepository extends JpaRepository<Member, Integer> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Member findByUsernameAndPassword(String username, String pass);
+    Member getByNameAndPassword(String name, String pass);
     Member findByUsername(String username);
-    Member findByMailAndPassword(String mail, String password);
     Member findByMail(String mail);
 
 }

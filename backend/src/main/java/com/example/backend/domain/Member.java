@@ -1,14 +1,22 @@
 package com.example.backend.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
-@Table(name = "member")
+@Table(name = "Member")
 public class Member {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
+    @SequenceGenerator(name="id_generator", sequenceName = "id_sequence")
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+
 
     @Column(name = "is_expert")
     private Boolean isExpert;
@@ -31,41 +39,51 @@ public class Member {
     @Column(name = "name")
     private String name;
 
-    public Member(Member member) {
-        this.bio = member.getBio();
-        this.id = member.getId();
-        this.isExpert = member.isExpert();
-        this.mail = member.getMail();
-        this.password = member.getPassword();
-        this.role = member.getRole();
-        this.name = member.getName();
-        this.username = member.getUsername();
+
+
+    public Member() {
+        this.password = null;
+        this.username = null;
+        this.mail = null;
+        this.bio = null;
+        this.isExpert = null;
+        this.role = null;
     }
 
-    public Member(){
-
-    }
-
-    public Boolean getExpert() {
-        return isExpert;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Member(Boolean isExpert, String bio, String password, String username, String mail, String role, String name) {
-        this.isExpert = isExpert;
-        this.bio = bio;
+    public Member(String name, String password) {
         this.password = password;
-        this.username = username;
+        this.username = name;
+        this.mail = null;
+        this.bio = null;
+        this.isExpert = null;
+        this.role = "USER";
+    }
+
+    public Member(String name, String password, String email) {
+        this.password = password;
+        this.username = name;
+        this.mail = email;
+        this.bio = null;
+        this.isExpert = null;
+        this.role = "USER";
+    }
+
+    public Member(String name, String password, String mail, String bio, Boolean isExpert, String role) {
+        this.username = name;
+        this.password = password;
         this.mail = mail;
+        this.bio = bio;
+        this.isExpert = isExpert;
         this.role = role;
-        this.name = name;
+    }
+
+    public Member(Member member){
+        this.username = member.username;
+        this.password = member.password;
+        this.mail = member.mail;
+        this.bio = member.bio;
+        this.isExpert = member.isExpert;
+        this.role = member.role;
     }
 
     public String getMail() {
@@ -77,13 +95,10 @@ public class Member {
     }
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
 
     public String getPassword() {
@@ -98,8 +113,8 @@ public class Member {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public Boolean isExpert() {
@@ -124,5 +139,13 @@ public class Member {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

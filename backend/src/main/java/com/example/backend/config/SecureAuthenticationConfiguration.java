@@ -4,6 +4,7 @@ import com.example.backend.repository.MemberRepository;
 import com.example.backend.security.JwtAuthenticationEntryPoint;
 import com.example.backend.security.JwtAuthenticationTokenFilter;
 import com.example.backend.service.MemberService;
+import com.example.backend.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,28 +29,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecureAuthenticationConfiguration extends  WebSecurityConfigurerAdapter{
 
     @Autowired
-    private MemberService memberService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    public SecureAuthenticationConfiguration(MemberService memberService,
+    public SecureAuthenticationConfiguration(UserDetailsService userDetailsService,
                                              JwtAuthenticationEntryPoint jwtEntry){
-        this.memberService = memberService;
+        this.userDetailsService = userDetailsService;
         jwtAuthenticationEntryPoint = jwtEntry;
 
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.userDetailsService(memberService)
+        auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         //TODO IMPLEMENT THIS PART TO COMPLETE AUTHORIXZTION ROUTINE
         http.csrf().disable();
         //http.addFilter(new JwtAuthenticationTokenFilter());

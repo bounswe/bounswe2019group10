@@ -1,7 +1,7 @@
 package com.example.backend.security;
 
 import com.example.backend.domain.Member;
-import com.example.backend.service.MemberService;
+import com.example.backend.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,14 +19,14 @@ public class JwtAuthenticationTokenFilter  extends OncePerRequestFilter {
     @Autowired
     private JwtAuthenticationProvider jwtAuthenticationProvider;
     @Autowired
-    private MemberService memberService;
+    private UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String token = getToken(httpServletRequest);
         if(token != null && jwtAuthenticationProvider.validateToken(token)){
             String username = jwtAuthenticationProvider.getUsernameFromToken(token);
-            UserDetails userDetails = memberService.loadUserByUsername(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if(userDetails != null){
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
