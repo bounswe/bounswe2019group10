@@ -3,7 +3,7 @@ package com.example.backend.dto;
 public class MemberDTO {
     private String username;
     private String mail;
-    private int id;
+    private Long id;
 
     public String getUsername() {
         return username;
@@ -21,11 +21,11 @@ public class MemberDTO {
         this.mail = mail;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

@@ -22,11 +22,7 @@ public class AuthenticationService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public String signUp(String name, String pass, String email) {
-        Member member = new Member();
-        member.setUsername(name);
-        member.setMail(email);
-        member.setId(0);
+    public String signUp(Member member) {
 
         try {
             if (memberRepository.findByUsername(member.getUsername()) != null ||

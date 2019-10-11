@@ -22,6 +22,7 @@ public class AuthenticationController {
     @PostMapping("/sign-up")
     public String signUp(@RequestParam(value="nickname") String name, @RequestParam(value="password") String pass, @RequestParam(value="email") String email){
         Member member = new Member(name, pass, email);
+        long autoId = member.getId();
         return authenticationService.signUp(member);
     }
 

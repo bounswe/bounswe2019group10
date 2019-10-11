@@ -36,7 +36,7 @@ public class SecureAuthenticationConfiguration extends  WebSecurityConfigurerAda
 
     public SecureAuthenticationConfiguration(UserDetailsServiceImp userDetailsService,
                                              JwtAuthenticationEntryPoint jwtEntry){
-        this.UserDetailsServiceImp = userDetailsService;
+        this.userDetailsService = userDetailsService;
         jwtAuthenticationEntryPoint = jwtEntry;
 
     }

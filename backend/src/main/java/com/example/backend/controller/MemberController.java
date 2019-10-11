@@ -14,13 +14,13 @@ public class MemberController {
     MemberService memberService;
 
     @GetMapping("/user/nickname/{username}")
-    public MemberDTO getUser(@PathVariable String username){
-        return memberService.findMemberByUserName(username);
+    public Member /*MemberDTO*/ getUser(@PathVariable String username){
+        return memberService.getMember(username);
     }
 
 
     @PostMapping("/create")
-    public MemberDTO createMember(@RequestParam(value="nickname") String username, @RequestParam(value="password") String password){
+    public Member /*MemberDTO*/ createMember(@RequestParam(value="nickname") String username, @RequestParam(value="password") String password){
        return memberService.createAccount(username, password);
     }
 
