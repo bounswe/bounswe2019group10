@@ -1,6 +1,7 @@
 package com.example.backend.security;
 
 import com.example.backend.domain.Member;
+import com.example.backend.repository.MemberRepository;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails extends Member implements UserDetails {
     @Id
     public Long detId;
     private String username;
@@ -42,6 +43,11 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return auths;
+    }
+
+    @Override
+    public String getPassword() {
+        return super.getPassword();
     }
 
     @Override
