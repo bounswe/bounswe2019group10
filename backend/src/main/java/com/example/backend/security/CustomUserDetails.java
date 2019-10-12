@@ -1,7 +1,6 @@
 package com.example.backend.security;
 
 import com.example.backend.domain.Member;
-import com.example.backend.repository.MemberRepository;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
