@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("/member")
 public class MemberController {
 
-
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
+
+    @RequestMapping
+    public String member(){
+        return "member";
+    }
 
     @RequestMapping("/get")
     public ResponseEntity<?> saveUser(@RequestParam(value="username") String name) throws Exception {
