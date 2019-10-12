@@ -5,6 +5,7 @@ import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.JwtRequest;
 import com.example.backend.model.JwtResponse;
 
+import com.example.backend.model.Member;
 import com.example.backend.model.MemberDTO;
 import com.example.backend.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +63,14 @@ public class JwtAuthenticationController {
     public ResponseEntity<?> saveUser(@RequestBody MemberDTO user) throws Exception {
         return ResponseEntity.ok(userDetailsService.save(user));
     }
+
+
+    @PostMapping("/login")
+    public String getMember(@RequestParam(value="nickname") String name, @RequestParam(value="password") String pass){
+        //TODO
+        Member member = new Member(name, pass);
+        return userDetailsService.login(member);
+    }
+
 
 }
