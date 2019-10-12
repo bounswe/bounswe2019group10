@@ -23,6 +23,7 @@ public class MemberController {
     }
 
 
+
     @PostMapping("/create")
     public Member /*MemberDTO*/ createMember(@RequestParam(value="nickname") String username, @RequestParam(value="password") String password){
         return memberService.createAccount(username, passwordEncoder.encode(password));
