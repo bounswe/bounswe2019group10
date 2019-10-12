@@ -16,8 +16,8 @@ public class MemberController {
     JwtUserDetailsService jwtUserDetailsService;
 
     @RequestMapping("/get")
-    public ResponseEntity<?> saveUser(@RequestParam("username") String name) throws Exception {
-        return ResponseEntity.ok(jwtUserDetailsService.getByName(name).getUsername());
+    public ResponseEntity<?> saveUser(@RequestParam(value="username") String name) throws Exception {
+        return ResponseEntity.ok(jwtUserDetailsService.getByName(name));
     }
 
 }
