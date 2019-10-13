@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Table(name = "quiz")
 public class Question {
 
+    @Id
     @Column(name = "id")
     private int id;
 

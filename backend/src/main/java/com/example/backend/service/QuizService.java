@@ -14,4 +14,8 @@ public class QuizService {
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    public Quiz getById(int id) {
+        return quizRepository.getOne(id);
+    }
 }
