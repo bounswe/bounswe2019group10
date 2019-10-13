@@ -1,10 +1,10 @@
 package com.example.backend.controller;
 
 import com.example.backend.config.JwtTokenUtil;
-import com.example.backend.model.JwtRequest;
-import com.example.backend.model.JwtResponse;
-import com.example.backend.model.MemberDTO;
-import com.example.backend.service.JwtUserDetailsService;
+import com.example.backend.model.member.JwtRequest;
+import com.example.backend.model.member.JwtResponse;
+import com.example.backend.model.member.MemberDTO;
+import com.example.backend.service.member.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.regex.Pattern;
 
 @RestController
 @CrossOrigin
@@ -31,11 +33,22 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+        String username = authenticationRequest.getUsername();
+                //Check if the input is of form email.
+        String mailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(mailRegex);
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        if(pattern.matcher(username).matches()) { //The credential is of form email
+            username = userDetailsService.getByMail(username).getUsername();
+        }
+
+        authenticate(username, authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+                .loadUserByUsername(username);
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 

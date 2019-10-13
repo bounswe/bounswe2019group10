@@ -1,11 +1,9 @@
-package com.example.backend.service;
+package com.example.backend.service.member;
 
-import com.example.backend.config.JwtTokenUtil;
-import com.example.backend.model.Member;
-import com.example.backend.model.MemberDTO;
-import com.example.backend.repository.MemberRepository;
+import com.example.backend.model.member.Member;
+import com.example.backend.model.member.MemberDTO;
+import com.example.backend.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

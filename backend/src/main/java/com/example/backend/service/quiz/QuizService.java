@@ -1,8 +1,7 @@
-package com.example.backend.service;
+package com.example.backend.service.quiz;
 
-import com.example.backend.model.Quiz;
-import com.example.backend.repository.QuestionRepository;
-import com.example.backend.repository.QuizRepository;
+import com.example.backend.repository.quiz.QuestionRepository;
+import com.example.backend.repository.quiz.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

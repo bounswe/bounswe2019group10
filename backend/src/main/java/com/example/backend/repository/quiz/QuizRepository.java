@@ -1,6 +1,6 @@
-package com.example.backend.repository;
+package com.example.backend.repository.quiz;
 
-import com.example.backend.model.Quiz;
+import com.example.backend.model.quiz.Quiz;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
