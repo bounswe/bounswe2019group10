@@ -1,10 +1,10 @@
 package com.example.backend.controller;
 
 import com.example.backend.config.JwtTokenUtil;
-import com.example.backend.model.JwtRequest;
-import com.example.backend.model.JwtResponse;
-import com.example.backend.model.MemberDTO;
-import com.example.backend.service.JwtUserDetailsService;
+import com.example.backend.model.member.JwtRequest;
+import com.example.backend.model.member.JwtResponse;
+import com.example.backend.model.member.MemberDTO;
+import com.example.backend.service.member.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import java.util.regex.Matcher;
+
 import java.util.regex.Pattern;
 
 @RestController

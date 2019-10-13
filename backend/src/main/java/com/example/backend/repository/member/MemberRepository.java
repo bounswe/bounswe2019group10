@@ -1,7 +1,7 @@
-package com.example.backend.repository;
+package com.example.backend.repository.member;
 
 
-import com.example.backend.model.Member;
+import com.example.backend.model.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
