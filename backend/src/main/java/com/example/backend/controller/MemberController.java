@@ -13,11 +13,6 @@ public class MemberController {
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
 
-    @GetMapping("/member")
-    public String member(){
-        return "member";
-    }
-
     @GetMapping("/get")
     public ResponseEntity<?> getUser(@RequestParam(value="username") String username){
         return ResponseEntity.ok(jwtUserDetailsService.getByUsername(username));
