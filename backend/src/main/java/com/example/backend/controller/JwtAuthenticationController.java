@@ -15,6 +15,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +45,8 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
 
+
+
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
@@ -58,19 +62,11 @@ public class JwtAuthenticationController {
         }
     }
 
-
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody MemberDTO user) throws Exception {
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 
-
-    @PostMapping("/login")
-    public String getMember(@RequestParam(value="nickname") String name, @RequestParam(value="password") String pass){
-        //TODO
-        Member member = new Member(name, pass);
-        return userDetailsService.login(member);
-    }
 
 
 }

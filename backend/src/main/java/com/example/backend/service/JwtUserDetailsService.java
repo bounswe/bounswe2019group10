@@ -39,7 +39,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return new User(user.getUsername(), ((Member) user).getPassword(),
+        return new User(user.getUsername(), user.getPassword(),
                 new ArrayList<>());
     }
 
@@ -56,13 +56,5 @@ public class JwtUserDetailsService implements UserDetailsService {
         return memberRepository.save(newUser);
     }
 
-    public String login(Member member){
-        Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member.getUsername(), member.getPassword()));
-        String sessionToken = jwtTokenUtil.generateToken(member);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        return "Bearer " + sessionToken;
-
-
-    }
 
 }
