@@ -1,4 +1,4 @@
-package com.example.backend.controller;
+package com.example.backend.controller.member;
 
 import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.member.JwtRequest;
