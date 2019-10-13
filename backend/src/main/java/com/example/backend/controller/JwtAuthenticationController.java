@@ -5,7 +5,6 @@ import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.JwtRequest;
 import com.example.backend.model.JwtResponse;
 
-import com.example.backend.model.Member;
 import com.example.backend.model.MemberDTO;
 import com.example.backend.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
