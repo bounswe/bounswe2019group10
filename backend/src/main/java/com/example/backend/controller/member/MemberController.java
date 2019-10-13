@@ -1,4 +1,4 @@
-package com.example.backend.controller;
+package com.example.backend.controller.member;
 
 import com.example.backend.service.member.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;

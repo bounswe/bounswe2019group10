@@ -1,7 +1,7 @@
-package com.example.backend.controller;
+package com.example.backend.controller.quiz;
 
-import com.example.backend.model.Quiz;
-import com.example.backend.service.QuizService;
+
+import com.example.backend.service.quiz.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
