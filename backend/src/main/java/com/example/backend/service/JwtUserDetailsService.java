@@ -47,6 +47,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         return memberRepository.findByUsername(name);
     }
 
+    public Member getByMail(String mail){return memberRepository.findByMail(mail);}
+
 
     public Member save(MemberDTO user) {
         Member newUser = new Member();

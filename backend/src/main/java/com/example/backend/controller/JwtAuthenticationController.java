@@ -55,6 +55,11 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody MemberDTO user) throws Exception {
+        //Handle registration attempt with same username/password
+        if (userDetailsService.getByMail(user.getMail()) != null ||
+                userDetailsService.getByUsername(user.getUsername()) != null) {
+            throw new Exception("User already exists");
+        }
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 }
