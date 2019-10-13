@@ -50,30 +50,15 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/nameLayout"
+                android:id="@+id/usernameLayout"
                 app:hintAnimationEnabled="true"
                 app:hintEnabled="true"
                 app:hintTextAppearance="@style/hintText">
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/name"
+                    android:id="@+id/username"
+                    android:inputType="text"
                     style="@style/InputModel"
-                    android:hint="Your name..."
-                    android:maxLines="1">
-                </androidx.appcompat.widget.AppCompatEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/surnameLayout"
-                app:hintAnimationEnabled="true"
-                app:hintEnabled="true"
-                app:hintTextAppearance="@style/hintText">
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/surname"
-                    style="@style/InputModel"
-                    android:hint="Your surname..."
+                    android:hint="Your username..."
                     android:maxLines="1">
                 </androidx.appcompat.widget.AppCompatEditText>
             </com.google.android.material.textfield.TextInputLayout>
@@ -87,6 +72,7 @@
                 app:hintTextAppearance="@style/hintText">
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/email"
+                    android:inputType="textEmailAddress"
                     style="@style/InputModel"
                     android:hint="Your email adress..."
                     android:maxLines="1">

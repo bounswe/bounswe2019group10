@@ -2,6 +2,8 @@ package com.example.yallp_android.activities;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -25,10 +27,10 @@ public class GetStartedActivity extends AppCompatActivity {
 
     private ImageView backButton;
     private Button signUpButton;
-    private  EditText name;
-    private  EditText surname;
+    private  EditText username;
     private  EditText email;
     private  EditText password;
+    private Context context = this;
 
     @SuppressLint("ClickableViewAccessibility")
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +41,7 @@ public class GetStartedActivity extends AppCompatActivity {
 
         backButton = findViewById(R.id.leftArrow);
         signUpButton = findViewById(R.id.signUpButton);
-        name = findViewById(R.id.name);
-        surname = findViewById(R.id.surname);
+        username = findViewById(R.id.username);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -53,20 +54,29 @@ public class GetStartedActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validate(name) && validate(surname) && validate(email) &&validate(password)){
+                if(!isEmpty(username) && !isEmpty(email) && isValidEmail(email) &&  !isEmpty(password)){
                     signUp();
                 };
             }
         });
     }
 
-    public boolean validate(EditText editText){
+    public boolean isEmpty(EditText editText){
         if (editText.getText().toString().trim().length() > 0) {
-            return true;
+            return false;
         }
         editText.setError("Please Fill This");
         editText.requestFocus();
-        return false;
+        return true;
+    }
+
+    public boolean isValidEmail(EditText editText){
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(editText.getText().toString()).matches()){
+            editText.setError("Please enter a valid email");
+            editText.requestFocus();
+            return false;
+        }
+        return true;
     }
     public void signUp(){
         final ProgressDialog progressDialog = new ProgressDialog(GetStartedActivity.this);
@@ -77,14 +87,15 @@ public class GetStartedActivity extends AppCompatActivity {
         Call<ResponseBody> call;
 
         call = UserRetroClient.getInstance().getUserApi().signup(
-                new SignUpUser(name.getText().toString(),surname.getText().toString(),
-                        email.getText().toString(),password.getText().toString()));
+                new SignUpUser(username.getText().toString(),email.getText().toString(),password.getText().toString()));
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
                     progressDialog.dismiss();
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    context.startActivity(intent);
                 }
             }
 
