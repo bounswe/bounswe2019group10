@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
@@ -39,8 +44,12 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return new User(user.getUsername(), user.getPassword(),
-                new ArrayList<>());
+        List<GrantedAuthority> memberAuthList = new ArrayList<>();
+        SimpleGrantedAuthority memberAuth = new SimpleGrantedAuthority(user.getRole());
+        memberAuthList.add(memberAuth);
+        User newUser = new User(user.getUsername(), user.getPassword(),
+                (Collection<? extends GrantedAuthority>) memberAuthList);
+        return newUser;
     }
 
     public Member getByName(String name) {
@@ -52,6 +61,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         Member newUser = new Member();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+        newUser.setMail(user.getMail());
         newUser.setRole("USER");
         return memberRepository.save(newUser);
     }
