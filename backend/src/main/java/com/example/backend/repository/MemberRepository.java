@@ -1,13 +1,15 @@
 package com.example.backend.repository;
 
-import com.example.backend.domain.Member;
+
+import com.example.backend.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
+@Repository
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 
-    Member getByNameAndPassword(String name, String pass);
-    Optional<Member> findByName(String name);
+    Member findByMail(String mail);
+    Member findByUsername(String username);
+
 
 }
