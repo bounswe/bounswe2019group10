@@ -1,14 +1,11 @@
 package com.example.backend.controller;
 
-
 import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.JwtRequest;
 import com.example.backend.model.JwtResponse;
-
 import com.example.backend.model.MemberDTO;
 import com.example.backend.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,11 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import org.springframework.web.bind.annotation.*;
-
-
-
 
 @RestController
 @CrossOrigin
@@ -44,8 +37,6 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
 
-
-
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
@@ -66,7 +57,4 @@ public class JwtAuthenticationController {
     public ResponseEntity<?> saveUser(@RequestBody MemberDTO user) throws Exception {
         return ResponseEntity.ok(userDetailsService.save(user));
     }
-
-
-
 }

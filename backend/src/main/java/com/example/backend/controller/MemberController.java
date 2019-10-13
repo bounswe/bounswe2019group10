@@ -3,24 +3,26 @@ package com.example.backend.controller;
 import com.example.backend.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/member")
+@RestController
+@CrossOrigin
+@RequestMapping("/member")
 public class MemberController {
 
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
 
-    @RequestMapping
+    @GetMapping("/member")
     public String member(){
         return "member";
     }
 
-    @RequestMapping("/get")
-    public ResponseEntity<?> saveUser(@RequestParam(value="username") String name) throws Exception {
-        return ResponseEntity.ok(jwtUserDetailsService.getByName(name));
+    @GetMapping("/get")
+    public ResponseEntity<?> getUser(@RequestParam(value="username") String username){
+        return ResponseEntity.ok(jwtUserDetailsService.getByUsername(username));
     }
+
+
 
 }

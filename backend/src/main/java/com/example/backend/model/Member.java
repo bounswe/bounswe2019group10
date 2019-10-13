@@ -7,7 +7,7 @@ public class Member{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
-    @SequenceGenerator(name="id_generator", sequenceName = "member_id_seq", allocationSize=50)
+    @SequenceGenerator(name="id_generator", sequenceName = "member_id_seq", allocationSize = 1)
     @Column(name = "id")
     private int id;
 
@@ -32,6 +32,9 @@ public class Member{
     @Column(name = "name")
     private String name;
 
+    @Column(name="surname")
+    private String surname;
+
 
 
 
@@ -42,9 +45,6 @@ public class Member{
     public Member(String name, String password) {
         this.password = password;
         this.username = name;
-        this.mail = null;
-        this.bio = null;
-        this.isExpert = null;
         this.role = "USER";
     }
 
@@ -52,8 +52,6 @@ public class Member{
         this.password = password;
         this.username = name;
         this.mail = email;
-        this.bio = null;
-        this.isExpert = null;
         this.role = "USER";
     }
 
@@ -93,10 +91,6 @@ public class Member{
         this.username = name;
     }
 
-    public Boolean isExpert() {
-        return isExpert;
-    }
-
     public String getBio() {
         return bio;
     }
@@ -123,5 +117,17 @@ public class Member{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getExpert() {
+        return isExpert;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 }

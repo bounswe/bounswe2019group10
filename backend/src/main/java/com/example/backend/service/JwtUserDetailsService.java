@@ -43,7 +43,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         return newUser;
     }
 
-    public Member getByName(String name) {
+    public Member getByUsername(String name) {
         return memberRepository.findByUsername(name);
     }
 
@@ -53,6 +53,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         newUser.setUsername(user.getUsername());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
         newUser.setMail(user.getMail());
+        newUser.setName(user.getName());
+        newUser.setSurname(user.getSurname());
         newUser.setRole("USER");
         return memberRepository.save(newUser);
     }
