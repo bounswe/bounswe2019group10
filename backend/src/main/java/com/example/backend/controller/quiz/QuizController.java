@@ -16,8 +16,14 @@ public class QuizController {
     @Autowired
     private QuizService quizService;
 
+    @GetMapping()
+    public ResponseEntity<?> getAllQuizzes() {
+        return ResponseEntity.ok(quizService.findAll());
+    }
+
     @GetMapping("/{quizId}")
     public ResponseEntity<?> getById(@PathVariable int quizId) {
         return ResponseEntity.ok(quizService.getById(quizId));
     }
+
 }

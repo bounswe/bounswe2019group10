@@ -1,10 +1,18 @@
 package com.example.backend.service.quiz;
 
+import com.example.backend.model.quiz.Question;
+import com.example.backend.model.quiz.QuestionDTO;
 import com.example.backend.model.quiz.Quiz;
+import com.example.backend.model.quiz.QuizDTO;
 import com.example.backend.repository.quiz.QuestionRepository;
 import com.example.backend.repository.quiz.QuizRepository;
+import com.example.backend.service.dtoconverterservice.QuestionDTOConverterService;
+import com.example.backend.service.dtoconverterservice.QuizDTOConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class QuizService {
@@ -15,7 +23,28 @@ public class QuizService {
     @Autowired
     private QuestionRepository questionRepository;
 
-    public Quiz getById(int id) {
-        return quizRepository.getOne(id);
+    @Autowired
+    private QuizDTOConverterService quizDTOConverterService;
+
+    @Autowired
+    private QuestionDTOConverterService questionDTOConverterService;
+
+    public QuizDTO getById(int id) {
+        Quiz quiz = quizRepository.getOne(id);
+        List<Question> questions = questionRepository.getAllByQuiz(quiz);
+
+        List<QuestionDTO> questionDTOS = new ArrayList<>();
+
+        questions.forEach(question -> questionDTOS.add(questionDTOConverterService.apply(question)));
+
+        return quizDTOConverterService.apply(quiz, questionDTOS);
+    }
+
+    public List<QuizDTO> findAll() {
+        List<QuizDTO> quizDTOS = new ArrayList<>();
+
+        quizRepository.findAll().forEach(quiz -> quizDTOS.add(quizDTOConverterService.apply(quiz, null)));
+
+        return quizDTOS;
     }
 }

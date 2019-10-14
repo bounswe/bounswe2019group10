@@ -1,34 +1,20 @@
 package com.example.backend.model.quiz;
 
+public class QuestionDTO {
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "question")
-public class Question {
-
-    @Id
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "question_text")
     private String questionText;
 
-    @Column(name = "first_choice")
     private String firstChoice;
 
-    @Column(name = "second_choice")
     private String secondChoice;
 
-    @Column(name = "third_choice")
     private String thirdChoice;
 
-    @Column(name = "correct_choice_id")
     private int correctChoiceId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "QUIZ_ID")
-    private Quiz quiz;
+    private int quizId;
 
     public int getId() {
         return id;
@@ -78,11 +64,11 @@ public class Question {
         this.correctChoiceId = correctChoiceId;
     }
 
-    public Quiz getQuiz() {
-        return quiz;
+    public int getQuizId() {
+        return quizId;
     }
 
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
+    public void setQuizId(int quizId) {
+        this.quizId = quizId;
     }
 }
