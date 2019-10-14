@@ -73,6 +73,7 @@ public class JwtAuthenticationController {
                 userDetailsService.getByUsername(user.getUsername()) != null) {
             throw new Exception("User already exists");
         }
-        return ResponseEntity.ok(userDetailsService.save(user));
+        userDetailsService.save(user);
+        return createAuthenticationToken(new JwtRequest(user.getUsername(), user.getPassword()));
     }
 }
