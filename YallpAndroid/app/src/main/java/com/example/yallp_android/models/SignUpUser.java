@@ -3,12 +3,12 @@ package com.example.yallp_android.models;
 public class SignUpUser {
 
     private String username;
-    private String email;
+    private String mail;
     private String password;
 
-    public SignUpUser(String username, String email, String password){
+    public SignUpUser(String username, String mail, String password){
         this.username = username;
-        this.email = email;
+        this.mail = mail;
         this.password = password;
     }
 
@@ -20,12 +20,12 @@ public class SignUpUser {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public String getMail() {
+        return mail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public String getPassword() {

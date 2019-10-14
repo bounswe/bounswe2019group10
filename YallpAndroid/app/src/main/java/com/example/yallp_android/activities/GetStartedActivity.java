@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -96,6 +97,10 @@ public class GetStartedActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     context.startActivity(intent);
+                }
+                else{
+                    progressDialog.dismiss();
+                    Toast.makeText(getBaseContext(),"There has been an error!",Toast.LENGTH_LONG).show();
                 }
             }
 
