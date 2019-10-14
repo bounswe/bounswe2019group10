@@ -13,7 +13,7 @@ import com.example.yallp_android.models.SignUpUser;
 public interface UserApi {
 
     @Headers({"Content-Type: application/json"})
-    @POST("signup")
+    @POST("register")
     Call<ResponseBody> signup(
             @Body SignUpUser signupUser
     );

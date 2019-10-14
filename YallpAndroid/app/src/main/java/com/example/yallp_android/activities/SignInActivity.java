@@ -15,6 +15,8 @@ public class SignInActivity extends AppCompatActivity {
 
     private ImageView backButton;
     private Button signInButton;
+    private  EditText nameOrEmail;
+    private  EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +31,16 @@ public class SignInActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        nameOrEmail = findViewById(R.id.name);
+        password = findViewById(R.id.password);
 
         signInButton = findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(validate(nameOrEmail) && validate(password)){
+                    signIn();
+                }
 
             }
         });
@@ -46,5 +53,9 @@ public class SignInActivity extends AppCompatActivity {
         editText.setError("Please Fill This");
         editText.requestFocus();
         return false;
+    }
+
+    public void signIn(){
+
     }
 }

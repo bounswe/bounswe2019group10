@@ -5,7 +5,7 @@ import  com.example.yallp_android.util.Api.UserApi;
 
 public class UserRetroClient {
 
-    private final String baseUrl = "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com";
+    private final String baseUrl = "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/";
     private Retrofit retrofit = null;
     private static UserRetroClient instance;
 
