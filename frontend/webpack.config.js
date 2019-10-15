@@ -30,7 +30,7 @@ module.exports = {
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: 'http://localhost:4000'
+            apiUrl: 'http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com'
         })
     }
 }

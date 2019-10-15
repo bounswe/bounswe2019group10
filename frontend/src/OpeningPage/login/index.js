@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { history } from '../../_helpers';
+import { userActions } from '../../_actions';
 
-//import { userActions } from '../_actions';
-
-export default class LoginPage extends React.Component {
+class LoginPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -26,12 +25,11 @@ export default class LoginPage extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        history.push('/quiz');
-        // this.setState({ submitted: true });
-        // const { username, password } = this.state;
-        // if (username && password) {
-        //     this.props.login(username, password);
-        // }
+        this.setState({ submitted: true });
+        const { username, password } = this.state;
+        if (username && password) {
+            this.props.login(username, password);
+        }
     }
 
     render() {
@@ -73,9 +71,8 @@ function mapState(state) {
 }
 
 const actionCreators = {
- //   login: userActions.login,
- //   logout: userActions.logout
+   login: userActions.login
 };
 
 const connectedLoginPage = connect(mapState, actionCreators)(LoginPage);
-export { connectedLoginPage as LoginPage };
+export { connectedLoginPage as Login };

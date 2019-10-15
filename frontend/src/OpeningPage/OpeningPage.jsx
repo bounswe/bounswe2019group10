@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { Button,Container,Row,Col,Tab,Tabs } from 'react-bootstrap';
 import './OpeningPage.css';
 import JwModal from './modal';
-import Login from './login';
-import SignUp from './signup';
+import {Login} from './login';
+import {SignUp} from './signup';
 
 import { userActions } from '../_actions';
 
@@ -60,14 +60,10 @@ class OpeningPage extends React.Component {
 }
 
 function mapState(state) {
-    const { users, authentication } = state;
-    const { user } = authentication;
-    return { user, users };
+  return { };
 }
 
 const actionCreators = {
-    getUsers: userActions.getAll,
-    deleteUser: userActions.delete,
 }
 
 const connectedOpeningPage = connect(mapState, actionCreators)(OpeningPage);

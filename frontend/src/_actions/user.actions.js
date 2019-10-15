@@ -12,16 +12,18 @@ export const userActions = {
 };
 
 function login(username, password) {
-    return dispatch => {
+    return dispatch => {  
         dispatch(request({ username }));
 
         userService.login(username, password)
             .then(
-                user => { 
+                user => {
+                    console.log(user);
                     dispatch(success(user));
-                    history.push('/');
+                    // history.push('/');
                 },
                 error => {
+                    console.log(error.toString());
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
                 }
@@ -46,7 +48,7 @@ function register(user) {
             .then(
                 user => { 
                     dispatch(success());
-                    history.push('/login');
+                    login(user.username,user.password);
                     dispatch(alertActions.success('Registration successful'));
                 },
                 error => {
