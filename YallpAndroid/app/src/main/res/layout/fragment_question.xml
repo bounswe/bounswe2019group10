@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:id="@+id/signInLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/option1"
+                android:tag="1"
+                style="@style/RadioButtonModel"
+                android:text="Option 1"></androidx.appcompat.widget.AppCompatRadioButton>
+
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/option2"
+                android:tag="2"
+                style="@style/RadioButtonModel"
+                android:text="Option 2"></androidx.appcompat.widget.AppCompatRadioButton>
+
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/option3"
+                android:tag="3"
+                style="@style/RadioButtonModel"
+                android:text="Option 3"></androidx.appcompat.widget.AppCompatRadioButton>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</LinearLayout>
