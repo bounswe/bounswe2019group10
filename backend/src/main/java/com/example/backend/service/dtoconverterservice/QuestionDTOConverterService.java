@@ -15,7 +15,7 @@ public class QuestionDTOConverterService {
         questionDTO.setSecondChoice(question.getSecondChoice());
         questionDTO.setQuestionText(question.getQuestionText());
         questionDTO.setThirdChoice(question.getThirdChoice());
-        questionDTO.setQuizId(question.getId());
+        questionDTO.setQuizId(question.getQuiz().getId());
 
         return questionDTO;
     }

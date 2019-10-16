@@ -31,7 +31,7 @@ public class QuizService {
 
     public QuizDTO getById(int id) {
         Quiz quiz = quizRepository.getOne(id);
-        List<Question> questions = questionRepository.getAllByQuiz(quiz);
+        List<Question> questions = questionRepository.getAllByQuizId(quiz.getId());
 
         List<QuestionDTO> questionDTOS = new ArrayList<>();
 
