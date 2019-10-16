@@ -11,46 +11,41 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/leftArrow"
-            android:layout_width="@dimen/leftArrowSize"
-            android:layout_height="@dimen/leftArrowSize"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/leftarrow"></androidx.appcompat.widget.AppCompatImageView>
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/questionNumberText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Question"
-            android:textSize="@dimen/titleTextSize"></androidx.appcompat.widget.AppCompatTextView>
+            android:textSize="@dimen/titleTextSize"/>
     </RelativeLayout>
-    <View
+    <ProgressBar
+        android:id="@+id/pBar"
+        android:layout_below="@+id/questionNumberLayout"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:id="@+id/line"
-        android:layout_marginBottom="40dp"
-        android:background="@android:color/darker_gray"
-        android:layout_below="@+id/questionNumberLayout">
-    </View>
+        android:layout_height="wrap_content"
+        android:minHeight="10dp"
+        android:max="1000"
+        android:indeterminate="false"
+        android:progress="0"
+        android:layout_marginBottom="35dp"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/questionFrameLayout"
-        android:layout_below="@+id/line">
+        android:layout_below="@+id/pBar">
     </FrameLayout>
 
 
     <Button
-        android:id="@+id/signUpButton"
+        android:id="@+id/quizSubmitButton"
         style="@style/SignInButtonTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="SIGN UP"
+        android:text="Check"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="40dp">
     </Button>

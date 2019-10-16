@@ -1,7 +1,9 @@
 package com.example.yallp_android.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.yallp_android.R;
 import com.example.yallp_android.models.LoginUserWithEmail;
 import com.example.yallp_android.models.LoginUserWithName;
+import com.example.yallp_android.models.Token;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 
 import okhttp3.ResponseBody;
@@ -81,7 +84,7 @@ public class SignInActivity extends AppCompatActivity {
         progressDialog.setMessage("Please Wait");
         progressDialog.show();
 
-        Call<ResponseBody> call;
+        Call<Token> call;
 
         if(isEmailEntered){
             call = UserRetroClient.getInstance().getUserApi().loginWithEmail(
@@ -93,11 +96,15 @@ public class SignInActivity extends AppCompatActivity {
 
         }
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<Token>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<Token> call, Response<Token> response) {
                 if(response.isSuccessful()){
                     progressDialog.dismiss();
+                    SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("token",response.body().getToken());
+                    editor.commit();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);
                 }else{
@@ -106,7 +113,7 @@ public class SignInActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<Token> call, Throwable t) {
 
             }
         });
