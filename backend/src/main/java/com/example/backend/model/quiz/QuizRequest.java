@@ -8,6 +8,9 @@ public class QuizRequest {
 
     private int quizId;
     private List<QuestionRequest> answers;
+    private int level;
+    int score;
+
 
     public int getQuizId() {
         return quizId;
@@ -24,4 +27,13 @@ public class QuizRequest {
     public void setAnswers(List<QuestionRequest> answers) {
         this.answers = answers;
     }
+
+    public int getLevel() { return level; }
+
+    public void setLevel(int level) { this.level = level; }
+
+    public int getScore() { return score; }
+
+    public void setScore(int score) { this.score = score; }
+
 }
