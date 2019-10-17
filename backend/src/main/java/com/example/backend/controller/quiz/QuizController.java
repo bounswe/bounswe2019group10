@@ -27,7 +27,7 @@ public class QuizController {
     @PostMapping("/{quiz_id}/submit")
     public ResponseEntity<?> evaluateQuizRequest(@PathVariable int quizId, @RequestBody QuizRequest quizRequest) {
         int score;
-        QuizRequest request = quizService.evaluateQuiz(QuizRequest);
+        QuizRequest request = quizService.evaluateQuiz(quizRequest);
         return ResponseEntity.ok(request);
     }
 
