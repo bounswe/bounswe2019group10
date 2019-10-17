@@ -1,9 +1,6 @@
 package com.example.backend.service.quiz;
 
-import com.example.backend.model.quiz.Question;
-import com.example.backend.model.quiz.QuestionDTO;
-import com.example.backend.model.quiz.Quiz;
-import com.example.backend.model.quiz.QuizDTO;
+import com.example.backend.model.quiz.*;
 import com.example.backend.repository.quiz.QuestionRepository;
 import com.example.backend.repository.quiz.QuizRepository;
 import com.example.backend.service.dtoconverterservice.QuestionDTOConverterService;
@@ -22,6 +19,7 @@ public class QuizService {
 
     @Autowired
     private QuestionRepository questionRepository;
+
 
     @Autowired
     private QuizDTOConverterService quizDTOConverterService;
@@ -42,9 +40,14 @@ public class QuizService {
 
     public List<QuizDTO> findAll() {
         List<QuizDTO> quizDTOS = new ArrayList<>();
-
         quizRepository.findAll().forEach(quiz -> quizDTOS.add(quizDTOConverterService.apply(quiz, null)));
-
         return quizDTOS;
     }
+
+    public QuizRequest evaluateQuiz(QuizRequest quizRequest){
+        int quizId = quizRequest.getQuizId();
+        questionRepository.getAllByQuiz();
+    }
+
+
 }
