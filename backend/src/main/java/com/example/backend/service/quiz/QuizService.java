@@ -51,6 +51,7 @@ public class QuizService {
         int quizId = quizRequest.getQuizId();
         List<Question> questions =  questionRepository.getAllByQuizId(quizId);
         int N = questions.size();
+
         for(int i=0;i<N;++i){
             QuestionRequest questionRequest = quizRequest.getAnswers().get(i);
             Question correspondingQuestion = questionRepository.getOne(questionRequest.getQuestionId());
@@ -73,7 +74,6 @@ public class QuizService {
         quizRequest.setScore(score);
 
         //TODO ADD THE DETAILS OF THE QUIZ TO THE NEW TABLE
-
         return  quizRequest;
     }
 
