@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="40dp"
-            android:background="@android:color/darker_gray"></View>
+            android:background="@android:color/darker_gray"/>
 
 
         <LinearLayout
@@ -79,7 +79,7 @@
                     style="@style/InputModel"
                     android:hint="Your password..."
                     android:inputType="textPassword"
-                    android:maxLines="1"></androidx.appcompat.widget.AppCompatEditText>
+                    android:maxLines="1"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="40dp"
-                android:text="SIGN IN"></Button>
+                android:text="SIGN IN"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/forgotPasswordButton"
@@ -100,7 +100,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="FORGOT PASSWORD"
-                android:textColor="@android:color/holo_blue_dark"></androidx.appcompat.widget.AppCompatTextView>
+                android:textColor="@android:color/holo_blue_dark"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -2,7 +2,9 @@ package com.example.yallp_android.util.Api;
 
 import com.example.yallp_android.models.LoginUserWithEmail;
 import com.example.yallp_android.models.LoginUserWithName;
+import com.example.yallp_android.models.Quiz;
 import com.example.yallp_android.models.SignUpUser;
+import com.example.yallp_android.models.Token;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -14,19 +16,19 @@ public interface UserApi {
 
     @Headers({"Content-Type: application/json"})
     @POST("register")
-    Call<ResponseBody> signup(
+    Call<Token> signup(
             @Body SignUpUser signupUser
     );
 
     @Headers({"Content-Type: application/json"})
     @POST("authenticate")
-    Call<ResponseBody> loginWithName(
+    Call<Token> loginWithName(
             @Body LoginUserWithName loginUserWithName
     );
 
     @Headers({"Content-Type: application/json"})
     @POST("authenticate")
-    Call<ResponseBody> loginWithEmail(
+    Call<Token> loginWithEmail(
             @Body LoginUserWithEmail loginUserWithEmail
     );
 

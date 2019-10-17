@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -16,13 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yallp_android.R;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import com.example.yallp_android.models.SignUpUser;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
+import com.example.yallp_android.models.Token;
 
 public class GetStartedActivity extends AppCompatActivity {
 
@@ -85,16 +86,20 @@ public class GetStartedActivity extends AppCompatActivity {
         progressDialog.setMessage("Please Wait");
         progressDialog.show();
 
-        Call<ResponseBody> call;
+        Call<Token> call;
 
         call = UserRetroClient.getInstance().getUserApi().signup(
                 new SignUpUser(username.getText().toString(),email.getText().toString(),password.getText().toString()));
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<Token>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<Token> call, Response<Token> response) {
                 if(response.isSuccessful()){
                     progressDialog.dismiss();
+                    SharedPreferences sharedPref = getSharedPreferences("yallp",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("token",response.body().getToken());
+                    editor.commit();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     context.startActivity(intent);
                 }
@@ -105,7 +110,7 @@ public class GetStartedActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<Token> call, Throwable t) {
 
             }
         });
