@@ -46,7 +46,9 @@ public class QuizService {
 
     public QuizRequest evaluateQuiz(QuizRequest quizRequest){
         int quizId = quizRequest.getQuizId();
-        questionRepository.getAllByQuiz();
+        List<Question> questions =  questionRepository.getAllByQuizId(quizId);
+        //questionRepository.getAllByQuiz();
+        return  quizRequest;//TODO REMOVE
     }
 
 
