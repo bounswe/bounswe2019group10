@@ -1,6 +1,6 @@
 package com.example.backend.model.quiz;
 
-class QuestionRequest {
+public class QuestionRequest {
     int questionId;
     int choiceId;
     int correctId;

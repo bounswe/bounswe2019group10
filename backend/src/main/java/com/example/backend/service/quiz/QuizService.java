@@ -45,10 +45,36 @@ public class QuizService {
     }
 
     public QuizRequest evaluateQuiz(QuizRequest quizRequest){
+        //Take the request, add the nececssary fields and send back
+        Quiz quiz = quizRepository.getOne(quizRequest.getQuizId());
+        int score = 0;
         int quizId = quizRequest.getQuizId();
         List<Question> questions =  questionRepository.getAllByQuizId(quizId);
-        //questionRepository.getAllByQuiz();
-        return  quizRequest;//TODO REMOVE
+        int N = questions.size();
+        for(int i=0;i<N;++i){
+            QuestionRequest questionRequest = quizRequest.getAnswers().get(i);
+            Question correspondingQuestion = questionRepository.getOne(questionRequest.getQuestionId());
+            int userChoiceId = questionRequest.getChoiceId();
+            int questionCorrectId = correspondingQuestion.getCorrectChoiceId();
+            questionRequest.setCorrectId(questionCorrectId);
+            if(userChoiceId == questionCorrectId){
+                score++;
+                questionRequest.setTrue(true);
+            }else{
+                questionRequest.setTrue(false);
+            }
+        }
+        //If the exam is of type: level
+        if(quiz.getQuizType().equals("level")){
+            int level = score*10/N; //Levels are between 1-10
+            quizRequest.setLevel(level);
+        }
+
+        quizRequest.setScore(score);
+
+        //TODO ADD THE DETAILS OF THE QUIZ TO THE NEW TABLE
+
+        return  quizRequest;
     }
 
 
