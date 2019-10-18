@@ -1,6 +1,7 @@
 package com.example.yallp_android.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yallp_android.R;
+import com.example.yallp_android.fragments.AreYouSureFragment;
 import com.example.yallp_android.fragments.QuestionFragment;
 
 import com.example.yallp_android.models.Quiz;
@@ -133,6 +135,12 @@ public class QuizActivity extends AppCompatActivity {
         ft.replace(R.id.questionFrameLayout, fragment);
         ft.commit();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DialogFragment newFragment = new AreYouSureFragment();
+        newFragment.show(getSupportFragmentManager(), "sure");
     }
 }
 
