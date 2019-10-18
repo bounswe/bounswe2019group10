@@ -2,66 +2,109 @@ package com.example.yallp_android.models;
 
 public class UserInfo {
 
-    private int userId;
-    private String userBio;
-    private String userPass;
-    private String userUsername;
-    private String userMail;
-    private String userName;
-    private String userSurname;
-    private String userExpert;
-    private boolean userEnabled;
+    private int id;
 
-    public UserInfo(int userId, String userBio, String userPass, String userUsername, String userMail, String userName, String userSurname, String userExpert, boolean userEnabled) {
-        this.userId = userId;
-        this.userBio = userBio;
-        this.userPass = userPass;
-        this.userUsername = userUsername;
-        this.userMail = userMail;
-        this.userName = userName;
-        this.userSurname = userSurname;
-        this.userExpert = userExpert;
-        this.userEnabled = userEnabled;
+    public int getId() {
+        return id;
     }
 
-
-    public String getUserBio() {
-        return userBio;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setUserBio(String userBio) {
-        this.userBio = userBio;
+    public String getBio() {
+        return bio;
     }
 
-    public String getUserUsername() {
-        return userUsername;
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
-    public void setUserUsername(String userUsername) {
-        this.userUsername = userUsername;
+    public String getPassword() {
+        return password;
     }
 
-    public String getUserMail() {
-        return userMail;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setUserMail(String userMail) {
-        this.userMail = userMail;
+    public String getUsername() {
+        return username;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getMail() {
+        return mail;
     }
 
-    public String getUserSurname() {
-        return userSurname;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-    public void setUserSurname(String userSurname) {
-        this.userSurname = userSurname;
+    public String getRole() {
+        return role;
     }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getExpert() {
+        return expert;
+    }
+
+    public void setExpert(String expert) {
+        this.expert = expert;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    private String bio;
+    private String password;
+    private String username;
+    private String mail;
+    private String role;
+    private String name;
+    private String surname;
+    private String expert;
+    private boolean enabled;
+
+    public UserInfo(int id, String bio, String password, String username, String mail, String role, String name, String surname, String expert, boolean enabled) {
+        this.id = id;
+        this.bio = bio;
+        this.password = password;
+        this.username = username;
+        this.mail = mail;
+        this.role = role;
+        this.name = name;
+        this.surname = surname;
+        this.expert = expert;
+        this.enabled = enabled;
+    }
+
 }

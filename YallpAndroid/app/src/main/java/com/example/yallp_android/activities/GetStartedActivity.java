@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -67,14 +68,14 @@ public class GetStartedActivity extends AppCompatActivity {
         if (editText.getText().toString().trim().length() > 0) {
             return false;
         }
-        editText.setError("Please Fill This");
+        editText.setError("This area cannot be blank.");
         editText.requestFocus();
         return true;
     }
 
     public boolean isValidEmail(EditText editText){
         if(!android.util.Patterns.EMAIL_ADDRESS.matcher(editText.getText().toString()).matches()){
-            editText.setError("Please enter a valid email");
+            editText.setError("Please enter a valid email.");
             editText.requestFocus();
             return false;
         }
@@ -83,22 +84,24 @@ public class GetStartedActivity extends AppCompatActivity {
     public void signUp(){
         final ProgressDialog progressDialog = new ProgressDialog(GetStartedActivity.this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Please Wait");
+        progressDialog.setMessage("Please wait...");
         progressDialog.show();
 
         Call<Token> call;
 
         call = UserRetroClient.getInstance().getUserApi().signup(
                 new SignUpUser(username.getText().toString(),email.getText().toString(),password.getText().toString()));
-
+        Log.i("Melih_debug", call.toString());
         call.enqueue(new Callback<Token>() {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if(response.isSuccessful()){
+                    Log.i("Melih_debug", "success, token: " + response.body().getToken());
                     progressDialog.dismiss();
                     SharedPreferences sharedPref = getSharedPreferences("yallp",Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("token",response.body().getToken());
+                    editor.putBoolean("newSession", true);
                     editor.commit();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     context.startActivity(intent);
@@ -111,7 +114,8 @@ public class GetStartedActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
-
+                Log.i("Melih_debug", t.getMessage());
+                progressDialog.dismiss();
             }
         });
     }

@@ -56,14 +56,15 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
-            android:id="@+id/englishLayout">
+            >
 
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:columnCount="3"
-                android:background="@drawable/border_image">
+                android:background="@drawable/border_image"
+                android:id="@+id/englishLayout">
 
                 <ImageView
                     android:layout_width="100dp"

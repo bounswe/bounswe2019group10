@@ -64,14 +64,14 @@ public class SignInActivity extends AppCompatActivity {
         if (editText.getText().toString().trim().length() > 0) {
             return false;
         }
-        editText.setError("Please Fill This");
+        editText.setError("This area cannot be blank.");
         editText.requestFocus();
         return true;
     }
 
     public boolean isValidEmail(EditText editText){
         if(!android.util.Patterns.EMAIL_ADDRESS.matcher(editText.getText().toString()).matches()){
-            editText.setError("Please enter a valid email");
+            editText.setError("Please enter a valid email.");
             editText.requestFocus();
             return false;
         }
@@ -81,7 +81,7 @@ public class SignInActivity extends AppCompatActivity {
     public void signIn(){
         final ProgressDialog progressDialog = new ProgressDialog(SignInActivity.this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Please Wait");
+        progressDialog.setMessage("Please wait...");
         progressDialog.show();
 
         Call<Token> call;
@@ -104,6 +104,7 @@ public class SignInActivity extends AppCompatActivity {
                     SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("token",response.body().getToken());
+                    editor.putBoolean("newSession", true);
                     editor.commit();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);
