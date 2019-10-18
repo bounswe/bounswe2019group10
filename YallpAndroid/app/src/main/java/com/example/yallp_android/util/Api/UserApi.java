@@ -5,10 +5,12 @@ import com.example.yallp_android.models.LoginUserWithName;
 import com.example.yallp_android.models.Quiz;
 import com.example.yallp_android.models.SignUpUser;
 import com.example.yallp_android.models.Token;
+import com.example.yallp_android.models.UserInfo;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -30,6 +32,11 @@ public interface UserApi {
     @POST("authenticate")
     Call<Token> loginWithEmail(
             @Body LoginUserWithEmail loginUserWithEmail
+    );
+
+    @Headers({"Content-Type: application/json"})
+    @GET("member/profile")
+    Call<UserInfo> profileInfo(
     );
 
 }
