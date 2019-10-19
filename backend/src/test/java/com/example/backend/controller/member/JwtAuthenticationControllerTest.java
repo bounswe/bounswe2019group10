@@ -3,14 +3,15 @@ package com.example.backend.controller.member;
 import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.member.JwtRequest;
 import com.example.backend.model.member.JwtResponse;
+import com.example.backend.model.member.Member;
+import com.example.backend.model.member.MemberDTO;
+import com.example.backend.repository.member.MemberRepository;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +20,9 @@ class JwtAuthenticationControllerTest {
 
     @Autowired
     JwtAuthenticationController jwtAuthenticationController;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -47,5 +51,20 @@ class JwtAuthenticationControllerTest {
         assertEquals("username9", username);
     }
 
+    @DisplayName("Save user testing")
+    @Test
+    void testAuthenticationSaveUser() throws Exception {
+        MemberDTO dto = new MemberDTO();
+        dto.setUsername("usernameTest");
+        dto.setPassword("passwordTest");
+        dto.setMail("test@test.com");
 
+        jwtAuthenticationController.saveUser(dto);
+
+        Member member = memberRepository.findByUsername("usernameTest");
+
+        memberRepository.deleteById(member.getId());
+
+        assertEquals("usernameTest", member.getUsername());
+    }
 }
