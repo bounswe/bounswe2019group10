@@ -102,6 +102,7 @@ public class GetStartedActivity extends AppCompatActivity {
                     editor.commit();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     context.startActivity(intent);
+                    finish();
                 }
                 else{
                     progressDialog.dismiss();

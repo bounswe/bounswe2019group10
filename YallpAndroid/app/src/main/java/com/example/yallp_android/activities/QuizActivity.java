@@ -14,6 +14,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +35,13 @@ public class QuizActivity extends AppCompatActivity {
     private Quiz currentQuiz;
     private int currentQuestion = 0;
     private Button submitButton;
-    private int[] answers;
-    private  RadioButton[] options = new RadioButton[3];
+    private int[] givenAnswers;
+    private int currentAnswer;
     private TextView questionNumberText;
     private boolean isQuestionChecked = false;
     private ProgressBar pbar;
     private ObjectAnimator progressAnimator;
+    private RadioGroup optionGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,53 +55,53 @@ public class QuizActivity extends AppCompatActivity {
         this.submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int answer = 0;
                 int correctAnswer = currentQuiz.getQuestions()[currentQuestion].getCorrectChoiceId();
-                if (!isQuestionChecked) {
-                    isQuestionChecked = true;
-                    submitButton.setText("Next");
-                    options[0] = findViewById(R.id.option1);
-                    options[1] = findViewById(R.id.option2);
-                    options[2] = findViewById(R.id.option3);
-                    options[0].setEnabled(false);
-                    options[1].setEnabled(false);
-                    options[2].setEnabled(false);
+                optionGroup = findViewById(R.id.optionGroup);
+                if(optionGroup.getCheckedRadioButtonId() != -1){
+                    if (!isQuestionChecked) {
+                        isQuestionChecked = true;
+                        submitButton.setText("Next");
+                        for (int i = 0; i < optionGroup.getChildCount(); i++) {
+                            optionGroup.getChildAt(i).setEnabled(false);
+                        }
+                        switch (optionGroup.getCheckedRadioButtonId()){
+                            case  R.id.option1:{
+                                currentAnswer = 1;
+                                break;
+                            }
+                            case  R.id.option2:{
+                                currentAnswer = 2;
+                                break;
+                            }
+                            case  R.id.option3:{
+                                currentAnswer = 3;
+                                break;
+                            }
+                        }
+                        if (correctAnswer == currentAnswer) {
+                            Toast.makeText(getBaseContext(), "Correct!!", Toast.LENGTH_SHORT).show();
+                            ((RadioButton) optionGroup.getChildAt(correctAnswer-1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_check,0);
 
-                    if (options[0].isChecked()) {
-                        answer = 1;
+                        }
+                        else{
+                            Toast.makeText(getBaseContext(), "Wrong!!", Toast.LENGTH_SHORT).show();
+                            ((RadioButton) optionGroup.getChildAt(correctAnswer-1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_check,0);
+                            ((RadioButton) optionGroup.getChildAt(currentAnswer-1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_close,0);
+                        }
                     }
-                    else if (options[1].isChecked()) {
-                        answer = 2;
-                    }
-                    else if (options[2].isChecked()) {
-                        answer = 3;
-                    }
-                    if (answer == 0) {
-                        Toast.makeText(getBaseContext(), "Please answer the question to continue", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (correctAnswer == answer) {
-                        Toast.makeText(getBaseContext(), "Correct!!", Toast.LENGTH_SHORT).show();
-                        options[correctAnswer-1].setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_check,0);
-
-                    }
-                    else{
-                        Toast.makeText(getBaseContext(), "Wrong!!", Toast.LENGTH_SHORT).show();
-                        options[correctAnswer-1].setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_check,0);
-                        options[answer-1].setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_close,0);
+                    else if (isQuestionChecked) {
+                        isQuestionChecked = false;
+                        submitButton.setText("Check");
+                        givenAnswers[currentQuestion] = currentAnswer;
+                        currentQuestion++;
+                        progressAnimator = ObjectAnimator.ofInt(pbar, "progress", pbar.getProgress(), (currentQuestion + 1) * 100);
+                        progressAnimator.setDuration(500).setInterpolator(new DecelerateInterpolator());
+                        progressAnimator.start();
+                        questionNumberText.setText("Question " + (currentQuestion + 1));
+                        placeQuestionFragment(currentQuestion);
                     }
                 }
-                else if (isQuestionChecked) {
-                    isQuestionChecked = false;
-                    submitButton.setText("Check");
-                    answers[currentQuestion] = answer;
-                    currentQuestion++;
-                    progressAnimator = ObjectAnimator.ofInt(pbar, "progress", pbar.getProgress(), currentQuestion * 100);
-                    progressAnimator.setDuration(500).setInterpolator(new DecelerateInterpolator());
-                    progressAnimator.start();
-                    questionNumberText.setText("Question " + (currentQuestion + 1));
-                    placeQuestionFragment(currentQuestion);
-                }
+
             }
         });
 
@@ -114,7 +116,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onResponse(Call<Quiz> call, Response<Quiz> response) {
                 if (response.isSuccessful()) {
                     currentQuiz = response.body();
-                    answers = new int[currentQuiz.getQuestions().length];
+                    givenAnswers = new int[currentQuiz.getQuestions().length];
                     placeQuestionFragment(0);
                     questionNumberText.setText("Question " + (currentQuestion + 1));
                 } else {

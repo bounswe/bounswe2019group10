@@ -25,6 +25,7 @@ public class AreYouSureFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent i  = new Intent(getContext(), ProfileActivity.class);
                         startActivity(i);
+                        getActivity().finish();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

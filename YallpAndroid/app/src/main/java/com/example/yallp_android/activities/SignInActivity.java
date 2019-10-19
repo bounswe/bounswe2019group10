@@ -107,6 +107,7 @@ public class SignInActivity extends AppCompatActivity {
                     editor.commit();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);
+                    finish();
                 }else{
                     progressDialog.dismiss();
                 }
