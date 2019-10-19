@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-/*
+
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.Response;
-*/
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class JwtAuthenticationControllerTest {
-/*
+
     @Autowired
     JwtAuthenticationController jwtAuthenticationController;
 
@@ -46,6 +46,6 @@ class JwtAuthenticationControllerTest {
         String username = jwtTokenUtil.getUsernameFromToken(bearer.getToken());
         assertEquals("username9", username);
     }
-*/
+
 
 }
