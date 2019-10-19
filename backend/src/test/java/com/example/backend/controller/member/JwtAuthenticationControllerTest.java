@@ -51,7 +51,6 @@ class JwtAuthenticationControllerTest {
         assertEquals("username9", username);
     }
 
-
     @DisplayName("Save user testing")
     @Test
     void testAuthenticationSaveUser() throws Exception {
@@ -68,6 +67,4 @@ class JwtAuthenticationControllerTest {
 
         assertEquals("usernameTest", member.getUsername());
     }
-
-
 }

@@ -21,6 +21,9 @@ public class Quiz {
     @Column(name = "level")
     private int level;
 
+    @Column(name = "language_id")
+    private Integer languageId;
+
     public int getId() {
         return id;
     }
@@ -43,5 +46,13 @@ public class Quiz {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public Integer getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(Integer languageId) {
+        this.languageId = languageId;
     }
 }
