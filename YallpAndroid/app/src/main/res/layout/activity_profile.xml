@@ -35,7 +35,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="20dp"
                 android:gravity="center"
-                android:text="Melih Demir" />
+                android:text="username"
+                android:id="@+id/profileUsername"/>
 
             <TextView
                 style="@style/MainTitle"
@@ -44,7 +45,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="demirmelih@gmail.com" />
+                android:text="mail address"
+                android:id="@+id/profileMail"/>
 
         </LinearLayout>
 
@@ -54,14 +56,15 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
-            android:id="@+id/englishLayout">
+            >
 
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:columnCount="3"
-                android:background="@drawable/border_image">
+                android:background="@drawable/border_image"
+                android:id="@+id/englishLayout">
 
                 <ImageView
                     android:layout_width="100dp"
