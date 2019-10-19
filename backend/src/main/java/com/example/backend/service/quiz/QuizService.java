@@ -1,6 +1,10 @@
 package com.example.backend.service.quiz;
 
+import com.example.backend.model.member.Member;
+import com.example.backend.model.member.MemberLanguage;
 import com.example.backend.model.quiz.*;
+import com.example.backend.repository.member.MemberLanguageRepository;
+import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.repository.quiz.QuestionRepository;
 import com.example.backend.repository.quiz.QuizRepository;
 import com.example.backend.service.dtoconverterservice.QuestionDTOConverterService;
@@ -20,6 +24,11 @@ public class QuizService {
     @Autowired
     private QuestionRepository questionRepository;
 
+    @Autowired
+    private MemberLanguageRepository memberLanguageRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Autowired
     private QuizDTOConverterService quizDTOConverterService;
@@ -44,8 +53,9 @@ public class QuizService {
         return quizDTOS;
     }
 
-    public QuizRequest evaluateQuiz(QuizRequest quizRequest){
+    public QuizRequest evaluateQuiz(QuizRequest quizRequest, String memberUname){
         //Take the request, add the nececssary fields and send back
+        Member curMember = memberRepository.findByUsername(memberUname);
         Quiz quiz = quizRepository.getOne(quizRequest.getQuizId());
         int score = 0;
         int quizId = quizRequest.getQuizId();
@@ -69,11 +79,25 @@ public class QuizService {
         if(quiz.getQuizType().equals("level")){
             int level = score*10/N; //Levels are between 1-10
             quizRequest.setLevel(level);
+            Integer languageId = quiz.getLanguageId();
+            if(languageId == null){
+                //Default is english:
+                languageId = 1;
+            }
+            //Insert into member_language
+            //Check if the member already exists:
+            MemberLanguage memberLanguage = memberLanguageRepository.getByMemberId(curMember.getId());
+            if(memberLanguage == null){
+                memberLanguage = new MemberLanguage(curMember.getId(), languageId);
+            }
+            memberLanguage.setLanguageLevel(level);
+
+            memberLanguageRepository.save(memberLanguage);
         }
 
         quizRequest.setScore(score);
 
-        //TODO ADD THE DETAILS OF THE QUIZ TO THE NEW TABLE
+        //TODO ADD THE DETAILS OF THE QUIZ TO THE NEW TABLE -> quiz_result table
         return  quizRequest;
     }
 
