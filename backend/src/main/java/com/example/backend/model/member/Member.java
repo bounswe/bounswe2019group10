@@ -1,5 +1,10 @@
 package com.example.backend.model.member;
+import com.example.backend.model.quiz.MemberLanguage;
+import org.hibernate.annotations.BatchSize;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -35,9 +40,23 @@ public class Member{
     @Column(name="surname")
     private String surname;
 
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @BatchSize(size = 10)
+    @JoinColumn(name = "member_id")
+    private List<MemberLanguage> memberLanguages = new ArrayList<>();
 
 
-
+    public Member(Boolean isExpert, String bio, String password, String username, String mail, String role, String name, String surname, List<MemberLanguage> memberLanguages) {
+        this.isExpert = isExpert;
+        this.bio = bio;
+        this.password = password;
+        this.username = username;
+        this.mail = mail;
+        this.role = role;
+        this.name = name;
+        this.surname = surname;
+        this.memberLanguages = memberLanguages;
+    }
 
     public Member() {
     }
@@ -55,7 +74,13 @@ public class Member{
         this.role = "USER";
     }
 
+    public List<MemberLanguage> getMemberLanguages() {
+        return memberLanguages;
+    }
 
+    public void setMemberLanguages(List<MemberLanguage> memberLanguages) {
+        this.memberLanguages = memberLanguages;
+    }
     public String getMail() {
         return mail;
     }
