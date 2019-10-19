@@ -2,12 +2,10 @@ package com.example.yallp_android.util.Api;
 
 import com.example.yallp_android.models.LoginUserWithEmail;
 import com.example.yallp_android.models.LoginUserWithName;
-import com.example.yallp_android.models.Quiz;
 import com.example.yallp_android.models.SignUpUser;
 import com.example.yallp_android.models.Token;
 import com.example.yallp_android.models.UserInfo;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
