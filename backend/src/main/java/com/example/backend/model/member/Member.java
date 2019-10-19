@@ -41,7 +41,6 @@ public class Member{
     private String surname;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @BatchSize(size = 10)
     @JoinColumn(name = "member_id")
     private List<MemberLanguage> memberLanguages = new ArrayList<>();
 
