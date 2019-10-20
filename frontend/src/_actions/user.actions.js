@@ -24,6 +24,8 @@ function login(username, password) {
                 },
                 error => {
                     console.log(error.toString());
+                    console.log("asdasd");
+                    setTimeout(function(){ console.log("time is up") }, 5000);
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
                 }
