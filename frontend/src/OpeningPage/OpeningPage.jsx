@@ -6,10 +6,14 @@ import './OpeningPage.css';
 import JwModal from './modal';
 import {Login} from './login';
 import {SignUp} from './signup';
-
 import { userActions } from '../_actions';
 
 class OpeningPage extends React.Component {
+  constructor(props) {
+    super(props);
+    // reset login status
+    this.props.logout();
+  }
     handleClick(action){
       if (action==="get-started"){
         alert(action);
@@ -64,6 +68,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
+  logout: userActions.logout
 }
 
 const connectedOpeningPage = connect(mapState, actionCreators)(OpeningPage);
