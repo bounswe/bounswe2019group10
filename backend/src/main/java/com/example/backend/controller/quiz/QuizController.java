@@ -32,6 +32,11 @@ public class QuizController {
         return ResponseEntity.ok(quizService.getById(quizId));
     }
 
+    @GetMapping("/level")
+    public ResponseEntity<?> getLevelQuiz() {
+        return ResponseEntity.ok(quizService.getById(66));
+    }
+
     @PostMapping("/{quizId}/submit")
     public ResponseEntity<?> evaluateQuizRequest(@PathVariable int quizId, @RequestBody QuizRequest quizRequest, HttpServletRequest request) {
         int score;
