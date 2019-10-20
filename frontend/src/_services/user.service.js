@@ -39,7 +39,6 @@ function getProfile(){
         method: 'GET',
         headers: {...authHeader(),"Access-Control-Allow-Origin":"*"}
     };
-    console.log(requestOptions);
     return fetch(`${config.apiUrl}/member/profile`, requestOptions).then(handleResponse);
 }
 
