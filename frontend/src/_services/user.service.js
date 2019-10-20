@@ -5,6 +5,7 @@ export const userService = {
     login,
     logout,
     register,
+    getProfile,
     getAll,
     getById,
     update,
@@ -31,6 +32,15 @@ function login(username, password) {
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
+}
+
+function getProfile(){
+    const requestOptions = {
+        method: 'GET',
+        headers: {...authHeader(),"Access-Control-Allow-Origin":"*"}
+    };
+    console.log(requestOptions);
+    return fetch(`${config.apiUrl}/member/profile`, requestOptions).then(handleResponse);
 }
 
 function getAll() {

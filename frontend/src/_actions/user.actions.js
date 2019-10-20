@@ -5,10 +5,9 @@ import { history } from '../_helpers';
 
 export const userActions = {
     login,
+    getProfile,
     logout,
     register,
-    getAll,
-    delete: _delete,
 };
 
 function login(username, password) {
@@ -18,14 +17,10 @@ function login(username, password) {
         userService.login(username, password)
             .then(
                 user => {
-                    console.log(user);
                     dispatch(success(user));
-                    // history.push('/');
+                    history.push('/');
                 },
                 error => {
-                    console.log(error.toString());
-                    console.log("asdasd");
-                    setTimeout(function(){ console.log("time is up") }, 5000);
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
                 }
@@ -49,9 +44,7 @@ function register(user) {
         userService.register(user)
             .then(
                 user => { 
-                    dispatch(success());
                     login(user.username,user.password);
-                    dispatch(alertActions.success('Registration successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -64,6 +57,26 @@ function register(user) {
     function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
 }
+
+function getProfile() {
+    return dispatch => {
+        userService.getProfile()
+            .then(
+                profile => { 
+                    dispatch(success(profile));
+                    dispatch(alertActions.success('Registration successful'));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function success(profile) { return { type: userConstants.PROFILE_SUCCESS, profile } }
+    function failure(error) { return { type: userConstants.PROFILE_FAILURE, error } }
+}
+
 
 function getAll() {
     return dispatch => {

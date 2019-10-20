@@ -1,0 +1,9 @@
+.correctOption {
+  border: 3px solid;
+  border-color: green;
+}
+
+.wrongOption {
+  border: 3px solid;
+  border-color: red;
+}

@@ -44,6 +44,15 @@ export function users(state = {}, action) {
           return user;
         })
       };
+    case userConstants.PROFILE_SUCCESS:
+      return {
+        ...state,
+        profile:action.profile
+      };
+    case userConstants.PROFILE_FAILURE:
+        return {
+          error: action.error
+        };
     default:
       return state
   }
