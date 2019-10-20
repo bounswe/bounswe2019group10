@@ -4,14 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import App from './App'
-import Users from './users'
+import ProfilePage from './ProfilePage'
 import * as serviceWorker from './serviceWorker';
 
 const routing = (
   <Router>
     <div>
       <Route exact path="/" component={App} />
-      <Route path="/users" component={Users} />
+      <Route path="/profile-page" component={ProfilePage} />
     </div>
   </Router>
 )
