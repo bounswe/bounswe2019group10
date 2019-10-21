@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Layout, Menu, Breadcrumb, Row, Col, Radio, Button,
+import { Layout, Menu, Breadcrumb, Row, Col, Radio, Button,Alert,
   Avatar, Descriptions, List } from 'antd';
 const { Header, Content, Footer } = Layout;
 import { quizActions } from '../_actions';
@@ -16,29 +16,30 @@ class QuizPage extends React.Component {
         showScore: false,
         score: 0,
         answers: [],
-        isSubmit: false
+        isSubmit: false,
+        optionClassNames: {}
       };
       this.handleOptionChange = this.handleOptionChange.bind(this);
       this.handleFormSubmit = this.handleFormSubmit.bind(this);
       this.getInitialState = this.getInitialState.bind(this);
     }
     componentDidMount() {
-      // this.setState({
-      //   quiz: [
-      //     {
-      //     "question": "q1",
-      //     "options": ["o11","o12","o13"],
-      //     "correct": 1
-      //     },
-      //     {
-      //     "question": "q2",
-      //     "options": ["o21","o22","o23"],
-      //     "correct": 2
-      //     }
-      //   ],
-      //   current: 0
-      // });
-      this.props.getQuiz(1);
+      this.setState({
+        quiz: [
+          {
+          "question": "q1",
+          "options": ["o11","o12","o13"],
+          "correct": 1
+          },
+          {
+          "question": "q2",
+          "options": ["o21","o22","o23"],
+          "correct": 2
+          }
+        ],
+        current: 0
+      });
+      // this.props.getQuiz(1);
     }
     getInitialState() {
       this.setState({
@@ -66,13 +67,19 @@ class QuizPage extends React.Component {
           this.setState({
             current: this.state.current+1,
             selectedOption: "",
-            isSubmit: false
+            isSubmit: false,
+            optionClassNames: {}
           });
         }
       } else {
+        const question = this.state.quiz[this.state.current];
+        let optionClassNames = {}
+        optionClassNames[this.state.selectedOption] = "wrongOption";
+        optionClassNames[question.correct] = "correctOption";
         this.setState({
           isSubmit: true,
-          answers: [...this.state.answers, {"questionId":this.state.current,"choiceId":this.state.selectedOption}]
+          answers: [...this.state.answers, {"questionId":this.state.current,"choiceId":this.state.selectedOption}],
+          optionClassNames: optionClassNames
         });
       }
       
@@ -81,7 +88,7 @@ class QuizPage extends React.Component {
     render() {
       if (this.state.quiz.length == 0){
         return (
-          <div className="jumbotron">
+          <div>
             <h1 className="display-4">Loading</h1>
           </div>
         );
@@ -97,10 +104,16 @@ class QuizPage extends React.Component {
         display: 'block',
         height: '30px',
         lineHeight: '30px',
+        margin: '20px',
+        "padding-left": "10px",
+        "padding-right": "10px",
+        "padding-top": "10px",
+        "padding-bottom": "40px",
       };
       const option1ClassName = this.state.submitted;
+      const question = this.state.quiz[this.state.current];
       return (
-        <Layout className="layout">
+        <Layout className="layout menu-style">
         <Header>
           <Row>
             <Col span={10} />
@@ -127,21 +140,33 @@ class QuizPage extends React.Component {
           </Row>
         </Header>
         <Content style={{ padding: '0 50px' }}>
-          <h1 className="display-4">Quiz Name</h1>
-          <p className="lead">{this.state.quiz[this.state.current].question}</p>
-          <Radio.Group onChange={this.handleOptionChange} value={this.state.selectedOption}>
-            <Radio style={radioStyle} disabled={this.state.isSubmit} className={"correctOption"} value={1}>
-              Option A
-            </Radio>
-            <Radio style={radioStyle} disabled={this.state.isSubmit} value={2}>
-              Option B
-            </Radio>
-            <Radio style={radioStyle} disabled={this.state.isSubmit} value={3}>
-              Option C
-            </Radio>
-          </Radio.Group>
-          <br></br>
-          <Button type="primary" onClick={this.handleFormSubmit}>{this.state.isSubmit ? "Next" : "Submit" }</Button>
+          {
+            this.state.quiz.length == 0 
+            ? <h1 className="display-4">Quiz is loading..</h1>
+            : (
+            <div>
+            <h1 className="display-4">Quiz Name</h1>
+            <h2 style={{ margin: '20px' }} className="lead">{this.state.quiz[this.state.current].question}</h2>
+            <Radio.Group onChange={this.handleOptionChange} value={this.state.selectedOption}>
+              {question.options.map((value, index) => {
+                return (
+                  <Radio style={radioStyle} disabled={this.state.isSubmit} className={this.state.optionClassNames[index+1]} value={index+1} key={index+1}>
+                    {value}
+                  </Radio>
+                );
+              })}
+            </Radio.Group>
+            <br></br>
+            <Button style={{ margin: '20px' }} type="primary" onClick={this.handleFormSubmit}>{this.state.isSubmit ? "Next Question" : "Submit" }</Button>
+            {this.state.isSubmit && this.state.selectedOption==question.correct &&
+              <Alert message="Your answer is correct!" type="success" />
+            }
+            {this.state.isSubmit && this.state.selectedOption!=question.correct &&
+              <Alert message={"Your answer is wrong! Correct answer is " + question.options[question.correct]+"!"} type="error" />
+            }
+            </div>
+            )
+          }
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           YALLP ©2019 Created by three awesome front-end developers.
