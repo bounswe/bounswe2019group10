@@ -24,22 +24,7 @@ class QuizPage extends React.Component {
       this.getInitialState = this.getInitialState.bind(this);
     }
     componentDidMount() {
-      this.setState({
-        quiz: [
-          {
-          "question": "q1",
-          "options": ["o11","o12","o13"],
-          "correct": 1
-          },
-          {
-          "question": "q2",
-          "options": ["o21","o22","o23"],
-          "correct": 2
-          }
-        ],
-        current: 0
-      });
-      // this.props.getQuiz(1);
+      this.props.getQuiz(1);
     }
     getInitialState() {
       this.setState({
@@ -72,10 +57,10 @@ class QuizPage extends React.Component {
           });
         }
       } else {
-        const question = this.state.quiz[this.state.current];
+        const question = this.props.quiz.quiz.questions[this.state.current];
         let optionClassNames = {}
         optionClassNames[this.state.selectedOption] = "wrongOption";
-        optionClassNames[question.correct] = "correctOption";
+        optionClassNames[question.correctChoiceId] = "correctOption";
         this.setState({
           isSubmit: true,
           answers: [...this.state.answers, {"questionId":this.state.current,"choiceId":this.state.selectedOption}],
@@ -86,13 +71,6 @@ class QuizPage extends React.Component {
     }
 
     render() {
-      if (this.state.quiz.length == 0){
-        return (
-          <div>
-            <h1 className="display-4">Loading</h1>
-          </div>
-        );
-      }
       if (this.state.showScore){
         return (
           <div className="jumbotron">
@@ -105,13 +83,26 @@ class QuizPage extends React.Component {
         height: '30px',
         lineHeight: '30px',
         margin: '20px',
-        "padding-left": "10px",
-        "padding-right": "10px",
-        "padding-top": "10px",
-        "padding-bottom": "40px",
+        paddingLeft: "10px",
+        paddingRight: "10px",
+        paddingTop: "10px",
+        paddingBottom: "40px",
       };
-      const option1ClassName = this.state.submitted;
-      const question = this.state.quiz[this.state.current];
+      const { quiz } = this.props;
+      let question = {};
+      let options = [];
+      let quizFınished = false;
+      if (Object.keys(quiz).length!=0){
+        if (quiz.quiz.questions.length-1 > this.state.current){
+          question = quiz.quiz.questions[this.state.current];
+          options.push(question.firstChoice);
+          options.push(question.secondChoice);
+          options.push(question.thirdChoice);
+        }else{
+          quizFınished = true;
+        }
+      }
+      
       return (
         <Layout className="layout menu-style">
         <Header>
@@ -141,14 +132,18 @@ class QuizPage extends React.Component {
         </Header>
         <Content style={{ padding: '0 50px' }}>
           {
-            this.state.quiz.length == 0 
+            quizFınished &&
+            <h1>Score is this</h1>
+          }
+          {
+            Object.keys(question).length === 0 && !quizFınished
             ? <h1 className="display-4">Quiz is loading..</h1>
             : (
             <div>
             <h1 className="display-4">Quiz Name</h1>
-            <h2 style={{ margin: '20px' }} className="lead">{this.state.quiz[this.state.current].question}</h2>
+            <h2 style={{ margin: '20px' }} className="lead">{question.questionText}</h2>
             <Radio.Group onChange={this.handleOptionChange} value={this.state.selectedOption}>
-              {question.options.map((value, index) => {
+              {options.map((value, index) => {
                 return (
                   <Radio style={radioStyle} disabled={this.state.isSubmit} className={this.state.optionClassNames[index+1]} value={index+1} key={index+1}>
                     {value}
@@ -161,8 +156,8 @@ class QuizPage extends React.Component {
             {this.state.isSubmit && this.state.selectedOption==question.correct &&
               <Alert message="Your answer is correct!" type="success" />
             }
-            {this.state.isSubmit && this.state.selectedOption!=question.correct &&
-              <Alert message={"Your answer is wrong! Correct answer is " + question.options[question.correct]+"!"} type="error" />
+            {this.state.isSubmit && this.state.selectedOption!=question.correctChoiceId &&
+              <Alert message={"Your answer is wrong! Correct answer is " + options[question.correctChoiceId-1]+"!"} type="error" />
             }
             </div>
             )

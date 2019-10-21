@@ -64,11 +64,9 @@ function getProfile() {
             .then(
                 profile => { 
                     dispatch(success(profile));
-                    dispatch(alertActions.success('Registration successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };

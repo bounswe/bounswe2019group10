@@ -7,7 +7,7 @@ export const quizService = {
 
 function getQuiz(quizId) {
     const requestOptions = {
-        method: 'POST',
+        method: 'GET',
         headers: { 'Content-Type': 'application/json', ...authHeader() }
     };
     return fetch(`${config.apiUrl}/quiz/${quizId}`, requestOptions)
