@@ -41,11 +41,11 @@
 
     <Button
         android:id="@+id/quizSubmitButton"
-        style="@style/SignInButtonTheme"
+        style="@style/OrangeBackgroundButtonTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Check"
+        android:text="@string/check"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="40dp">
     </Button>

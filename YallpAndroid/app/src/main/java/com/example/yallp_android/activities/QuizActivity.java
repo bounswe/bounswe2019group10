@@ -7,9 +7,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -22,7 +24,10 @@ import com.example.yallp_android.R;
 import com.example.yallp_android.fragments.AreYouSureFragment;
 import com.example.yallp_android.fragments.QuestionFragment;
 
+import com.example.yallp_android.models.Answer;
 import com.example.yallp_android.models.Quiz;
+import com.example.yallp_android.models.QuizAnswers;
+import com.example.yallp_android.models.QuizResult;
 import com.example.yallp_android.util.RetroClients.QuizRetroClient;
 
 import retrofit2.Call;
@@ -32,11 +37,13 @@ import retrofit2.Response;
 
 public class QuizActivity extends AppCompatActivity {
 
+    private SharedPreferences sharedPref;
     private Quiz currentQuiz;
     private int currentQuestion = 0;
     private Button submitButton;
     private int[] givenAnswers;
     private int currentAnswer;
+    private int nofQuestions;
     private TextView questionNumberText;
     private boolean isQuestionChecked = false;
     private ProgressBar pbar;
@@ -46,6 +53,8 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_quiz);
 
         this.submitButton = findViewById(R.id.quizSubmitButton);
@@ -57,66 +66,70 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int correctAnswer = currentQuiz.getQuestions()[currentQuestion].getCorrectChoiceId();
                 optionGroup = findViewById(R.id.optionGroup);
-                if(optionGroup.getCheckedRadioButtonId() != -1){
+                if (optionGroup.getCheckedRadioButtonId() != -1) {
                     if (!isQuestionChecked) {
                         isQuestionChecked = true;
-                        submitButton.setText("Next");
+                        if (currentQuestion == nofQuestions - 1) submitButton.setText(R.string.finish);
+                        else submitButton.setText(R.string.next);
                         for (int i = 0; i < optionGroup.getChildCount(); i++) {
                             optionGroup.getChildAt(i).setEnabled(false);
                         }
-                        switch (optionGroup.getCheckedRadioButtonId()){
-                            case  R.id.option1:{
+                        switch (optionGroup.getCheckedRadioButtonId()) {
+                            case R.id.option1: {
                                 currentAnswer = 1;
                                 break;
                             }
-                            case  R.id.option2:{
+                            case R.id.option2: {
                                 currentAnswer = 2;
                                 break;
                             }
-                            case  R.id.option3:{
+                            case R.id.option3: {
                                 currentAnswer = 3;
                                 break;
                             }
                         }
                         if (correctAnswer == currentAnswer) {
-                            Toast.makeText(getBaseContext(), "Correct!!", Toast.LENGTH_SHORT).show();
-                            ((RadioButton) optionGroup.getChildAt(correctAnswer-1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_check,0);
+                            //    Toast.makeText(getBaseContext(), "Correct!!", Toast.LENGTH_SHORT).show();
+                            ((RadioButton) optionGroup.getChildAt(correctAnswer - 1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check, 0);
 
+                        } else {
+                            //   Toast.makeText(getBaseContext(), "Wrong!!", Toast.LENGTH_SHORT).show();
+                            ((RadioButton) optionGroup.getChildAt(correctAnswer - 1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check, 0);
+                            ((RadioButton) optionGroup.getChildAt(currentAnswer - 1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_close, 0);
                         }
-                        else{
-                            Toast.makeText(getBaseContext(), "Wrong!!", Toast.LENGTH_SHORT).show();
-                            ((RadioButton) optionGroup.getChildAt(correctAnswer-1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_check,0);
-                            ((RadioButton) optionGroup.getChildAt(currentAnswer-1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_close,0);
-                        }
-                    }
-                    else if (isQuestionChecked) {
-                        isQuestionChecked = false;
-                        submitButton.setText("Check");
+                    } else {
                         givenAnswers[currentQuestion] = currentAnswer;
                         currentQuestion++;
-                        progressAnimator = ObjectAnimator.ofInt(pbar, "progress", pbar.getProgress(), (currentQuestion + 1) * 100);
-                        progressAnimator.setDuration(500).setInterpolator(new DecelerateInterpolator());
-                        progressAnimator.start();
-                        questionNumberText.setText("Question " + (currentQuestion + 1));
-                        placeQuestionFragment(currentQuestion);
+                        if (currentQuestion == nofQuestions) {
+                            getQuizScore();
+                        } else {
+                            isQuestionChecked = false;
+                            submitButton.setText(R.string.check);
+                            progressAnimator = ObjectAnimator.ofInt(pbar, "progress", pbar.getProgress(), (currentQuestion + 1) * 100);
+                            progressAnimator.setDuration(500).setInterpolator(new DecelerateInterpolator());
+                            progressAnimator.start();
+                            questionNumberText.setText("Question " + (currentQuestion + 1));
+                            placeQuestionFragment(currentQuestion);
+                        }
                     }
                 }
 
             }
         });
 
-        SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
+        sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
 
         Call<Quiz> call;
 
-        call = QuizRetroClient.getInstance().getUserApi().getQuiz("Bearer " + sharedPref.getString("token",null));
+        call = QuizRetroClient.getInstance().getQuizApi().getQuiz("Bearer " + sharedPref.getString("token", null));
 
         call.enqueue(new Callback<Quiz>() {
             @Override
             public void onResponse(Call<Quiz> call, Response<Quiz> response) {
                 if (response.isSuccessful()) {
                     currentQuiz = response.body();
-                    givenAnswers = new int[currentQuiz.getQuestions().length];
+                    nofQuestions = currentQuiz.getQuestions().length;
+                    givenAnswers = new int[nofQuestions];
                     placeQuestionFragment(0);
                     questionNumberText.setText("Question " + (currentQuestion + 1));
                 } else {
@@ -131,12 +144,52 @@ public class QuizActivity extends AppCompatActivity {
         });
     }
 
+    public void getQuizScore() {
+
+        Call<QuizResult> call;
+
+        Answer[] answers = new Answer[nofQuestions];
+        for (int i = 0; i < nofQuestions; i++) {
+            answers[i] = new Answer(currentQuiz.getQuestions()[i].getId(), givenAnswers[i]);
+        }
+
+        call = QuizRetroClient.getInstance().getQuizApi().postQuizResult("Bearer " + sharedPref.getString("token", null),
+                new QuizAnswers(currentQuiz.getId(), answers)
+        );
+
+
+        call.enqueue(new Callback<QuizResult>() {
+
+            @Override
+            public void onResponse(Call<QuizResult> call, Response<QuizResult> response) {
+                if (response.isSuccessful()) {
+                    QuizResult result = response.body();
+                    createScoreActivity(result.getLevel(), result.getScore());
+                } else {
+                    Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuizResult> call, Throwable t) {
+            }
+        });
+    }
+
     public void placeQuestionFragment(int indexOfQuestion) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragment = QuestionFragment.newInstance(currentQuiz.getQuestions()[indexOfQuestion]);
         ft.replace(R.id.questionFrameLayout, fragment);
         ft.commit();
 
+    }
+
+    private void createScoreActivity(int level, int score) {
+        Intent intent = new Intent(getApplicationContext(), QuizScoreActivity.class);
+        intent.putExtra("level", level);
+        intent.putExtra("score", score);
+        startActivity(intent);
+        finish();
     }
 
     @Override

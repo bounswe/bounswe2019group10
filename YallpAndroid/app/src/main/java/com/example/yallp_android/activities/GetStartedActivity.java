@@ -1,12 +1,10 @@
 package com.example.yallp_android.activities;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -28,22 +26,19 @@ import com.example.yallp_android.models.Token;
 
 public class GetStartedActivity extends AppCompatActivity {
 
-    private ImageView backButton;
-    private Button signUpButton;
     private  EditText username;
     private  EditText email;
     private  EditText password;
     private Context context = this;
 
-    @SuppressLint("ClickableViewAccessibility")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_get_started);
 
-        backButton = findViewById(R.id.leftArrow);
-        signUpButton = findViewById(R.id.signUpButton);
+        ImageView backButton = findViewById(R.id.leftArrow);
+        Button signUpButton = findViewById(R.id.signUpButton);
         username = findViewById(R.id.username);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -57,20 +52,20 @@ public class GetStartedActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isEmpty(username) && !isEmpty(email) && isValidEmail(email) &&  !isEmpty(password)){
+                if(isNotEmpty(username) && isNotEmpty(email) && isValidEmail(email) && isNotEmpty(password)){
                     signUp();
-                };
+                }
             }
         });
     }
 
-    public boolean isEmpty(EditText editText){
+    public boolean isNotEmpty(EditText editText){
         if (editText.getText().toString().trim().length() > 0) {
-            return false;
+            return true;
         }
         editText.setError("This area cannot be blank.");
         editText.requestFocus();
-        return true;
+        return false;
     }
 
     public boolean isValidEmail(EditText editText){
@@ -91,18 +86,16 @@ public class GetStartedActivity extends AppCompatActivity {
 
         call = UserRetroClient.getInstance().getUserApi().signup(
                 new SignUpUser(username.getText().toString(),email.getText().toString(),password.getText().toString()));
-        Log.i("Melih_debug", call.toString());
         call.enqueue(new Callback<Token>() {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if(response.isSuccessful()){
-                    Log.i("Melih_debug", "success, token: " + response.body().getToken());
                     progressDialog.dismiss();
                     SharedPreferences sharedPref = getSharedPreferences("yallp",Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("token",response.body().getToken());
                     editor.putBoolean("newSession", true);
-                    editor.commit();
+                    editor.apply();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     context.startActivity(intent);
                     finish();
@@ -115,7 +108,6 @@ public class GetStartedActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
-                Log.i("Melih_debug", t.getMessage());
                 progressDialog.dismiss();
             }
         });

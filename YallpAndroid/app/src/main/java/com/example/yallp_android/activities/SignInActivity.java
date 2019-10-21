@@ -26,8 +26,6 @@ import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private ImageView backButton;
-    private Button signInButton;
     private  EditText nameOrEmail;
     private  EditText password;
     private Boolean isEmailEntered = false;
@@ -38,7 +36,7 @@ public class SignInActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_signin);
-        backButton = findViewById(R.id.leftArrow);
+        ImageView backButton = findViewById(R.id.leftArrow);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +46,7 @@ public class SignInActivity extends AppCompatActivity {
         nameOrEmail = findViewById(R.id.name);
         password = findViewById(R.id.password);
 
-        signInButton = findViewById(R.id.signInButton);
+        Button signInButton = findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +103,7 @@ public class SignInActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("token",response.body().getToken());
                     editor.putBoolean("newSession", true);
-                    editor.commit();
+                    editor.apply();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);
                     finish();

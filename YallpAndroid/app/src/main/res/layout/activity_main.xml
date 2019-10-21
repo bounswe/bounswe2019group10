@@ -33,14 +33,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:gravity="center"
-                android:text="Already have an account?">
+                android:text="@string/already_have_an_account">
             </TextView>
 
             <Button
                 android:id="@+id/signInButton"
-                style="@style/SignInButtonTheme"
+                style="@style/OrangeBackgroundButtonTheme"
                 android:layout_gravity="center"
-                android:text="SIGN IN"
+                android:text="@string/sign_in"
                 android:onClick="signIn">
             </Button>
 
@@ -66,13 +66,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:gravity="center"
-                android:text="New to YALLP?">
+                android:text="@string/new_to_yallp">
             </TextView>
 
             <Button
                 android:id="@+id/getStartedButton"
-                style="@style/GetStartedButtonTheme"
-                android:text="GET STARTED"
+                style="@style/WhiteBackgroundButtonTheme"
+                android:text="@string/get_started"
                 android:onClick="getStarted">
             </Button>
 
