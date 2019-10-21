@@ -9,15 +9,24 @@ const { SubMenu } = Menu;
 import { userActions } from '../_actions';
 
 class HomePage extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.logOut = this.logOut.bind(this);
+      }
+
     componentDidMount() {
         this.props.getProfile();
     }
 
+    logOut(){
+        this.props.logOut();
+    }
     render() {
         const { profile } = this.props;
         console.log(profile);
         return (
-            <Layout className="layout menu-style">
+            <Layout className="layout">
             <Header>
                 <Row style={{ height: "64px" }}>
                     <Col span={0} />
@@ -49,6 +58,7 @@ class HomePage extends React.Component {
                         </Menu.Item>
                         <Menu.Item
                             key="3"
+                            onClick={this.logOut}
                         >
                             Log out
                         </Menu.Item>
@@ -61,6 +71,7 @@ class HomePage extends React.Component {
                 <Row>
                     <Col span={2} />
                     <Col span={8}>
+
                         <Card title="English" style={{ width: 500, height: '50vh', marginTop: '24px' }}>
                             <p>Card content</p>
                             <p>Card content</p>
@@ -97,7 +108,8 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    getProfile: userActions.getProfile
+    getProfile: userActions.getProfile,
+    logOut: userActions.logout
 }
 
 const connectedHomePage = connect(mapState, actionCreators)(HomePage);
