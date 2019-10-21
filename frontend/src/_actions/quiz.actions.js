@@ -5,8 +5,8 @@ import { history } from '../_helpers';
 
 export const quizActions = {
   getQuiz,
+  submitQuiz,
   // getQuizListWithLevel,
-  // submitQuiz
 };
 
 function getQuiz(quizId){
@@ -23,4 +23,20 @@ function getQuiz(quizId){
   };
   function success(quiz) { return { type: quizConstants.GET_QUIZ, quiz } }
   function failure(error) { return { type: quizConstants.GET_QUIZ_FAILURE, error } }
+}
+
+function submitQuiz(quizId,answers){
+  return dispatch => {
+    quizService.submitQuiz(quizId,answers)
+        .then(
+            result => { 
+              dispatch(success(result))
+            },
+            error => {
+              dispatch(failure(error.toString()));
+            }
+        );
+  };
+  function success(result) { return { type: quizConstants.SUBMIT_QUIZ, result } }
+  function failure(error) { return { type: quizConstants.SUBMIT_QUIZ_FAILURE, error } }
 }

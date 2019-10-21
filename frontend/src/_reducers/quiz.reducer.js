@@ -6,8 +6,10 @@ export function quiz(state = {}, action) {
       return { quiz: action.quiz };
     case quizConstants.GET_QUIZ_FAILURE:
       return { error: action.error };
-    case quizConstants.REGISTER_FAILURE:
-      return {};
+    case quizConstants.SUBMIT_QUIZ:
+        return { result: action.result };
+    case quizConstants.SUBMIT_QUIZ_FAILURE:
+        return { error: action.error };    
     default:
       return state
   }
