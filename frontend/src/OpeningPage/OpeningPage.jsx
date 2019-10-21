@@ -76,11 +76,11 @@ class OpeningPage extends React.Component {
         <Layout>
         <Header style={{ position: "fixed", zIndex: 1, width: "100%", height: "64px" }}>
           <Row style={{ height: "64px" }}>
-            <Col span={2} />
+            <Col span={0} />
             <Col id='yallp' span={10}> 
-              YALLP 
+            YALLP 
             </Col>
-            <Col span={6} />
+            <Col span={8} />
             <Col span={6}>
               <Menu theme="dark" mode="horizontal" style={{ lineHeight: "64px" }}>
                 <SubMenu

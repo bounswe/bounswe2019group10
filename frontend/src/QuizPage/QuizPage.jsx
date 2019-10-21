@@ -17,7 +17,8 @@ class QuizPage extends React.Component {
         score: 0,
         answers: [],
         isSubmit: false,
-        optionClassNames: {}
+        optionClassNames: {},
+        quizFinished: false
       };
       this.handleOptionChange = this.handleOptionChange.bind(this);
       this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -33,20 +34,23 @@ class QuizPage extends React.Component {
     }
 
     handleOptionChange(changeEvent) {
-      console.log(this.state);
       this.setState({
         selectedOption: changeEvent.target.value
       });
     }
 
     handleFormSubmit(formSubmitEvent) {
-      console.log('You have selected:', this.state.selectedOption);
+      console.log('You have selected:', this.state);
       if (this.state.isSubmit){
-        if (this.state.current==this.state.quiz.length-1){
-          // send request to eval
+        const quiz = this.props.quiz.quiz;
+        const questions = quiz.questions;
+        console.log("questions leng",questions.length,this.state.current);
+        if (questions.length-1 == this.state.current){
+          console.log("asdsd");
+          console.log(quiz.id,this.state.answers);
+          this.props.submitQuiz(quiz.id,this.state.answers);
           this.setState({
-            showScore: true,
-            score: 10
+            quizFinished: true
           });
         }else {
           this.setState({
@@ -63,21 +67,13 @@ class QuizPage extends React.Component {
         optionClassNames[question.correctChoiceId] = "correctOption";
         this.setState({
           isSubmit: true,
-          answers: [...this.state.answers, {"questionId":this.state.current,"choiceId":this.state.selectedOption}],
+          answers: [...this.state.answers, {"questionId":question.id,"choiceId":this.state.selectedOption}],
           optionClassNames: optionClassNames
         });
       }
-      
     }
 
     render() {
-      if (this.state.showScore){
-        return (
-          <div className="jumbotron">
-            <h1 className="display-4">Your Score: {this.state.score}</h1>
-          </div>
-        );
-      }
       const radioStyle = {
         display: 'block',
         height: '30px',
@@ -91,18 +87,15 @@ class QuizPage extends React.Component {
       const { quiz } = this.props;
       let question = {};
       let options = [];
-      let quizFınished = false;
-      if (Object.keys(quiz).length!=0){
-        if (quiz.quiz.questions.length-1 > this.state.current){
+      if (Object.keys(quiz).length!=0 && !this.state.quizFinished){
+        if (quiz.quiz.questions.length > this.state.current){
           question = quiz.quiz.questions[this.state.current];
           options.push(question.firstChoice);
           options.push(question.secondChoice);
           options.push(question.thirdChoice);
-        }else{
-          quizFınished = true;
         }
       }
-      
+      console.log(this.props);
       return (
         <Layout className="layout menu-style">
         <Header>
@@ -132,36 +125,59 @@ class QuizPage extends React.Component {
         </Header>
         <Content style={{ padding: '0 50px' }}>
           {
-            quizFınished &&
-            <h1>Score is this</h1>
-          }
-          {
-            Object.keys(question).length === 0 && !quizFınished
-            ? <h1 className="display-4">Quiz is loading..</h1>
+            this.state.quizFinished
+            ? (
+              <div>
+                {
+                  this.props.quiz.result
+                  ? 
+                  (
+                  <div className="score-header">
+                    <h1>
+                      Your Score: {this.props.quiz.result.score}
+                    </h1>
+                    <h1>
+                      Your Level: {this.props.quiz.result.level}
+                    </h1>
+                  </div>
+                  )
+                  : "Score is loading..."
+                }
+              </div>
+            )
             : (
-            <div>
-            <h1 className="display-4">Quiz Name</h1>
-            <h2 style={{ margin: '20px' }} className="lead">{question.questionText}</h2>
-            <Radio.Group onChange={this.handleOptionChange} value={this.state.selectedOption}>
-              {options.map((value, index) => {
-                return (
-                  <Radio style={radioStyle} disabled={this.state.isSubmit} className={this.state.optionClassNames[index+1]} value={index+1} key={index+1}>
-                    {value}
-                  </Radio>
-                );
-              })}
-            </Radio.Group>
-            <br></br>
-            <Button style={{ margin: '20px' }} type="primary" onClick={this.handleFormSubmit}>{this.state.isSubmit ? "Next Question" : "Submit" }</Button>
-            {this.state.isSubmit && this.state.selectedOption==question.correct &&
-              <Alert message="Your answer is correct!" type="success" />
-            }
-            {this.state.isSubmit && this.state.selectedOption!=question.correctChoiceId &&
-              <Alert message={"Your answer is wrong! Correct answer is " + options[question.correctChoiceId-1]+"!"} type="error" />
-            }
-            </div>
+              <div>
+              {
+                Object.keys(question).length === 0 && !this.state.quizFinished
+                ? <h1 className="display-4">Quiz is loading..</h1>
+                : (
+                <div>
+                <h1 className="display-4">Quiz Name</h1>
+                <h2 style={{ margin: '20px' }} className="lead">{question.questionText}</h2>
+                <Radio.Group onChange={this.handleOptionChange} value={this.state.selectedOption}>
+                  {options.map((value, index) => {
+                    return (
+                      <Radio style={radioStyle} disabled={this.state.isSubmit} className={this.state.optionClassNames[index+1]} value={index+1} key={index+1}>
+                        {value}
+                      </Radio>
+                    );
+                  })}
+                </Radio.Group>
+                <br></br>
+                <Button style={{ margin: '20px' }} type="primary" onClick={this.handleFormSubmit}>{this.state.isSubmit ? "Next Question" : "Submit" }</Button>
+                {this.state.isSubmit && this.state.selectedOption==question.correct &&
+                  <Alert message="Your answer is correct!" type="success" />
+                }
+                {this.state.isSubmit && this.state.selectedOption!=question.correctChoiceId &&
+                  <Alert message={"Your answer is wrong! Correct answer is " + options[question.correctChoiceId-1]+"!"} type="error" />
+                }
+                </div>
+                )
+              }
+              </div>
             )
           }
+          
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           YALLP ©2019 Created by three awesome front-end developers.
@@ -177,7 +193,8 @@ function mapState(state) {
 }
 
 const actionCreators = {
-  getQuiz: quizActions.getQuiz
+  getQuiz: quizActions.getQuiz,
+  submitQuiz: quizActions.submitQuiz,
 };
 
 const connectedQuizPage = connect(mapState, actionCreators)(QuizPage);

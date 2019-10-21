@@ -13,3 +13,8 @@
   width: 100%;
   position: fixed;
 }
+
+.score-header {
+  text-align: center;
+  font-size:35px
+}

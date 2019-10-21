@@ -2,7 +2,8 @@ import config from 'config';
 import { authHeader } from '../_helpers';
 
 export const quizService = {
-  getQuiz
+  getQuiz,
+  submitQuiz
 };
 
 function getQuiz(quizId) {
@@ -12,6 +13,16 @@ function getQuiz(quizId) {
     };
     return fetch(`${config.apiUrl}/quiz/${quizId}`, requestOptions)
         .then(handleResponse);
+}
+
+function submitQuiz(quizId,answers) {
+  const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...authHeader() },
+      body: JSON.stringify({answers: answers,quizId: quizId})
+  };
+  return fetch(`${config.apiUrl}/quiz/${quizId}/submit`, requestOptions)
+      .then(handleResponse);
 }
 
 function handleResponse(response) {

@@ -6,6 +6,7 @@ import 'antd//dist/antd.css';
 import './ProfilePage.css';
 
 const { Header, Content, Footer } = Layout;
+const { SubMenu } = Menu;
 
 class ProfilePage extends React.Component {
   constructor(props) {
@@ -20,25 +21,39 @@ class ProfilePage extends React.Component {
       <Layout className="layout">
         <Header>
           <Row>
-            <Col span={10} />
-            <Col >
-              <Avatar className="logo" style={{ backgroundColor: '#87d068' }} icon="user" />
+          <Col span={0} />
+            <Col id='yallp' span={10}> 
+            YALLP 
+            </Col>
+            <Col span={8} />
+            <Col span={6}>
               <Menu
                 theme="dark"
                 mode="horizontal"
                 defaultSelectedKeys={['1']}
                 style={{ lineHeight: '64px' }}
               >
-                <Menu.Item
-                  key="1"
-                  onClick={() => this.setState({selectedTab: 'Profile'})}>
-                  Profile
-                </Menu.Item>
-                <Menu.Item
-                  key="2"
-                  onClick={() => this.setState({selectedTab: 'Languages'})}>
-                  Languages
-                </Menu.Item>
+                <SubMenu title={
+                  <span className="submenu-title-wrapper">
+                    <Avatar className="logo" style={{ backgroundColor: '#87d068' }} icon="user" />
+                  </span>
+                }>
+                  <Menu.Item
+                    key="1"
+                    onClick={() => this.setState({selectedTab: 'Profile'})}>
+                    Profile
+                  </Menu.Item>
+                  <Menu.Item
+                    key="2"
+                    onClick={() => this.setState({selectedTab: 'Languages'})}>
+                    Languages
+                  </Menu.Item>
+                  <Menu.Item
+                    key="3"
+                  >
+                    Log out
+                  </Menu.Item>
+                </SubMenu>
               </Menu>
             </Col>
           </Row>
