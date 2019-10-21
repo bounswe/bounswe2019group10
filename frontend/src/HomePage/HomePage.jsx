@@ -7,6 +7,7 @@ const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
 import { userActions } from '../_actions';
+import { userService } from '../_services';
 
 class HomePage extends React.Component {
 
@@ -105,7 +106,11 @@ function mapState(state) {
 
 const actionCreators = {
     getProfile: userActions.getProfile,
+<<<<<<< HEAD
     logOut: userActions.logout
+=======
+    logout: userService.logout
+>>>>>>> 1be9625c4b675c7803cf308509f1080d59fdcff6
 }
 
 const connectedHomePage = connect(mapState, actionCreators)(HomePage);
