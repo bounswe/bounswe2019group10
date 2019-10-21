@@ -11,10 +11,12 @@ import './OpeningPage.css';
 import { history } from '../_helpers';
 
 import { userActions } from '../_actions';
+import { userService } from '../_services';
 
 class OpeningPage extends React.Component {
   constructor(props) {
     super(props);
+    this.props.logout();
     this.state = {
       modalVisible: false,
       okText: "Log In",
@@ -35,7 +37,17 @@ class OpeningPage extends React.Component {
 
   handleClick(action){
     // TODO send login register
-    this.props.login(this.state.username, this.state.password);
+    if(this.state.okText =="Log In"){
+      this.props.login(this.state.username, this.state.password);
+    }
+    if(this.state.okText =="Sign Up"){
+      const user= {
+        mail:this.state.mail,
+        username:this.state.username,
+        password:this.state.password
+      }
+      this.props.register(user);
+    }
   }
 
   changeForm(okText) {
@@ -59,6 +71,7 @@ class OpeningPage extends React.Component {
 
   render() {
     const { username, password, mail } = this.state;
+    const { loggingIn } = this.props;
     return (
         <Layout>
         <Header style={{ position: "fixed", zIndex: 1, width: "100%", height: "64px" }}>
@@ -128,7 +141,13 @@ class OpeningPage extends React.Component {
                 <Input placeholder="Username" style={{marginTop: '12px'}} name="username" value={username} onChange={this.handleChange} />
                 <Input.Password placeholder="Password" style={{marginTop: '12px'}} name="password" value={password} onChange={this.handleChange}/>
               </TabPane>
-            </Tabs>
+            </Tabs>   
+            {loggingIn &&
+              <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            }
+            {alert.message &&
+              <div className={`alert ${alert.type}`}>{alert.message}</div>
+            } 
           </Modal>
         </Content>
       </Layout>
@@ -137,11 +156,15 @@ class OpeningPage extends React.Component {
 }
 
 function mapState(state) {
-  return { };
+  const { loggingIn } = state.authentication;
+  const { alert } = state;
+  return { loggingIn,alert };
 }
 
 const actionCreators = {
-  login: userActions.login
+  login: userActions.login,
+  register: userActions.register,
+  logout: userActions.logout
 }
 
 const connectedOpeningPage = connect(mapState, actionCreators)(OpeningPage);
