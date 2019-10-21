@@ -39,13 +39,9 @@ class HomePage extends React.Component {
                         }>
                         <Menu.Item
                             key="1"
-                            onClick={() => this.setState({selectedTab: 'Profile'})}>
+                            // onClick={() => this.setState({selectedTab: 'Profile'})}
+                        >
                             Profile
-                        </Menu.Item>
-                        <Menu.Item
-                            key="2"
-                            onClick={() => this.setState({selectedTab: 'Languages'})}>
-                            Languages
                         </Menu.Item>
                         <Menu.Item
                             key="3"
