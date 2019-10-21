@@ -6,6 +6,7 @@ import { Layout, Menu, Breadcrumb, Row, Col, Radio, Button,Alert,
 const { Header, Content, Footer } = Layout;
 
 import { userActions } from '../_actions';
+import { userService } from '../_services';
 
 class HomePage extends React.Component {
     componentDidMount() {
@@ -60,7 +61,8 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    getProfile: userActions.getProfile
+    getProfile: userActions.getProfile,
+    logout: userService.logout
 }
 
 const connectedHomePage = connect(mapState, actionCreators)(HomePage);
