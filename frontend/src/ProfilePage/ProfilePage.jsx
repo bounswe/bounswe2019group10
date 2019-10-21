@@ -1,61 +1,78 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Row, Col,
       Avatar, Descriptions, List } from 'antd';
 import 'antd//dist/antd.css';
 import './ProfilePage.css';
 
+import { history } from '../_helpers';
+import { userActions } from '../_actions';
 const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
 class ProfilePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.logOut = this.logOut.bind(this);
+  }
+  
+  componentDidMount() {
+    this.props.getProfile();
+  }
+
+  logOut(){
+    this.props.logOut();
+    history.push('/');
+  }
   render() {
+    const { profile } = this.props;
     return (
-      <Layout className="layout">
+      <Layout className="layout menu-style">
         <Header>
-          <Row>
-          <Col span={0} />
-            <Col id='yallp' span={10}> 
-            YALLP 
-            </Col>
-            <Col span={8} />
-            <Col span={6}>
+          <Row style={{ height: "64px" }}>
+              <Col span={0} />
+              <Col id='yallp' span={10}> 
+              <Link to={{pathname: '/'}}>YALLP</Link>
+              </Col>
+              <Col span={8} />
+              <Col span={6}>
               <Menu
-                theme="dark"
-                mode="horizontal"
-                defaultSelectedKeys={['1']}
-                style={{ lineHeight: '64px' }}
+                  theme="dark"
+                  mode="horizontal"
+                  style={{ lineHeight: '64px' }}
               >
-                <SubMenu title={
+                  <SubMenu title={
                   <span className="submenu-title-wrapper">
-                    <Avatar className="logo" style={{ backgroundColor: '#87d068' }} icon="user" />
+                      <Avatar className="logo" style={{ backgroundColor: '#87d068' }} icon="user" />
                   </span>
-                }>
+                  }>
                   <Menu.Item
-                    key="1"
-                    // onClick={() => this.setState({selectedTab: 'Profile'})}>
+                      key="1"
                   >
-                    Profile
+                  <Link to={{pathname: '/profile-page'}}>Profile</Link>
+                      
                   </Menu.Item>
                   <Menu.Item
-                    key="2"
+                      key="3"
+                      onClick={this.logOut}
                   >
-                    Log out
+                      Log out
                   </Menu.Item>
-                </SubMenu>
+                  </SubMenu>
               </Menu>
-            </Col>
+              </Col>
           </Row>
-        </Header>
+      </Header>
         <Content style={{ marginTop: '24px'}}>
           <Row>
             <Col span={1} />
             <Col span={11}>
-              <Profile />
+              {profile && <Profile profile={profile} />}
             </Col>
-            <Col span={12}>
+            {/* <Col span={12}>
               <Language />
-            </Col>
+            </Col> */}
           </Row>
           
         </Content>
@@ -81,28 +98,28 @@ const languageData = [
 ]
 
 class Profile extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props.profile);
+  }
+  
   render() {
-      return (
-        <div style={{ background: '#fff', padding: 24, minHeight: 280, width:800 }}>
-          <Descriptions title="User Info" bordered={true} column={1}>
-            <Descriptions.Item label="E-mail">hsnbsrbalaban@gmail.com</Descriptions.Item>
-            <Descriptions.Item label="User Name">hsnbsrbalaban</Descriptions.Item>
-            <Descriptions.Item label="Bio">
-              Database name: MongoDB
-              <br />
-              Database version: 3.4
-              <br />
-              Package: dds.mongo.mid
-              <br />
-              Storage space: 10 GB
-              <br />
-              Replication_factor:3
-              <br />
-              Region: East China 1<br />
-            </Descriptions.Item>
-          </Descriptions>
-        </div>
-      )
+    const { profile } = this.props;
+    return (
+      <div style={{ background: '#fff', padding: 24, minHeight: 280, width:800 }}>
+        <Descriptions title="User Info" bordered={true} column={1}>
+          <Descriptions.Item label="E-mail">{profile.mail}</Descriptions.Item>
+          <Descriptions.Item label="User Name">{profile.username}</Descriptions.Item>
+          <Descriptions.Item label="Bio">
+            {
+              profile.bio 
+              ? profile.bio 
+              : "No bio provided."
+            }
+          </Descriptions.Item>
+        </Descriptions>
+      </div>
+    )
   }
 }
 
@@ -130,10 +147,15 @@ class Language extends React.Component {
 }
 
 function mapState(state) {
-  return { };
+  const { users } = state;
+  const { profile } = users;
+
+  return { profile };
 }
 
 const actionCreators = {
+  getProfile: userActions.getProfile,
+  logOut: userActions.logout,
 }
 
 const connectedProfilePage = connect(mapState, actionCreators)(ProfilePage);
