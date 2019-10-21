@@ -1,0 +1,15 @@
+#yallp {
+    height: 128px;
+  
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 40px;
+    text-align: center;
+    letter-spacing: 6px;
+    word-spacing: 0px;
+    color: white;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: italic;
+    font-variant: normal;
+    text-transform: none;
+  }
