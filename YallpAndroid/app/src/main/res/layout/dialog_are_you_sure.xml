@@ -12,7 +12,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="left"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"/>
 
         <TextView
@@ -20,10 +20,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/areYouSureText"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/cryingBird"
-            android:layout_marginLeft="20dp"
+            android:layout_toEndOf="@+id/cryingBird"
+            android:layout_marginStart="20dp"
             android:paddingHorizontal="@dimen/inputHorizantalPadding"
-            android:text="Are you sure? You'll lose all of your saved answers!"
+            android:text="@string/are_you_sure"
             android:textSize="20sp"/>
 
     </RelativeLayout>

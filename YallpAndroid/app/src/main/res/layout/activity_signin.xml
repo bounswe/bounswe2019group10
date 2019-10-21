@@ -58,7 +58,7 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/name"
                     style="@style/InputModel"
-                    android:hint="Email or username"
+                    android:hint="@string/email_or_username"
                     android:maxLines="1">
 
                 </androidx.appcompat.widget.AppCompatEditText>
@@ -77,19 +77,19 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/password"
                     style="@style/InputModel"
-                    android:hint="Your password..."
+                    android:hint="@string/your_password"
                     android:inputType="textPassword"
                     android:maxLines="1"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/signInButton"
-                style="@style/SignInButtonTheme"
+                style="@style/OrangeBackgroundButtonTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="40dp"
-                android:text="SIGN IN"/>
+                android:text="@string/sign_in"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/forgotPasswordButton"
@@ -99,7 +99,7 @@
                 android:gravity="center"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="FORGOT PASSWORD"
+                android:text="@string/forgot_password"
                 android:textColor="@android:color/holo_blue_dark"/>
 
         </LinearLayout>

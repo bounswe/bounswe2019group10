@@ -27,7 +27,7 @@ public class QuizRetroClient {
 
     }
 
-    public QuizApi getUserApi(){
+    public QuizApi getQuizApi(){
         return retrofit.create(QuizApi.class);
     }
 

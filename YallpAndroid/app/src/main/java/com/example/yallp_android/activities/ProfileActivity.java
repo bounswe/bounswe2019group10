@@ -10,29 +10,25 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yallp_android.R;
-import com.example.yallp_android.models.Token;
 import com.example.yallp_android.models.UserInfo;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 
-import java.io.IOException;
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
-    private LinearLayout layout;
 
-    private String userUsername = "default";
-    private String userMail = "default";
+    /*private LinearLayout layout;
+
     private String userName = "default";
     private String userSurname = "default";
-    private String userBio = "default";
+    private String userBio = "default";*/
 
 
     @Override
@@ -46,8 +42,8 @@ public class ProfileActivity extends AppCompatActivity {
         getProfileInfo(sharedPref, editor);
 
 
-        userUsername = sharedPref.getString("username", null);
-        userMail = sharedPref.getString("mail", null);
+        String userUsername = sharedPref.getString("username", null);
+        String userMail = sharedPref.getString("mail", null);
         //userName = sharedPref.getString("name", null);
         //userSurname = sharedPref.getString("surname", null);
         //userBio = sharedPref.getString("bio", null);
@@ -59,8 +55,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_profile);
         GridLayout englishLayout = findViewById(R.id.englishLayout);
-        TextView usernameTextView = (TextView) findViewById(R.id.profileUsername);
-        TextView mailTextView = (TextView) findViewById(R.id.profileMail);
+        TextView usernameTextView = findViewById(R.id.profileUsername);
+        TextView mailTextView =  findViewById(R.id.profileMail);
 
         usernameTextView.setText(userUsername);
 
@@ -74,6 +70,14 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        TextView logoutButton = findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
     }
 
     public void getProfileInfo(final SharedPreferences sharedPref, final SharedPreferences.Editor editor){
@@ -82,7 +86,6 @@ public class ProfileActivity extends AppCompatActivity {
             Call<UserInfo> call;
 
             String token = sharedPref.getString("token",null);
-            Log.i("Melih_debug", token);
             call = UserRetroClient.getInstance().getUserApi().getProfileInfo("Bearer " + token);
 
             call.enqueue(new Callback<UserInfo>() {
@@ -99,20 +102,54 @@ public class ProfileActivity extends AppCompatActivity {
                                 //.putString("bio", userInfo.getBio())
                                 .commit();
                     }
-                    else{
-
-                    }
                 }
 
                 @Override
                 public void onFailure(Call<UserInfo> call, Throwable t) {
-                    Log.i("Melih_debug", "profile call didnt work: " + t.getMessage());
                 }
             });
-
 
             editor.putBoolean("newSession", false);
             editor.apply();
         }
+    }
+
+    private void logout(){
+        clearApplicationData();
+        SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
+        sharedPref.edit().clear().apply();
+        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+
+    private void clearApplicationData() {
+        File cacheDirectory = getCacheDir();
+        File applicationDirectory = new File(cacheDirectory.getParent());
+        if (applicationDirectory.exists()) {
+            String[] fileNames = applicationDirectory.list();
+            for (String fileName : fileNames) {
+                if (!fileName.equals("lib")) {
+                    deleteFile(new File(applicationDirectory, fileName));
+                }
+            }
+        }
+    }
+
+    private static boolean deleteFile(File file) {
+        boolean deletedAll = true;
+        if (file != null) {
+            if (file.isDirectory()) {
+                String[] children = file.list();
+                for (int i = 0; i < children.length; i++) {
+                    deletedAll = deleteFile(new File(file, children[i])) && deletedAll;
+                }
+            } else {
+                deletedAll = file.delete();
+            }
+        }
+
+        return deletedAll;
     }
 }

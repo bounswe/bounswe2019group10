@@ -14,12 +14,14 @@
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">casual</item>
     </style>
+
     <style name="hintText" parent="TextAppearance.AppCompat">
         <item name="android:textSize">@dimen/hintTextSize</item>
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">casual</item>
     </style>
+
     <style name="ButtonModel" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -28,12 +30,12 @@
         <item name="android:textSize">@dimen/titleTextSize</item>
     </style>
 
-    <style name="SignInButtonTheme" parent="@style/ButtonModel">
+    <style name="OrangeBackgroundButtonTheme" parent="@style/ButtonModel">
         <item name="android:background">@drawable/signin_button_shape</item>
         <item name="android:textColor">#fff</item>
     </style>
 
-    <style name="GetStartedButtonTheme" parent="@style/ButtonModel">
+    <style name="WhiteBackgroundButtonTheme" parent="@style/ButtonModel">
         <item name="android:background">@drawable/getstarted_button_shape</item>
         <item name="android:textColor">@color/colorOrange</item>
     </style>
