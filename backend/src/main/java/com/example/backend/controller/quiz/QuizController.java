@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/quiz")
+@CrossOrigin(origins =  "*")
 public class QuizController {
 
     @Autowired
