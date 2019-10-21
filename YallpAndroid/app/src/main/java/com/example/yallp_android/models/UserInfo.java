@@ -3,6 +3,16 @@ package com.example.yallp_android.models;
 public class UserInfo {
 
     private int id;
+    private String bio;
+    private String password;
+    private String username;
+    private String mail;
+    private String role;
+    private String name;
+    private String surname;
+    private String expert;
+    private boolean enabled;
+    private MemberLanguage[] MemberLanguages;
 
     public int getId() {
         return id;
@@ -84,16 +94,6 @@ public class UserInfo {
         this.enabled = enabled;
     }
 
-    private String bio;
-    private String password;
-    private String username;
-    private String mail;
-    private String role;
-    private String name;
-    private String surname;
-    private String expert;
-    private boolean enabled;
-
     public UserInfo(int id, String bio, String password, String username, String mail, String role, String name, String surname, String expert, boolean enabled) {
         this.id = id;
         this.bio = bio;
@@ -107,4 +107,12 @@ public class UserInfo {
         this.enabled = enabled;
     }
 
+    public MemberLanguage[] getMemberLanguages() {
+        return MemberLanguages;
+    }
+
+    public void setMemberLanguages(MemberLanguage[] MemberLanguages) {
+        this.MemberLanguages = MemberLanguages;
+    }
 }
+
