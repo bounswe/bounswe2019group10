@@ -9,13 +9,6 @@ const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
 class ProfilePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    selectedTab: 'Profile'
-    }
-  };
-
   render() {
     return (
       <Layout className="layout">
@@ -40,16 +33,12 @@ class ProfilePage extends React.Component {
                 }>
                   <Menu.Item
                     key="1"
-                    onClick={() => this.setState({selectedTab: 'Profile'})}>
+                    // onClick={() => this.setState({selectedTab: 'Profile'})}>
+                  >
                     Profile
                   </Menu.Item>
                   <Menu.Item
                     key="2"
-                    onClick={() => this.setState({selectedTab: 'Languages'})}>
-                    Languages
-                  </Menu.Item>
-                  <Menu.Item
-                    key="3"
                   >
                     Log out
                   </Menu.Item>
@@ -58,14 +47,17 @@ class ProfilePage extends React.Component {
             </Col>
           </Row>
         </Header>
-        <Content style={{ padding: '0 50px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>{this.state.selectedTab}</Breadcrumb.Item>
-          </Breadcrumb>
-          <Profile_Language
-            selectedTab = {this.state.selectedTab}
-          />
+        <Content style={{ marginTop: '24px'}}>
+          <Row>
+            <Col span={1} />
+            <Col span={11}>
+              <Profile />
+            </Col>
+            <Col span={12}>
+              <Language />
+            </Col>
+          </Row>
+          
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           YALLP ©2019 Created by three awesome front-end developers.
@@ -88,32 +80,37 @@ const languageData = [
   }
 ]
 
-class Profile_Language extends React.Component {
+class Profile extends React.Component {
   render() {
-    if (this.props.selectedTab === 'Profile') {
       return (
-        <div style={{ background: '#fff', padding: 24, minHeight: 280, width:600 }}>
-            <Descriptions title="User Info" bordered={true} column={1}>
-              <Descriptions.Item label="E-mail">hsnbsrbalaban@gmail.com</Descriptions.Item>
-              <Descriptions.Item label="User Name">hsnbsrbalaban</Descriptions.Item>
-              <Descriptions.Item label="Bio">
-                Database name: MongoDB
-                <br />
-                Database version: 3.4
-                <br />
-                Package: dds.mongo.mid
-                <br />
-                Storage space: 10 GB
-                <br />
-                Replication_factor:3
-                <br />
-                Region: East China 1<br />
-              </Descriptions.Item>
-            </Descriptions>
-          </div>
-    )} else {
+        <div style={{ background: '#fff', padding: 24, minHeight: 280, width:800 }}>
+          <Descriptions title="User Info" bordered={true} column={1}>
+            <Descriptions.Item label="E-mail">hsnbsrbalaban@gmail.com</Descriptions.Item>
+            <Descriptions.Item label="User Name">hsnbsrbalaban</Descriptions.Item>
+            <Descriptions.Item label="Bio">
+              Database name: MongoDB
+              <br />
+              Database version: 3.4
+              <br />
+              Package: dds.mongo.mid
+              <br />
+              Storage space: 10 GB
+              <br />
+              Replication_factor:3
+              <br />
+              Region: East China 1<br />
+            </Descriptions.Item>
+          </Descriptions>
+        </div>
+      )
+  }
+}
+
+class Language extends React.Component {
+  render() {
       return(
         <div style={{ background: '#fff', padding: 24, minHeight: 280, width:800 }}>
+          <p> <b>Language</b> </p>
           <List
             itemLayout='horizontal'
             dataSource={languageData}
@@ -129,7 +126,6 @@ class Profile_Language extends React.Component {
           />
         </div>
       )
-    }
   }
 }
 
