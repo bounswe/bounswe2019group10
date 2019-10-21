@@ -15,11 +15,11 @@ public interface QuizApi {
 
 
     @Headers({"Content-Type: application/json"})
-    @GET("quiz/1")
+    @GET("quiz/66")
     Call<Quiz> getQuiz(@Header("Authorization") String token);
 
     @Headers({"Content-Type: application/json"})
-    @POST("quiz/1/submit")
+    @POST("quiz/66/submit")
     Call<QuizResult> postQuizResult(
             @Header("Authorization") String token,
             @Body QuizAnswers quizAnswers

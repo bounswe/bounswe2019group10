@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.GridLayout;
@@ -33,13 +32,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("Melih_debug", "got to profile page");
-
 
         final SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
 
-        getProfileInfo(sharedPref, editor);
+
+
 
 
         String userUsername = sharedPref.getString("username", null);
@@ -55,12 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_profile);
         GridLayout englishLayout = findViewById(R.id.englishLayout);
-        TextView usernameTextView = findViewById(R.id.profileUsername);
-        TextView mailTextView =  findViewById(R.id.profileMail);
 
-        usernameTextView.setText(userUsername);
-
-        mailTextView.setText(userMail);
 
         englishLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,40 +71,50 @@ public class ProfileActivity extends AppCompatActivity {
                 logout();
             }
         });
+
+
+        updateProfileInfo(sharedPref, editor);
     }
 
-    public void getProfileInfo(final SharedPreferences sharedPref, final SharedPreferences.Editor editor){
-        if(sharedPref.getBoolean("newSession", false)){
+    public void updateProfileInfo(final SharedPreferences sharedPref, final SharedPreferences.Editor editor){
+        Call<UserInfo> call;
 
-            Call<UserInfo> call;
+        String token = sharedPref.getString("token",null);
+        call = UserRetroClient.getInstance().getUserApi().getProfileInfo("Bearer " + token);
 
-            String token = sharedPref.getString("token",null);
-            call = UserRetroClient.getInstance().getUserApi().getProfileInfo("Bearer " + token);
+        call.enqueue(new Callback<UserInfo>() {
+            @Override
+            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                if(response.isSuccessful()){
 
-            call.enqueue(new Callback<UserInfo>() {
-                @Override
-                public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
-                    if(response.isSuccessful()){
+                    UserInfo userInfo = response.body();
 
-                        UserInfo userInfo = response.body();
+                    editor  .putString("username",userInfo.getUsername())
+                            .putString("mail", userInfo.getMail())
+                            //.putString("name", userInfo.getName())
+                            //.putString("surname", userInfo.getSurname())
+                            //.putString("bio", userInfo.getBio())
+                            .commit();
+                    TextView usernameTextView = findViewById(R.id.profileUsername);
+                    TextView mailTextView =  findViewById(R.id.profileMail);
+                    usernameTextView.setText(sharedPref.getString("username", "username"));
+                    mailTextView.setText(sharedPref.getString("mail", "mail"));
 
-                        editor  .putString("username",userInfo.getUsername())
-                                .putString("mail", userInfo.getMail())
-                                //.putString("name", userInfo.getName())
-                                //.putString("surname", userInfo.getSurname())
-                                //.putString("bio", userInfo.getBio())
-                                .commit();
-                    }
                 }
+            }
 
-                @Override
-                public void onFailure(Call<UserInfo> call, Throwable t) {
-                }
-            });
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
+            }
+        });
 
-            editor.putBoolean("newSession", false);
-            editor.apply();
+        TextView englishLevel = findViewById(R.id.englishLangLevel);
+        if(getIntent().getExtras()!=null){
+            String levelText = getIntent().getExtras().getString("levelText");
+
+            englishLevel.setText(levelText);
         }
+
     }
 
     private void logout(){
