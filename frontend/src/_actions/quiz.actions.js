@@ -37,8 +37,8 @@ function submitQuiz(quizId,answers){
             }
         );
   };
-  function success(result) { return { type: quizConstants.GET_QUIZES, result } }
-  function failure(error) { return { type: quizConstants.GET_QUIZES_FAILURE, error } }
+  function success(result) { return { type: quizConstants.SUBMIT_QUIZ, result } }
+  function failure(error) { return { type: quizConstants.SUBMIT_QUIZ_FAILURE, error } }
 }
 
 function getQuizes(){

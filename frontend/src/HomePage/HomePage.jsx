@@ -28,7 +28,7 @@ class HomePage extends React.Component {
         history.push('/');
     }
     render() {
-        const { profile,result } = this.props;
+        const { profile,quizList } = this.props;
         return (
             <Layout className="layout">
             <Header>
@@ -73,7 +73,7 @@ class HomePage extends React.Component {
 
                         <Card title="English" style={{ width: 500, height: 300, marginTop: '24px' }}>
                             <div className="scrollable">
-                            {result && result.map((value, index) => {
+                            {quizList && quizList.map((value, index) => {
                                 return (
                                 <p key={index}>
                                 <Link to={{
@@ -110,8 +110,8 @@ class HomePage extends React.Component {
 function mapState(state) {
     const { users,quiz } = state;
     const { profile } = users;
-    const { result } = quiz;
-    return { profile,result };
+    const { quizList } = quiz;
+    return { profile,quizList };
 }
 
 const actionCreators = {
