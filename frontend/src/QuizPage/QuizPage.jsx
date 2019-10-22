@@ -2,16 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Layout, Menu, Breadcrumb, Row, Col, Radio, Button,Alert,
   Avatar, Descriptions, List } from 'antd';
+import { Link } from 'react-router-dom';
 const { Header, Content, Footer } = Layout;
-import { quizActions } from '../_actions';
+const { SubMenu } = Menu;
+import { quizActions,userActions } from '../_actions';
 import './QuizPage.css';
+import { history } from '../_helpers';
 
 class QuizPage extends React.Component {
     constructor(props) {
       super(props);
+      let quizId = 10;
+      if (this.props.location.state){
+        quizId = this.props.location.state.quizId;
+      }
       this.state = {
         selectedOption: '',
         quiz: [],
+        quizId: quizId,
         current: 0,
         showScore: false,
         score: 0,
@@ -23,9 +31,10 @@ class QuizPage extends React.Component {
       this.handleOptionChange = this.handleOptionChange.bind(this);
       this.handleFormSubmit = this.handleFormSubmit.bind(this);
       this.getInitialState = this.getInitialState.bind(this);
+      this.logOut = this.logOut.bind(this);
     }
     componentDidMount() {
-      this.props.getQuiz(1);
+      this.props.getQuiz(this.state.quizId);
     }
     getInitialState() {
       this.setState({
@@ -37,6 +46,11 @@ class QuizPage extends React.Component {
       this.setState({
         selectedOption: changeEvent.target.value
       });
+    }
+
+    logOut(){
+      this.props.logOut();
+      history.push('/');
     }
 
     handleFormSubmit(formSubmitEvent) {
@@ -87,7 +101,7 @@ class QuizPage extends React.Component {
       const { quiz } = this.props;
       let question = {};
       let options = [];
-      if (Object.keys(quiz).length!=0 && !this.state.quizFinished){
+      if ("quiz" in quiz && !this.state.quizFinished){
         if (quiz.quiz.questions.length > this.state.current){
           question = quiz.quiz.questions[this.state.current];
           options.push(question.firstChoice);
@@ -95,32 +109,40 @@ class QuizPage extends React.Component {
           options.push(question.thirdChoice);
         }
       }
-      console.log(this.props);
       return (
         <Layout className="layout menu-style">
         <Header>
-          <Row>
-            <Col span={10} />
-            <Col >
-              <Avatar className="logo" style={{ backgroundColor: '#87d068' }} icon="user" />
+          <Row style={{ height: "64px" }}>
+              <Col span={0} />
+              <Col id='yallp' span={10}> 
+              <Link to={{pathname: '/'}}>YALLP</Link>
+              </Col>
+              <Col span={8} />
+              <Col span={6}>
               <Menu
-                theme="dark"
-                mode="horizontal"
-                defaultSelectedKeys={['1']}
-                style={{ lineHeight: '64px' }}
+                  theme="dark"
+                  mode="horizontal"
+                  style={{ lineHeight: '64px' }}
               >
-                <Menu.Item
-                  key="1"
-                  onClick={() => this.setState({selectedTab: 'Profile'})}>
-                  Profile
-                </Menu.Item>
-                <Menu.Item
-                  key="2"
-                  onClick={() => this.setState({selectedTab: 'Languages'})}>
-                  Languages
-                </Menu.Item>
+                  <SubMenu title={
+                  <span className="submenu-title-wrapper">
+                      <Avatar className="logo" style={{ backgroundColor: '#87d068' }} icon="user" />
+                  </span>
+                  }>
+                  <Menu.Item
+                      key="1"
+                  >
+                  <Link to={{pathname: '/profile-page'}}>Profile</Link>
+                  </Menu.Item>
+                  <Menu.Item
+                      key="3"
+                      onClick={this.logOut}
+                  >
+                      Log out
+                  </Menu.Item>
+                  </SubMenu>
               </Menu>
-            </Col>
+              </Col>
           </Row>
         </Header>
         <Content style={{ padding: '0 50px' }}>
@@ -139,6 +161,7 @@ class QuizPage extends React.Component {
                     <h1>
                       Your Level: {this.props.quiz.result.level}
                     </h1>
+                    <Link to={{pathname: '/'}}>Return to home page</Link>
                   </div>
                   )
                   : "Score is loading..."
@@ -152,7 +175,7 @@ class QuizPage extends React.Component {
                 ? <h1 className="display-4">Quiz is loading..</h1>
                 : (
                 <div>
-                <h1 className="display-4">Quiz Name</h1>
+                <h1 className="display-4">Quiz {quiz.quiz.id} - Level: {quiz.quiz.level}</h1>
                 <h2 style={{ margin: '20px' }} className="lead">{question.questionText}</h2>
                 <Radio.Group onChange={this.handleOptionChange} value={this.state.selectedOption}>
                   {options.map((value, index) => {
@@ -195,6 +218,7 @@ function mapState(state) {
 const actionCreators = {
   getQuiz: quizActions.getQuiz,
   submitQuiz: quizActions.submitQuiz,
+  logOut: userActions.logout,
 };
 
 const connectedQuizPage = connect(mapState, actionCreators)(QuizPage);

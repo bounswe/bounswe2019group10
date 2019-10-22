@@ -27,8 +27,8 @@ class App extends React.Component {
                     <Switch>
                         <PrivateRoute exact path="/" component={HomePage} />
                         <Route path="/opening" component={OpeningPage} />
-                        <Route path="/quiz" component={QuizPage} />
-                        <Route path="/profile-page" component={ProfilePage} />
+                        <PrivateRoute exact path="/quiz" component={QuizPage} />
+                        <PrivateRoute exact path="/profile-page" component={ProfilePage} />
                         <Redirect from="*" to="/" />
                     </Switch>
                 </Router>

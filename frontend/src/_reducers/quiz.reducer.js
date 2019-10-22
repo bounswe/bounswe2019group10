@@ -10,6 +10,11 @@ export function quiz(state = {}, action) {
         return { result: action.result };
     case quizConstants.SUBMIT_QUIZ_FAILURE:
         return { error: action.error };    
+    case quizConstants.GET_QUIZES:
+      return { result: action.result };
+    case quizConstants.GET_QUIZES_FAILURE:
+        return { error: action.error };    
+    
     default:
       return state
   }

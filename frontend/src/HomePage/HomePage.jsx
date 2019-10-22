@@ -2,35 +2,46 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout, Menu, Row, Col,
-    Avatar, Card } from 'antd';
+    Avatar, Card,List, Spin,Skeleton } from 'antd';
 const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
-import { userActions } from '../_actions';
-import { userService } from '../_services';
+import { userActions,quizActions } from '../_actions';
+import { history } from '../_helpers';
+
+import './HomePage.css';
 
 class HomePage extends React.Component {
-    componentDidMount() {
-        this.props.getProfile();
+
+    constructor(props) {
+        super(props);
+        this.logOut = this.logOut.bind(this);
     }
 
+    componentDidMount() {
+        this.props.getProfile();
+        this.props.getQuizes();
+    }
+
+    logOut(){
+        this.props.logOut();
+        history.push('/');
+    }
     render() {
-        const { profile } = this.props;
-        console.log(profile);
+        const { profile,result } = this.props;
         return (
-            <Layout className="layout menu-style">
+            <Layout className="layout">
             <Header>
                 <Row style={{ height: "64px" }}>
                     <Col span={0} />
                     <Col id='yallp' span={10}> 
-                    YALLP 
+                    <Link to={{pathname: '/'}}>YALLP</Link>
                     </Col>
                     <Col span={8} />
                     <Col span={6}>
                     <Menu
                         theme="dark"
                         mode="horizontal"
-                        defaultSelectedKeys={['1']}
                         style={{ lineHeight: '64px' }}
                     >
                         <SubMenu title={
@@ -40,16 +51,13 @@ class HomePage extends React.Component {
                         }>
                         <Menu.Item
                             key="1"
-                            onClick={() => this.setState({selectedTab: 'Profile'})}>
-                            Profile
-                        </Menu.Item>
-                        <Menu.Item
-                            key="2"
-                            onClick={() => this.setState({selectedTab: 'Languages'})}>
-                            Languages
+                        >
+                        <Link to={{pathname: '/profile-page'}}>Profile</Link>
+                            
                         </Menu.Item>
                         <Menu.Item
                             key="3"
+                            onClick={this.logOut}
                         >
                             Log out
                         </Menu.Item>
@@ -62,23 +70,31 @@ class HomePage extends React.Component {
                 <Row>
                     <Col span={2} />
                     <Col span={8}>
-                        <Card title="English" style={{ width: 500, height: '50vh', marginTop: '24px' }}>
-                            <p>Card content</p>
-                            <p>Card content</p>
-                            <p>Card content</p>
+
+                        <Card title="English" style={{ width: 500, height: 300, marginTop: '24px' }}>
+                            <div className="scrollable">
+                            {result && result.map((value, index) => {
+                                return (
+                                <p key={index}>
+                                <Link to={{
+                                    pathname: '/quiz',
+                                    state: {
+                                        quizId: value.id
+                                    }
+                                    }}>Quiz {value.id} - Level: {value.level}</Link>
+                                </p>
+                                );
+                            })}
+                            </div>
                         </Card>
                         <Card title="Spanish" style={{ width: 500, height: '50vh'}}>
-                            <p>Card content</p>
-                            <p>Card content</p>
-                            <p>Card content</p>
+                            <Skeleton />
                         </Card>
                     </Col>
                     <Col span={4} />
                     <Col span={8}>
-                        <Card title="Default size card" style={{ width: 500, height: '50vh', marginTop: '24px' }}>
-                        <p>Card content</p>
-                        <p>Card content</p>
-                        <p>Card content</p>
+                        <Card title="Completed Quizes" style={{ width: 500, height: '50vh', marginTop: '24px' }}>
+                        <Skeleton />
                         </Card>
                     </Col>
                 </Row>
@@ -92,14 +108,16 @@ class HomePage extends React.Component {
 }
 
 function mapState(state) {
-    const { users } = state;
+    const { users,quiz } = state;
     const { profile } = users;
-    return { profile };
+    const { result } = quiz;
+    return { profile,result };
 }
 
 const actionCreators = {
     getProfile: userActions.getProfile,
-    logout: userService.logout
+    logOut: userActions.logout,
+    getQuizes: quizActions.getQuizes
 }
 
 const connectedHomePage = connect(mapState, actionCreators)(HomePage);

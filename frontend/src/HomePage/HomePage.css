@@ -13,3 +13,9 @@
     font-variant: normal;
     text-transform: none;
 }
+
+.scrollable{
+    overflow-y: scroll;
+    height: 200px;
+
+}

@@ -3,7 +3,8 @@ import { authHeader } from '../_helpers';
 
 export const quizService = {
   getQuiz,
-  submitQuiz
+  submitQuiz,
+  getQuizes
 };
 
 function getQuiz(quizId) {
@@ -24,6 +25,16 @@ function submitQuiz(quizId,answers) {
   return fetch(`${config.apiUrl}/quiz/${quizId}/submit`, requestOptions)
       .then(handleResponse);
 }
+
+function getQuizes() {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', ...authHeader() }
+    };
+    return fetch(`${config.apiUrl}/quiz`, requestOptions)
+        .then(handleResponse);
+  }
+  
 
 function handleResponse(response) {
   return response.text().then(text => {
