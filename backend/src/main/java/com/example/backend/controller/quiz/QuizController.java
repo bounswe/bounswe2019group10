@@ -2,9 +2,7 @@ package com.example.backend.controller.quiz;
 
 
 import com.example.backend.config.JwtTokenUtil;
-import com.example.backend.model.member.Member;
 import com.example.backend.model.quiz.QuizRequest;
-import com.example.backend.service.member.JwtUserDetailsService;
 import com.example.backend.service.quiz.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/quiz")
-@CrossOrigin(origins =  "*")
+@CrossOrigin
 public class QuizController {
 
     @Autowired
