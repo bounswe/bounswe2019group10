@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+let path = require('path');
 
 module.exports = {
     mode: 'development',
@@ -9,7 +10,8 @@ module.exports = {
         rules: [
             {
                 test: /\.jsx?$/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+                exclude: path.resolve(__dirname, 'node_modules/')
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
@@ -25,7 +27,8 @@ module.exports = {
         template: './src/index.html'
     })],
     devServer: {
-        historyApiFallback: true
+        historyApiFallback: true,
+        port: 3000
     },
     externals: {
         // global app config object
