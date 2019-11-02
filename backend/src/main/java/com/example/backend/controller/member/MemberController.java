@@ -55,6 +55,7 @@ public class MemberController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
+
         return ResponseEntity.ok(new JwtResponse(token));
 
     }
