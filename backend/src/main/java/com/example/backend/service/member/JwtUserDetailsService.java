@@ -1,5 +1,6 @@
 package com.example.backend.service.member;
 
+import com.example.backend.Util.JwtUserDetailsServiceUtil;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberDTO;
 import com.example.backend.repository.member.MemberRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
@@ -26,6 +28,18 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
+
+    String mailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+            "[a-zA-Z0-9_+&*-]+)*@" +
+            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+            "A-Z]{2,7}$";
+    String usenameRegex = "^[A-Za-z0-9_-]{4,16}$";
+    String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+    String emailWarning = "The email is invalid.";
+    String usernameWarning = "The username must contain at least 4 and at most 16 characters. " +
+            "Username can only include alphanumeric characters and \"-\" or \"_\"";
+    String passwordWarning = "The password should be at least 8 characters long. " +
+            "The password should contain at least one letter and at least one digit.";
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -57,5 +71,40 @@ public class JwtUserDetailsService implements UserDetailsService {
         return memberRepository.save(newUser);
     }
 
+    public JwtUserDetailsServiceUtil updateMember(MemberDTO memberDTO, String memberUname){
+        Member member = memberRepository.findByUsername(memberUname);
 
+        member.setName(memberDTO.getName());
+        member.setSurname(memberDTO.getSurname());
+
+        String username = memberDTO.getUsername();
+        Pattern pattern = Pattern.compile(usenameRegex);
+        //Check format
+        if(!pattern.matcher(username).matches()){
+            return new JwtUserDetailsServiceUtil(false, null, usernameWarning);
+        }
+        //Check for existent username
+        if(!memberUname.equals(username)){ //If the usename is updated as well
+            Member m = memberRepository.findByUsername(username);
+            if(m!=null)
+                return new JwtUserDetailsServiceUtil(false, null, "The username already exists.");
+            member.setUsername(username);
+        }
+
+        String mail = memberDTO.getMail();
+        pattern = Pattern.compile(mailRegex);
+        if(!pattern.matcher(mail).matches()){
+            return new JwtUserDetailsServiceUtil(false, null, emailWarning);
+        }
+        member.setMail(mail);
+
+        String password = memberDTO.getPassword();
+        pattern = Pattern.compile(passwordRegex);
+        if(!pattern.matcher(password).matches()){
+            return new JwtUserDetailsServiceUtil(false, null, passwordWarning);
+        }
+        member.setPassword(bcryptEncoder.encode(password));
+        return new JwtUserDetailsServiceUtil(true, memberRepository.save(member), "Update is successfull.");
+
+    }
 }
