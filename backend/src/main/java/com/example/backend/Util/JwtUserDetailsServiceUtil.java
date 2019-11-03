@@ -3,9 +3,9 @@ package com.example.backend.Util;
 import com.example.backend.model.member.Member;
 
 public class JwtUserDetailsServiceUtil {
-    boolean valid;
-    Member member;
-    String info;
+    private boolean valid;
+    private Member member;
+    private String info;
 
     public JwtUserDetailsServiceUtil(boolean valid, Member member, String info) {
         this.valid = valid;
