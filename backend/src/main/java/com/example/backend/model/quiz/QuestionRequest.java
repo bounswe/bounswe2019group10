@@ -1,10 +1,10 @@
 package com.example.backend.model.quiz;
 
 public class QuestionRequest {
-    int questionId;
-    int choiceId;
-    int correctId;
-    boolean isTrue;
+    private int questionId;
+    private int choiceId;
+    private int correctId;
+    private boolean isTrue;
 
     public int getCorrectId() {
         return correctId;

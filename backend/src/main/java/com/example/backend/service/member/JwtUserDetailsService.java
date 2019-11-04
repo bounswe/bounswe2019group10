@@ -29,16 +29,16 @@ public class JwtUserDetailsService implements UserDetailsService {
     private PasswordEncoder bcryptEncoder;
 
 
-    String mailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+    private final String mailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
             "[a-zA-Z0-9_+&*-]+)*@" +
             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
             "A-Z]{2,7}$";
-    String usenameRegex = "^[A-Za-z0-9_-]{4,16}$";
-    String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
-    String emailWarning = "The email is invalid.";
-    String usernameWarning = "The username must contain at least 4 and at most 16 characters. " +
+    private final String usernameRegex = "^[A-Za-z0-9_-]{4,16}$";
+    private final String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+    private final String emailWarning = "The email is invalid.";
+    private final String usernameWarning = "The username must contain at least 4 and at most 16 characters. " +
             "Username can only include alphanumeric characters and \"-\" or \"_\"";
-    String passwordWarning = "The password should be at least 8 characters long. " +
+    private final String passwordWarning = "The password should be at least 8 characters long. " +
             "The password should contain at least one letter and at least one digit.";
 
     @Override
@@ -50,9 +50,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> memberAuthList = new ArrayList<>();
         SimpleGrantedAuthority memberAuth = new SimpleGrantedAuthority(user.getRole());
         memberAuthList.add(memberAuth);
-        User newUser = new User(user.getUsername(), user.getPassword(),
+        return new User(user.getUsername(), user.getPassword(),
                 (Collection<? extends GrantedAuthority>) memberAuthList);
-        return newUser;
     }
 
     public Member getByUsername(String name) {
@@ -78,13 +77,13 @@ public class JwtUserDetailsService implements UserDetailsService {
         member.setSurname(memberDTO.getSurname());
 
         String username = memberDTO.getUsername();
-        Pattern pattern = Pattern.compile(usenameRegex);
+        Pattern pattern = Pattern.compile(usernameRegex);
         //Check format
         if(!pattern.matcher(username).matches()){
             return new JwtUserDetailsServiceUtil(false, null, usernameWarning);
         }
         //Check for existent username
-        if(!memberUname.equals(username)){ //If the usename is updated as well
+        if(!memberUname.equals(username)){ //If the username is updated as well
             Member m = memberRepository.findByUsername(username);
             if(m!=null)
                 return new JwtUserDetailsServiceUtil(false, null, "The username already exists.");
@@ -104,7 +103,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             return new JwtUserDetailsServiceUtil(false, null, passwordWarning);
         }
         member.setPassword(bcryptEncoder.encode(password));
-        return new JwtUserDetailsServiceUtil(true, memberRepository.save(member), "Update is successfull.");
+        return new JwtUserDetailsServiceUtil(true, memberRepository.save(member), "Update is successful.");
 
     }
 }

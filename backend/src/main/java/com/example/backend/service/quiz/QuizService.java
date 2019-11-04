@@ -54,7 +54,7 @@ public class QuizService {
     }
 
     public QuizRequest evaluateQuiz(QuizRequest quizRequest, String memberUname){
-        //Take the request, add the nececssary fields and send back
+        //Take the request, add the necessary fields and send back
         Member curMember = memberRepository.findByUsername(memberUname);
         Quiz quiz = quizRepository.getOne(quizRequest.getQuizId());
         int score = 0;
