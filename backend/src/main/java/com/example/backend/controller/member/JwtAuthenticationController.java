@@ -1,5 +1,6 @@
 package com.example.backend.controller.member;
 
+import com.example.backend.Util.JwtUserDetailsServiceUtil;
 import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.member.JwtRequest;
 import com.example.backend.model.member.JwtResponse;
@@ -75,7 +76,10 @@ public class JwtAuthenticationController {
                 userDetailsService.getByUsername(user.getUsername()) != null) {
             throw new Exception("User already exists");
         }
-        userDetailsService.save(user);
+        JwtUserDetailsServiceUtil serviceOutput = userDetailsService.save(user);
+        if(!serviceOutput.isValid()){ //If the request is invalid return the error message
+            return  ResponseEntity.ok(serviceOutput.getInfo());
+        }
         return createAuthenticationToken(new JwtRequest(user.getUsername(), user.getPassword()));
     }
 }
