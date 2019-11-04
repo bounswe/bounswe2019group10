@@ -62,13 +62,39 @@ public class JwtUserDetailsService implements UserDetailsService {
     public Member getByMail(String mail){return memberRepository.findByMail(mail);}
 
 
-    public Member save(MemberDTO user) {
+    public JwtUserDetailsServiceUtil save(MemberDTO user) {
         Member newUser = new Member();
-        newUser.setUsername(user.getUsername());
+
+        String username = user.getUsername();
+        Pattern pattern = Pattern.compile(usenameRegex);
+        //Check format
+        if(!pattern.matcher(username).matches()){
+            return new JwtUserDetailsServiceUtil(false, null, usernameWarning);
+        }
+        //Check for existent username
+        Member m = memberRepository.findByUsername(username);
+        if(m!=null)
+            return new JwtUserDetailsServiceUtil(false, null, "The username already exists.");
+        newUser.setUsername(username);
+
+
+        String mail = user.getMail();
+        pattern = Pattern.compile(mailRegex);
+        if(!pattern.matcher(mail).matches()){
+            return new JwtUserDetailsServiceUtil(false, null, emailWarning);
+        }
+        newUser.setMail(mail);
+
+        String password = user.getPassword();
+        pattern = Pattern.compile(passwordRegex);
+        if(!pattern.matcher(password).matches()){
+            return new JwtUserDetailsServiceUtil(false, null, passwordWarning);
+        }
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-        newUser.setMail(user.getMail());
+
         newUser.setRole("USER");
-        return memberRepository.save(newUser);
+
+        return new JwtUserDetailsServiceUtil(true, memberRepository.save(newUser), "Register is successfull.");
     }
 
     public JwtUserDetailsServiceUtil updateMember(MemberDTO memberDTO, String memberUname){
