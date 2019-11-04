@@ -1,6 +1,5 @@
 package com.example.backend.model.member;
 import com.example.backend.model.quiz.MemberLanguage;
-import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
