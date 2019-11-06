@@ -6,6 +6,7 @@ import { history } from '../_helpers';
 export const userActions = {
     login,
     getProfile,
+    updateProfile,
     logout,
     register,
 };
@@ -74,6 +75,23 @@ function getProfile() {
 
     function success(profile) { return { type: userConstants.PROFILE_SUCCESS, profile } }
     function failure(error) { return { type: userConstants.PROFILE_FAILURE, error } }
+}
+
+function updateProfile(newProfile) {
+    return dispatch => {
+        userService.updateProfile(newProfile)
+            .then(
+                profile => { 
+                    dispatch(success(profile));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(profile) { return { type: userConstants.UPDATE_PROFILE_SUCCESS, profile } }
+    function failure(error) { return { type: userConstants.UPDATE_PROFILE_FAILURE, error } }
 }
 
 

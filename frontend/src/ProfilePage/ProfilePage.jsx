@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Row, Col,
-      Avatar, Descriptions, List } from 'antd';
+      Avatar, Descriptions, List, Input, Button } from 'antd';
 import 'antd//dist/antd.css';
 import './ProfilePage.css';
 
@@ -68,7 +68,7 @@ class ProfilePage extends React.Component {
           <Row>
             <Col span={1} />
             <Col span={11}>
-              {profile && <Profile profile={profile} />}
+              {profile && <Profile profile={profile} updateProfile={this.props.updateProfile}/>}
             </Col>
             {/* <Col span={12}>
               <Language />
@@ -100,24 +100,46 @@ const languageData = [
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.profile);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    const { profile } = this.props;
+    this.state = {
+      mail: profile.mail,
+      username: profile.username,
+      bio: profile.bio
+    };
   }
   
+  handleClick(e){
+    console.log(this.state);
+    this.props.updateProfile(this.state);
+  }
+
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  }
+
   render() {
     const { profile } = this.props;
     return (
       <div style={{ background: '#fff', padding: 24, minHeight: 280, width:800 }}>
         <Descriptions title="User Info" bordered={true} column={1}>
-          <Descriptions.Item label="E-mail">{profile.mail}</Descriptions.Item>
-          <Descriptions.Item label="User Name">{profile.username}</Descriptions.Item>
+          <Descriptions.Item label="E-mail">
+            <Input defaultValue={profile.mail} name="mail" onChange={this.handleChange} />
+          </Descriptions.Item>
+          <Descriptions.Item label="User Name">
+            <Input defaultValue={profile.username} name="username" onChange={this.handleChange} />
+          </Descriptions.Item>
           <Descriptions.Item label="Bio">
-            {
+          <Input placeholder="No bio provided." defaultValue={
               profile.bio 
               ? profile.bio 
-              : "No bio provided."
-            }
+              : ""
+            } name="bio" onChange={this.handleChange} />
           </Descriptions.Item>
         </Descriptions>
+        <Button type="primary" onClick={this.handleClick}>SAVE CHANGES</Button>
       </div>
     )
   }
@@ -155,6 +177,7 @@ function mapState(state) {
 
 const actionCreators = {
   getProfile: userActions.getProfile,
+  updateProfile: userActions.updateProfile,
   logOut: userActions.logout,
 }
 
