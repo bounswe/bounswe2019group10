@@ -5,6 +5,7 @@ import { Layout, Menu, Breadcrumb, Row, Col,
       Avatar, Descriptions, List } from 'antd';
 import 'antd//dist/antd.css';
 import './ProfilePage.css';
+import { HeaderComponent } from '../HeaderComponent';
 
 import { history } from '../_helpers';
 import { userActions } from '../_actions';
@@ -14,56 +15,17 @@ const { SubMenu } = Menu;
 class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
-    this.logOut = this.logOut.bind(this);
   }
   
   componentDidMount() {
     this.props.getProfile();
   }
 
-  logOut(){
-    this.props.logOut();
-    history.push('/');
-  }
   render() {
     const { profile } = this.props;
     return (
       <Layout className="layout menu-style">
-        <Header>
-          <Row style={{ height: "64px" }}>
-              <Col span={0} />
-              <Col id='yallp' span={10}> 
-              <Link to={{pathname: '/'}}>YALLP</Link>
-              </Col>
-              <Col span={8} />
-              <Col span={6}>
-              <Menu
-                  theme="dark"
-                  mode="horizontal"
-                  style={{ lineHeight: '64px' }}
-              >
-                  <SubMenu title={
-                  <span className="submenu-title-wrapper">
-                      <Avatar className="logo" style={{ backgroundColor: '#87d068' }} icon="user" />
-                  </span>
-                  }>
-                  <Menu.Item
-                      key="1"
-                  >
-                  <Link to={{pathname: '/profile-page'}}>Profile</Link>
-                      
-                  </Menu.Item>
-                  <Menu.Item
-                      key="3"
-                      onClick={this.logOut}
-                  >
-                      Log out
-                  </Menu.Item>
-                  </SubMenu>
-              </Menu>
-              </Col>
-          </Row>
-      </Header>
+        <HeaderComponent />        
         <Content style={{ marginTop: '24px'}}>
           <Row>
             <Col span={1} />
@@ -74,7 +36,6 @@ class ProfilePage extends React.Component {
               <Language />
             </Col> */}
           </Row>
-          
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           YALLP ©2019 Created by three awesome front-end developers.
@@ -155,7 +116,6 @@ function mapState(state) {
 
 const actionCreators = {
   getProfile: userActions.getProfile,
-  logOut: userActions.logout,
 }
 
 const connectedProfilePage = connect(mapState, actionCreators)(ProfilePage);
