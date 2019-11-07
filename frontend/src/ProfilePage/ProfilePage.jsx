@@ -6,6 +6,7 @@ import { Layout, Menu, Breadcrumb, Row, Col,
 import 'antd//dist/antd.css';
 import './ProfilePage.css';
 import { HeaderComponent } from '../HeaderComponent';
+import { FooterComponent } from '../FooterComponent';
 
 import { history } from '../_helpers';
 import { userActions } from '../_actions';
@@ -37,9 +38,7 @@ class ProfilePage extends React.Component {
             </Col> */}
           </Row>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          YALLP ©2019 Created by three awesome front-end developers.
-        </Footer>
+        <FooterComponent />        
       </Layout>
     )
   }

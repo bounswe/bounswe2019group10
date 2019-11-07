@@ -11,6 +11,7 @@ import { history } from '../_helpers';
 
 import './HomePage.css';
 import { HeaderComponent } from '../HeaderComponent';
+import { FooterComponent } from '../FooterComponent';
 
 class HomePage extends React.Component {
 
@@ -61,9 +62,7 @@ class HomePage extends React.Component {
                     </Col>
                 </Row>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
-            YALLP ©2019 Created by three awesome front-end developers.
-            </Footer>
+            <FooterComponent />
             </Layout>
         );
     }

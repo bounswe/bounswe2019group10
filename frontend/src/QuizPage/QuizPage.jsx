@@ -9,6 +9,7 @@ import { quizActions,userActions } from '../_actions';
 import './QuizPage.css';
 import { history } from '../_helpers';
 import { HeaderComponent } from '../HeaderComponent';
+import { FooterComponent } from '../FooterComponent';
 
 class QuizPage extends React.Component {
     constructor(props) {
@@ -164,9 +165,7 @@ class QuizPage extends React.Component {
           }
           
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          YALLP ©2019 Created by three awesome front-end developers.
-        </Footer>
+        <FooterComponent />
       </Layout>
       );
     }
