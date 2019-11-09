@@ -10,12 +10,13 @@ import { userActions,quizActions } from '../_actions';
 import { history } from '../_helpers';
 
 import './HomePage.css';
+import { HeaderComponent } from '../HeaderComponent';
+import { FooterComponent } from '../FooterComponent';
 
 class HomePage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.logOut = this.logOut.bind(this);
     }
 
     componentDidMount() {
@@ -23,49 +24,11 @@ class HomePage extends React.Component {
         this.props.getQuizes();
     }
 
-    logOut(){
-        this.props.logOut();
-        history.push('/');
-    }
     render() {
         const { profile,quizList } = this.props;
         return (
             <Layout className="layout">
-            <Header>
-                <Row style={{ height: "64px" }}>
-                    <Col span={0} />
-                    <Col id='yallp' span={10}> 
-                    <Link to={{pathname: '/'}}>YALLP</Link>
-                    </Col>
-                    <Col span={8} />
-                    <Col span={6}>
-                    <Menu
-                        theme="dark"
-                        mode="horizontal"
-                        style={{ lineHeight: '64px' }}
-                    >
-                        <SubMenu title={
-                        <span className="submenu-title-wrapper">
-                            <Avatar className="logo" style={{ backgroundColor: '#87d068' }} icon="user" />
-                        </span>
-                        }>
-                        <Menu.Item
-                            key="1"
-                        >
-                        <Link to={{pathname: '/profile-page'}}>Profile</Link>
-                            
-                        </Menu.Item>
-                        <Menu.Item
-                            key="3"
-                            onClick={this.logOut}
-                        >
-                            Log out
-                        </Menu.Item>
-                        </SubMenu>
-                    </Menu>
-                    </Col>
-                </Row>
-            </Header>
+            <HeaderComponent />
             <Content style={{ padding: '0 50px' }}>
                 <Row>
                     <Col span={2} />
@@ -99,9 +62,7 @@ class HomePage extends React.Component {
                     </Col>
                 </Row>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
-            YALLP ©2019 Created by three awesome front-end developers.
-            </Footer>
+            <FooterComponent />
             </Layout>
         );
     }
@@ -116,7 +77,6 @@ function mapState(state) {
 
 const actionCreators = {
     getProfile: userActions.getProfile,
-    logOut: userActions.logout,
     getQuizes: quizActions.getQuizes
 }
 
