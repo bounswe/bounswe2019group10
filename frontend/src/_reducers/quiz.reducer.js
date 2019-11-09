@@ -11,7 +11,7 @@ export function quiz(state = {}, action) {
     case quizConstants.SUBMIT_QUIZ_FAILURE:
         return { error: action.error };    
     case quizConstants.GET_QUIZES:
-      return { result: action.result };
+      return { quizList: action.result };
     case quizConstants.GET_QUIZES_FAILURE:
         return { error: action.error };    
     
