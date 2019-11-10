@@ -65,7 +65,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         Member newUser = new Member();
 
         String username = user.getUsername();
-        Pattern pattern = Pattern.compile(usenameRegex);
+        Pattern pattern = Pattern.compile(usernameRegex);
         //Check format
         if(!pattern.matcher(username).matches()){
             return new JwtUserDetailsServiceUtil(false, null, usernameWarning);
