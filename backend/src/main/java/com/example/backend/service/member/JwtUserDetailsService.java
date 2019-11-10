@@ -7,6 +7,7 @@ import com.example.backend.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -60,6 +61,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     public Member getByMail(String mail){return memberRepository.findByMail(mail);}
 
+    public String getUsername(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return userDetails.getUsername();
+    }
 
     public JwtUserDetailsServiceUtil save(MemberDTO user) {
         Member newUser = new Member();
@@ -130,6 +136,5 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
         member.setPassword(bcryptEncoder.encode(password));
         return new JwtUserDetailsServiceUtil(true, memberRepository.save(member), "Update is successful.");
-
     }
 }

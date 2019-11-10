@@ -2,15 +2,18 @@ package com.example.backend.controller.member;
 
 import com.example.backend.Util.JwtUserDetailsServiceUtil;
 import com.example.backend.config.JwtTokenUtil;
+import com.example.backend.model.language.MemberLanguageDTO;
 import com.example.backend.model.member.JwtResponse;
 import com.example.backend.model.member.MemberDTO;
 import com.example.backend.service.member.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -24,28 +27,18 @@ public class MemberController {
     JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/profile")
-    public ResponseEntity<?> getUser(HttpServletRequest request){
-        final String requestTokenHeader = request.getHeader("Authorization");
-        String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get
-        // only the Token
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
-        }
-        return ResponseEntity.ok(jwtUserDetailsService.getByUsername(jwtTokenUtil.getUsernameFromToken(jwtToken)));
+    public ResponseEntity<?> getUser(){
+        String username = jwtUserDetailsService.getUsername();
+
+        return ResponseEntity.ok(jwtUserDetailsService.getByUsername(username));
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody MemberDTO memberDTO, HttpServletRequest request){
-        final String requestTokenHeader = request.getHeader("Authorization");
-        String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get
-        // only the Token
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
-        }
-        String memberUname = jwtTokenUtil.getUsernameFromToken(jwtToken);
-        JwtUserDetailsServiceUtil serviceOutput = jwtUserDetailsService.updateMember(memberDTO, memberUname);
+
+        String username = jwtUserDetailsService.getUsername();
+
+        JwtUserDetailsServiceUtil serviceOutput = jwtUserDetailsService.updateMember(memberDTO, username);
 
         if(!serviceOutput.isValid()){ //If the request is invalid return the error message
             return  ResponseEntity.ok(serviceOutput.getInfo());
