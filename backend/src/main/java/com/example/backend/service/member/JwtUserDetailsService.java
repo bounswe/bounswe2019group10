@@ -1,9 +1,14 @@
 package com.example.backend.service.member;
 
 import com.example.backend.Util.JwtUserDetailsServiceUtil;
+import com.example.backend.model.language.Language;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberDTO;
+import com.example.backend.model.member.MemberLanguage;
+import com.example.backend.repository.language.LanguageRepository;
+import com.example.backend.repository.member.MemberLanguageRepository;
 import com.example.backend.repository.member.MemberRepository;
+import com.example.backend.service.dtoconverterservice.MemberDTOConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,6 +30,15 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private LanguageRepository languageRepository;
+
+    @Autowired
+    private MemberLanguageRepository memberLanguageRepository;
+
+    @Autowired
+    private MemberDTOConverterService memberDTOConverterService;
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
@@ -136,5 +150,17 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
         member.setPassword(bcryptEncoder.encode(password));
         return new JwtUserDetailsServiceUtil(true, memberRepository.save(member), "Update is successful.");
+    }
+
+    public MemberDTO addLanguage(List<String> languages){
+        Member member = memberRepository.findByUsername(getUsername());
+        languages.forEach(language -> {
+            Language lang = languageRepository.getByLanguageName(language);
+            MemberLanguage memLang = new MemberLanguage();
+            memLang.setLanguage(lang);
+            memLang.setMemberId(member.getId());
+            memberLanguageRepository.save(memLang);
+        });
+        return memberDTOConverterService.apply(member);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.backend.model.member;
 
+import java.util.List;
+
 public class MemberDTO {
     private String username;
     private String name;
@@ -7,6 +9,7 @@ public class MemberDTO {
     private String mail;
     private int id;
     private String password;
+    private List<MemberLanguage> languages;
 
     public String getName() {
         return name;
@@ -54,5 +57,13 @@ public class MemberDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<MemberLanguage> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<MemberLanguage> languages) {
+        this.languages = languages;
     }
 }

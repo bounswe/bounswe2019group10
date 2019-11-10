@@ -2,13 +2,11 @@ package com.example.backend.controller.member;
 
 import com.example.backend.Util.JwtUserDetailsServiceUtil;
 import com.example.backend.config.JwtTokenUtil;
-import com.example.backend.model.language.MemberLanguageDTO;
 import com.example.backend.model.member.JwtResponse;
 import com.example.backend.model.member.MemberDTO;
 import com.example.backend.service.member.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +49,11 @@ public class MemberController {
 
         return ResponseEntity.ok(new JwtResponse(token));
 
+    }
+
+    @PostMapping("/addlang")
+    public ResponseEntity<?> addLanguage(@RequestBody List<String> languages){
+        return  ResponseEntity.ok(jwtUserDetailsService.addLanguage(languages));
     }
 
 }
