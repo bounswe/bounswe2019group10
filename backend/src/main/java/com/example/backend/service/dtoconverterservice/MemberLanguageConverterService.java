@@ -1,16 +1,11 @@
 package com.example.backend.service.dtoconverterservice;
 
-import com.example.backend.model.quiz.MemberLanguage;
-import com.example.backend.model.quiz.MemberLanguageDTO;
-import com.example.backend.repository.language.LanguageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.backend.model.language.MemberLanguage;
+import com.example.backend.model.language.MemberLanguageDTO;
 import org.springframework.stereotype.Component;
 
 @Component
 class MemberLanguageConverterService {
-
-    @Autowired
-    private LanguageRepository languageRepository;
 
     public MemberLanguageDTO apply(MemberLanguage memberLanguage) {
         MemberLanguageDTO memberLanguageDTO = new MemberLanguageDTO();
