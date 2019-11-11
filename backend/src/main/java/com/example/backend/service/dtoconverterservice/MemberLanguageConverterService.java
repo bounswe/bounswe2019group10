@@ -1,7 +1,7 @@
 package com.example.backend.service.dtoconverterservice;
 
-import com.example.backend.model.language.MemberLanguage;
-import com.example.backend.model.language.MemberLanguageDTO;
+import com.example.backend.model.member.MemberLanguage;
+import com.example.backend.model.member.MemberLanguageDTO;
 import org.springframework.stereotype.Component;
 
 @Component

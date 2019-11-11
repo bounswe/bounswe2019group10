@@ -1,4 +1,4 @@
-package com.example.backend.model.language;
+package com.example.backend.model.member;
 
 public class MemberLanguageDTO {
 

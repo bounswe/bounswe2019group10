@@ -1,5 +1,4 @@
 package com.example.backend.model.member;
-import com.example.backend.model.language.MemberLanguage;
 
 import javax.persistence.*;
 import java.util.ArrayList;

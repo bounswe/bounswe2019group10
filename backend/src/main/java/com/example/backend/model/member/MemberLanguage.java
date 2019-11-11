@@ -1,5 +1,6 @@
 package com.example.backend.model.member;
 
+import com.example.backend.model.language.Language;
 
 import javax.persistence.*;
 
@@ -18,14 +19,15 @@ public class MemberLanguage {
     @Column(name = "member_id", nullable = false)
     private Integer memberId;
 
-    @Column(name = "language_id", nullable = false)
-    private Integer languageId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "language_id")
+    private Language language;
 
     public MemberLanguage(){}
 
-    public MemberLanguage(int memberId, int languageId){
+    public MemberLanguage(int memberId, Language language){
         this.setMemberId(memberId);
-        this.setLanguageId(languageId);
+        this.setLanguage(language);
     }
 
     public int getId() {
@@ -52,11 +54,11 @@ public class MemberLanguage {
         this.memberId = memberId;
     }
 
-    public Integer getLanguageId() {
-        return languageId;
+    public Language getLanguage() {
+        return language;
     }
 
-    public void setLanguageId(Integer languageId) {
-        this.languageId = languageId;
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 }

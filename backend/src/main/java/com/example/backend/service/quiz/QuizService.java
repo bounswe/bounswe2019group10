@@ -1,8 +1,10 @@
 package com.example.backend.service.quiz;
 
+import com.example.backend.model.language.Language;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberLanguage;
 import com.example.backend.model.quiz.*;
+import com.example.backend.repository.language.LanguageRepository;
 import com.example.backend.repository.member.MemberLanguageRepository;
 import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.repository.quiz.QuestionRepository;
@@ -29,6 +31,9 @@ public class QuizService {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private LanguageRepository languageRepository;
 
     @Autowired
     private QuizDTOConverterService quizDTOConverterService;
@@ -84,11 +89,13 @@ public class QuizService {
                 //Default is english:
                 languageId = 1;
             }
+
+            Language lang = languageRepository.getById(languageId);
             //Insert into member_language
             //Check if the member already exists:
-            MemberLanguage memberLanguage = memberLanguageRepository.getByMemberId(curMember.getId());
+            MemberLanguage memberLanguage = memberLanguageRepository.getByMemberIdAndLanguage(curMember.getId(), lang);
             if(memberLanguage == null){
-                memberLanguage = new MemberLanguage(curMember.getId(), languageId);
+                memberLanguage = new MemberLanguage(curMember.getId(), lang);
             }
             memberLanguage.setLanguageLevel(level);
 

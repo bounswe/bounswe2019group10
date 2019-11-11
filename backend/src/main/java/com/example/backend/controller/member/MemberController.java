@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -24,28 +25,18 @@ public class MemberController {
     JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/profile")
-    public ResponseEntity<?> getUser(HttpServletRequest request){
-        final String requestTokenHeader = request.getHeader("Authorization");
-        String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get
-        // only the Token
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
-        }
-        return ResponseEntity.ok(jwtUserDetailsService.getByUsername(jwtTokenUtil.getUsernameFromToken(jwtToken)));
+    public ResponseEntity<?> getUser(){
+        String username = jwtUserDetailsService.getUsername();
+
+        return ResponseEntity.ok(jwtUserDetailsService.getByUsername(username));
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody MemberDTO memberDTO, HttpServletRequest request){
-        final String requestTokenHeader = request.getHeader("Authorization");
-        String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get
-        // only the Token
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
-        }
-        String memberUname = jwtTokenUtil.getUsernameFromToken(jwtToken);
-        JwtUserDetailsServiceUtil serviceOutput = jwtUserDetailsService.updateMember(memberDTO, memberUname);
+
+        String username = jwtUserDetailsService.getUsername();
+
+        JwtUserDetailsServiceUtil serviceOutput = jwtUserDetailsService.updateMember(memberDTO, username);
 
         if(!serviceOutput.isValid()){ //If the request is invalid return the error message
             return  ResponseEntity.ok(serviceOutput.getInfo());
@@ -58,6 +49,11 @@ public class MemberController {
 
         return ResponseEntity.ok(new JwtResponse(token));
 
+    }
+
+    @PostMapping("/addlang")
+    public ResponseEntity<?> addLanguage(@RequestBody List<String> languages){
+        return  ResponseEntity.ok(jwtUserDetailsService.addLanguage(languages));
     }
 
 }
