@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class MemberControllerTest {
-
+/*
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
@@ -42,4 +42,6 @@ class MemberControllerTest {
 
         assertEquals("username1", member.getUsername());
     }
+
+ */
 }

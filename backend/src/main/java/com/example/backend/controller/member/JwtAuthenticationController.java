@@ -6,6 +6,8 @@ import com.example.backend.model.member.JwtRequest;
 import com.example.backend.model.member.JwtResponse;
 import com.example.backend.model.member.MemberDTO;
 import com.example.backend.service.member.JwtUserDetailsService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,7 +40,8 @@ public class JwtAuthenticationController {
             "A-Z]{2,7}$";
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    @ApiOperation(value = "Log-in to the application")
+    public ResponseEntity<?> createAuthenticationToken( @RequestBody JwtRequest authenticationRequest) throws Exception {
         String username = authenticationRequest.getUsername();
                 //Check if the input is of form email.
 
@@ -70,6 +73,7 @@ public class JwtAuthenticationController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @ApiOperation(value = "Register a new user")
     public ResponseEntity<?> saveUser(@RequestBody MemberDTO user) throws Exception {
         //Handle registration attempt with same username/password
         if (userDetailsService.getByMail(user.getMail()) != null ||
