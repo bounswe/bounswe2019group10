@@ -50,9 +50,29 @@ export function users(state = {}, action) {
         profile:action.profile
       };
     case userConstants.PROFILE_FAILURE:
-        return {
-          error: action.error
-        };
+      return {
+        error: action.error
+      };
+    case userConstants.LANGUAGE_SUCCESS:
+      return {
+        ...state,
+        languages: action.languages
+      };
+    case userConstants.LANGUAGE_FAILURE:
+      return {
+        ...state,
+        error: action.error
+      };
+    case userConstants.ALL_LANGUAGES_SUCCESS:
+      return {
+        ...state,
+        all_languages: action.languages
+      };
+    case userConstants.ALL_LANGUAGES_FAILURE:
+      return {
+        ...state,
+        error: action.error
+      };
     default:
       return state
   }

@@ -6,6 +6,8 @@ export const userService = {
     logout,
     register,
     getProfile,
+    getUserLanguages,
+    getAllLanguages,
     getAll,
     getById,
     update,
@@ -40,6 +42,22 @@ function getProfile(){
         headers: {...authHeader(),"Access-Control-Allow-Origin":"*"}
     };
     return fetch(`${config.apiUrl}/member/profile`, requestOptions).then(handleResponse);
+}
+
+function getUserLanguages(){
+    const requestOptions = {
+        method: 'GET',
+        headers: {...authHeader(),"Access-Control-Allow-Origin":"*"}
+    };
+    return fetch(`${config.apiUrl}/member/languages`, requestOptions).then(handleResponse);
+}
+
+function getAllLanguages(){
+    const requestOptions = {
+        method: 'GET',
+        headers: {...authHeader(),"Access-Control-Allow-Origin":"*"}
+    };
+    return fetch(`${config.apiUrl}/languages`, requestOptions).then(handleResponse);
 }
 
 function getAll() {

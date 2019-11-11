@@ -8,6 +8,8 @@ export const userActions = {
     getProfile,
     logout,
     register,
+    getUserLanguages,
+    getAllLanguages
 };
 
 function login(username, password) {
@@ -108,4 +110,39 @@ function _delete(id) {
     function request(id) { return { type: userConstants.DELETE_REQUEST, id } }
     function success(id) { return { type: userConstants.DELETE_SUCCESS, id } }
     function failure(id, error) { return { type: userConstants.DELETE_FAILURE, id, error } }
+}
+
+
+function getUserLanguages() {
+    return dispatch => {
+        userService.getUserLanguages()
+            .then(
+                languages => { 
+                    dispatch(success(languages));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(languages) { return { type: userConstants.LANGUAGE_SUCCESS, languages } }
+    function failure(error) { return { type: userConstants.LANGUAGE_FAILURE, error } }
+}
+
+function getAllLanguages() {
+    return dispatch => {
+        userService.getAllLanguages()
+            .then(
+                languages => { 
+                    dispatch(success(languages));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(languages) { return { type: userConstants.ALL_LANGUAGES_SUCCESS, languages } }
+    function failure(error) { return { type: userConstants.ALL_LANGUAGES_FAILURE, error } }
 }
