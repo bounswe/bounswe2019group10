@@ -41,7 +41,7 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     @ApiOperation(value = "Log-in to the application")
-    public ResponseEntity<?> createAuthenticationToken( @RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<JwtResponse> createAuthenticationToken( @RequestBody JwtRequest authenticationRequest) throws Exception {
         String username = authenticationRequest.getUsername();
                 //Check if the input is of form email.
 
@@ -74,7 +74,7 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ApiOperation(value = "Register a new user")
-    public ResponseEntity<?> saveUser(@RequestBody MemberDTO user) throws Exception {
+    public ResponseEntity<JwtResponse> saveUser(@RequestBody MemberDTO user) throws Exception {
         //Handle registration attempt with same username/password
         if (userDetailsService.getByMail(user.getMail()) != null ||
                 userDetailsService.getByUsername(user.getUsername()) != null) {
@@ -82,7 +82,7 @@ public class JwtAuthenticationController {
         }
         JwtUserDetailsServiceUtil serviceOutput = userDetailsService.save(user);
         if(!serviceOutput.isValid()){ //If the request is invalid return the error message
-            return  ResponseEntity.ok(serviceOutput.getInfo());
+            return  ResponseEntity.ok(new JwtResponse(serviceOutput.getInfo()));
         }
         return createAuthenticationToken(new JwtRequest(user.getUsername(), user.getPassword()));
     }

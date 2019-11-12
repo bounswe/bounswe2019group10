@@ -1,5 +1,6 @@
 package com.example.backend.controller.language;
 
+import com.example.backend.model.language.Language;
 import com.example.backend.service.language.LanguageService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/lang")
@@ -19,7 +22,7 @@ public class LanguageController {
 
     @GetMapping()
     @ApiOperation(value = "Get all languages")
-    public ResponseEntity<?> getAllLanguages() {
+    public ResponseEntity<List<Language>> getAllLanguages() {
         return ResponseEntity.ok(languageService.findAll());
     }
 
