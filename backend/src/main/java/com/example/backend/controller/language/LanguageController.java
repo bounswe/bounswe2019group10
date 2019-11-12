@@ -18,8 +18,8 @@ public class LanguageController {
     LanguageService languageService;
 
     @GetMapping()
-    @ApiOperation(value = "Get all quizzes")
-    public ResponseEntity<?> getAllQuizzes() {
+    @ApiOperation(value = "Get all languages")
+    public ResponseEntity<?> getAllLanguages() {
         return ResponseEntity.ok(languageService.findAll());
     }
 
