@@ -1,6 +1,7 @@
 package com.example.backend.controller.language;
 
 import com.example.backend.service.language.LanguageService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +18,7 @@ public class LanguageController {
     LanguageService languageService;
 
     @GetMapping()
+    @ApiOperation(value = "Get all quizzes")
     public ResponseEntity<?> getAllQuizzes() {
         return ResponseEntity.ok(languageService.findAll());
     }

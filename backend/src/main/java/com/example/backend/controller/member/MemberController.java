@@ -5,6 +5,7 @@ import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.member.JwtResponse;
 import com.example.backend.model.member.MemberDTO;
 import com.example.backend.service.member.JwtUserDetailsService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,7 @@ public class MemberController {
     JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/profile")
+    @ApiOperation(value = "Get profile information")
     public ResponseEntity<?> getUser(){
         String username = jwtUserDetailsService.getUsername();
 
@@ -32,6 +34,7 @@ public class MemberController {
     }
 
     @PutMapping("/update")
+    @ApiOperation(value = "Update profile information")
     public ResponseEntity<?> updateUser(@RequestBody MemberDTO memberDTO, HttpServletRequest request){
 
         String username = jwtUserDetailsService.getUsername();
@@ -52,6 +55,7 @@ public class MemberController {
     }
 
     @PostMapping("/addlang")
+    @ApiOperation(value = "Add a new language")
     public ResponseEntity<?> addLanguage(@RequestBody List<String> languages){
         return  ResponseEntity.ok(jwtUserDetailsService.addLanguage(languages));
     }
