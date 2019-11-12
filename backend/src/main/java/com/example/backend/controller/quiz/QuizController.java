@@ -4,6 +4,7 @@ package com.example.backend.controller.quiz;
 import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.quiz.QuizDTO;
 import com.example.backend.model.quiz.QuizRequest;
+import com.example.backend.service.member.JwtUserDetailsService;
 import com.example.backend.service.quiz.QuizService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class QuizController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private JwtUserDetailsService jwtUserDetailsService;
 
     @GetMapping()
     @ApiOperation(value = "Get all quizzes")
@@ -44,19 +48,10 @@ public class QuizController {
 
     @PostMapping("/{quizId}/submit")
     @ApiOperation(value = "Submit the answers to the quiz")
-    public ResponseEntity<QuizRequest> evaluateQuizRequest(@PathVariable int quizId, @RequestBody QuizRequest quizRequest, HttpServletRequest request) {
+    public ResponseEntity<QuizRequest> evaluateQuizRequest(@PathVariable int quizId, @RequestBody QuizRequest quizRequest) {
         int score;
         //TODO remove the following and add a global method that can be used by all classes
-        final String requestTokenHeader = request.getHeader("Authorization");
-        String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get
-        // only the Token
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
-        }
-
-
-        String memberUname = jwtTokenUtil.getUsernameFromToken(jwtToken);
+        String memberUname = jwtUserDetailsService.getUsername();
         QuizRequest qRequest = quizService.evaluateQuiz(quizRequest, memberUname);
         return ResponseEntity.ok(qRequest);
     }
