@@ -24,6 +24,7 @@ public class MemberLanguage {
     @JoinColumn(name = "language_id")
     private Language language;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "level_name")
     private LevelName levelName;
 

@@ -3,10 +3,7 @@ package com.example.backend.model.quiz;
 
 import com.example.backend.model.language.LevelName;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "quiz")
@@ -26,6 +23,7 @@ public class Quiz {
     @Column(name = "language_id")
     private Integer languageId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "level_name")
     private LevelName levelName;
 
