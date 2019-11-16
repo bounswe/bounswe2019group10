@@ -2,6 +2,7 @@ package com.example.backend.service.search;
 
 import com.example.backend.model.quiz.Quiz;
 import com.example.backend.model.search.TagSimilarity;
+import com.example.backend.repository.TagSimilarityRepository;
 import com.example.backend.repository.quiz.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ public class SearchService {
     @Autowired
     QuizRepository quizRepository;
 
+    @Autowired
+    TagSimilarityRepository tagSimilarityRepository;
 
     public List<Quiz> quizSearchResult(String searchTerm){
 
@@ -23,9 +26,17 @@ public class SearchService {
         Queue<TagSimilarity> tagQueue = new PriorityQueue<>(similarityComparator);
 
         tags.forEach(tag -> {
-            double similarity = getSimilarity(searchTerm, tag);
-            if(similarity > 0){
-                tagQueue.add(new TagSimilarity(tag, 1-similarity));
+
+            TagSimilarity tagSimilarity = tagSimilarityRepository.getBySearch_termAndTag(searchTerm, tag);
+
+            if(tagSimilarity == null){
+                double similarity = getSimilarity(searchTerm, tag);
+                tagSimilarity = new TagSimilarity(searchTerm, tag, 1-similarity);
+                tagSimilarityRepository.save(tagSimilarity);
+            }
+
+            if(tagSimilarity.getSimilarity() > 0){
+                tagQueue.add(tagSimilarity);
             }
         });
 
