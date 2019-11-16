@@ -12,21 +12,15 @@
         android:usesCleartextTraffic="true" >
         <activity android:name=".activities.MainActivity" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.GetStartedActivity" >
-        </activity>
-        <activity android:name=".activities.SignInActivity" >
-        </activity>
-        <activity android:name=".activities.ProfileActivity" >
-        </activity>
-        <activity android:name=".activities.QuizActivity" >
-        </activity>
-        <activity android:name=".activities.QuizScoreActivity" >
-        </activity>
+        <activity android:name=".activities.GetStartedActivity"/>
+        <activity android:name=".activities.SignInActivity"/>
+        <activity android:name=".activities.ProfileActivity"/>
+        <activity android:name=".activities.QuizActivity"/>
+        <activity android:name=".activities.QuizScoreActivity"/>
+        <activity android:name=".activities.AddLangugeActivity"/>
     </application>
-
 </manifest>

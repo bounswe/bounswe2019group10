@@ -37,4 +37,11 @@ public interface UserApi {
     @GET("member/profile")
     Call<UserInfo> getProfileInfo(@Header("Authorization") String token);
 
+    @Headers({"Content-Type: application/json"})
+    @POST("member/addlang")
+    Call<UserInfo> addNewLanguages(
+            @Header("Authorization") String token,
+            @Body String[] newLanguages
+    );
+
 }

@@ -161,6 +161,7 @@
                 </ImageView>
 
                 <TextView
+                    android:id="@+id/addNewLanguage"
                     style="@style/MainTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
