@@ -12,6 +12,8 @@ public class WritingDTO {
 
     private String taskText;
 
+    private List<String> evaluatorUsernames;
+
     public int getId() {
         return id;
     }
@@ -34,5 +36,13 @@ public class WritingDTO {
 
     public void setTaskText(String taskText) {
         this.taskText = taskText;
+    }
+
+    public List<String> getEvaluatorUsernames() {
+        return evaluatorUsernames;
+    }
+
+    public void setEvaluatorUsernames(List<String> evaluatorUsernames) {
+        this.evaluatorUsernames = evaluatorUsernames;
     }
 }

@@ -2,12 +2,13 @@ package com.example.backend.controller.writing;
 
 
 import com.example.backend.config.JwtTokenUtil;
+import com.example.backend.model.writing.WritingDTO;
 import com.example.backend.service.member.JwtUserDetailsService;
 import com.example.backend.service.writing.WritingService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/writing")
@@ -23,4 +24,10 @@ public class WritingController {
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
 
+    @GetMapping("/{quizId}")
+    @ApiOperation(value = "Get quiz by ID")
+    public ResponseEntity<WritingDTO> getById(@PathVariable int writingId) {
+        String memberUsername = jwtUserDetailsService.getUsername();
+        return ResponseEntity.ok(writingService.getById(writingId, memberUsername));
+    }
 }
