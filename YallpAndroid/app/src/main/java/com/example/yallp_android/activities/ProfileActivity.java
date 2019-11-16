@@ -25,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
+    private TextView addNewLanguage;
 
     /*private LinearLayout layout;
 
@@ -57,6 +58,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_profile);
         GridLayout englishLayout = findViewById(R.id.englishLayout);
+        this.addNewLanguage = findViewById(R.id.addNewLanguage);
+        this.addNewLanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),AddLangugeActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
 
         englishLayout.setOnClickListener(new View.OnClickListener() {
