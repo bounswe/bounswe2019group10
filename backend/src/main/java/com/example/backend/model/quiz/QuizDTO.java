@@ -12,6 +12,16 @@ public class QuizDTO {
 
     private List <QuestionDTO> questions;
 
+    private String levelName;
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
+
     public int getId() {
         return id;
     }

@@ -1,6 +1,7 @@
 package com.example.backend.service.quiz;
 
 import com.example.backend.model.language.Language;
+import com.example.backend.model.language.LevelName;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberLanguage;
 import com.example.backend.model.quiz.*;
@@ -98,6 +99,18 @@ public class QuizService {
                 memberLanguage = new MemberLanguage(curMember.getId(), lang);
             }
             memberLanguage.setLanguageLevel(level);
+            if (level < 3) {
+                memberLanguage.setLevelName(LevelName.BEGINNER);
+            }
+            else if (level < 5) {
+                memberLanguage.setLevelName(LevelName.INTERMEDIATE);
+            }
+            else if (level < 7) {
+                memberLanguage.setLevelName(LevelName.UPPER_INTERMEDIATE);
+            }
+            else {
+                memberLanguage.setLevelName(LevelName.ADVANCED);
+            }
 
             memberLanguageRepository.save(memberLanguage);
         }
@@ -108,5 +121,15 @@ public class QuizService {
         return  quizRequest;
     }
 
+    public List<QuizDTO>getAllQuizzesByLanguageId(long languageId) {
+        List<QuizDTO> quizDTOS = new ArrayList<>();
+        quizRepository.getAllByLanguageId(languageId).forEach(quiz -> quizDTOS.add(quizDTOConverterService.apply(quiz, null)));
+        return quizDTOS;
+    }
 
+    public List<QuizDTO>getAllQuizzesByLevelId(long levelId) {
+        List<QuizDTO> quizDTOS = new ArrayList<>();
+        quizRepository.getAllByLevel(levelId).forEach(quiz -> quizDTOS.add(quizDTOConverterService.apply(quiz, null)));
+        return quizDTOS;
+    }
 }
