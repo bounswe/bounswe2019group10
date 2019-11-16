@@ -1,6 +1,8 @@
 package com.example.backend.model.quiz;
 
 
+import com.example.backend.model.language.LevelName;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,6 +25,17 @@ public class Quiz {
 
     @Column(name = "language_id")
     private Integer languageId;
+
+    @Column(name = "level_name")
+    private LevelName levelName;
+
+    public LevelName getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(LevelName levelName) {
+        this.levelName = levelName;
+    }
 
     public int getId() {
         return id;

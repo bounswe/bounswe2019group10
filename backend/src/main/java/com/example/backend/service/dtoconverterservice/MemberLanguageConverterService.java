@@ -13,6 +13,7 @@ class MemberLanguageConverterService {
         memberLanguageDTO.setLanguageId(memberLanguage.getLanguage().getId());
         memberLanguageDTO.setLanguageName(memberLanguage.getLanguage().getLanguageName());
         memberLanguageDTO.setMemberId(memberLanguage.getMemberId());
+        memberLanguageDTO.setLevel(memberLanguage.getLevelName().toString());
         return memberLanguageDTO;
     }
 }

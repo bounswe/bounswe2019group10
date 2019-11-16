@@ -1,6 +1,7 @@
 package com.example.backend.model.member;
 
 import com.example.backend.model.language.Language;
+import com.example.backend.model.language.LevelName;
 
 import javax.persistence.*;
 
@@ -22,6 +23,17 @@ public class MemberLanguage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "language_id")
     private Language language;
+
+    @Column(name = "level_name")
+    private LevelName levelName;
+
+    public LevelName getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(LevelName levelName) {
+        this.levelName = levelName;
+    }
 
     public MemberLanguage(){}
 
