@@ -44,7 +44,7 @@ public class WritingController {
         return ResponseEntity.ok(resp);
     }
 
-    @GetMapping("/{languageId}")
+    @GetMapping("/language/{languageId}")
     @ApiOperation(value = "Get IDs of Writings in a given language")
     public ResponseEntity<List<Integer>> getWritingsInLanguage(@PathVariable int languageId) {
         return ResponseEntity.ok(writingService.getWritingsInLanguage(languageId));

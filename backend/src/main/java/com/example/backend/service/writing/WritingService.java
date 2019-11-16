@@ -18,6 +18,7 @@ import java.util.List;
 
 @Service
 public class WritingService {
+
     @Autowired
     private WritingRepository writingRepository;
 
@@ -55,8 +56,19 @@ public class WritingService {
         return users;
     }
 
+    //We can't return all of the writings explicitly to the user because this will be too big.
+    //Currently I am converting the writing list to id list of Integers. I could not manage the
+    //repository to return this directly.
+    public List<Integer> getWritingIDList(List<Writing> writings){
+        List<Integer> ids = new ArrayList<>();
+        for(Writing w: writings){
+            ids.add(w.getId());
+        }
+        return ids;
+    }
+
     public List<Integer> getWritingsInLanguage(Integer languageId){
-        return writingRepository.findAllByLanguageId(languageId);
+        return getWritingIDList( writingRepository.findAllByLanguageId(languageId));
     }
 
     public List<WritingResultDTO> DTOListConverter(List<WritingResult> writingResults){

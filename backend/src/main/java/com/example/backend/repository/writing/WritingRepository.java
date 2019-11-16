@@ -12,7 +12,7 @@ import java.util.List;
 public interface WritingRepository  extends JpaRepository<Writing, Integer> {
 
     //Returns ids of writing tasks that are in specified language
-    @Query("SELECT w.id FROM writing w where w.language_id = :lang_id")
-    List<Integer> findAllByLanguageId(@Param("lang_id") Integer langId);
+    //@Query("SELECT w.id FROM writing w where w.language_id=:lang_id")
+    List<Writing> findAllByLanguageId(@Param("lang_id") Integer langId);
 
 }
