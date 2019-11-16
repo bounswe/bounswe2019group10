@@ -24,10 +24,11 @@ public class WritingController {
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
 
-    @GetMapping("/{quizId}")
-    @ApiOperation(value = "Get quiz by ID")
+    @GetMapping("/{writingId}")
+    @ApiOperation(value = "Get Writing by ID")
     public ResponseEntity<WritingDTO> getById(@PathVariable int writingId) {
         String memberUsername = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.getById(writingId, memberUsername));
     }
+
 }
