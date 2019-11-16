@@ -10,6 +10,8 @@ public class WritingResultDTO {
 
     private Integer writingId;
 
+    private Integer score;
+
     private String answerText;
 
     public int getId() {
@@ -50,5 +52,13 @@ public class WritingResultDTO {
 
     public void setAnswerText(String answerText) {
         this.answerText = answerText;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

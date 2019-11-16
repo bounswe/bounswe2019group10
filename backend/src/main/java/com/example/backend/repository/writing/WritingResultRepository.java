@@ -13,10 +13,10 @@ public interface WritingResultRepository extends JpaRepository<WritingResult, In
     //Returns the writing results of a specified member
     List<WritingResult> findAllByMemberId(@Param("mem_id") Integer memId);
 
-    @Query(nativeQuery = true, value = "select * from writing_result w where w.assigned_member_id = :mem_id and w.answer_text is not null")
+    @Query(nativeQuery = true, value = "select * from writing_result w where w.assigned_member_id = :mem_id and w.score is not null")
     List<WritingResult> findAllCompleteByAssignedId(@Param("mem_id") Integer memId);
 
-    @Query(nativeQuery = true, value = "select * from writing_result w where w.assigned_member_id = :mem_id and w.answer_text is null")
+    @Query(nativeQuery = true, value = "select * from writing_result w where w.assigned_member_id = :mem_id and w.score is null")
     List<WritingResult> findAllNonCompleteByAssignedId(@Param("mem_id") Integer memId);
 
 

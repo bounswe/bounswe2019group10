@@ -23,6 +23,9 @@ public class WritingResult {
     @Column(name = "writing_id")
     private Integer writingId;
 
+    @Column(name = "score")
+    private Integer score;
+
     @Column(name = "answer_text")
     private String answerText;
 
@@ -64,5 +67,13 @@ public class WritingResult {
 
     public void setAnswerText(String answerText) {
         this.answerText = answerText;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

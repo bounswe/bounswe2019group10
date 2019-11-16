@@ -2,16 +2,14 @@ package com.example.backend.service.writing;
 
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberLanguage;
-import com.example.backend.model.writing.Writing;
-import com.example.backend.model.writing.WritingDTO;
-import com.example.backend.model.writing.WritingRequest;
-import com.example.backend.model.writing.WritingResult;
+import com.example.backend.model.writing.*;
 import com.example.backend.repository.language.LanguageRepository;
 import com.example.backend.repository.member.MemberLanguageRepository;
 import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.repository.writing.WritingRepository;
 import com.example.backend.repository.writing.WritingResultRepository;
 import com.example.backend.service.dtoconverterservice.WritingDTOConverterService;
+import com.example.backend.service.dtoconverterservice.WritingResultDTOConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +36,9 @@ public class WritingService {
     @Autowired
     private WritingDTOConverterService writingDTOConverterService;
 
+    @Autowired
+    private WritingResultDTOConverterService writingResultDTOConverterService;
+
     public WritingDTO getById(int id, String memberUsername) {
         Integer memberId = memberRepository.findByUsername(memberUsername).getId();
         Writing writing = writingRepository.getOne(id);
@@ -58,8 +59,17 @@ public class WritingService {
         return writingRepository.findAllByLanguageId(languageId);
     }
 
-    public List<WritingResult> getWritingResultsOfMember(Integer memberId){
-        return writingResultRepository.findAllByMemberId(memberId);
+    public List<WritingResultDTO> DTOListConverter(List<WritingResult> writingResults){
+        List<WritingResultDTO> writingResultDTOS = new ArrayList<>();
+        for(WritingResult w: writingResults){
+            writingResultDTOS.add(writingResultDTOConverterService.apply(w));
+        }
+        return writingResultDTOS;
+    }
+
+    public List<WritingResultDTO> getWritingResultsOfMember(String username){
+        Integer memberId = memberRepository.findByUsername(username).getId();
+        return DTOListConverter(writingResultRepository.findAllByMemberId(memberId));
     }
 
     public String processWritingAnswer(WritingRequest writingRequest, String username){
@@ -79,12 +89,40 @@ public class WritingService {
         return "The answer is saved.";
     }
 
-    public List<WritingResult> findAllCompleteByAssignedId(Integer assignedMemberId){
-        return writingResultRepository.findAllCompleteByAssignedId(assignedMemberId);
+    public List<WritingResultDTO> findAllCompleteByAssignedId(String username){
+        Integer assignedMemberId = memberRepository.findByUsername(username).getId();
+        return DTOListConverter(writingResultRepository.findAllCompleteByAssignedId(assignedMemberId));
     }
 
-    public List<WritingResult> findAllNonCompleteByAssignedId(Integer assignedMemberId){
-        return writingResultRepository.findAllNonCompleteByAssignedId(assignedMemberId);
+    public List<WritingResultDTO> findAllNonCompleteByAssignedId(String username){
+        Integer assignedMemberId = memberRepository.findByUsername(username).getId();
+        return DTOListConverter(writingResultRepository.findAllNonCompleteByAssignedId(assignedMemberId));
     }
+
+    public WritingResultDTO findAssignmentById(String username, int writingResultId){
+        WritingResult writingResult  = writingResultRepository.getOne(writingResultId);
+        if(writingResult==null || writingResult.getAssignedMemberId() != memberRepository.findByUsername(username).getId()){
+            return null; //TODO add error message
+        }
+        return writingResultDTOConverterService.apply(writingResult);
+
+    }
+
+    public String evaluateWriting(String username, Integer writingResultId, Integer score){
+        //Check if the user is assigned to that writing first. If not return warning message
+        WritingResult writingResult  = writingResultRepository.getOne(writingResultId);
+        if(writingResult==null){
+            return "Writing evaluation ID does not exist.";
+        }
+        else if( writingResult.getAssignedMemberId() != memberRepository.findByUsername(username).getId()){
+            return "The user does not have permission to evaluate the given writing.";
+        }
+        //IF so update the writing result and return "success"
+        writingResult.setScore(score);
+        writingResultRepository.save(writingResult);
+        return "success";
+    }
+
+
 
 }
