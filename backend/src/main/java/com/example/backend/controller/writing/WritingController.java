@@ -40,7 +40,7 @@ public class WritingController {
     @ApiOperation(value = "Submit the answers to the writing")
     public ResponseEntity<String> evaluateQuizRequest(@PathVariable int writingId, @RequestBody WritingRequest writingRequest) {
         String memberUname = jwtUserDetailsService.getUsername();
-        String resp = writingService.processWritingAnswer(writingRequest, memberUname);
+        String resp = writingService.processWritingAnswer(writingRequest, memberUname, writingId);
         return ResponseEntity.ok(resp);
     }
 

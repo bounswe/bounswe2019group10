@@ -1,16 +1,16 @@
 package com.example.backend.model.writing;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "writing_result")
 public class WritingResult {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
+    @SequenceGenerator(name="id_generator", sequenceName = "writing_result_id_seq", allocationSize = 1)
+
     @Column(name = "id")
     private int id;
 

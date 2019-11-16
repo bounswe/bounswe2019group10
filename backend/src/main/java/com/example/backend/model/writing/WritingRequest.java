@@ -2,29 +2,11 @@ package com.example.backend.model.writing;
 
 public class WritingRequest {
 
-    private int id;
-
-    private int writingId;
 
     private String answerText;
 
     private String evaluatorUsername;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getWritingId() {
-        return writingId;
-    }
-
-    public void setWritingId(int writingId) {
-        this.writingId = writingId;
-    }
 
     public String getAnswerText() {
         return answerText;
