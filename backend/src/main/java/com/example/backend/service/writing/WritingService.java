@@ -4,10 +4,13 @@ import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberLanguage;
 import com.example.backend.model.writing.Writing;
 import com.example.backend.model.writing.WritingDTO;
+import com.example.backend.model.writing.WritingRequest;
+import com.example.backend.model.writing.WritingResult;
 import com.example.backend.repository.language.LanguageRepository;
 import com.example.backend.repository.member.MemberLanguageRepository;
 import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.repository.writing.WritingRepository;
+import com.example.backend.repository.writing.WritingResultRepository;
 import com.example.backend.service.dtoconverterservice.WritingDTOConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,8 @@ public class WritingService {
     @Autowired
     private WritingRepository writingRepository;
 
+    @Autowired
+    private WritingResultRepository writingResultRepository;
 
     @Autowired
     private MemberLanguageRepository memberLanguageRepository;
@@ -49,6 +54,37 @@ public class WritingService {
         return users;
     }
 
+    public List<Integer> getWritingsInLanguage(Integer languageId){
+        return writingRepository.findAllByLanguageId(languageId);
+    }
 
+    public List<WritingResult> getWritingResultsOfMember(Integer memberId){
+        return writingResultRepository.findAllByMemberId(memberId);
+    }
+
+    public String processWritingAnswer(WritingRequest writingRequest, String username){
+        Member evMember = memberRepository.findByUsername(writingRequest.getEvaluatorUsername());
+        if(writingRequest.getEvaluatorUsername()==null || evMember==null){
+            return "Specify a valid username to evaluate the quiz";
+        }
+
+        //Now add the writing result to the table
+        WritingResult writingResult = new WritingResult();
+        writingResult.setAnswerText(writingRequest.getAnswerText());
+        writingResult.setAssignedMemberId(evMember.getId());
+        writingResult.setMemberId(memberRepository.findByUsername(username).getId());
+        writingResult.setWritingId(writingRequest.getWritingId());
+        writingResultRepository.save(writingResult);
+
+        return "The answer is saved.";
+    }
+
+    public List<WritingResult> findAllCompleteByAssignedId(Integer assignedMemberId){
+        return writingResultRepository.findAllCompleteByAssignedId(assignedMemberId);
+    }
+
+    public List<WritingResult> findAllNonCompleteByAssignedId(Integer assignedMemberId){
+        return writingResultRepository.findAllNonCompleteByAssignedId(assignedMemberId);
+    }
 
 }

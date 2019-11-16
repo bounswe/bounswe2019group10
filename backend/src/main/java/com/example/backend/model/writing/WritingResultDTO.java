@@ -1,0 +1,54 @@
+package com.example.backend.model.writing;
+
+public class WritingResultDTO {
+
+    private int id;
+
+    private Integer memberId;
+
+    private Integer assignedMemberId;
+
+    private Integer writingId;
+
+    private String answerText;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Integer getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
+    }
+
+    public Integer getAssignedMemberId() {
+        return assignedMemberId;
+    }
+
+    public void setAssignedMemberId(Integer assignedMemberId) {
+        this.assignedMemberId = assignedMemberId;
+    }
+
+    public Integer getWritingId() {
+        return writingId;
+    }
+
+    public void setWritingId(Integer writingId) {
+        this.writingId = writingId;
+    }
+
+    public String getAnswerText() {
+        return answerText;
+    }
+
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
+    }
+}

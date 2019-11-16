@@ -4,9 +4,9 @@ public class WritingRequest {
 
     private int id;
 
-    private int languageId;
+    private int writingId;
 
-    private String taskText;
+    private String answerText;
 
     private String evaluatorUsername;
 
@@ -18,20 +18,20 @@ public class WritingRequest {
         this.id = id;
     }
 
-    public int getLanguageId() {
-        return languageId;
+    public int getWritingId() {
+        return writingId;
     }
 
-    public void setLanguageId(int languageId) {
-        this.languageId = languageId;
+    public void setWritingId(int writingId) {
+        this.writingId = writingId;
     }
 
-    public String getTaskText() {
-        return taskText;
+    public String getAnswerText() {
+        return answerText;
     }
 
-    public void setTaskText(String taskText) {
-        this.taskText = taskText;
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
     }
 
     public String getEvaluatorUsername() {
