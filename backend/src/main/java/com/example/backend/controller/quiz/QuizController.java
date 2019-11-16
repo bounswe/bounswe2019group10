@@ -50,7 +50,6 @@ public class QuizController {
     @ApiOperation(value = "Submit the answers to the quiz")
     public ResponseEntity<QuizRequest> evaluateQuizRequest(@PathVariable int quizId, @RequestBody QuizRequest quizRequest) {
         int score;
-        //TODO remove the following and add a global method that can be used by all classes
         String memberUname = jwtUserDetailsService.getUsername();
         QuizRequest qRequest = quizService.evaluateQuiz(quizRequest, memberUname);
         return ResponseEntity.ok(qRequest);
