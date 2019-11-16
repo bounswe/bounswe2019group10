@@ -50,7 +50,7 @@ public class SearchService {
         return result;
     }
 
-    //TODO 3rd party api usage for similarity calc
+    //TODO use 3rd party api for similarity calc
     private double getSimilarity(String searchTerm, String tag){
         return searchTerm.length() - tag.length();
     }
