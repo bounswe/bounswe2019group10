@@ -84,7 +84,7 @@ public class WritingService {
         return DTOListConverter(writingResultRepository.findAllByMemberId(memberId));
     }
 
-    public String processWritingAnswer(WritingRequest writingRequest, String username, Integer writingId){
+    public String processWritingAnswer(WritingRequest writingRequest, String username, int writingId){
         Member evMember = memberRepository.findByUsername(writingRequest.getEvaluatorUsername());
         if(writingRequest.getEvaluatorUsername()==null || evMember==null || evMember.getUsername().equals(username)){
             return "Specify a valid username to evaluate the quiz";
@@ -95,7 +95,7 @@ public class WritingService {
         writingResult.setAnswerText(writingRequest.getAnswerText());
         writingResult.setAssignedMemberId(evMember.getId());
         writingResult.setMemberId(memberRepository.findByUsername(username).getId());
-        writingResult.setWritingId(writingId);
+        writingResult.setWritingId(writingRequest.getWritingId());
         writingResultRepository.save(writingResult);
 
         return "The answer is saved.";

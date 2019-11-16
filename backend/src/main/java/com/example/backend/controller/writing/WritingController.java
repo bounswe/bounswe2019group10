@@ -61,18 +61,18 @@ public class WritingController {
     @ApiOperation(value = "Get the waiting writing grading assignments of the user.")
     public ResponseEntity<List<WritingResultDTO>> getNonCompleteAssignments() {
         String memberUsername = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(writingService.findAllCompleteByAssignedId(memberUsername));
+        return ResponseEntity.ok(writingService.findAllNonCompleteByAssignedId(memberUsername));
     }
 
-    @GetMapping("assignment/{writing_result_id}")
-    @ApiOperation(value = "Get the specific writing grading assignment of the user.")
+    @GetMapping("/assignment/{writingResultId}")
+    @ApiOperation(value = "Get the specific grading assignment of the user.")
     public ResponseEntity<WritingResultDTO> getAssignment(@PathVariable int writingResultId) {
         String memberUsername = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.findAssignmentById(memberUsername, writingResultId));
     }
 
-    @PostMapping("/evaluate/{writing_result_id}")
-    @ApiOperation(value = "Evaluate/Grade the writing.")
+    @PostMapping("/evaluate/{writingResultId}")
+    @ApiOperation(value = "Evaluate/Grade the writing. Body requires integer only. Not json.")
     public ResponseEntity<String> evaluateWritingRequest(@PathVariable int writingResultId,  @RequestBody Integer score) {
         String memberUsername = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.evaluateWriting(memberUsername, writingResultId, score));
