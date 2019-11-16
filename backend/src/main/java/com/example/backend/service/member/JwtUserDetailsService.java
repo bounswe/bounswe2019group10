@@ -156,10 +156,12 @@ public class JwtUserDetailsService implements UserDetailsService {
         Member member = memberRepository.findByUsername(getUsername());
         languages.forEach(language -> {
             Language lang = languageRepository.getByLanguageName(language);
-            MemberLanguage memLang = new MemberLanguage();
-            memLang.setLanguage(lang);
-            memLang.setMemberId(member.getId());
-            memberLanguageRepository.save(memLang);
+            if(memberLanguageRepository.getByMemberIdAndLanguage(member.getId(), lang) == null) {
+                MemberLanguage memLang = new MemberLanguage();
+                memLang.setLanguage(lang);
+                memLang.setMemberId(member.getId());
+                memberLanguageRepository.save(memLang);
+            }
         });
         return memberDTOConverterService.apply(member);
     }
