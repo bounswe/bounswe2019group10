@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
+import com.example.yallp_android.ExpandableTextView;
 import com.example.yallp_android.R;
 import com.example.yallp_android.models.UserInfo;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
@@ -28,7 +31,8 @@ public class ProfileActivity extends AppCompatActivity {
     private String userName = "default";
     private String userSurname = "default";
     private String userBio = "default";*/
-
+    TextView seeFullBio;
+    ExpandableTextView expandableTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,23 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        expandableTextView = findViewById(R.id.expandableTextView);
+        seeFullBio = findViewById(R.id.seeFullBio);
+        seeFullBio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expandableTextView.changeTrim();
+                expandableTextView.setText();
+          //      expandableTextView.requestFocusFromTouch();
+                if(seeFullBio.getText() == getResources().getString(R.string.see_full_bio)){
+                    seeFullBio.setText(R.string.hide_bio);
+                }else{
+                    seeFullBio.setText(R.string.see_full_bio);
+                }
+            }
+        });
+        seeFullBio.callOnClick();
+
 
         updateProfileInfo(sharedPref, editor);
     }
@@ -91,15 +112,28 @@ public class ProfileActivity extends AppCompatActivity {
 
                     editor  .putString("username",userInfo.getUsername())
                             .putString("mail", userInfo.getMail())
-                            //.putString("name", userInfo.getName())
-                            //.putString("surname", userInfo.getSurname())
-                            //.putString("bio", userInfo.getBio())
+                            .putString("name", userInfo.getName())
+                            .putString("surname", userInfo.getSurname())
+                            .putString("bio", userInfo.getBio())
                             .commit();
                     TextView usernameTextView = findViewById(R.id.profileUsername);
                     TextView mailTextView =  findViewById(R.id.profileMail);
-                    usernameTextView.setText(sharedPref.getString("username", "username"));
+                    String usernameText = sharedPref.getString("username", "username");
+                    if(!(sharedPref.getString("name", "").equals("") && sharedPref.getString("surname", "").equals("") )){
+                        usernameText += " ( " ;
+                        usernameText += sharedPref.getString("name", "") ;
+                        usernameText += " " ;
+                        usernameText += sharedPref.getString("surname", "") ;
+                        usernameText += " )" ;
+                    }
+                    usernameTextView.setText(usernameText);
                     mailTextView.setText(sharedPref.getString("mail", "mail"));
+                    expandableTextView.setText(sharedPref.getString("bio", ""));
 
+                    if(expandableTextView.getText().equals("")){
+                        seeFullBio.setVisibility(View.GONE);
+                        expandableTextView.setVisibility(View.GONE);
+                    }
                 }
             }
 

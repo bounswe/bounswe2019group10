@@ -26,8 +26,8 @@ public class QuizResult {
         this.quizId = quizId;
     }
 
-    public void setAnswers(AnswerResult[] answers) {
-        this.answers = answers;
+    public void setAnswers(AnswerResult[] _answers) {
+        answers = _answers;
     }
 
     public void setLevel(int level) {

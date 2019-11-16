@@ -19,4 +19,6 @@
     <string name="email_or_username">Email or username</string>
     <string name="forgot_password">FORGOT PASSWORD</string>
     <string name="are_you_sure">Are you sure? You\'ll lose all of your saved answers!</string>
+    <string name="see_full_bio">See Full Bio</string>
+    <string name="hide_bio">Hide Bio</string>
 </resources>

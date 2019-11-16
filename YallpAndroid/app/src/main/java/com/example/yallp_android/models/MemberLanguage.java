@@ -11,39 +11,39 @@ public class MemberLanguage {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int _id) {
+        id = _id;
     }
 
     public int getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(int memberId) {
-        this.memberId = memberId;
+    public void setMemberId(int _memberId) {
+        memberId = _memberId;
     }
 
     public Language getLanguage() {
         return language;
     }
 
-    public void setLanguage(Language language) {
-        this.language = language;
+    public void setLanguage(Language _language) {
+        language = _language;
     }
 
     public int getLanguageLevel() {
         return languageLevel;
     }
 
-    public void setLanguageLevel(int languageLevel) {
-        this.languageLevel = languageLevel;
+    public void setLanguageLevel(int _languageLevel) {
+        languageLevel = _languageLevel;
     }
 
-    public MemberLanguage(int id, int memberId, Language language, int languageLevel) {
-        this.id = id;
-        this.memberId = memberId;
-        this.language = language;
-        this.languageLevel = languageLevel;
+    public MemberLanguage(int _id, int _memberId, Language _language, int _languageLevel) {
+        id = _id;
+        memberId = _memberId;
+        language = _language;
+        languageLevel = _languageLevel;
     }
 }
 

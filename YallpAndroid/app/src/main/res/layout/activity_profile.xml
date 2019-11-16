@@ -8,68 +8,119 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/MainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/edit_profile"
+                android:textColor="#f80"
+                android:layout_alignParentStart="true">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/logoutButton"
+                style="@style/MainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/log_out"
+                android:textColor="#f08000"
+                android:layout_alignParentEnd="true">
+
+            </TextView>
+
+        </RelativeLayout>
 
 
         <LinearLayout
             android:id="@+id/signInLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="50dp">
+            android:orientation="vertical">
 
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/orangebird"
                 android:layout_gravity="center"
-                android:background="@drawable/border_image"/>
+                android:background="@drawable/border_image"
+                android:src="@drawable/orangebird" />
 
             <TextView
+                android:id="@+id/profileUsername"
                 style="@style/MainTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="username"
-                android:id="@+id/profileUsername"/>
+                android:text="username(name surname)" />
 
             <TextView
+                android:id="@+id/profileMail"
                 style="@style/MainTitle"
-                android:textSize="15dp"
-                android:textColor="#888"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="mail address"
-                android:id="@+id/profileMail"/>
+                android:textColor="#888"
+                android:textSize="15dp" />
+
+            <com.example.yallp_android.ExpandableTextView
+                android:id="@+id/expandableTextView"
+                style="@style/MainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#888" />
+
+            <TextView
+                android:id="@+id/seeFullBio"
+                style="@style/MainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/hide_bio"
+                android:textColor="@color/colorBrown"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
-            >
+            android:orientation="vertical">
 
             <GridLayout
+                android:id="@+id/englishLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:columnCount="3"
                 android:background="@drawable/border_image"
-                android:id="@+id/englishLayout">
+                android:columnCount="3"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/flag_placeholder"
+                    android:layout_rowSpan="2"
                     android:background="@drawable/border_image"
-                    android:layout_rowSpan="2">
+                    android:src="@drawable/flag_placeholder">
 
                 </ImageView>
 
@@ -81,13 +132,13 @@
                     android:layout_column="1"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="English" >
+                    android:text="English">
 
                 </TextView>
 
                 <TextView
+                    android:id="@+id/englishLangLevel"
                     style="@style/MainTitle"
-                    android:textColor="#f80"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="1"
@@ -95,7 +146,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Not graded yet"
-                    android:id="@+id/englishLangLevel">
+                    android:textColor="#f80">
 
                 </TextView>
 
@@ -104,16 +155,16 @@
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:background="@drawable/border_image"
                 android:columnCount="3"
-                android:background="@drawable/border_image">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/flag_placeholder"
+                    android:layout_rowSpan="2"
                     android:background="@drawable/border_image"
-                    android:layout_rowSpan="2">
+                    android:src="@drawable/flag_placeholder">
 
                 </ImageView>
 
@@ -125,20 +176,20 @@
                     android:layout_column="1"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="Spanish" >
+                    android:text="Spanish">
 
                 </TextView>
 
                 <TextView
                     style="@style/MainTitle"
-                    android:textColor="#f80"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="1"
                     android:layout_column="1"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="Not graded yet" >
+                    android:text="Not graded yet"
+                    android:textColor="#f80">
 
                 </TextView>
 
@@ -147,16 +198,16 @@
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:background="@drawable/border_image"
                 android:columnCount="3"
-                android:background="@drawable/border_image">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/plus_sign"
+                    android:layout_rowSpan="2"
                     android:background="@drawable/border_image"
-                    android:layout_rowSpan="2">
+                    android:src="@drawable/plus_sign">
 
                 </ImageView>
 
@@ -167,45 +218,16 @@
                     android:layout_row="0"
                     android:layout_rowSpan="2"
                     android:layout_column="1"
-                    android:gravity="center"
-                    android:layout_marginLeft="10dp"
                     android:layout_gravity="fill_vertical"
-                    android:text="Add New Language" >
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="Add New Language">
 
                 </TextView>
 
 
             </GridLayout>
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="30dp">
-
-            <TextView
-                style="@style/MainTitle"
-                android:textColor="#f80"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/edit_profile" >
-
-            </TextView>
-
-            <TextView
-                style="@style/MainTitle"
-                android:textColor="#f08000"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:id="@+id/logoutButton"
-                android:text="@string/log_out" >
-
-            </TextView>
 
         </LinearLayout>
 
