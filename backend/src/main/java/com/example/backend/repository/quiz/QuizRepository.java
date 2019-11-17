@@ -20,6 +20,6 @@ public interface QuizRepository extends JpaRepository<Quiz, Integer> {
 
     List<Quiz> getAllByQuizType(String quizType);
 
-    List<Quiz> getAllByLevelAndLanguageId(long level, long languageId);
+    List<Quiz> getAllByLevelAndLanguageId(int level, int languageId);
 
 }
