@@ -132,4 +132,10 @@ public class QuizService {
         quizRepository.getAllByLevel(levelId).forEach(quiz -> quizDTOS.add(quizDTOConverterService.apply(quiz, null)));
         return quizDTOS;
     }
+
+    public List<QuizDTO>getAllQuizzesByLevelandLanguageId(long level, long languageId) {
+        List<QuizDTO> quizDTOS = new ArrayList<>();
+        quizRepository.getAllByLevelAndLanguageId(level, languageId).forEach(quiz -> quizDTOS.add(quizDTOConverterService.apply(quiz, null)));
+        return quizDTOS;
+    }
 }
