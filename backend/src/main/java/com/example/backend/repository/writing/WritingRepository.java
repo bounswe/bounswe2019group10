@@ -15,4 +15,9 @@ public interface WritingRepository  extends JpaRepository<Writing, Integer> {
     //@Query("SELECT w.id FROM writing w where w.language_id=:lang_id")
     List<Writing> findAllByLanguageId(@Param("lang_id") Integer langId);
 
+    @Query("SELECT DISTINCT w.taskText FROM Writing w")
+    List<String> getDistinctTaskTexts();
+
+    List<Writing> getAllByTaskText(String taskText);
+
 }
