@@ -50,10 +50,20 @@ public class QuizController {
     @ApiOperation(value = "Submit the answers to the quiz")
     public ResponseEntity<QuizRequest> evaluateQuizRequest(@PathVariable int quizId, @RequestBody QuizRequest quizRequest) {
         int score;
-        //TODO remove the following and add a global method that can be used by all classes
         String memberUname = jwtUserDetailsService.getUsername();
         QuizRequest qRequest = quizService.evaluateQuiz(quizRequest, memberUname);
         return ResponseEntity.ok(qRequest);
     }
 
+    @GetMapping("/language/{languageId}")
+    @ApiOperation(value = "Get quiz by ID")
+    public ResponseEntity<List<QuizDTO>> getByLanguageId(@PathVariable int languageId) {
+        return ResponseEntity.ok(quizService.getAllQuizzesByLanguageId(languageId));
+    }
+
+    @GetMapping("/level/{levelId}")
+    @ApiOperation(value = "Get quiz by ID")
+    public ResponseEntity<List<QuizDTO>> getByLevelId(@PathVariable int levelId) {
+        return ResponseEntity.ok(quizService.getAllQuizzesByLevelId(levelId));
+    }
 }

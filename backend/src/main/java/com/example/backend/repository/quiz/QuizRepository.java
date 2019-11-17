@@ -10,6 +10,10 @@ import java.util.List;
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz, Integer> {
 
+    List<Quiz> getAllByLanguageId(long languageId);
+
+    List<Quiz> getAllByLevel(long level);
+
 
     @Query("SELECT DISTINCT Q.quizType FROM Quiz Q")
     List<String> getDistinctQuizTypes();
