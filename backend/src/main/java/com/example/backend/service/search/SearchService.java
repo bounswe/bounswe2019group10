@@ -2,8 +2,10 @@ package com.example.backend.service.search;
 
 import com.example.backend.model.quiz.Quiz;
 import com.example.backend.model.search.TagSimilarity;
-import com.example.backend.repository.TagSimilarityRepository;
+import com.example.backend.model.writing.Writing;
+import com.example.backend.repository.search.TagSimilarityRepository;
 import com.example.backend.repository.quiz.QuizRepository;
+import com.example.backend.repository.writing.WritingRepository;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -29,6 +31,9 @@ public class SearchService {
 
     @Autowired
     QuizRepository quizRepository;
+
+    @Autowired
+    WritingRepository writingRepository;
 
     @Autowired
     TagSimilarityRepository tagSimilarityRepository;
@@ -60,6 +65,37 @@ public class SearchService {
         while (!tagQueue.isEmpty()){
             String tag = tagQueue.remove().getTag();
             result.addAll(quizRepository.getAllByQuizType(tag));
+        }
+
+        return result;
+    }
+
+    public List<Writing> writingSearchResult(String searchTerm){
+        List<String> taskTexts = writingRepository.getDistinctTaskTexts();
+
+        Comparator<TagSimilarity> similarityComparator = Comparator.comparing(TagSimilarity::getComparator);
+        Queue<TagSimilarity> tagQueue = new PriorityQueue<>(similarityComparator);
+
+        taskTexts.forEach(taskText -> {
+
+            TagSimilarity tagSimilarity = tagSimilarityRepository.findBySearchTermAndTag(searchTerm, taskText);
+
+            if(tagSimilarity == null){
+                double similarity = getSimilarity(searchTerm, taskText);
+                tagSimilarity = new TagSimilarity(searchTerm, taskText, similarity);
+                tagSimilarityRepository.save(tagSimilarity);
+            }
+
+            if(tagSimilarity.getSimilarity() > 0.2){
+                tagQueue.add(tagSimilarity);
+            }
+        });
+
+        List<Writing> result = new ArrayList<>();
+
+        while (!tagQueue.isEmpty()){
+            String taskText = tagQueue.remove().getTag();
+            result.addAll(writingRepository.getAllByTaskText(taskText));
         }
 
         return result;

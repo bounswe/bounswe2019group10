@@ -1,4 +1,4 @@
-package com.example.backend.repository;
+package com.example.backend.repository.search;
 
 import com.example.backend.model.search.TagSimilarity;
 import org.springframework.data.jpa.repository.JpaRepository;
