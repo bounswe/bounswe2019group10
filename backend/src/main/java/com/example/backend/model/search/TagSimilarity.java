@@ -1,19 +1,18 @@
 package com.example.backend.model.search;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tag_similarity")
 public class TagSimilarity {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_similarity_id_generator")
+    @SequenceGenerator(name = "tag_similarity_id_generator", sequenceName = "tag_similarity_id_seq", allocationSize = 1)
     @Column(name = "id")
     private int id;
 
     @Column(name = "search_term")
-    private String search_term;
+    private String searchTerm;
 
     @Column(name = "tag")
     private String tag;
@@ -21,18 +20,21 @@ public class TagSimilarity {
     @Column(name = "similarity")
     private double similarity;
 
-    public TagSimilarity(String search_term, String tag, double similarity){
-        this.search_term = search_term;
+    public TagSimilarity() {
+    }
+
+    public TagSimilarity(String searchTerm, String tag, double similarity) {
+        this.searchTerm = searchTerm;
         this.tag = tag;
         this.similarity = similarity;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public String getSearch_term() {
-        return search_term;
+    public String getSearchTerm() {
+        return searchTerm;
     }
 
     public String getTag() {
@@ -41,5 +43,9 @@ public class TagSimilarity {
 
     public double getSimilarity() {
         return similarity;
+    }
+
+    public double getComparator() {
+        return 1 - similarity;
     }
 }
