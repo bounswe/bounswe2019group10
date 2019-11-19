@@ -10,19 +10,30 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface QuizApi {
 
 
     @Headers({"Content-Type: application/json"})
-    @GET("quiz/66")
-    Call<Quiz> getQuiz(@Header("Authorization") String token);
+    @GET("quiz/{quizId}")
+    Call<Quiz> getQuiz(
+            @Header("Authorization") String token,
+            @Path("quizId") int quizId);
 
     @Headers({"Content-Type: application/json"})
-    @POST("quiz/66/submit")
+    @POST("quiz/{quizId}/submit")
     Call<QuizResult> postQuizResult(
             @Header("Authorization") String token,
-            @Body QuizAnswers quizAnswers
+            @Body QuizAnswers quizAnswers,
+            @Path("quizId") int quizId
     );
+
+    @Headers({"Content-Type: application/json"})
+    @GET("quiz/level/{level}/language/{languageId}")
+    Call<Quiz[]> getQuizForSpecificLevelAndLanguage(
+            @Header("Authorization") String token,
+            @Path("level") int level,
+            @Path("languageId") int languageId);
 
 }
