@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 public interface UserApi {
 
@@ -42,6 +43,13 @@ public interface UserApi {
     Call<UserInfo> addNewLanguages(
             @Header("Authorization") String token,
             @Body String[] newLanguages
+    );
+
+    @Headers({"Content-Type: application/json"})
+    @PUT("member/update")
+    Call<Token> updateProfileInfo(
+            @Header("Authorization") String token,
+            @Body UserInfo newProfileInfo
     );
 
 }
