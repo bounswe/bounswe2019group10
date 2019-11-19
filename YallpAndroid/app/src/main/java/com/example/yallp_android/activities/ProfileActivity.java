@@ -42,9 +42,6 @@ public class ProfileActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor = sharedPref.edit();
 
 
-
-
-
         String userUsername = sharedPref.getString("username", null);
         String userMail = sharedPref.getString("mail", null);
         //userName = sharedPref.getString("name", null);
@@ -120,6 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                     UserInfo userInfo = response.body();
 
+                    Log.e("e",userInfo.getUsername());
                     editor  .putString("username",userInfo.getUsername())
                             .putString("mail", userInfo.getMail())
                             .putString("name", userInfo.getName())

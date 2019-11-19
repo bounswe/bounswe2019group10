@@ -2,17 +2,17 @@ package com.example.yallp_android.models;
 
 public class UserInfo {
 
-    private int id;
     private String bio;
+    private boolean enabled;
+    private boolean expert;
+    private int id;
+    private String mail;
+    private MemberLanguage[] memberLanguages;
     private String password;
     private String username;
-    private String mail;
     private String role;
     private String name;
     private String surname;
-    private boolean expert;
-    private boolean enabled;
-    private MemberLanguage[] MemberLanguages;
 
     public int getId() {
         return id;
@@ -108,11 +108,11 @@ public class UserInfo {
     }
 
     public MemberLanguage[] getMemberLanguages() {
-        return MemberLanguages;
+        return memberLanguages;
     }
 
     public void setMemberLanguages(MemberLanguage[] MemberLanguages) {
-        this.MemberLanguages = MemberLanguages;
+        this.memberLanguages = MemberLanguages;
     }
 }
 

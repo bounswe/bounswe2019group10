@@ -1,11 +1,12 @@
 package com.example.yallp_android.models;
 
 public class MemberLanguage {
-
     private int id;
-    private int memberId;
     private Language language;
     private int languageLevel;
+    private String levelName;
+    private int memberId;
+
 
     public int getId() {
         return id;
@@ -37,6 +38,14 @@ public class MemberLanguage {
 
     public void setLanguageLevel(int _languageLevel) {
         languageLevel = _languageLevel;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String _levelName) {
+        levelName = _levelName;
     }
 
     public MemberLanguage(int _id, int _memberId, Language _language, int _languageLevel) {

@@ -68,9 +68,8 @@ public class EditProfileActivity extends AppCompatActivity {
         Call<Token> call = UserRetroClient.getInstance().getUserApi().updateProfileInfo
                 ("Bearer " + token,
                         new UserInfo(0, bio.getText().toString(), password.getText().toString(), null, mail.getText().toString(), null, name.getText().toString(),
-                                surname.getText().toString(), null, true)
+                                surname.getText().toString(), false, true)
                 );
-
 
 
 
