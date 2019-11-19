@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.EditProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:id="@+id/enterDetailsLayout">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Edit Profile"
+                android:textSize="@dimen/titleTextSize"
+                android:id="@+id/enterDetailsText"/>
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/nameLayout"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/hintText">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/editProfileName"
+                            style="@style/InputModel"
+                            android:hint="Name"
+                            android:text=""
+                            android:inputType="text"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/surnameLayout"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/hintText">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/editProfileSurname"
+                            style="@style/InputModel"
+                            android:hint="Surname"
+                            android:text=""
+                            android:inputType="text"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mailLayout"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/hintText">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/editProfileMail"
+                            style="@style/InputModel"
+                            android:hint="E-Mail"
+                            android:text=""
+                            android:inputType="text"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/bioLayout"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/hintText">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/editProfileBio"
+                            style="@style/InputModel"
+                            android:lines="6"
+                            android:hint="Bio"
+                            android:inputType="textMultiLine"
+                            android:maxLines="1"
+                            android:maxLength="200"
+                            android:text="" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/newPasswordLayout"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/hintText">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/editProfileNewPassword"
+                            style="@style/InputModel"
+                            android:hint="New Password"
+                            android:text=""
+                            android:inputType="textPassword"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/confirmNewPasswordLayout"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:hintTextAppearance="@style/hintText">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/editProfileConfirmNewPassword"
+                            style="@style/InputModel"
+                            android:hint="Confirm New Password"
+                            android:text=""
+                            android:inputType="textPassword"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/saveChangesButton"
+                    style="@style/OrangeBackgroundButtonTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Save changes"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="40dp">
+                </Button>
+
+            </LinearLayout>
+
+
+
+        </ScrollView>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
