@@ -50,10 +50,10 @@
                         app:hintTextAppearance="@style/hintText">
 
                         <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/name"
+                            android:id="@+id/editProfileName"
                             style="@style/InputModel"
                             android:hint="Name"
-                            android:text="Melih"
+                            android:text=""
                             android:inputType="text"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -73,10 +73,10 @@
                         app:hintTextAppearance="@style/hintText">
 
                         <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/surname"
+                            android:id="@+id/editProfileSurname"
                             style="@style/InputModel"
                             android:hint="Surname"
-                            android:text="Demir"
+                            android:text=""
                             android:inputType="text"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -96,10 +96,10 @@
                         app:hintTextAppearance="@style/hintText">
 
                         <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/mail"
+                            android:id="@+id/editProfileMail"
                             style="@style/InputModel"
                             android:hint="E-Mail"
-                            android:text="melih@demir.com"
+                            android:text=""
                             android:inputType="text"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -119,14 +119,14 @@
                         app:hintTextAppearance="@style/hintText">
 
                         <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/bio"
+                            android:id="@+id/editProfileBio"
                             style="@style/InputModel"
                             android:lines="6"
                             android:hint="Bio"
                             android:inputType="textMultiLine"
                             android:maxLines="1"
                             android:maxLength="200"
-                            android:text="hello world\thello world" />
+                            android:text="" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -144,10 +144,10 @@
                         app:hintTextAppearance="@style/hintText">
 
                         <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/newPassword"
+                            android:id="@+id/editProfileNewPassword"
                             style="@style/InputModel"
                             android:hint="New Password"
-                            android:text="password"
+                            android:text=""
                             android:inputType="textPassword"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -167,10 +167,10 @@
                         app:hintTextAppearance="@style/hintText">
 
                         <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/confirmNewPassword"
+                            android:id="@+id/editProfileConfirmNewPassword"
                             style="@style/InputModel"
                             android:hint="Confirm New Password"
-                            android:text="password"
+                            android:text=""
                             android:inputType="textPassword"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -178,7 +178,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/quizSubmitButton"
+                    android:id="@+id/saveChangesButton"
                     style="@style/OrangeBackgroundButtonTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
