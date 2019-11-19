@@ -9,6 +9,7 @@ import { HomePage } from '../HomePage';
 import { OpeningPage } from '../OpeningPage';
 import { ProfilePage } from '../ProfilePage';
 import { QuizPage } from '../QuizPage';
+import { WritingPage } from '../WritingPage';
 
 class App extends React.Component {
     constructor(props) {

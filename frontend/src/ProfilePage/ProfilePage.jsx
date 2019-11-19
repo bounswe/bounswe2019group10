@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Layout, Menu, Breadcrumb, Row, Col,
+import { Layout, Menu, Breadcrumb, Row, Col,Title,
       Avatar, Descriptions, List } from 'antd';
 import 'antd//dist/antd.css';
 import './ProfilePage.css';

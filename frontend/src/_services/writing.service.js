@@ -11,7 +11,7 @@ function getWriting() {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', ...authHeader() }
     };
-    return fetch(`${config.apiUrl}/random-writing-topic`, requestOptions)
+    return fetch(`${config.apiUrl}/writing/1`, requestOptions)
         .then(handleResponse);
 }
 

@@ -1,28 +1,34 @@
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Row, Col,
-      Avatar, Descriptions, List, Input, Button } from 'antd';
+      Avatar, Descriptions, List, Input, Button, Typography } from 'antd';
 import 'antd//dist/antd.css';
 import './WritingPage.css';
+import { HeaderComponent } from '../HeaderComponent';
+import { FooterComponent } from '../FooterComponent';
 
 import { history } from '../_helpers';
-import { userActions } from '../_actions';
+import { userActions,writingActions } from '../_actions';
 const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
+const {TextArea} = Input;
+const {Title} = Typography
 
 class WritingPage extends React.Component {
   constructor(props) {
     super(props);
-    this.logOut = this.logOut.bind(this);
+    let writingId = 1;
+      if (this.props.location.state){
+        writingId = this.props.location.state.writingId;
+    }
   
   this.state = {
     writingId: writingId,
     answer: "",
     isSubmit: false,
     writingFinished: false,
-    setModalVisible= false
+    setModalVisible: false
   };
   this.handleChange = this.handleChange.bind(this);
   this.handleClick = this.handleClick.bind(this);
@@ -45,10 +51,7 @@ class WritingPage extends React.Component {
   componentDidMount() {
     this.props.getWriting();
   }
-  logOut(){
-    this.props.logOut();
-    history.push('/');
-  }
+
   render() {
     const { writing }=this.props;
 
@@ -59,11 +62,11 @@ class WritingPage extends React.Component {
             
             <Col span={4} />
             <Col span={16}>
-            <Title style={{paddingTop:"25px",paddingBottom:"25px"}} level={3}>{writing.question}</Title>
+            <Title style={{paddingTop:"25px",paddingBottom:"25px"}} level={3}>{writing.taskText}</Title>
             <div style={{ margin: '20px 0' }} />
             <TextArea placeholder="Write your answer here"
             autoSize={{minRows: 2, maxRows: 10}}
-            value={answer}
+            value={this.state.answer}
             onChange= {this.handleChange}
             />            
             </Col>
@@ -82,9 +85,8 @@ function mapState(state) {
 }
 
 const actionCreators = {
-  getWriting: userActions.getWriting,
-  submitWriting: userActions.submitWriting,
-  logOut: userActions.logout,
+  getWriting: writingActions.getWriting,
+  submitWriting: writingActions.submitWriting,
 }
 
 const connectedWritingPage = connect(mapState, actionCreators)(WritingPage);
