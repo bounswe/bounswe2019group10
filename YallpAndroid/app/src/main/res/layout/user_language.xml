@@ -1,0 +1,44 @@
+<GridLayout android:id="@+id/languageLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_image"
+    android:columnCount="3"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_rowSpan="2"
+        android:background="@drawable/border_image"
+        android:src="@drawable/flag_placeholder">
+
+    </ImageView>
+
+    <TextView
+        style="@style/MainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="English">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/englishLangLevel"
+        style="@style/MainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Not graded yet"
+        android:textColor="#f80">
+
+    </TextView>
+
+</GridLayout>
