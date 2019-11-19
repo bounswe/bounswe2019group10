@@ -83,6 +83,14 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        TextView editButton = findViewById(R.id.editProfileButton);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editProfile();
+            }
+        });
+
         expandableTextView = findViewById(R.id.expandableTextView);
         seeFullBio = findViewById(R.id.seeFullBio);
         seeFullBio.setOnClickListener(new View.OnClickListener() {
@@ -196,5 +204,12 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         return deletedAll;
+    }
+
+    private void editProfile()
+    {
+        Intent i = new Intent(getApplicationContext(),EditProfileActivity.class);
+        startActivity(i);
+        finish();
     }
 }
