@@ -9,7 +9,8 @@ export const userActions = {
     logout,
     register,
     getUserLanguages,
-    getAllLanguages
+    getAllLanguages,
+    addLanguage
 };
 
 function login(username, password) {
@@ -145,4 +146,21 @@ function getAllLanguages() {
 
     function success(languages) { return { type: userConstants.ALL_LANGUAGES_SUCCESS, languages } }
     function failure(error) { return { type: userConstants.ALL_LANGUAGES_FAILURE, error } }
+}
+
+function addLanguage(language) {
+    return dispatch => {
+        userService.addLanguage(language)
+            .then(
+                profile => { 
+                    dispatch(success(profile));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(profile) { return { type: userConstants.ADD_LANGUAGE_SUCCESS, profile } }
+    function failure(error) { return { type: userConstants.ADD_LANGUAGE_FAILURE, error } }
 }

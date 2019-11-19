@@ -8,6 +8,7 @@ export const userService = {
     getProfile,
     getUserLanguages,
     getAllLanguages,
+    addLanguage,
     getAll,
     getById,
     update,
@@ -57,7 +58,17 @@ function getAllLanguages(){
         method: 'GET',
         headers: {...authHeader(),"Access-Control-Allow-Origin":"*"}
     };
-    return fetch(`${config.apiUrl}/languages`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/lang`, requestOptions).then(handleResponse);
+}
+
+function addLanguage(language){
+    console.log(JSON.stringify([language]));
+    const requestOptions = {
+        method: 'POST',
+        headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+        body: JSON.stringify([language])
+    };
+    return fetch(`${config.apiUrl}/member/addlang`, requestOptions).then(handleResponse);
 }
 
 function getAll() {
