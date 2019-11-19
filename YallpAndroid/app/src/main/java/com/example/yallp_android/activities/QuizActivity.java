@@ -49,6 +49,7 @@ public class QuizActivity extends AppCompatActivity {
     private ProgressBar pbar;
     private ObjectAnimator progressAnimator;
     private RadioGroup optionGroup;
+    int quizId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +90,9 @@ public class QuizActivity extends AppCompatActivity {
                             }
                         }
                         if (correctAnswer == currentAnswer) {
-                            //    Toast.makeText(getBaseContext(), "Correct!!", Toast.LENGTH_SHORT).show();
                             ((RadioButton) optionGroup.getChildAt(correctAnswer - 1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check, 0);
 
                         } else {
-                            //   Toast.makeText(getBaseContext(), "Wrong!!", Toast.LENGTH_SHORT).show();
                             ((RadioButton) optionGroup.getChildAt(correctAnswer - 1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_check, 0);
                             ((RadioButton) optionGroup.getChildAt(currentAnswer - 1)).setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_close, 0);
                         }
@@ -120,8 +119,9 @@ public class QuizActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
 
         Call<Quiz> call;
-
-        call = QuizRetroClient.getInstance().getQuizApi().getQuiz("Bearer " + sharedPref.getString("token", null));
+        Intent intent = getIntent();
+        quizId = Integer.parseInt(intent.getStringExtra("quizId"));
+        call = QuizRetroClient.getInstance().getQuizApi().getQuiz("Bearer " + sharedPref.getString("token", null),quizId);
 
         call.enqueue(new Callback<Quiz>() {
             @Override
@@ -154,8 +154,7 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         call = QuizRetroClient.getInstance().getQuizApi().postQuizResult("Bearer " + sharedPref.getString("token", null),
-                new QuizAnswers(currentQuiz.getId(), answers)
-        );
+                new QuizAnswers(currentQuiz.getId(), answers),quizId);
 
 
         call.enqueue(new Callback<QuizResult>() {
@@ -198,4 +197,3 @@ public class QuizActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "sure");
     }
 }
-

@@ -5,6 +5,7 @@ public class Quiz {
     private int id;
     private int level;
     private String quizType;
+    private String levelName;
     private Question[] questions;
 
     public int getId() {
@@ -39,5 +40,11 @@ public class Quiz {
         this.questions = questions;
     }
 
+    public String getLevelName() {
+        return levelName;
+    }
 
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
 }
