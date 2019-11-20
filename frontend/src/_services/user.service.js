@@ -9,6 +9,7 @@ export const userService = {
     getUserLanguages,
     getAllLanguages,
     addLanguage,
+    removeLanguage,
     getAll,
     getById,
     update,
@@ -62,13 +63,22 @@ function getAllLanguages(){
 }
 
 function addLanguage(language){
-    console.log(JSON.stringify([language]));
     const requestOptions = {
         method: 'POST',
         headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
         body: JSON.stringify([language])
     };
     return fetch(`${config.apiUrl}/member/addlang`, requestOptions).then(handleResponse);
+}
+
+// TODO update endpoint
+function removeLanguage(language){
+    const requestOptions = {
+        method: 'POST',
+        headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+        body: JSON.stringify([language])
+    };
+    return fetch(`${config.apiUrl}/member/removelang`, requestOptions).then(handleResponse);
 }
 
 function getAll() {

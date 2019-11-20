@@ -17,15 +17,28 @@ class LanguageCard extends React.Component {
     }
 
     learn(){
-      const { language,addLanguage } = this.props;
+      const { isLearning,language,addLanguage,removeLanguage,getProfile } = this.props;
+      let title = 'Do you want to learn '+this.props.language+'?';
+      let content = 'You can use the materials of '+this.props.language+".";
+      let okText = 'Start';
+      if (this.props.isLearning){
+        title = 'Do you want to remove '+this.props.language+' from your profile?';
+        content = 'You will not be able to use the materials of '+this.props.language+" any more.";
+        okText = "Remove";
+      }
       confirm({
-        title: 'Do you want to learn '+this.props.language+'?',
-        content: 'You can use the materials of '+this.props.language+".",
-        okText: 'Start',
+        title: title,
+        content: content,
+        okText: okText,
         cancelText: 'Cancel',
         onOk() {
-          console.log('OK');
-          addLanguage(language);
+          if (isLearning){
+            removeLanguage(language);
+            getProfile();
+          }
+          else{
+            addLanguage(language);
+          }
         },
         onCancel() {
           console.log('Cancel');
@@ -59,6 +72,8 @@ function mapState(state) {
 
 const actionCreators = {
   addLanguage: userActions.addLanguage,
+  removeLanguage: userActions.removeLanguage,
+  getProfile: userActions.getProfile,
 }
 
 const connectedLanguageCard = connect(mapState, actionCreators)(LanguageCard);

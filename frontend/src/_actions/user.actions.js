@@ -10,7 +10,8 @@ export const userActions = {
     register,
     getUserLanguages,
     getAllLanguages,
-    addLanguage
+    addLanguage,
+    removeLanguage
 };
 
 function login(username, password) {
@@ -163,4 +164,21 @@ function addLanguage(language) {
 
     function success(profile) { return { type: userConstants.ADD_LANGUAGE_SUCCESS, profile } }
     function failure(error) { return { type: userConstants.ADD_LANGUAGE_FAILURE, error } }
+}
+
+function removeLanguage(language) {
+    return dispatch => {
+        userService.removeLanguage(language)
+            .then(
+                profile => { 
+                    dispatch(success(profile));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(profile) { return { type: userConstants.REMOVE_LANGUAGE_SUCCESS, profile } }
+    function failure(error) { return { type: userConstants.REMOVE_LANGUAGE_FAILURE, error } }
 }
