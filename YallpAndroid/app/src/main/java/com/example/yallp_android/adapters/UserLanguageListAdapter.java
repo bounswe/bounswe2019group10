@@ -1,7 +1,6 @@
 package com.example.yallp_android.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yallp_android.R;
-import com.example.yallp_android.activities.QuizActivity;
 
 import java.util.ArrayList;
 

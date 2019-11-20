@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -30,7 +29,7 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
     private SharedPreferences sharedPref;
     private RecyclerView quizList;
     private QuizListAdapter adapter;
-    ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
+    ArrayList<Quiz> quizzes = new ArrayList<>();
 
 
     @Override

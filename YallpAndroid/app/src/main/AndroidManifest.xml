@@ -16,13 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.EditProfileActivity"/>
+        <activity android:name=".activities.EditProfileActivity" />
         <activity android:name=".activities.GetStartedActivity"/>
         <activity android:name=".activities.SignInActivity"/>
         <activity android:name=".activities.ProfileActivity"/>
-        <activity android:name=".activities.QuizActivity"/>
-        <activity android:name=".activities.QuizScoreActivity"/>
-        <activity android:name=".activities.AddLangugeActivity"/>
+        <activity android:name=".activities.QuizActivity" />
+        <activity android:name=".activities.QuizScoreActivity" />
+        <activity android:name=".activities.AddLanguageActivity"/>
         <activity android:name=".activities.QuizListActivity"/>
     </application>
 </manifest>

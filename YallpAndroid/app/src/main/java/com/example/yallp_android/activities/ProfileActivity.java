@@ -6,20 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.yallp_android.ExpandableTextView;
 import com.example.yallp_android.R;
-import com.example.yallp_android.adapters.LanguageListAdapter;
 import com.example.yallp_android.adapters.UserLanguageListAdapter;
-import com.example.yallp_android.models.Language;
 import com.example.yallp_android.models.MemberLanguage;
 import com.example.yallp_android.models.UserInfo;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
@@ -95,7 +90,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 if (arg2 == languageLevelList.size()) {
-                    Intent i = new Intent(getApplicationContext(), AddLangugeActivity.class);
+                    Intent i = new Intent(getApplicationContext(), AddLanguageActivity.class);
                     startActivity(i);
                     finish();
                 } else {
