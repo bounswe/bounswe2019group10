@@ -2,17 +2,17 @@ package com.example.yallp_android.models;
 
 public class UserInfo {
 
-    private int id;
     private String bio;
+    private boolean enabled;
+    private boolean expert;
+    private int id;
+    private String mail;
+    private MemberLanguage[] memberLanguages;
     private String password;
     private String username;
-    private String mail;
     private String role;
     private String name;
     private String surname;
-    private String expert;
-    private boolean enabled;
-    private MemberLanguage[] MemberLanguages;
 
     public int getId() {
         return id;
@@ -78,11 +78,11 @@ public class UserInfo {
         this.surname = surname;
     }
 
-    public String getExpert() {
+    public boolean getExpert() {
         return expert;
     }
 
-    public void setExpert(String expert) {
+    public void setExpert(boolean expert) {
         this.expert = expert;
     }
 
@@ -94,7 +94,7 @@ public class UserInfo {
         this.enabled = enabled;
     }
 
-    public UserInfo(int id, String bio, String password, String username, String mail, String role, String name, String surname, String expert, boolean enabled) {
+    public UserInfo(int id, String bio, String password, String username, String mail, String role, String name, String surname, boolean expert, boolean enabled) {
         this.id = id;
         this.bio = bio;
         this.password = password;
@@ -108,11 +108,11 @@ public class UserInfo {
     }
 
     public MemberLanguage[] getMemberLanguages() {
-        return MemberLanguages;
+        return memberLanguages;
     }
 
     public void setMemberLanguages(MemberLanguage[] MemberLanguages) {
-        this.MemberLanguages = MemberLanguages;
+        this.memberLanguages = MemberLanguages;
     }
 }
 

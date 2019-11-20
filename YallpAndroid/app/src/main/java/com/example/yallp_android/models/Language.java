@@ -1,7 +1,6 @@
 package com.example.yallp_android.models;
 
 public class Language{
-
     private int id;
     private String languageName;
 

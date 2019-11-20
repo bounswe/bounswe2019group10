@@ -28,11 +28,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddLangugeActivity extends AppCompatActivity {
+public class AddLanguageActivity extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private ListView mListView;
     private LanguageListAdapter aAdapter;
-    ArrayList<Language> languages = new ArrayList<Language>();
+    ArrayList<Language> languages = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +41,12 @@ public class AddLangugeActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.dialog_list_of_languages);
-        mListView = (ListView) findViewById(R.id.languageList);
+        mListView = findViewById(R.id.languageList);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                 final Language language = (Language) mListView.getItemAtPosition(position);
-                AlertDialog.Builder builder = new AlertDialog.Builder(AddLangugeActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddLanguageActivity.this);
                 builder.setTitle("Last one step")
                         .setMessage("Do you want to start learning " + language.getLanguageName() + " ?")
                         .setIcon(R.drawable.penguin)

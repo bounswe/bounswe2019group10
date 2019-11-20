@@ -25,11 +25,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuizListActivity extends AppCompatActivity implements QuizListAdapter.QuizListAdapterClickListener{
+public class QuizListActivity extends AppCompatActivity implements QuizListAdapter.QuizListAdapterClickListener {
     private SharedPreferences sharedPref;
     private RecyclerView quizList;
     private QuizListAdapter adapter;
-    ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
+    ArrayList<Quiz> quizzes = new ArrayList<>();
 
 
     @Override
@@ -40,36 +40,41 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_quiz_list);
-        quizList = (RecyclerView) findViewById(R.id.quizList);
+        quizList = findViewById(R.id.quizList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         quizList.setLayoutManager(linearLayoutManager);
-        adapter = new QuizListAdapter(getApplicationContext(),quizzes,this);
+        adapter = new QuizListAdapter(getApplicationContext(), quizzes, this);
 
-        Call<Quiz[]> call;
-        call = QuizRetroClient.getInstance().getQuizApi().getQuizForSpecificLevelAndLanguage("Bearer " + sharedPref.getString("token", null),1,1);
+        if (getIntent().getExtras() != null) {
 
-        call.enqueue(new Callback<Quiz[]>() {
-            @Override
-            public void onResponse(Call<Quiz[]> call, Response<Quiz[]> response) {
-                if(response.isSuccessful()){
-                    Collections.addAll(quizzes,response.body());
-                    adapter.notifyDataSetChanged();
-                    quizList.setAdapter(adapter);
+            Call<Quiz[]> call;
+            call = QuizRetroClient.getInstance().getQuizApi().getQuizForSpecificLevelAndLanguage("Bearer " + sharedPref.getString("token", null),
+                    getIntent().getIntExtra("level", 1),
+                    getIntent().getIntExtra("languageId", 1));
+
+            call.enqueue(new Callback<Quiz[]>() {
+                @Override
+                public void onResponse(Call<Quiz[]> call, Response<Quiz[]> response) {
+                    if (response.isSuccessful()) {
+                        Collections.addAll(quizzes, response.body());
+                        adapter.notifyDataSetChanged();
+                        quizList.setAdapter(adapter);
+                    } else {
+                        Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
+                    }
                 }
-                else {
-                    Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
+
+                @Override
+                public void onFailure(Call<Quiz[]> call, Throwable t) {
+
                 }
-            }
+            });
+        }
 
-            @Override
-            public void onFailure(Call<Quiz[]> call, Throwable t) {
-
-            }
-        });
     }
 
     @Override
-    public void quizListAdapterClick(String topic, final String quizId){
+    public void quizListAdapterClick(String topic, final String quizId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Last one step")
                 .setMessage("Do you want to start solving " + topic + " " + quizId + " ?")
@@ -78,25 +83,25 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getApplicationContext(),QuizActivity.class);
-                        intent.putExtra("quizId",quizId );
+                        Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
+                        intent.putExtra("quizId", quizId);
                         startActivity(intent);
                         finish();
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener(){
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 });
-        AlertDialog dialog  = builder.create();
+        AlertDialog dialog = builder.create();
         dialog.show();
 
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this,ProfileActivity.class);
+        Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
         finish();
     }

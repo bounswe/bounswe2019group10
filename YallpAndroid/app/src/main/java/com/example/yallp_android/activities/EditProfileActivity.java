@@ -27,15 +27,21 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_edit_profile);
 
         name = findViewById(R.id.editProfileName);
+        name.setText(sharedPref.getString("name", null));
         surname = findViewById(R.id.editProfileSurname);
+        surname.setText(sharedPref.getString("surname", null));
         mail = findViewById(R.id.editProfileMail);
+        mail.setText(sharedPref.getString("mail", null));
         bio = findViewById(R.id.editProfileBio);
+        bio.setText(sharedPref.getString("bio", null));
         password = findViewById(R.id.editProfileNewPassword);
         passwordConfirm = findViewById(R.id.editProfileConfirmNewPassword);
 
@@ -48,6 +54,13 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed(){
+        Intent i = new Intent(this,ProfileActivity.class);
+        startActivity(i);
+        finish();
+    }
+
     public boolean passwordsMatch(){
         if(!password.getText().toString().equals(passwordConfirm.getText().toString())){
             passwordConfirm.setError("Passwords have to match.");
@@ -55,6 +68,10 @@ public class EditProfileActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public boolean isEmpty(EditText editText){
+        return editText.getText().toString().trim().length() <= 0;
     }
 
     public void confirmUpdate(){
@@ -67,11 +84,17 @@ public class EditProfileActivity extends AppCompatActivity {
         String token = sharedPref.getString("token",null);
         Call<Token> call = UserRetroClient.getInstance().getUserApi().updateProfileInfo
                 ("Bearer " + token,
-                        new UserInfo(0, bio.getText().toString(), password.getText().toString(), null, mail.getText().toString(), null, name.getText().toString(),
-                                surname.getText().toString(), null, true)
+                        new UserInfo(0,
+                                isEmpty(bio) ? null : bio.getText().toString(),
+                                isEmpty(password) ? null : password.getText().toString(),
+                                null,
+                                isEmpty(mail) ? null : mail.getText().toString(),
+                                null,
+                                isEmpty(name) ? null : name.getText().toString(),
+                                isEmpty(surname) ? null : surname.getText().toString(),
+                                false,
+                                true)
                 );
-
-
 
 
         call.enqueue(new Callback<Token>() {
@@ -84,6 +107,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     finish();
                 }else{
                     progressDialog.dismiss();
+
                 }
             }
 

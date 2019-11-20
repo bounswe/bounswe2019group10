@@ -1,7 +1,7 @@
 package com.example.yallp_android.util.RetroClients;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import  com.example.yallp_android.util.Api.QuizApi;
+import com.example.yallp_android.util.Api.QuizApi;
 
 public class QuizRetroClient {
 

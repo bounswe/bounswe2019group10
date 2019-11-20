@@ -5,9 +5,9 @@ public class QuizAnswers {
     private int quizId;
     private Answer[] answers;
 
-    public QuizAnswers(int quizId, Answer[] answers){
+    public QuizAnswers(int quizId, Answer[] _answers){
         this.quizId = quizId;
-        this.answers = answers;
+        answers = _answers;
     }
 
 
@@ -19,8 +19,8 @@ public class QuizAnswers {
         return answers;
     }
 
-    public void setAnswers(Answer[] answers) {
-        this.answers = answers;
+    public void setAnswers(Answer[] _answers) {
+        answers = _answers;
     }
 
     public void setQuizId(int quizId) {
