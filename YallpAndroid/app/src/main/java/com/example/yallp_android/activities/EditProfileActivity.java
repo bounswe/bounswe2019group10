@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -54,6 +55,13 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed(){
+        Intent i = new Intent(this,ProfileActivity.class);
+        startActivity(i);
+        finish();
+    }
+
     public boolean passwordsMatch(){
         if(!password.getText().toString().equals(passwordConfirm.getText().toString())){
             passwordConfirm.setError("Passwords have to match.");
@@ -93,7 +101,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 );
 
 
-
         call.enqueue(new Callback<Token>() {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
@@ -104,6 +111,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     finish();
                 }else{
                     progressDialog.dismiss();
+
                 }
             }
 

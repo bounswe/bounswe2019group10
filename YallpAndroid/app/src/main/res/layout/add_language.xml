@@ -1,0 +1,33 @@
+<GridLayout android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@drawable/border_image"
+    android:columnCount="3"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_rowSpan="2"
+        android:background="@drawable/border_image"
+        android:src="@drawable/plus_sign">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/addNewLanguage"
+        style="@style/MainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_row="0"
+        android:layout_rowSpan="2"
+        android:layout_column="1"
+        android:layout_gravity="fill_vertical"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:text="Add New Language">
+
+    </TextView>
+
+
+</GridLayout>
