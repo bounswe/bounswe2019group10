@@ -11,7 +11,8 @@ export const userActions = {
     getUserLanguages,
     getAllLanguages,
     addLanguage,
-    removeLanguage
+    removeLanguage,
+    changeActiveLanguage
 };
 
 function login(username, password) {
@@ -181,4 +182,13 @@ function removeLanguage(language) {
 
     function success(profile) { return { type: userConstants.REMOVE_LANGUAGE_SUCCESS, profile } }
     function failure(error) { return { type: userConstants.REMOVE_LANGUAGE_FAILURE, error } }
+}
+
+function changeActiveLanguage(language) {
+    return dispatch => {
+        dispatch(success(language));
+        localStorage.setItem('activeLanguage', JSON.stringify(language));
+    };
+
+    function success(language) { return { type: userConstants.CHANGE_LANGUAGE_SUCCESS, language } }
 }

@@ -1,17 +1,22 @@
 import { userConstants } from '../_constants';
+let activeLanguage = JSON.parse(localStorage.getItem('activeLanguage'));
+const initialState = activeLanguage ? { activeLanguage: activeLanguage } : { activeLanguage: "ENGLISH" };
 
-export function users(state = {}, action) {
+export function users(state = initialState, action) {
   switch (action.type) {
     case userConstants.GETALL_REQUEST:
       return {
+        ...state,
         loading: true
       };
     case userConstants.GETALL_SUCCESS:
       return {
+        ...state,
         items: action.users
       };
     case userConstants.GETALL_FAILURE:
       return { 
+        ...state,
         error: action.error
       };
     case userConstants.DELETE_REQUEST:
@@ -27,6 +32,7 @@ export function users(state = {}, action) {
     case userConstants.DELETE_SUCCESS:
       // remove deleted user from state
       return {
+        ...state,
         items: state.items.filter(user => user.id !== action.id)
       };
     case userConstants.DELETE_FAILURE:
@@ -51,6 +57,7 @@ export function users(state = {}, action) {
       };
     case userConstants.PROFILE_FAILURE:
       return {
+        ...state,
         error: action.error
       };
     case userConstants.LANGUAGE_SUCCESS:
@@ -72,6 +79,11 @@ export function users(state = {}, action) {
       return {
         ...state,
         error: action.error
+      };
+    case userConstants.CHANGE_LANGUAGE_SUCCESS:
+      return {
+        ...state,
+        activeLanguage: action.language
       };
     default:
       return state

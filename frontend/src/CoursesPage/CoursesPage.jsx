@@ -8,9 +8,6 @@ const { SubMenu } = Menu;
 const { Title } = Typography;
 
 import { userActions } from '../_actions';
-import { history } from '../_helpers';
-import ukFlag from '../images/flags/uk.png';
-import spanishFlag from '../images/flags/spanish.png';
 
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
