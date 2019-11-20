@@ -1,43 +1,46 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Layout, Menu, Breadcrumb, Row, Col,
-      Avatar, Descriptions, List, Input, Button, Typography } from 'antd';
+import {
+  Layout, Menu, Breadcrumb, Row, Col, Radio,
+  Avatar, Descriptions, List, Input, Button, Typography, Modal
+} from 'antd';
 import 'antd//dist/antd.css';
 import './WritingPage.css';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
 
 import { history } from '../_helpers';
-import { userActions,writingActions } from '../_actions';
+import { userActions, writingActions } from '../_actions';
 const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
-const {TextArea} = Input;
-const {Title} = Typography
+const { TextArea } = Input;
+const { Title } = Typography
 
 class WritingPage extends React.Component {
   constructor(props) {
     super(props);
     let writingId = 1;
-      if (this.props.location.state){
-        writingId = this.props.location.state.writingId;
+    if (this.props.location.state) {
+      writingId = this.props.location.state.writingId;
     }
-  
-  this.state = {
-    writingId: writingId,
-    answer: "",
-    isSubmit: false,
-    writingFinished: false,
-    setModalVisible: false
-  };
-  this.handleChange = this.handleChange.bind(this);
-  this.handleClick = this.handleClick.bind(this);
-  this.setModalVisible = this.setModalVisible.bind(this);
+    this.state = {
+      writingId: writingId,
+      answer: "",
+      reviewer: "",
+      isSubmit: false,
+      writingFinished: false,
+      modalVisible: false
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.setModalVisible = this.setModalVisible.bind(this);
   }
-  handleClick(action){
-    const t={
-      writingId:this.state.writingId,
-      answer:this.state.answer
+  handleClick(action) {
+    const t = {
+      writingId: this.state.writingId,
+      answer: this.state.answer,
+      evaluatorUsername: this.state.reviewer
     }
     this.props.submitWriting(t);
   }
@@ -51,36 +54,68 @@ class WritingPage extends React.Component {
   componentDidMount() {
     this.props.getWriting();
   }
+  onChange = e => {
+    this.setState({
+      reviewer: e.target.value,
+    });
+  };
 
   render() {
-    const { writing }=this.props;
+    const { writing } = this.props;
+    let options = [];
+    const radioStyle = {
+      display: 'block',
+      height: '30px',
+      lineHeight: '30px',
+    };
+    return (
+      <Layout className="layout">
+        <HeaderComponent />
+        <Content style={{ padding: '0 50px' }}>
 
-  return(
-    <Layout className="layout">
-          <HeaderComponent />
-          <Content style={{ padding: '0 50px' }}>
-            
-            <Col span={4} />
-            <Col span={16}>
-            <Title style={{paddingTop:"25px",paddingBottom:"25px"}} level={3}>{writing.taskText}</Title>
-            <div style={{ margin: '20px 0' }} />
+          <Col span={4} />
+          <Col span={16}>
+            {writing.writing &&
+              <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={3}>{writing.writing.taskText}</Title>
+            }
+            <div style={{ margin: '10px 0' }} />
             <TextArea placeholder="Write your answer here"
-            autoSize={{minRows: 2, maxRows: 10}}
-            value={this.state.answer}
-            onChange= {this.handleChange}
-            />            
-            </Col>
-            <Col span={4} />
-      
-          </Content>
-          <FooterComponent />
-          </Layout>
-        );
+              autoSize={{ minRows: 10, maxRows: 15 }}
+              name="answer"
+              value={this.state.answer}
+              onChange={this.handleChange}
+            />
+            <div style={{ margin: '10px 0' }} />
+            <Button type="primary" onClick={() => this.setModalVisible(true)} >Submit</Button>
+          </Col>
+          <Col span={4} />
+          <Modal
+            title=""
+            centered
+            visible={this.state.modalVisible}
+            onOk={() => this.handleClick()}
+            onCancel={() => this.setModalVisible(false)}
+            okText="Send to Review"
+          >
+            <Radio.Group onChange={this.onChange} value={this.state.reviewer}>              
+              {writing.writing && writing.writing.evaluatorUsernames.map((value, index) => {
+                return (
+                  <Radio style={radioStyle}  value={value} key={index + 1}>
+                    {value}
+                  </Radio>
+                );
+              })}
+            </Radio.Group>
+          </Modal>
+        </Content>
+        <FooterComponent />
+      </Layout>
+    );
   }
 }
 
 function mapState(state) {
-  const { writing } = state;  
+  const { writing } = state;
   return { writing };
 }
 

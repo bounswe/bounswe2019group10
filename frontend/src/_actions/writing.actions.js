@@ -24,9 +24,9 @@ function getWriting(){
   function failure(error) { return { type: writingConstants.GET_WRITING_FAILURE, error } }
 }
 
-function submitWriting(writingId,answer){
+function submitWriting(exercise){
   return dispatch => {
-    writingService.submitWriting(writingId,answer)
+    writingService.submitWriting(exercise)
         .then(
             result => {
               dispatch(success(result))

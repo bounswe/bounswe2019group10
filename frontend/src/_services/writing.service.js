@@ -15,13 +15,14 @@ function getWriting() {
         .then(handleResponse);
 }
 
-function submitWriting(writingId,answer) {
+function submitWriting(exercise) {
   const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...authHeader() },
-      body: JSON.stringify({answer: answer,writingId: writingId})
+      body: JSON.stringify({answerText: exercise.answer,evaluatorUsername: exercise.evaluatorUsername,writingId: exercise.writingId})
   };
-  return fetch(`${config.apiUrl}/writing/${writingId}/submit`, requestOptions)
+  console.log(requestOptions);
+  return fetch(`${config.apiUrl}/writing/${exercise.writingId}/submit`, requestOptions)
       .then(handleResponse);
 }
 
