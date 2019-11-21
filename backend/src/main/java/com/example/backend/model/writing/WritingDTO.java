@@ -11,6 +11,8 @@ public class WritingDTO {
 
     private String taskText;
 
+    private String writingName;
+
 
     public int getId() {
         return id;
@@ -36,4 +38,11 @@ public class WritingDTO {
         this.taskText = taskText;
     }
 
+    public String getWritingName() {
+        return writingName;
+    }
+
+    public void setWritingName(String writingName) {
+        this.writingName = writingName;
+    }
 }

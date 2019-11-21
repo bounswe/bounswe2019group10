@@ -14,6 +14,8 @@ public class WritingResultDTO {
 
     private String answerText;
 
+    private boolean isScored;
+
     public int getId() {
         return id;
     }
@@ -60,5 +62,13 @@ public class WritingResultDTO {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public boolean isScored() {
+        return isScored;
+    }
+
+    public void setScored(boolean scored) {
+        isScored = scored;
     }
 }

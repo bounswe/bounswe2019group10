@@ -20,6 +20,7 @@ public class WritingDTOConverterService {
         writingDTO.setId(writing.getId());
         writingDTO.setLanguageId(writing.getLanguageId());
         writingDTO.setTaskText(writing.getTaskText());
+        writingDTO.setWritingName(writing.getWritingName());
 
         return writingDTO;
 
