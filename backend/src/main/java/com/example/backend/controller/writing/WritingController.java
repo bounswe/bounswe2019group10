@@ -33,14 +33,12 @@ public class WritingController {
         return ResponseEntity.ok(writingService.getById(writingId, memberUsername));
     }
 
-
     @PostMapping("/{writingId}/submit")
     @ApiOperation(value = "Submit the answers to the writing. It requires one selected recommended username.")
     public ResponseEntity<WritingResult> evaluateQuizRequest(@PathVariable int writingId, @RequestBody WritingRequest writingRequest) {
         String memberUname = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.processWritingAnswer(writingRequest, memberUname, writingId));
     }
-
 
     @GetMapping("/language/{languageId}")
     @ApiOperation(value = "Get IDs of Writings in a given language")
@@ -60,7 +58,6 @@ public class WritingController {
         String memberUname = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.getWritingResultsOfMember(memberUname));
     }
-
 
     @GetMapping("/completedAssignments")
     @ApiOperation(value = "Get the completed writing grading assignments of the user.")

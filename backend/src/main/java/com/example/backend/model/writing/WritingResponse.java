@@ -8,7 +8,6 @@ public class WritingResponse {
 
     private List<String> usernames;
 
-
     public WritingDTO getWritingDTO() {
         return writingDTO;
     }

@@ -1,8 +1,5 @@
 package com.example.backend.model.writing;
 
-
-import java.util.List;
-
 public class WritingDTO {
 
     private int id;
@@ -12,7 +9,6 @@ public class WritingDTO {
     private String taskText;
 
     private String writingName;
-
 
     public int getId() {
         return id;
