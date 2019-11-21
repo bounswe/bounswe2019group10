@@ -1,9 +1,5 @@
 package com.example.backend.model.writing;
 
-import com.example.backend.model.quiz.QuestionDTO;
-
-import java.util.List;
-
 public class WritingDTO {
 
     private int id;
@@ -12,7 +8,7 @@ public class WritingDTO {
 
     private String taskText;
 
-    private List<String> evaluatorUsernames;
+    private String writingName;
 
     public int getId() {
         return id;
@@ -38,11 +34,11 @@ public class WritingDTO {
         this.taskText = taskText;
     }
 
-    public List<String> getEvaluatorUsernames() {
-        return evaluatorUsernames;
+    public String getWritingName() {
+        return writingName;
     }
 
-    public void setEvaluatorUsernames(List<String> evaluatorUsernames) {
-        this.evaluatorUsernames = evaluatorUsernames;
+    public void setWritingName(String writingName) {
+        this.writingName = writingName;
     }
 }

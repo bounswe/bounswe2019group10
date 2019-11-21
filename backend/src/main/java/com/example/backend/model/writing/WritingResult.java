@@ -29,6 +29,9 @@ public class WritingResult {
     @Column(name = "answer_text")
     private String answerText;
 
+    @Column(name = "is_scored")
+    private boolean isScored;
+
     public int getId() {
         return id;
     }
@@ -75,5 +78,13 @@ public class WritingResult {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public boolean isScored() {
+        return isScored;
+    }
+
+    public void setScored(boolean scored) {
+        isScored = scored;
     }
 }

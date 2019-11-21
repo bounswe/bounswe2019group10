@@ -19,6 +19,9 @@ public class Writing {
     @Column(name = "task_text")
     private String taskText;
 
+    @Column(name = "writing_name")
+    private String writingName;
+
     public int getId() {
         return id;
     }
@@ -41,5 +44,13 @@ public class Writing {
 
     public void setTaskText(String taskText) {
         this.taskText = taskText;
+    }
+
+    public String getWritingName() {
+        return writingName;
+    }
+
+    public void setWritingName(String writingName) {
+        this.writingName = writingName;
     }
 }

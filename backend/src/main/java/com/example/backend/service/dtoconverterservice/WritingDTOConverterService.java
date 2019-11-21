@@ -14,15 +14,13 @@ public class WritingDTOConverterService {
     @Autowired
     private WritingService writingService;
 
-    public WritingDTO apply(Writing writing, List<String> usernames) {
+    public WritingDTO apply(Writing writing) {
         WritingDTO writingDTO = new WritingDTO();
 
         writingDTO.setId(writing.getId());
         writingDTO.setLanguageId(writing.getLanguageId());
         writingDTO.setTaskText(writing.getTaskText());
-
-        if (usernames != null)
-            writingDTO.setEvaluatorUsernames(usernames);
+        writingDTO.setWritingName(writing.getWritingName());
 
         return writingDTO;
 
