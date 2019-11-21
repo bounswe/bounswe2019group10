@@ -11,10 +11,12 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yallp_android.ExpandableTextView;
 import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.UserLanguageListAdapter;
+import com.example.yallp_android.custom_views.ThreeDotsView;
 import com.example.yallp_android.models.MemberLanguage;
 import com.example.yallp_android.models.UserInfo;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
@@ -26,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.ThreeDotsClickListener {
     private UserInfo userInfo;
     private ListView listView;
     private UserLanguageListAdapter adapter;
@@ -46,24 +48,11 @@ public class ProfileActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
 
-
         setContentView(R.layout.activity_profile);
 
-        TextView logoutButton = findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+        ThreeDotsView threeDotsView = findViewById(R.id.three_dot_view);
+        threeDotsView.setListener(this);
 
-        TextView editButton = findViewById(R.id.editProfileButton);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editProfile();
-            }
-        });
 
         expandableTextView = findViewById(R.id.expandableTextView);
         seeFullBio = findViewById(R.id.seeFullBio);
@@ -205,5 +194,21 @@ public class ProfileActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), EditProfileActivity.class);
         startActivity(i);
         finish();
+    }
+
+    @Override
+    public void itemClick(int item) {
+        if(item == 0){
+            editProfile();
+        }
+        else if(item == 1){
+
+        }
+        else if(item == 2){
+
+        }
+        else{
+            logout();
+        }
     }
 }

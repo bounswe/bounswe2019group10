@@ -4,52 +4,27 @@
     android:layout_height="match_parent"
     android:background="#fff">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
+        android:layout_marginTop="10dp">
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <com.example.yallp_android.custom_views.ThreeDotsView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/editProfileButton"
-                style="@style/MainTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/edit_profile"
-                android:textColor="#f80"
-                android:layout_alignParentStart="true">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/logoutButton"
-                style="@style/MainTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:text="@string/log_out"
-                android:textColor="#f08000"
-                android:layout_alignParentEnd="true">
-
-            </TextView>
-
-        </RelativeLayout>
+            android:layout_alignParentRight="true"
+            android:id="@+id/three_dot_view"
+            android:background="@android:color/transparent"
+            android:elevation="999999dp"/>
 
 
         <LinearLayout
             android:id="@+id/signInLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="80dp">
 
 
             <ImageView
@@ -104,7 +79,8 @@
         <ListView
             android:id="@+id/userLanguageListView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/signInLayout"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
