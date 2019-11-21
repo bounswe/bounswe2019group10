@@ -57,7 +57,7 @@ public class WritingController {
 
     @GetMapping("/scores")
     @ApiOperation(value = "Get the scores of the corresponding user.")
-    public ResponseEntity<List<WritingResultDTO>> getScores(@PathVariable int languageId)
+    public ResponseEntity<List<WritingResultDTO>> getScores()
     {
         String memberUname = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.getWritingResultsOfMember(memberUname));
@@ -81,7 +81,7 @@ public class WritingController {
 
     @PostMapping("/score/{writingResultId}")
     @ApiOperation(value = "Evaluate/Grade the writing. Body requires integer only. Not json.")
-    public ResponseEntity<String> evaluateWritingRequest(@PathVariable int writingResultId,  @RequestBody Integer score) {
+    public ResponseEntity<WritingResultDTO> evaluateWritingRequest(@PathVariable int writingResultId,  @RequestBody Integer score) {
         String memberUsername = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.evaluateWriting(memberUsername, writingResultId, score));
     }

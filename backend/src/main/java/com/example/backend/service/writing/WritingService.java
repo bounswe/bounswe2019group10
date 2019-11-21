@@ -120,7 +120,7 @@ public class WritingService {
 
     public List<WritingResultDTO> findAllNonCompleteByAssignedId(String username){
         Integer assignedMemberId = memberRepository.findByUsername(username).getId();
-        List<WritingResult> writingResults = writingResultRepository.findAllCompleteByAssignedId(assignedMemberId);
+        List<WritingResult> writingResults = writingResultRepository.findAllNonCompleteByAssignedId(assignedMemberId);
         List<WritingResultDTO> writingResultDTOS = new ArrayList<>();
         writingResults.forEach(writingResult -> writingResultDTOS.add(writingResultDTOConverterService.apply(writingResult)));
         return writingResultDTOS;
@@ -135,19 +135,22 @@ public class WritingService {
 
     }
 
-    public String evaluateWriting(String username, Integer writingResultId, Integer score){
+    public WritingResultDTO evaluateWriting(String username, Integer writingResultId, Integer score){
         //Check if the user is assigned to that writing first. If not return warning message
         WritingResult writingResult  = writingResultRepository.getOne(writingResultId);
         if(writingResult==null){
-            return "Writing evaluation ID does not exist.";
+            return null;
         }
         else if( writingResult.getAssignedMemberId() != memberRepository.findByUsername(username).getId()){
-            return "The user does not have permission to evaluate the given writing.";
+            return null;
         }
         //IF so update the writing result and return "success"
         writingResult.setScore(score);
+        writingResult.setScored(true);
         writingResultRepository.save(writingResult);
-        return "success";
+
+        return writingResultDTOConverterService.apply(writingResult);
+
     }
 
 
