@@ -42,7 +42,6 @@ public class WritingController {
     }
 
 
-
     @GetMapping("/language/{languageId}")
     @ApiOperation(value = "Get IDs of Writings in a given language")
     public ResponseEntity<List<Integer>> getWritingsInLanguage(@PathVariable int languageId) {
@@ -57,8 +56,7 @@ public class WritingController {
 
     @GetMapping("/scores")
     @ApiOperation(value = "Get the scores of the corresponding user.")
-    public ResponseEntity<List<WritingResultDTO>> getScores()
-    {
+    public ResponseEntity<List<WritingResultDTO>> getScores() {
         String memberUname = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.getWritingResultsOfMember(memberUname));
     }
@@ -78,10 +76,9 @@ public class WritingController {
         return ResponseEntity.ok(writingService.findAllNonCompleteByAssignedId(memberUsername));
     }
 
-
     @PostMapping("/score/{writingResultId}")
     @ApiOperation(value = "Evaluate/Grade the writing. Body requires integer only. Not json.")
-    public ResponseEntity<WritingResultDTO> evaluateWritingRequest(@PathVariable int writingResultId,  @RequestBody Integer score) {
+    public ResponseEntity<WritingResultDTO> evaluateWritingRequest(@PathVariable int writingResultId, @RequestBody Integer score) {
         String memberUsername = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.evaluateWriting(memberUsername, writingResultId, score));
     }

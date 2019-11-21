@@ -52,11 +52,11 @@ public class WritingService {
         return response;
     }
 
-    public List<String> RecommendUsers(Integer curMemberId, Integer languageId){
+    public List<String> RecommendUsers(Integer curMemberId, Integer languageId) {
         List<String> users = new ArrayList<>();
         List<MemberLanguage> memberLanguages = memberLanguageRepository.get10ForWriting(languageId, curMemberId);
-        for(MemberLanguage m: memberLanguages){
-            users.add( memberRepository.getOne(m.getId()).getUsername() );
+        for (MemberLanguage m : memberLanguages) {
+            users.add(memberRepository.getOne(m.getId()).getUsername());
         }
         return users;
     }
@@ -64,28 +64,26 @@ public class WritingService {
     //We can't return all of the writings explicitly to the user because this will be too big.
     //Currently I am converting the writing list to id list of Integers. I could not manage the
     //repository to return this directly.
-    public List<Integer> getWritingIDList(List<Writing> writings){
+    public List<Integer> getWritingIDList(List<Writing> writings) {
         List<Integer> ids = new ArrayList<>();
-        for(Writing w: writings){
+        for (Writing w : writings) {
             ids.add(w.getId());
         }
         return ids;
     }
 
-    public List<Integer> getWritingsInLanguage(Integer languageId){
-        return getWritingIDList( writingRepository.findAllByLanguageId(languageId));
+    public List<Integer> getWritingsInLanguage(Integer languageId) {
+        return getWritingIDList(writingRepository.findAllByLanguageId(languageId));
     }
 
-    public List<WritingDTO> getWritingsInLanguageJson(Integer languageId){
+    public List<WritingDTO> getWritingsInLanguageJson(Integer languageId) {
         List<WritingDTO> writingDTOS = new ArrayList<>();
-        List<Writing> writings =  writingRepository.findAllByLanguageId(languageId);
+        List<Writing> writings = writingRepository.findAllByLanguageId(languageId);
         writings.forEach(writing -> writingDTOS.add(writingDTOConverterService.apply(writing)));
         return writingDTOS;
     }
 
-
-
-    public List<WritingResultDTO> getWritingResultsOfMember(String username){
+    public List<WritingResultDTO> getWritingResultsOfMember(String username) {
         Integer memberId = memberRepository.findByUsername(username).getId();
         List<WritingResult> writingResults = writingResultRepository.findAllByMemberId(memberId);
         List<WritingResultDTO> writingResultDTOS = new ArrayList<>();
@@ -93,9 +91,9 @@ public class WritingService {
         return writingResultDTOS;
     }
 
-    public WritingResult processWritingAnswer(WritingRequest writingRequest, String username, int writingId){
+    public WritingResult processWritingAnswer(WritingRequest writingRequest, String username, int writingId) {
         Member evMember = memberRepository.findByUsername(writingRequest.getEvaluatorUsername());
-        if(writingRequest.getEvaluatorUsername()==null || evMember==null || evMember.getUsername().equals(username)){
+        if (writingRequest.getEvaluatorUsername() == null || evMember == null || evMember.getUsername().equals(username)) {
             return null;
         }
 
@@ -106,11 +104,9 @@ public class WritingService {
         writingResult.setMemberId(memberRepository.findByUsername(username).getId());
         writingResult.setWritingId(writingRequest.getWritingId());
         return writingResultRepository.save(writingResult);
-
-
     }
 
-    public List<WritingResultDTO> findAllCompleteByAssignedId(String username){
+    public List<WritingResultDTO> findAllCompleteByAssignedId(String username) {
         Integer assignedMemberId = memberRepository.findByUsername(username).getId();
         List<WritingResult> writingResults = writingResultRepository.findAllCompleteByAssignedId(assignedMemberId);
         List<WritingResultDTO> writingResultDTOS = new ArrayList<>();
@@ -118,7 +114,7 @@ public class WritingService {
         return writingResultDTOS;
     }
 
-    public List<WritingResultDTO> findAllNonCompleteByAssignedId(String username){
+    public List<WritingResultDTO> findAllNonCompleteByAssignedId(String username) {
         Integer assignedMemberId = memberRepository.findByUsername(username).getId();
         List<WritingResult> writingResults = writingResultRepository.findAllNonCompleteByAssignedId(assignedMemberId);
         List<WritingResultDTO> writingResultDTOS = new ArrayList<>();
@@ -126,22 +122,20 @@ public class WritingService {
         return writingResultDTOS;
     }
 
-    public WritingResultDTO findAssignmentById(String username, int writingResultId){
-        WritingResult writingResult  = writingResultRepository.getOne(writingResultId);
-        if(writingResult==null || writingResult.getAssignedMemberId() != memberRepository.findByUsername(username).getId()){
+    public WritingResultDTO findAssignmentById(String username, int writingResultId) {
+        WritingResult writingResult = writingResultRepository.getOne(writingResultId);
+        if (writingResult == null || writingResult.getAssignedMemberId() != memberRepository.findByUsername(username).getId()) {
             return null; //TODO add error message
         }
         return writingResultDTOConverterService.apply(writingResult);
-
     }
 
-    public WritingResultDTO evaluateWriting(String username, Integer writingResultId, Integer score){
+    public WritingResultDTO evaluateWriting(String username, Integer writingResultId, Integer score) {
         //Check if the user is assigned to that writing first. If not return warning message
-        WritingResult writingResult  = writingResultRepository.getOne(writingResultId);
-        if(writingResult==null){
+        WritingResult writingResult = writingResultRepository.getOne(writingResultId);
+        if (writingResult == null) {
             return null;
-        }
-        else if( writingResult.getAssignedMemberId() != memberRepository.findByUsername(username).getId()){
+        } else if (writingResult.getAssignedMemberId() != memberRepository.findByUsername(username).getId()) {
             return null;
         }
         //IF so update the writing result and return "success"
@@ -150,9 +144,6 @@ public class WritingService {
         writingResultRepository.save(writingResult);
 
         return writingResultDTOConverterService.apply(writingResult);
-
     }
-
-
 
 }
