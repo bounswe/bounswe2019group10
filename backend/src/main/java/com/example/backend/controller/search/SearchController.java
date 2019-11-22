@@ -18,16 +18,16 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
-    @PostMapping("/quiz/{term}")
+    @PostMapping("/quiz/{languageId}/{term}")
     @ApiOperation(value = "search quizzes related to search term")
-    public ResponseEntity<List<Quiz>> getSearchedQuizzes(@PathVariable String term){
-        return ResponseEntity.ok(searchService.quizSearchResult(term));
+    public ResponseEntity<List<Quiz>> getSearchedQuizzes(@PathVariable int languageId, @PathVariable String term){
+        return ResponseEntity.ok(searchService.quizSearchResult(term, languageId));
     }
 
-    @PostMapping("/writing/{term}")
+    @PostMapping("/writing/{languageId}/{term}")
     @ApiOperation(value = "search writings related to search term")
-    public ResponseEntity<List<Writing>> getSearchedWritings(@PathVariable String term){
-        return ResponseEntity.ok(searchService.writingSearchResult(term));
+    public ResponseEntity<List<Writing>> getSearchedWritings(@PathVariable int languageId, @PathVariable String term){
+        return ResponseEntity.ok(searchService.writingSearchResult(term, languageId));
     }
 
 

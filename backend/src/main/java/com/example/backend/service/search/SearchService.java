@@ -1,11 +1,14 @@
 package com.example.backend.service.search;
 
+import com.example.backend.model.member.MemberLanguage;
 import com.example.backend.model.quiz.Quiz;
 import com.example.backend.model.search.TagSimilarity;
 import com.example.backend.model.writing.Writing;
 import com.example.backend.repository.search.TagSimilarityRepository;
 import com.example.backend.repository.quiz.QuizRepository;
 import com.example.backend.repository.writing.WritingRepository;
+import com.example.backend.service.language.LanguageService;
+import com.example.backend.service.member.JwtUserDetailsService;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -38,7 +41,10 @@ public class SearchService {
     @Autowired
     TagSimilarityRepository tagSimilarityRepository;
 
-    public List<Quiz> quizSearchResult(String searchTerm){
+    @Autowired
+    LanguageService languageService;
+
+    public List<Quiz> quizSearchResult(String searchTerm, int languageId){
 
         List<String> tags = quizRepository.getDistinctQuizTypes();
 
@@ -62,15 +68,22 @@ public class SearchService {
 
         List<Quiz> result = new ArrayList<>();
 
+        int languageLevel = languageService.getLanguageLevel(languageId);
+
         while (!tagQueue.isEmpty()){
             String tag = tagQueue.remove().getTag();
-            result.addAll(quizRepository.getAllByQuizType(tag));
+            ArrayList<Quiz> quizArr = (ArrayList<Quiz>) quizRepository.getAllByQuizTypeAndLanguageId(tag, languageId);
+            quizArr.forEach(quiz -> {
+                if(quiz.getLevel() <= languageLevel){
+                    result.add(quiz);
+                }
+            });
         }
 
         return result;
     }
 
-    public List<Writing> writingSearchResult(String searchTerm){
+    public List<Writing> writingSearchResult(String searchTerm, int languageId){
         List<String> taskTexts = writingRepository.getDistinctTaskTexts();
 
         Comparator<TagSimilarity> similarityComparator = Comparator.comparing(TagSimilarity::getComparator);
@@ -95,13 +108,12 @@ public class SearchService {
 
         while (!tagQueue.isEmpty()){
             String taskText = tagQueue.remove().getTag();
-            result.addAll(writingRepository.getAllByTaskText(taskText));
+            result.addAll(writingRepository.getAllByTaskTextAndLanguageId(taskText, languageId));
         }
 
         return result;
     }
 
-    //TODO use 3rd party api for similarity calc
     private double getSimilarity(String searchTerm, String tag) {
 
         searchTerm = searchTerm.replace(" ", "%20");
