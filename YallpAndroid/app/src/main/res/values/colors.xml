@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorOrange">#fa8c3e</color>
     <color name="colorBrown">#b33a19</color>
+    <color name="pendingColor">#d1cc2c</color>
 </resources>

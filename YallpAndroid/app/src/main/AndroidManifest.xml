@@ -24,5 +24,6 @@
         <activity android:name=".activities.QuizScoreActivity" />
         <activity android:name=".activities.AddLanguageActivity"/>
         <activity android:name=".activities.QuizListActivity"/>
+        <activity android:name=".activities.CompletedWritingExercises"/>
     </application>
 </manifest>

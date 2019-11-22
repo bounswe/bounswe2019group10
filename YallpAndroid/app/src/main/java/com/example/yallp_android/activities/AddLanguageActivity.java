@@ -37,7 +37,8 @@ public class AddLanguageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);super.onCreate(savedInstanceState);
+        sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
+        super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.dialog_list_of_languages);
