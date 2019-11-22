@@ -10,6 +10,16 @@ public class MemberLanguageDTO {
 
     private String languageName;
 
+    private String level;
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
     public int getMemberId() {
         return memberId;
     }

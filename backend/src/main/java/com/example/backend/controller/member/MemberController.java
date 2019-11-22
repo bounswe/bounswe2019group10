@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -36,7 +35,7 @@ public class MemberController {
 
     @PutMapping("/update")
     @ApiOperation(value = "Update profile information")
-    public ResponseEntity<JwtResponse> updateUser(@RequestBody MemberDTO memberDTO, HttpServletRequest request){
+    public ResponseEntity<JwtResponse> updateUser(@RequestBody MemberDTO memberDTO){
 
         String username = jwtUserDetailsService.getUsername();
 
