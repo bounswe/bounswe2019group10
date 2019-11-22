@@ -40,7 +40,14 @@ public class WritingService {
     @Autowired
     private WritingResultDTOConverterService writingResultDTOConverterService;
 
-    public WritingResponse getById(int id, String memberUsername) {
+    public WritingDTO getById(int id) {
+        Writing writing = writingRepository.getOne(id);
+        WritingDTO writingDTO = writingDTOConverterService.apply(writing);
+
+        return writingDTO;
+    }
+
+    public WritingResponse getAndRecommendById(int id, String memberUsername) {
         Integer memberId = memberRepository.findByUsername(memberUsername).getId();
         Writing writing = writingRepository.getOne(id);
         WritingDTO writingDTO = writingDTOConverterService.apply(writing);
@@ -91,8 +98,9 @@ public class WritingService {
         return writingResultDTOS;
     }
 
-    public WritingResult processWritingAnswer(WritingRequest writingRequest, String username, int writingId) {
+    public WritingResultDTO processWritingAnswer(WritingRequest writingRequest, String username, int writingId) {
         Member evMember = memberRepository.findByUsername(writingRequest.getEvaluatorUsername());
+        Writing writing = writingRepository.getOne(writingId);
         if (writingRequest.getEvaluatorUsername() == null || evMember == null || evMember.getUsername().equals(username)) {
             return null;
         }
@@ -103,7 +111,9 @@ public class WritingService {
         writingResult.setAssignedMemberId(evMember.getId());
         writingResult.setMemberId(memberRepository.findByUsername(username).getId());
         writingResult.setWritingId(writingRequest.getWritingId());
-        return writingResultRepository.save(writingResult);
+        writingResult.setWritingName(writing.getWritingName());
+        writingResultRepository.save(writingResult);
+        return writingResultDTOConverterService.apply(writingResult);
     }
 
     public List<WritingResultDTO> findAllCompleteByAssignedId(String username) {

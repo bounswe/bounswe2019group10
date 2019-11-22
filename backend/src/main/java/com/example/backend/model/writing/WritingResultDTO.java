@@ -16,6 +16,8 @@ public class WritingResultDTO {
 
     private boolean isScored;
 
+    private String writingName;
+
     public int getId() {
         return id;
     }
@@ -70,5 +72,13 @@ public class WritingResultDTO {
 
     public void setScored(boolean scored) {
         isScored = scored;
+    }
+
+    public String getWritingName() {
+        return writingName;
+    }
+
+    public void setWritingName(String writingName) {
+        this.writingName = writingName;
     }
 }

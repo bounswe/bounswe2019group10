@@ -32,6 +32,10 @@ public class WritingResult {
     @Column(name = "is_scored")
     private boolean isScored;
 
+    @Column(name = "writing_name")
+    private String writingName;
+
+
     public int getId() {
         return id;
     }
@@ -86,5 +90,13 @@ public class WritingResult {
 
     public void setScored(boolean scored) {
         isScored = scored;
+    }
+
+    public String getWritingName() {
+        return writingName;
+    }
+
+    public void setWritingName(String writingName) {
+        this.writingName = writingName;
     }
 }
