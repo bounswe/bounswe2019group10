@@ -28,6 +28,7 @@ class HeaderComponent extends React.Component {
 
   changeActiveLanguage(memberLanguage){
     this.props.changeActiveLanguage(memberLanguage);
+    history.push('/');
   }
 
   componentDidMount() {

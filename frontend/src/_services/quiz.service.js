@@ -26,12 +26,12 @@ function submitQuiz(quizId,answers) {
       .then(handleResponse);
 }
 
-function getQuizes() {
+function getQuizes(activeLanguageId,level) {
     const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', ...authHeader() }
     };
-    return fetch(`${config.apiUrl}/quiz`, requestOptions)
+    return fetch(`${config.apiUrl}/quiz/level/${level}/language/${activeLanguageId}`, requestOptions)
         .then(handleResponse);
   }
   
