@@ -18,8 +18,10 @@ public interface QuizRepository extends JpaRepository<Quiz, Integer> {
     @Query("SELECT DISTINCT Q.quizType FROM Quiz Q")
     List<String> getDistinctQuizTypes();
 
-    List<Quiz> getAllByQuizType(String quizType);
+    List<Quiz> getAllByQuizTypeAndLanguageId(String quizType, int languageId);
 
     List<Quiz> getAllByLevelAndLanguageId(int level, int languageId);
+
+    List<Quiz> getAllByLanguageIdAndLevelIsLessThanEqual(int languageId, int level);
 
 }

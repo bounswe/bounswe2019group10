@@ -123,19 +123,32 @@ public class QuizService {
 
     public List<QuizDTO>getAllQuizzesByLanguageId(long languageId) {
         List<QuizDTO> quizDTOS = new ArrayList<>();
-        quizRepository.getAllByLanguageId(languageId).forEach(quiz -> quizDTOS.add(quizDTOConverterService.apply(quiz, null)));
+        quizRepository.getAllByLanguageId(languageId).forEach(quiz ->
+                quizDTOS.add(quizDTOConverterService.apply(quiz, null))
+        );
         return quizDTOS;
     }
 
     public List<QuizDTO>getAllQuizzesByLevelId(long levelId) {
         List<QuizDTO> quizDTOS = new ArrayList<>();
-        quizRepository.getAllByLevel(levelId).forEach(quiz -> quizDTOS.add(quizDTOConverterService.apply(quiz, null)));
+        quizRepository.getAllByLevel(levelId).forEach(quiz ->
+                quizDTOS.add(quizDTOConverterService.apply(quiz, null))
+        );
         return quizDTOS;
     }
 
     public List<QuizDTO>getAllQuizzesByLevelandLanguageId(int level, int languageId) {
         List<QuizDTO> quizDTOS = new ArrayList<>();
-        quizRepository.getAllByLevelAndLanguageId(level, languageId).forEach(quiz -> quizDTOS.add(quizDTOConverterService.apply(quiz, null)));
+        quizRepository.getAllByLevelAndLanguageId(level, languageId).forEach(quiz ->
+                quizDTOS.add(quizDTOConverterService.apply(quiz, null))
+        );
+        return quizDTOS;
+    }
+    public List<QuizDTO>getAllQuizzesByLanguageIdandLevelLess(int level, int languageId) {
+        List<QuizDTO> quizDTOS = new ArrayList<>();
+        quizRepository.getAllByLanguageIdAndLevelIsLessThanEqual(languageId, level).forEach(quiz ->
+                quizDTOS.add(quizDTOConverterService.apply(quiz, null))
+        );
         return quizDTOS;
     }
 }

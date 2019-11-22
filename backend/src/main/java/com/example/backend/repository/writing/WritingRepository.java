@@ -18,6 +18,6 @@ public interface WritingRepository  extends JpaRepository<Writing, Integer> {
     @Query("SELECT DISTINCT w.taskText FROM Writing w")
     List<String> getDistinctTaskTexts();
 
-    List<Writing> getAllByTaskText(String taskText);
+    List<Writing> getAllByTaskTextAndLanguageId(String taskText, int languageId);
 
 }
