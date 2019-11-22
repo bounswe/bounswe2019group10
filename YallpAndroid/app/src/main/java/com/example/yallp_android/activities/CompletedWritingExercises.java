@@ -1,6 +1,7 @@
 package com.example.yallp_android.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -39,18 +40,14 @@ public class CompletedWritingExercises extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_list_of_writings);
         writingList = findViewById(R.id.writingList);
-        completedWritingExercises.add(new CompletedWritings("text",1,1,1,8,false,1));
-        completedWritingExercises.add(new CompletedWritings("text",1,1,1,8,true,1));
-        adapter = new CompletedWritingsAdapter(getApplicationContext(),completedWritingExercises);
-        writingList.setAdapter(adapter);
-        /*writingList.setOnClickListener(new AdapterView.OnClickListener() {
+        writingList.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
-        });*/
+        });
 
-        /*Call<CompletedWritings[]> call;
+        Call<CompletedWritings[]> call;
 
         call = WritingRetroClient
                 .getInstance()
@@ -74,8 +71,13 @@ public class CompletedWritingExercises extends AppCompatActivity {
             public void onFailure(Call<CompletedWritings[]> call, Throwable t) {
 
             }
-        });*/
+        });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(this,ProfileActivity.class);
+        startActivity(i);
+        finish();
+    }
 }

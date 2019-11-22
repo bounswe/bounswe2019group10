@@ -48,18 +48,23 @@ public class CompletedWritingsAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.writingName = (TextView) v.findViewById(R.id.writingName);
             holder.writingStatus = (TextView) v.findViewById(R.id.writingStatus);
+            holder.writingScore = (TextView) v.findViewById(R.id.writingScore);
             v.setTag(holder);
         }
         else {
             holder = (ViewHolder) v.getTag();
         }
 
-        holder.writingName.setText("Effects of consuming alcohol");
         if(listData.get(position).isScored()){
+            holder.writingName.setText(listData.get(position).getId()+"");
             holder.writingStatus.setText("Scored");
+            holder.writingScore.setText(listData.get(position).getScore()+"/10");
             holder.writingStatus.setTextColor(Color.parseColor("#56b531"));
         }else{
+            holder.writingName.setText(listData.get(position).getId()+"");
             holder.writingStatus.setText("Pending");
+            holder.writingScore.setVisibility(View.GONE);
+            holder.writingStatus.setTextColor(Color.parseColor("#d1cc2c"));
         }
         return v;
     }
@@ -67,5 +72,6 @@ public class CompletedWritingsAdapter extends BaseAdapter {
     static class ViewHolder {
         TextView writingName;
         TextView writingStatus;
+        TextView writingScore;
     }
 }
