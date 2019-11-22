@@ -30,12 +30,19 @@ public class WritingController {
     @ApiOperation(value = "Get Writing by ID. Returns writing plus the recommended usernames.")
     public ResponseEntity<WritingResponse> getById(@PathVariable int writingId) {
         String memberUsername = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(writingService.getById(writingId, memberUsername));
+        return ResponseEntity.ok(writingService.getAndRecommendById(writingId, memberUsername));
+    }
+
+    @GetMapping("/read/{writingId}")
+    @ApiOperation(value = "Use this when you want to only see the contents of the writing. This is cheaper")
+    public ResponseEntity<WritingDTO> getOnlyWritingById(@PathVariable int writingId) {
+        String memberUsername = jwtUserDetailsService.getUsername();
+        return ResponseEntity.ok(writingService.getById(writingId));
     }
 
     @PostMapping("/{writingId}/submit")
     @ApiOperation(value = "Submit the answers to the writing. It requires one selected recommended username.")
-    public ResponseEntity<WritingResult> evaluateQuizRequest(@PathVariable int writingId, @RequestBody WritingRequest writingRequest) {
+    public ResponseEntity<WritingResultDTO> evaluateQuizRequest(@PathVariable int writingId, @RequestBody WritingRequest writingRequest) {
         String memberUname = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.processWritingAnswer(writingRequest, memberUname, writingId));
     }
