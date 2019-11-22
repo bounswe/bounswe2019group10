@@ -22,4 +22,6 @@ public interface QuizRepository extends JpaRepository<Quiz, Integer> {
 
     List<Quiz> getAllByLevelAndLanguageId(int level, int languageId);
 
+    List<Quiz> getAllByLanguageIdAndLevelIsLessThanEqual(int languageId, int level);
+
 }

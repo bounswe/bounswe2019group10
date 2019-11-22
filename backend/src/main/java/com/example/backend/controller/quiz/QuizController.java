@@ -72,4 +72,11 @@ public class QuizController {
     public ResponseEntity<List<QuizDTO>> getByLevelId(@PathVariable int level, @PathVariable int languageId) {
         return ResponseEntity.ok(quizService.getAllQuizzesByLevelandLanguageId(level, languageId));
     }
+
+    @GetMapping("/levelorlower/{level}/language/{languageId}")
+    @ApiOperation(value = "Get quiz by level and languageId")
+    public ResponseEntity<List<QuizDTO>> getAllByLevelIdorLower(@PathVariable int level, @PathVariable int languageId) {
+        return ResponseEntity.ok(quizService.getAllQuizzesByLanguageIdandLevelLess(level, languageId));
+    }
+
 }
