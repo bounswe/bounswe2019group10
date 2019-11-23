@@ -48,7 +48,7 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
         if (getIntent().getExtras() != null) {
 
             Call<Quiz[]> call;
-            call = QuizRetroClient.getInstance().getQuizApi().getQuizForSpecificLevelAndLanguage("Bearer " + sharedPref.getString("token", null),
+            call = QuizRetroClient.getInstance().getQuizApi().getQuizForLevelOrLowerAndLanguage("Bearer " + sharedPref.getString("token", null),
                     getIntent().getIntExtra("level", 1),
                     getIntent().getIntExtra("languageId", 1));
 

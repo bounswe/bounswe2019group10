@@ -31,7 +31,7 @@ public interface QuizApi {
 
     @Headers({"Content-Type: application/json"})
     @GET("quiz/levelorlower/{level}/language/{languageId}")
-    Call<Quiz[]> getQuizForSpecificLevelAndLanguage(
+    Call<Quiz[]> getQuizForLevelOrLowerAndLanguage(
             @Header("Authorization") String token,
             @Path("level") int level,
             @Path("languageId") int languageId);

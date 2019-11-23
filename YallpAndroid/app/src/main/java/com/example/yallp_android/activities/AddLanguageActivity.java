@@ -88,14 +88,16 @@ public class AddLanguageActivity extends AppCompatActivity {
         });
 
         Call<Language[]> call;
-        call = LanguageRetroClient.getInstance().getLanguageApi().getLanguages("Bearer " + sharedPref.getString("token", null));
+        call = LanguageRetroClient.getInstance().getLanguageApi().getUnsubsLanguages("Bearer " + sharedPref.getString("token", null));
         call.enqueue(new Callback<Language[]>() {
             @Override
             public void onResponse(Call<Language[]> call, Response<Language[]> response) {
                 if(response.isSuccessful()){
                     Collections.addAll(languages,response.body());
-                    aAdapter = new LanguageListAdapter(getBaseContext(),languages);
-                    mListView.setAdapter(aAdapter);
+                    if(languages!=null && languages.size()>0){
+                        aAdapter = new LanguageListAdapter(getBaseContext(),languages);
+                        mListView.setAdapter(aAdapter);
+                    }
                 }
                 else {
                     Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
