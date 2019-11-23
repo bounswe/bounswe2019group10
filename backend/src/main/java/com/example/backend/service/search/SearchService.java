@@ -5,12 +5,14 @@ import com.example.backend.model.quiz.QuizDTO;
 import com.example.backend.model.quiz.QuizResponseDTO;
 import com.example.backend.model.search.TagSimilarity;
 import com.example.backend.model.writing.Writing;
+import com.example.backend.model.writing.WritingIsSolvedResponse;
 import com.example.backend.repository.search.TagSimilarityRepository;
 import com.example.backend.repository.quiz.QuizRepository;
 import com.example.backend.repository.writing.WritingRepository;
 import com.example.backend.service.dtoconverterservice.QuizDTOConverterService;
 import com.example.backend.service.dtoconverterservice.QuizResponseDTOConverterService;
 import com.example.backend.service.language.LanguageService;
+import com.example.backend.service.writing.WritingService;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -52,6 +54,9 @@ public class SearchService {
     @Autowired
     QuizDTOConverterService quizDTOConverterService;
 
+    @Autowired
+    WritingService writingService;
+
     public List<QuizResponseDTO> quizSearchResult(String searchTerm, int languageId){
 
         List<String> tags = quizRepository.getDistinctQuizTypes();
@@ -91,7 +96,7 @@ public class SearchService {
         return quizResponseDTOConverterService.applyAll(result);
     }
 
-    public List<Writing> writingSearchResult(String searchTerm, int languageId){
+    public List<WritingIsSolvedResponse> writingSearchResult(String searchTerm, int languageId){
         List<String> taskTexts = writingRepository.getDistinctTaskTexts();
 
         Comparator<TagSimilarity> similarityComparator = Comparator.comparing(TagSimilarity::getComparator);
@@ -112,11 +117,15 @@ public class SearchService {
             }
         });
 
-        List<Writing> result = new ArrayList<>();
+        List<WritingIsSolvedResponse> result = new ArrayList<>();
 
         while (!tagQueue.isEmpty()){
             String taskText = tagQueue.remove().getTag();
-            result.addAll(writingRepository.getAllByTaskTextAndLanguageId(taskText, languageId));
+            List<Writing> list = writingRepository.getAllByTaskTextAndLanguageId(taskText, languageId);
+            list.forEach(writing -> {
+                result.add(writingService.getById(writing.getId()));
+            });
+
         }
 
         return result;

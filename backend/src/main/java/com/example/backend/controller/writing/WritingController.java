@@ -29,15 +29,13 @@ public class WritingController {
     @GetMapping("/{writingId}")
     @ApiOperation(value = "Get Writing by ID. Returns writing plus the recommended usernames.")
     public ResponseEntity<WritingResponse> getById(@PathVariable int writingId) {
-        String memberUsername = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(writingService.getAndRecommendById(writingId, memberUsername));
+        return ResponseEntity.ok(writingService.getAndRecommendById(writingId));
     }
 
     @GetMapping("/read/{writingId}")
     @ApiOperation(value = "Use this when you want to only see the contents of the writing. This is cheaper")
     public ResponseEntity<WritingIsSolvedResponse> getOnlyWritingById(@PathVariable int writingId) {
-        String memberUsername = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(writingService.getById(writingId, memberUsername));
+        return ResponseEntity.ok(writingService.getById(writingId));
     }
 
     @PostMapping("/{writingId}/submit")
@@ -56,29 +54,26 @@ public class WritingController {
     @GetMapping("/getJson/{languageId}")
     @ApiOperation(value = "Get all Writings in a given language as json. This will return a long output.")
     public ResponseEntity<List<WritingIsSolvedResponse>> getWritingsInLanguageJson(@PathVariable int languageId) {
-        String memberUname = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(writingService.getWritingsInLanguageJson(languageId, memberUname));
+        return ResponseEntity.ok(writingService.getWritingsInLanguageJson(languageId));
     }
 
     @GetMapping("/scores")
     @ApiOperation(value = "Get the scores of the corresponding user.")
     public ResponseEntity<List<WritingResultDTO>> getScores() {
-        String memberUname = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(writingService.getWritingResultsOfMember(memberUname));
+        return ResponseEntity.ok(writingService.getWritingResultsOfMember());
     }
 
     @GetMapping("/completedAssignments")
     @ApiOperation(value = "Get the completed writing grading assignments of the user.")
     public ResponseEntity<List<WritingResultDTO>> getCompleteAssignments() {
-        String memberUsername = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(writingService.findAllCompleteByAssignedId(memberUsername));
+        return ResponseEntity.ok(writingService.findAllCompleteByAssignedId());
     }
 
     @GetMapping("/nonCompletedAssignments")
     @ApiOperation(value = "Get the waiting writing grading assignments of the user.")
     public ResponseEntity<List<WritingResultDTO>> getNonCompleteAssignments() {
-        String memberUsername = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(writingService.findAllNonCompleteByAssignedId(memberUsername));
+
+        return ResponseEntity.ok(writingService.findAllNonCompleteByAssignedId());
     }
 
     @PostMapping("/score/{writingResultId}")
