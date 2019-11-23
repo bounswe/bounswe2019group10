@@ -40,9 +40,9 @@ public class CompletedWritingExercises extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_list_of_writings);
         writingList = findViewById(R.id.writingList);
-        writingList.setOnClickListener(new AdapterView.OnClickListener() {
+        writingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 
             }
         });
