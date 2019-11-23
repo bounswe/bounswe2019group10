@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -83,11 +84,24 @@ public class WritingService {
         return getWritingIDList(writingRepository.findAllByLanguageId(languageId));
     }
 
-    public List<WritingDTO> getWritingsInLanguageJson(Integer languageId) {
-        List<WritingDTO> writingDTOS = new ArrayList<>();
+    public List<WritingIsSolvedResponse> getWritingsInLanguageJson(Integer languageId, String username) {
+        int memberId = memberRepository.findByUsername(username).getId();
+        List<WritingIsSolvedResponse> writingIsSolvedResponseList = new ArrayList<>();
         List<Writing> writings = writingRepository.findAllByLanguageId(languageId);
-        writings.forEach(writing -> writingDTOS.add(writingDTOConverterService.apply(writing)));
-        return writingDTOS;
+        List<WritingResultDTO> results = getWritingResultsOfMember(username);
+        HashMap<Integer, WritingResultDTO> map = new HashMap<>(); //writingId, WritingResultDTO
+        for(WritingResultDTO wr: results){
+            map.put(wr.getWritingId(), wr);
+        }
+        for(Writing w: writings){
+            WritingIsSolvedResponse ws = new WritingIsSolvedResponse();
+            ws.setWritingDTO(writingDTOConverterService.apply(w));
+            WritingResultDTO wr = map.get(w.getId());
+            ws.setSolved(wr!=null);
+            ws.setWritingResultDTO(wr);
+            writingIsSolvedResponseList.add(ws);
+        }
+        return writingIsSolvedResponseList;
     }
 
     public List<WritingResultDTO> getWritingResultsOfMember(String username) {
