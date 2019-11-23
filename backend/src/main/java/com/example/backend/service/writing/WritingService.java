@@ -41,11 +41,23 @@ public class WritingService {
     @Autowired
     private WritingResultDTOConverterService writingResultDTOConverterService;
 
-    public WritingDTO getById(int id) {
+    public WritingIsSolvedResponse getById(int id, String username) {
+        Integer memberId = memberRepository.findByUsername(username).getId();
         Writing writing = writingRepository.getOne(id);
         WritingDTO writingDTO = writingDTOConverterService.apply(writing);
+        WritingResult wr = writingResultRepository.findByWritingIdAndMemberId(writing.getId(), memberId);
+        WritingIsSolvedResponse response = new WritingIsSolvedResponse();
+        response.setWritingDTO(writingDTO);
+        response.setSolved(wr!=null);
+        if(wr!=null){
+            response.setWritingResultDTO(writingResultDTOConverterService.apply(wr));
+        }
+        else{
+            response.setWritingResultDTO(null);
+        }
 
-        return writingDTO;
+
+        return response;
     }
 
     public WritingResponse getAndRecommendById(int id, String memberUsername) {

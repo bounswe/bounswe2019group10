@@ -19,6 +19,6 @@ public interface WritingResultRepository extends JpaRepository<WritingResult, In
     @Query(nativeQuery = true, value = "select * from writing_result w where w.assigned_member_id = :mem_id and w.score is null")
     List<WritingResult> findAllNonCompleteByAssignedId(@Param("mem_id") Integer memId);
 
-
+    WritingResult findByWritingIdAndMemberId(Integer writingId, Integer memberId);
 
 }
