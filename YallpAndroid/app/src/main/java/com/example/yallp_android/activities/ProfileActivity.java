@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.yallp_android.ExpandableTextView;
 import com.example.yallp_android.R;
+import com.example.yallp_android.adapters.LanguageListAdapter;
 import com.example.yallp_android.adapters.UserLanguageListAdapter;
 import com.example.yallp_android.custom_views.ThreeDotsView;
 import com.example.yallp_android.models.MemberLanguage;
@@ -85,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
                     startActivity(i);
                     finish();
                 } else {
-                    Intent i = new Intent(getApplicationContext(), QuizListActivity.class);
+                    Intent i = new Intent(getApplicationContext(), LanguageMainActivity.class);
                     i.putExtra("languageId", userInfo.getMemberLanguages()[arg2].getLanguage().getId());
                     i.putExtra("level", userInfo.getMemberLanguages()[arg2].getLanguageLevel());
                     startActivity(i);
@@ -128,7 +129,6 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
                     usernameTextView.setText(usernameText);
                     mailTextView.setText(sharedPref.getString("mail", "mail"));
                     expandableTextView.setText(sharedPref.getString("bio", ""));
-
 
                     if (expandableTextView.getText().equals("")) {
                         seeFullBio.setVisibility(View.GONE);

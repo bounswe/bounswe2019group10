@@ -57,8 +57,8 @@ public class QuizListAdapter extends RecyclerView.Adapter<QuizListAdapter.MyView
 
         public MyViewHolder(View view,QuizListAdapterClickListener quizListAdapterClickListener) {
             super(view);
-            topicName = (TextView) view.findViewById(R.id.topicName);
-            quizId = (TextView) view.findViewById(R.id.quizId);
+            topicName = view.findViewById(R.id.topicName);
+            quizId =  view.findViewById(R.id.quizId);
             this.quizListAdapterClickListener = quizListAdapterClickListener;
             view.setOnClickListener(this);
         }
