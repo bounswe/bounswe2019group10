@@ -18,6 +18,10 @@ public class WritingResultDTO {
 
     private String writingName;
 
+    private String assignedMemberName;
+
+    private String memberName;
+
     public int getId() {
         return id;
     }
@@ -80,5 +84,21 @@ public class WritingResultDTO {
 
     public void setWritingName(String writingName) {
         this.writingName = writingName;
+    }
+
+    public String getAssignedMemberName() {
+        return assignedMemberName;
+    }
+
+    public void setAssignedMemberName(String assignedMemberName) {
+        this.assignedMemberName = assignedMemberName;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 }
