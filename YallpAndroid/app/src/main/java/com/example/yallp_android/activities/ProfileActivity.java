@@ -11,7 +11,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yallp_android.ExpandableTextView;
 import com.example.yallp_android.R;
@@ -197,7 +196,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
     }
 
     private void completedWritingExercises() {
-        Intent i = new Intent(getApplicationContext(), CompletedWritingExercises.class);
+        Intent i = new Intent(getApplicationContext(), CompletedWritingExerciseActivity.class);
         startActivity(i);
         finish();
     }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/inputMarginHorizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="@dimen/inputMarginHorizontal"
+        android:layout_marginBottom="40dp"
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/titleTextSize" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@+id/questionText"
+        android:layout_marginLeft="@dimen/inputMarginHorizontal"
+        android:layout_marginRight="@dimen/inputMarginHorizontal"
+        android:background="@drawable/settings_border"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/answerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textSize="18sp" />
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CompletedWritingExercises extends AppCompatActivity {
+public class CompletedWritingExerciseActivity extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private ListView writingList;
     private CompletedWritingsAdapter adapter;
@@ -43,7 +43,14 @@ public class CompletedWritingExercises extends AppCompatActivity {
         writingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-
+                Intent i = new Intent(getApplicationContext(),WritingDetailActivity.class);
+                i.putExtra("writingId",completedWritingExercises.get(position).getId()+"");
+                i.putExtra("answerText",completedWritingExercises.get(position).getAnswerText());
+                i.putExtra("evaluatorName",completedWritingExercises.get(position).getAssignedMemberId()+"");
+                i.putExtra("score",completedWritingExercises.get(position).getScore()+"");
+                i.putExtra("isScored",completedWritingExercises.get(position).isScored());
+                startActivity(i);
+                finish();
             }
         });
 
