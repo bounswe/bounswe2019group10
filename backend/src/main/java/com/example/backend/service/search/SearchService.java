@@ -1,6 +1,5 @@
 package com.example.backend.service.search;
 
-import com.example.backend.model.member.MemberLanguage;
 import com.example.backend.model.quiz.Quiz;
 import com.example.backend.model.search.TagSimilarity;
 import com.example.backend.model.writing.Writing;
@@ -8,7 +7,6 @@ import com.example.backend.repository.search.TagSimilarityRepository;
 import com.example.backend.repository.quiz.QuizRepository;
 import com.example.backend.repository.writing.WritingRepository;
 import com.example.backend.service.language.LanguageService;
-import com.example.backend.service.member.JwtUserDetailsService;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
