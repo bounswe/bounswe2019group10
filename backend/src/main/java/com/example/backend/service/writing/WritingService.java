@@ -55,8 +55,6 @@ public class WritingService {
         else{
             response.setWritingResultDTO(null);
         }
-
-
         return response;
     }
 
@@ -81,9 +79,6 @@ public class WritingService {
         return users;
     }
 
-    //We can't return all of the writings explicitly to the user because this will be too big.
-    //Currently I am converting the writing list to id list of Integers. I could not manage the
-    //repository to return this directly.
     public List<Integer> getWritingIDList(List<Writing> writings) {
         List<Integer> ids = new ArrayList<>();
         for (Writing w : writings) {
@@ -174,7 +169,7 @@ public class WritingService {
         } else if (writingResult.getAssignedMemberId() != memberRepository.findByUsername(username).getId()) {
             return null;
         }
-        //IF so update the writing result and return "success"
+        //If so update the writing result and return "success"
         writingResult.setScore(score);
         writingResult.setScored(true);
         writingResultRepository.save(writingResult);
