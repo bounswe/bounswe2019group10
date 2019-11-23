@@ -27,9 +27,6 @@ public class QuizController {
     private QuizService quizService;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
 
     @Autowired

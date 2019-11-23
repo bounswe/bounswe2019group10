@@ -2,11 +2,15 @@ package com.example.backend.service.search;
 
 import com.example.backend.model.member.MemberLanguage;
 import com.example.backend.model.quiz.Quiz;
+import com.example.backend.model.quiz.QuizDTO;
+import com.example.backend.model.quiz.QuizResponseDTO;
 import com.example.backend.model.search.TagSimilarity;
 import com.example.backend.model.writing.Writing;
 import com.example.backend.repository.search.TagSimilarityRepository;
 import com.example.backend.repository.quiz.QuizRepository;
 import com.example.backend.repository.writing.WritingRepository;
+import com.example.backend.service.dtoconverterservice.QuizDTOConverterService;
+import com.example.backend.service.dtoconverterservice.QuizResponseDTOConverterService;
 import com.example.backend.service.language.LanguageService;
 import com.example.backend.service.member.JwtUserDetailsService;
 import com.squareup.okhttp.OkHttpClient;
@@ -44,7 +48,13 @@ public class SearchService {
     @Autowired
     LanguageService languageService;
 
-    public List<Quiz> quizSearchResult(String searchTerm, int languageId){
+    @Autowired
+    QuizResponseDTOConverterService quizResponseDTOConverterService;
+
+    @Autowired
+    QuizDTOConverterService quizDTOConverterService;
+
+    public List<QuizResponseDTO> quizSearchResult(String searchTerm, int languageId){
 
         List<String> tags = quizRepository.getDistinctQuizTypes();
 
@@ -66,7 +76,7 @@ public class SearchService {
             }
         });
 
-        List<Quiz> result = new ArrayList<>();
+        List<QuizDTO> result = new ArrayList<>();
 
         int languageLevel = languageService.getLanguageLevel(languageId);
 
@@ -75,12 +85,12 @@ public class SearchService {
             ArrayList<Quiz> quizArr = (ArrayList<Quiz>) quizRepository.getAllByQuizTypeAndLanguageId(tag, languageId);
             quizArr.forEach(quiz -> {
                 if(quiz.getLevel() <= languageLevel){
-                    result.add(quiz);
+                    result.add(quizDTOConverterService.apply(quiz, null));
                 }
             });
         }
 
-        return result;
+        return quizResponseDTOConverterService.applyAll(result);
     }
 
     public List<Writing> writingSearchResult(String searchTerm, int languageId){

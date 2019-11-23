@@ -26,7 +26,6 @@ public class QuizResponseDTOConverterService {
         MemberQuiz memberQuiz = memberQuizRepository
                 .findByMemberIdAndQuizId(jwtUserDetailsService.getUserId(), quiz.getId());
 
-
         if(memberQuiz != null){
             return new QuizResponseDTO(quiz, memberQuiz.getScore(), true);
         }else{

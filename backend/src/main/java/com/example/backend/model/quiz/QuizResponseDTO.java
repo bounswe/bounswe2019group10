@@ -12,4 +12,27 @@ public class QuizResponseDTO {
         this.isSolved = isSolved;
     }
 
+    public QuizDTO getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(QuizDTO quiz) {
+        this.quiz = quiz;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public boolean isSolved() {
+        return isSolved;
+    }
+
+    public void setSolved(boolean solved) {
+        isSolved = solved;
+    }
 }
