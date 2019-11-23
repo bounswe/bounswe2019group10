@@ -10,6 +10,7 @@ import com.example.backend.repository.writing.WritingRepository;
 import com.example.backend.repository.writing.WritingResultRepository;
 import com.example.backend.service.dtoconverterservice.WritingDTOConverterService;
 import com.example.backend.service.dtoconverterservice.WritingResultDTOConverterService;
+import com.example.backend.service.member.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,9 @@ public class WritingService {
     private MemberRepository memberRepository;
 
     @Autowired
+    private JwtUserDetailsService jwtUserDetailsService;
+
+    @Autowired
     private LanguageRepository languageRepository;
 
     @Autowired
@@ -41,8 +45,8 @@ public class WritingService {
     @Autowired
     private WritingResultDTOConverterService writingResultDTOConverterService;
 
-    public WritingIsSolvedResponse getById(int id, String username) {
-        Integer memberId = memberRepository.findByUsername(username).getId();
+    public WritingIsSolvedResponse getById(int id) {
+        Integer memberId = jwtUserDetailsService.getUserId();
         Writing writing = writingRepository.getOne(id);
         WritingDTO writingDTO = writingDTOConverterService.apply(writing);
         WritingResult wr = writingResultRepository.findByWritingIdAndMemberId(writing.getId(), memberId);
@@ -58,8 +62,8 @@ public class WritingService {
         return response;
     }
 
-    public WritingResponse getAndRecommendById(int id, String memberUsername) {
-        Integer memberId = memberRepository.findByUsername(memberUsername).getId();
+    public WritingResponse getAndRecommendById(int id) {
+        Integer memberId = jwtUserDetailsService.getUserId();
         Writing writing = writingRepository.getOne(id);
         WritingDTO writingDTO = writingDTOConverterService.apply(writing);
         List<String> usernames = RecommendUsers(memberId, writing.getLanguageId());
@@ -91,11 +95,11 @@ public class WritingService {
         return getWritingIDList(writingRepository.findAllByLanguageId(languageId));
     }
 
-    public List<WritingIsSolvedResponse> getWritingsInLanguageJson(Integer languageId, String username) {
-        int memberId = memberRepository.findByUsername(username).getId();
+    public List<WritingIsSolvedResponse> getWritingsInLanguageJson(Integer languageId) {
+        int memberId = jwtUserDetailsService.getUserId();
         List<WritingIsSolvedResponse> writingIsSolvedResponseList = new ArrayList<>();
         List<Writing> writings = writingRepository.findAllByLanguageId(languageId);
-        List<WritingResultDTO> results = getWritingResultsOfMember(username);
+        List<WritingResultDTO> results = getWritingResultsOfMember();
         HashMap<Integer, WritingResultDTO> map = new HashMap<>(); //writingId, WritingResultDTO
         for(WritingResultDTO wr: results){
             map.put(wr.getWritingId(), wr);
@@ -111,8 +115,8 @@ public class WritingService {
         return writingIsSolvedResponseList;
     }
 
-    public List<WritingResultDTO> getWritingResultsOfMember(String username) {
-        Integer memberId = memberRepository.findByUsername(username).getId();
+    public List<WritingResultDTO> getWritingResultsOfMember() {
+        Integer memberId = jwtUserDetailsService.getUserId();
         List<WritingResult> writingResults = writingResultRepository.findAllByMemberId(memberId);
         List<WritingResultDTO> writingResultDTOS = new ArrayList<>();
         writingResults.forEach(writingResult -> writingResultDTOS.add(writingResultDTOConverterService.apply(writingResult)));
@@ -137,16 +141,16 @@ public class WritingService {
         return writingResultDTOConverterService.apply(writingResult);
     }
 
-    public List<WritingResultDTO> findAllCompleteByAssignedId(String username) {
-        Integer assignedMemberId = memberRepository.findByUsername(username).getId();
+    public List<WritingResultDTO> findAllCompleteByAssignedId() {
+        Integer assignedMemberId = jwtUserDetailsService.getUserId();
         List<WritingResult> writingResults = writingResultRepository.findAllCompleteByAssignedId(assignedMemberId);
         List<WritingResultDTO> writingResultDTOS = new ArrayList<>();
         writingResults.forEach(writingResult -> writingResultDTOS.add(writingResultDTOConverterService.apply(writingResult)));
         return writingResultDTOS;
     }
 
-    public List<WritingResultDTO> findAllNonCompleteByAssignedId(String username) {
-        Integer assignedMemberId = memberRepository.findByUsername(username).getId();
+    public List<WritingResultDTO> findAllNonCompleteByAssignedId() {
+        Integer assignedMemberId = jwtUserDetailsService.getUserId();
         List<WritingResult> writingResults = writingResultRepository.findAllNonCompleteByAssignedId(assignedMemberId);
         List<WritingResultDTO> writingResultDTOS = new ArrayList<>();
         writingResults.forEach(writingResult -> writingResultDTOS.add(writingResultDTOConverterService.apply(writingResult)));

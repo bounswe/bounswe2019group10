@@ -34,6 +34,13 @@ public class MemberController {
         return ResponseEntity.ok(jwtUserDetailsService.getByUsername(username));
     }
 
+    @GetMapping("/{memberId}")
+    @ApiOperation(value = "Get profile information by member id")
+    public ResponseEntity<Member> getUserbyId(@PathVariable int memberId){
+
+        return ResponseEntity.ok(jwtUserDetailsService.getbyUserId(memberId));
+    }
+
     @PutMapping("/update")
     @ApiOperation(value = "Update profile information")
     public ResponseEntity<JwtResponse> updateUser(@RequestBody MemberDTO memberDTO){
