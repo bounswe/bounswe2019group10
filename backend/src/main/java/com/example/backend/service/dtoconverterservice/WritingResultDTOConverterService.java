@@ -26,6 +26,7 @@ public class WritingResultDTOConverterService {
         writingResultDTO.setWritingId(writing.getWritingId());
         writingResultDTO.setScored(writing.isScored());
         writingResultDTO.setWritingName(writing.getWritingName());
+        writingResultDTO.setAssignedMemberName(writingService.getUsernameFromId(writing.getAssignedMemberId()));
         return writingResultDTO;
 
     }

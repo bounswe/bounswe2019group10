@@ -182,4 +182,8 @@ public class WritingService {
         return writingResultDTOConverterService.apply(writingResult);
     }
 
+    public String getUsernameFromId(Integer id){
+        return memberRepository.getOne(id).getUsername();
+    }
+
 }
