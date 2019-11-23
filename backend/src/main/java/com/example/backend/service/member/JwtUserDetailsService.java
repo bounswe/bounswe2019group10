@@ -85,6 +85,10 @@ public class JwtUserDetailsService implements UserDetailsService {
         return getByUsername(getUsername()).getId();
     }
 
+    public Member getbyUserId(int id){
+        return memberRepository.getOne(id);
+    }
+
     public JwtUserDetailsServiceUtil save(MemberDTO user) {
         Member newUser = new Member();
 

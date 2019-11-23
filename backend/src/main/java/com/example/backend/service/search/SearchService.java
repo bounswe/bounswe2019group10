@@ -1,6 +1,5 @@
 package com.example.backend.service.search;
 
-import com.example.backend.model.member.MemberLanguage;
 import com.example.backend.model.quiz.Quiz;
 import com.example.backend.model.quiz.QuizDTO;
 import com.example.backend.model.quiz.QuizResponseDTO;
@@ -12,7 +11,6 @@ import com.example.backend.repository.writing.WritingRepository;
 import com.example.backend.service.dtoconverterservice.QuizDTOConverterService;
 import com.example.backend.service.dtoconverterservice.QuizResponseDTOConverterService;
 import com.example.backend.service.language.LanguageService;
-import com.example.backend.service.member.JwtUserDetailsService;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;

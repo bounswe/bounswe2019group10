@@ -1,7 +1,6 @@
 package com.example.backend.service.dtoconverterservice;
 
 import com.example.backend.model.member.MemberQuiz;
-import com.example.backend.model.quiz.Quiz;
 import com.example.backend.model.quiz.QuizDTO;
 import com.example.backend.model.quiz.QuizResponseDTO;
 import com.example.backend.repository.member.MemberQuizRepository;
