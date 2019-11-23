@@ -9,8 +9,9 @@ public class CompletedWritings {
     private int score;
     private boolean scored;
     private int writingId;
+    private String writingName;
 
-    public CompletedWritings(String answerText, int assignedMemberId, int id, int memberId, int score, boolean scored, int writingId) {
+    public CompletedWritings(String answerText, int assignedMemberId, int id, int memberId, int score, boolean scored, int writingId,String writingName) {
         this.answerText = answerText;
         this.assignedMemberId = assignedMemberId;
         this.id = id;
@@ -18,6 +19,7 @@ public class CompletedWritings {
         this.score = score;
         this.scored = scored;
         this.writingId = writingId;
+        this.writingName = writingName;
     }
 
     public String getAnswerText() {
@@ -34,6 +36,14 @@ public class CompletedWritings {
 
     public void setAssignedMemberId(int assignedMemberId) {
         this.assignedMemberId = assignedMemberId;
+    }
+
+    public String getWritingName() {
+        return writingName;
+    }
+
+    public void setWritingName(String writingName) {
+        this.writingName = writingName;
     }
 
     public int getId() {

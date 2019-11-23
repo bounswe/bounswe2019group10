@@ -56,12 +56,12 @@ public class CompletedWritingsAdapter extends BaseAdapter {
         }
 
         if(listData.get(position).isScored()){
-            holder.writingName.setText(listData.get(position).getId()+"");
+            holder.writingName.setText(listData.get(position).getWritingName());
             holder.writingStatus.setText("Scored");
             holder.writingScore.setText(listData.get(position).getScore()+"/10");
             holder.writingStatus.setTextColor(Color.parseColor("#56b531"));
         }else{
-            holder.writingName.setText(listData.get(position).getId()+"");
+            holder.writingName.setText(listData.get(position).getWritingName());
             holder.writingStatus.setText("Pending");
             holder.writingScore.setVisibility(View.GONE);
             holder.writingStatus.setTextColor(Color.parseColor("#d1cc2c"));
