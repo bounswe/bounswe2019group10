@@ -55,8 +55,9 @@ public class WritingController {
 
     @GetMapping("/getJson/{languageId}")
     @ApiOperation(value = "Get all Writings in a given language as json. This will return a long output.")
-    public ResponseEntity<List<WritingDTO>> getWritingsInLanguageJson(@PathVariable int languageId) {
-        return ResponseEntity.ok(writingService.getWritingsInLanguageJson(languageId));
+    public ResponseEntity<List<WritingIsSolvedResponse>> getWritingsInLanguageJson(@PathVariable int languageId) {
+        String memberUname = jwtUserDetailsService.getUsername();
+        return ResponseEntity.ok(writingService.getWritingsInLanguageJson(languageId, memberUname));
     }
 
     @GetMapping("/scores")
