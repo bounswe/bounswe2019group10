@@ -1,7 +1,6 @@
 package com.example.yallp_android.fragments
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -10,27 +9,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yallp_android.R
-import com.example.yallp_android.activities.LanguageMainActivity
 import com.example.yallp_android.activities.QuizActivity
 import com.example.yallp_android.adapters.QuizListAdapter
-import com.example.yallp_android.models.Quiz
+import com.example.yallp_android.models.QuizListElement
 import com.example.yallp_android.util.RetroClients.QuizRetroClient
+import com.example.yallp_android.util.RetroClients.SearchRetroClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListener {
 
     private var sharedPref: SharedPreferences? = null
     private lateinit var searchView: SearchView
     private lateinit var quizRecyclerView: RecyclerView
-    private var quizList = ArrayList<Quiz>()
+    private var quizList = ArrayList<QuizListElement>()
     private var adapter: QuizListAdapter? = null
 
 
@@ -48,7 +48,7 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
         adapter = QuizListAdapter(this.activity?.applicationContext, quizList, this)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                if (query.length >= 0) {
+                if (query.isEmpty()) {
                     listAllQuizzes()
                 } else {
                     submitQuery(query)
@@ -67,62 +67,51 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
 
     fun listAllQuizzes() {
 
-        val call: Call<Array<Quiz>> = QuizRetroClient.getInstance().quizApi.getQuizForLevelOrLowerAndLanguage("Bearer " + sharedPref?.getString("token", null)!!,
+        val call: Call<Array<QuizListElement>> = QuizRetroClient.getInstance().quizApi.getQuizForLevelOrLowerAndLanguage("Bearer " + sharedPref?.getString("token", null)!!,
                 this.activity?.intent!!.getIntExtra("level", 1),
                 this.activity?.intent!!.getIntExtra("languageId", 1))
 
-        call.enqueue(object : Callback<Array<Quiz>> {
-            override fun onResponse(call: Call<Array<Quiz>>, response: Response<Array<Quiz>>) {
+        call.enqueue(object : Callback<Array<QuizListElement>> {
+            override fun onResponse(call: Call<Array<QuizListElement>>, response: Response<Array<QuizListElement>>) {
                 if (response.isSuccessful) {
                     Collections.addAll(quizList, *response.body())
                     quizRecyclerView.adapter = adapter
                     adapter?.notifyDataSetChanged()
                 } else {
+
                 }
             }
 
-            override fun onFailure(call: Call<Array<Quiz>>, t: Throwable) {
+            override fun onFailure(call: Call<Array<QuizListElement>>, t: Throwable) {
 
             }
         })
-
     }
 
     fun submitQuery(query: String) {
-        /*   val call: Call<ArrayList<Card>> = CardRetroClient.getInstance().cardApi.search(query)
+           val call: Call<Array<QuizListElement>> = SearchRetroClient.getInstance().searchApi.searchQuiz("Bearer " + sharedPref?.getString("token", null)!!,
+                   this.activity?.intent!!.getIntExtra("languageId", 1),
+                   query)
+           call.enqueue(object : Callback<Array<QuizListElement>> {
 
-           call.enqueue(object : Callback<ArrayList<Card>> {
                override fun onResponse(
-                       call: Call<ArrayList<Card>>,
-                       response: Response<ArrayList<Card>>
+                       call: Call<Array<QuizListElement>>,
+                       response: Response<Array<QuizListElement>>
                ) {
                    if (response.isSuccessful) {
-                       list = response.body()!!
-                       if (list.size >= 10)
-                           list = ArrayList(list.subList(0, 9))
-                       adapter = context?.let {
-                           CardAdapter(
-                                   it,
-                                   list
-                           )
-                       }
+                       quizList.clear()
+                       Collections.addAll(quizList, *response.body())
                        quizRecyclerView.adapter = adapter
+                       adapter?.notifyDataSetChanged()
                    } else {
-                       list.clear()
-                       adapter = context?.let {
-                           CardAdapter(
-                                   it,
-                                   list
-                           )
-                       }
-                       quizRecyclerView.adapter = adapter
+                       Log.e("e","e")
                    }
                }
 
-               override fun onFailure(call: Call<ArrayList<Card>>, t: Throwable) {
+               override fun onFailure(call: Call<Array<QuizListElement>>, t: Throwable) {
                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                }
-           })*/
+           })
     }
 
 
