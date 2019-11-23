@@ -49,7 +49,7 @@ public class LanguageService {
         MemberLanguage memberLanguage = memberLanguageRepository
                 .getByMemberIdAndLanguage(memberId, languageRepository.getById(languageId));
 
-        return memberLanguage.getLanguageLevel();
+        return memberLanguage == null ? 0 : memberLanguage.getLanguageLevel();
 
     }
 
