@@ -41,11 +41,21 @@ public class WritingService {
     @Autowired
     private WritingResultDTOConverterService writingResultDTOConverterService;
 
-    public WritingDTO getById(int id) {
+    public WritingIsSolvedResponse getById(int id, String username) {
+        Integer memberId = memberRepository.findByUsername(username).getId();
         Writing writing = writingRepository.getOne(id);
         WritingDTO writingDTO = writingDTOConverterService.apply(writing);
-
-        return writingDTO;
+        WritingResult wr = writingResultRepository.findByWritingIdAndMemberId(writing.getId(), memberId);
+        WritingIsSolvedResponse response = new WritingIsSolvedResponse();
+        response.setWritingDTO(writingDTO);
+        response.setSolved(wr!=null);
+        if(wr!=null){
+            response.setWritingResultDTO(writingResultDTOConverterService.apply(wr));
+        }
+        else{
+            response.setWritingResultDTO(null);
+        }
+        return response;
     }
 
     public WritingResponse getAndRecommendById(int id, String memberUsername) {
@@ -69,9 +79,6 @@ public class WritingService {
         return users;
     }
 
-    //We can't return all of the writings explicitly to the user because this will be too big.
-    //Currently I am converting the writing list to id list of Integers. I could not manage the
-    //repository to return this directly.
     public List<Integer> getWritingIDList(List<Writing> writings) {
         List<Integer> ids = new ArrayList<>();
         for (Writing w : writings) {
@@ -162,12 +169,16 @@ public class WritingService {
         } else if (writingResult.getAssignedMemberId() != memberRepository.findByUsername(username).getId()) {
             return null;
         }
-        //IF so update the writing result and return "success"
+        //If so update the writing result and return "success"
         writingResult.setScore(score);
         writingResult.setScored(true);
         writingResultRepository.save(writingResult);
 
         return writingResultDTOConverterService.apply(writingResult);
+    }
+
+    public String getUsernameFromId(Integer id){
+        return memberRepository.getOne(id).getUsername();
     }
 
 }
