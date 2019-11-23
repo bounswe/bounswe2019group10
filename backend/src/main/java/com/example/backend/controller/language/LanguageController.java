@@ -26,4 +26,11 @@ public class LanguageController {
         return ResponseEntity.ok(languageService.findAll());
     }
 
+    @GetMapping("/unsubs")
+    @ApiOperation(value = "Get all languages which are not subscribed already")
+    public ResponseEntity<List<Language>> getAllUnsubscribedLanguages() {
+        return ResponseEntity.ok(languageService.findUnsubscribedAll());
+    }
+
+
 }
