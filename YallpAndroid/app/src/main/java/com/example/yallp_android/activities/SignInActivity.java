@@ -30,6 +30,7 @@ public class SignInActivity extends AppCompatActivity {
     private  EditText nameOrEmail;
     private  EditText password;
     private Boolean isEmailEntered = false;
+    private ImageView leftArrow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class SignInActivity extends AppCompatActivity {
         });
         nameOrEmail = findViewById(R.id.name);
         password = findViewById(R.id.password);
+        leftArrow = findViewById(R.id.leftArrow);
 
         Button signInButton = findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +57,15 @@ public class SignInActivity extends AppCompatActivity {
                 if(!isEmpty(nameOrEmail) && !isEmpty(password) && (!isEmailEntered || isValidEmail(nameOrEmail))){
                     signIn();
                 }
+            }
+        });
+
+        leftArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(i);
+                finish();
             }
         });
     }

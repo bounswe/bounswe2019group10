@@ -45,7 +45,9 @@ public class GetStartedActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GetStartedActivity.super.onBackPressed();
+                Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(i);
+                finish();
             }
         });
 

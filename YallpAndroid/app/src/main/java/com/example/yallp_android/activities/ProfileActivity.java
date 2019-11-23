@@ -196,13 +196,19 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         finish();
     }
 
+    private void completedWritingExercises() {
+        Intent i = new Intent(getApplicationContext(), CompletedWritingExercises.class);
+        startActivity(i);
+        finish();
+    }
+
     @Override
     public void itemClick(int item) {
         if(item == 0){
             editProfile();
         }
         else if(item == 1){
-
+            completedWritingExercises();
         }
         else if(item == 2){
 
