@@ -35,9 +35,9 @@ public class WritingController {
 
     @GetMapping("/read/{writingId}")
     @ApiOperation(value = "Use this when you want to only see the contents of the writing. This is cheaper")
-    public ResponseEntity<WritingDTO> getOnlyWritingById(@PathVariable int writingId) {
+    public ResponseEntity<WritingIsSolvedResponse> getOnlyWritingById(@PathVariable int writingId) {
         String memberUsername = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(writingService.getById(writingId));
+        return ResponseEntity.ok(writingService.getById(writingId, memberUsername));
     }
 
     @PostMapping("/{writingId}/submit")

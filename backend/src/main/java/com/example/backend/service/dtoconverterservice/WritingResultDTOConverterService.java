@@ -6,8 +6,6 @@ import com.example.backend.service.writing.WritingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class WritingResultDTOConverterService {
 
@@ -16,7 +14,6 @@ public class WritingResultDTOConverterService {
 
     public WritingResultDTO apply(WritingResult writing) {
         WritingResultDTO writingResultDTO = new WritingResultDTO();
-
         writingResultDTO.setId(writing.getId());
         writingResultDTO.setAnswerText(writing.getAnswerText());
         writingResultDTO.setAssignedMemberId(writing.getAssignedMemberId());
@@ -26,8 +23,9 @@ public class WritingResultDTOConverterService {
         writingResultDTO.setWritingId(writing.getWritingId());
         writingResultDTO.setScored(writing.isScored());
         writingResultDTO.setWritingName(writing.getWritingName());
+        writingResultDTO.setAssignedMemberName(writingService.getUsernameFromId(writing.getAssignedMemberId()));
+        writingResultDTO.setMemberName(writingService.getUsernameFromId(writing.getMemberId()));
         return writingResultDTO;
-
     }
 
 
