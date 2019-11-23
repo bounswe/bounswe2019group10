@@ -30,7 +30,7 @@ public interface QuizApi {
     );
 
     @Headers({"Content-Type: application/json"})
-    @GET("quiz/level/{level}/language/{languageId}")
+    @GET("quiz/levelorlower/{level}/language/{languageId}")
     Call<Quiz[]> getQuizForSpecificLevelAndLanguage(
             @Header("Authorization") String token,
             @Path("level") int level,
