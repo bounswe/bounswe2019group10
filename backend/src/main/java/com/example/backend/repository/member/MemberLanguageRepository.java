@@ -14,7 +14,6 @@ public interface MemberLanguageRepository extends JpaRepository<MemberLanguage, 
     MemberLanguage getByMemberId(int memberId);
     MemberLanguage getByMemberIdAndLanguage(int memberId, Language language);
 
-
     //Here number_of_assignments is a function defined in DB that returns number of uncomplete assignments for the user with the given ID.
     //We select the best 10 users in a specified language that have less than 5 waiting assignments.
     @Query(nativeQuery = true, value = "select  * from member_language m where m.member_id != :curMemId and m.language_id = :langId and number_of_assignments(m.member_id) < 5 order by language_level desc limit 10")

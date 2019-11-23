@@ -55,4 +55,28 @@ public class QuizController {
         return ResponseEntity.ok(qRequest);
     }
 
+    @GetMapping("/language/{languageId}")
+    @ApiOperation(value = "Get quiz by language ID")
+    public ResponseEntity<List<QuizDTO>> getByLanguageId(@PathVariable int languageId) {
+        return ResponseEntity.ok(quizService.getAllQuizzesByLanguageId(languageId));
+    }
+
+    @GetMapping("/level/{levelId}")
+    @ApiOperation(value = "Get quiz by level")
+    public ResponseEntity<List<QuizDTO>> getByLevelId(@PathVariable int levelId) {
+        return ResponseEntity.ok(quizService.getAllQuizzesByLevelId(levelId));
+    }
+
+    @GetMapping("/level/{level}/language/{languageId}")
+    @ApiOperation(value = "Get quiz by level and languageId")
+    public ResponseEntity<List<QuizDTO>> getByLevelId(@PathVariable int level, @PathVariable int languageId) {
+        return ResponseEntity.ok(quizService.getAllQuizzesByLevelandLanguageId(level, languageId));
+    }
+
+    @GetMapping("/levelorlower/{level}/language/{languageId}")
+    @ApiOperation(value = "Get quiz by level and languageId")
+    public ResponseEntity<List<QuizDTO>> getAllByLevelIdorLower(@PathVariable int level, @PathVariable int languageId) {
+        return ResponseEntity.ok(quizService.getAllQuizzesByLanguageIdandLevelLess(level, languageId));
+    }
+
 }

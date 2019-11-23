@@ -119,36 +119,53 @@ public class JwtUserDetailsService implements UserDetailsService {
     public JwtUserDetailsServiceUtil updateMember(MemberDTO memberDTO, String memberUname){
         Member member = memberRepository.findByUsername(memberUname);
 
-        member.setName(memberDTO.getName());
-        member.setSurname(memberDTO.getSurname());
+        if (memberDTO.getName() != null)
+            member.setName(memberDTO.getName());
 
-        String username = memberDTO.getUsername();
-        Pattern pattern = Pattern.compile(usernameRegex);
-        //Check format
-        if(!pattern.matcher(username).matches()){
-            return new JwtUserDetailsServiceUtil(false, null, usernameWarning);
-        }
-        //Check for existent username
-        if(!memberUname.equals(username)){ //If the username is updated as well
-            Member m = memberRepository.findByUsername(username);
-            if(m!=null)
-                return new JwtUserDetailsServiceUtil(false, null, "The username already exists.");
-            member.setUsername(username);
+        if (memberDTO.getSurname() != null)
+            member.setSurname(memberDTO.getSurname());
+
+        if (memberDTO.getBio() != null){
+            member.setBio(memberDTO.getBio());
         }
 
-        String mail = memberDTO.getMail();
-        pattern = Pattern.compile(mailRegex);
-        if(!pattern.matcher(mail).matches()){
-            return new JwtUserDetailsServiceUtil(false, null, emailWarning);
-        }
-        member.setMail(mail);
+        Pattern pattern;
 
-        String password = memberDTO.getPassword();
-        pattern = Pattern.compile(passwordRegex);
-        if(!pattern.matcher(password).matches()){
-            return new JwtUserDetailsServiceUtil(false, null, passwordWarning);
+        if(memberDTO.getUsername() != null){
+            String username = memberDTO.getUsername();
+
+            pattern = Pattern.compile(usernameRegex);
+            //Check format
+            if(!pattern.matcher(username).matches()){
+                return new JwtUserDetailsServiceUtil(false, null, usernameWarning);
+            }
+            //Check for existent username
+            if(!memberUname.equals(username)){ //If the username is updated as well
+                Member m = memberRepository.findByUsername(username);
+                if(m!=null)
+                    return new JwtUserDetailsServiceUtil(false, null, "The username already exists.");
+                member.setUsername(username);
+            }
         }
-        member.setPassword(bcryptEncoder.encode(password));
+
+        if (memberDTO.getMail() != null){
+            String mail = memberDTO.getMail();
+            pattern = Pattern.compile(mailRegex);
+            if(!pattern.matcher(mail).matches()){
+                return new JwtUserDetailsServiceUtil(false, null, emailWarning);
+            }
+            member.setMail(mail);
+        }
+
+        if (memberDTO.getPassword() != null) {
+            String password = memberDTO.getPassword();
+            pattern = Pattern.compile(passwordRegex);
+            if(!pattern.matcher(password).matches()){
+                return new JwtUserDetailsServiceUtil(false, null, passwordWarning);
+            }
+            member.setPassword(bcryptEncoder.encode(password));
+        }
+
         return new JwtUserDetailsServiceUtil(true, memberRepository.save(member), "Update is successful.");
     }
 
