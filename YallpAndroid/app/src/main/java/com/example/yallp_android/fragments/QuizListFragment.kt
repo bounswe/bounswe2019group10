@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yallp_android.R
+import com.example.yallp_android.activities.LanguageMainActivity
 import com.example.yallp_android.activities.QuizActivity
 import com.example.yallp_android.adapters.QuizListAdapter
 import com.example.yallp_android.models.Quiz
@@ -24,7 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class QuizListFragment : Fragment()  , QuizListAdapter.QuizListAdapterClickListener{
+class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListener {
 
     private var sharedPref: SharedPreferences? = null
     private lateinit var searchView: SearchView
@@ -44,7 +45,7 @@ class QuizListFragment : Fragment()  , QuizListAdapter.QuizListAdapterClickListe
         quizRecyclerView = root.findViewById(R.id.listView) as RecyclerView
         val linearLayoutManager = LinearLayoutManager(this.activity?.applicationContext)
         quizRecyclerView.layoutManager = linearLayoutManager
-        adapter = QuizListAdapter(this.activity?.applicationContext, quizList,this)
+        adapter = QuizListAdapter(this.activity?.applicationContext, quizList, this)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (query.length >= 0) {
@@ -76,15 +77,11 @@ class QuizListFragment : Fragment()  , QuizListAdapter.QuizListAdapterClickListe
                     Collections.addAll(quizList, *response.body())
                     quizRecyclerView.adapter = adapter
                     adapter?.notifyDataSetChanged()
-                    Log.e("e", "resp")
                 } else {
-                    Log.e("e", "er")
-                    //    Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: Call<Array<Quiz>>, t: Throwable) {
-                Log.e("e", "er2")
 
             }
         })
@@ -130,19 +127,10 @@ class QuizListFragment : Fragment()  , QuizListAdapter.QuizListAdapterClickListe
 
 
     override fun quizListAdapterClick(topic: String?, quizId: String?) {
-        val builder = AlertDialog.Builder(this.activity?.applicationContext!!)
-        builder.setTitle("Last one step")
-                .setMessage("Do you want to start solving $topic $quizId ?")
-                .setIcon(R.drawable.penguin)
-                .setCancelable(true)
-                .setPositiveButton("Yes") { _, _ ->
-                    val intent = Intent(this.activity?.applicationContext, QuizActivity::class.java)
-                    intent.putExtra("quizId", quizId)
-                    startActivity(intent)
-                }
-                .setNegativeButton("No") { _, _ -> }
-        val dialog = builder.create()
-        dialog.show()
+        val intent = Intent(this.activity?.applicationContext, QuizActivity::class.java)
+        intent.putExtra("quizId", quizId)
+        startActivity(intent)
+        //todo("Dialog is deleted due to fragment errors")
     }
 
     companion object {

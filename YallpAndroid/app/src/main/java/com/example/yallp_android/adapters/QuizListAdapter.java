@@ -1,7 +1,6 @@
 package com.example.yallp_android.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class QuizListAdapter extends RecyclerView.Adapter<QuizListAdapter.MyView
         public MyViewHolder(View view,QuizListAdapterClickListener quizListAdapterClickListener) {
             super(view);
             topicName = view.findViewById(R.id.topicName);
-            quizId =  view.findViewById(R.id.quizId);
+            quizId =  view.findViewById(R.id.writingId);
             this.quizListAdapterClickListener = quizListAdapterClickListener;
             view.setOnClickListener(this);
         }

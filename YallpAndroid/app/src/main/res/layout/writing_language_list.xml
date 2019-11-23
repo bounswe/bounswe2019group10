@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:text="Topic Name:"
+                android:text="Name:"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:textColor="#40403d" />
@@ -38,14 +38,15 @@
             <TextView
                 android:id="@+id/topicName"
                 android:layout_toRightOf="@+id/topicText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:text="Phrasal"
                 android:textSize="18dp"
                 android:layout_marginStart="20dp"
                 android:textStyle="italic"
-                android:textColor="#969693"  />
+                android:textColor="#969693"
+                android:layout_toLeftOf="@id/isSolvedText"/>
             <TextView
                 android:id="@+id/isSolvedText"
                 android:layout_alignParentRight="true"
@@ -73,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:text="Quiz Number:"
+                android:text="Writing Number:"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 android:textColor="#40403d" />

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -19,23 +20,28 @@ import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.LanguageListAdapter;
 import com.example.yallp_android.adapters.UserLanguageListAdapter;
 import com.example.yallp_android.custom_views.ThreeDotsView;
+import com.example.yallp_android.models.Language;
 import com.example.yallp_android.models.MemberLanguage;
 import com.example.yallp_android.models.UserInfo;
+import com.example.yallp_android.util.RetroClients.LanguageRetroClient;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.ThreeDotsClickListener {
+    private int unsubsLangsSize = 0;
     private UserInfo userInfo;
     private ListView listView;
     private UserLanguageListAdapter adapter;
     private ArrayList<String> languageNameList = new ArrayList<>();
     private ArrayList<String> languageLevelList = new ArrayList<>();
+    private boolean doubleBackToExitPressedOnce= false;
 
     TextView seeFullBio;
     ExpandableTextView expandableTextView;
@@ -72,8 +78,8 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         });
         seeFullBio.callOnClick();
 
-
         listView = findViewById(R.id.userLanguageListView);
+        checkUnsubsLanguages(sharedPref);
 
         updateProfileInfo(sharedPref, editor);
 
@@ -133,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
                     if (expandableTextView.getText().equals("")) {
                         seeFullBio.setVisibility(View.GONE);
                         expandableTextView.setVisibility(View.GONE);
-                    }else if(expandableTextView.getText().length()<10){
+                    } else if (expandableTextView.getText().length() < 10) {
                         seeFullBio.setVisibility(View.GONE);
                     }
 
@@ -144,7 +150,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
                             languageLevelList.add(getResources().getString(R.string.not_graded_yet));
                         else languageLevelList.add(lang.getLevelName());
                     }
-                    adapter = new UserLanguageListAdapter(getApplicationContext(), languageNameList, languageLevelList);
+                    adapter = new UserLanguageListAdapter(getApplicationContext(), languageNameList, languageLevelList, unsubsLangsSize);
                     listView.setAdapter(adapter);
                 }
             }
@@ -155,6 +161,29 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         });
 
     }
+
+    private void checkUnsubsLanguages(final SharedPreferences sharedPref) {
+
+        Call<Language[]> call;
+        call = LanguageRetroClient.getInstance().getLanguageApi().getUnsubsLanguages("Bearer " + sharedPref.getString("token", null));
+        call.enqueue(new Callback<Language[]>() {
+            @Override
+            public void onResponse(Call<Language[]> call, Response<Language[]> response) {
+                if (response.isSuccessful()) {
+                    unsubsLangsSize = response.body().length;
+
+                } else {
+                    Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Language[]> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     private void logout() {
         clearApplicationData();
@@ -218,5 +247,24 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         } else {
             logout();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

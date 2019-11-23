@@ -1,6 +1,5 @@
 package com.example.yallp_android.models;
 
-
 public class Quiz {
     private int id;
     private int level;
