@@ -169,7 +169,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         return new JwtUserDetailsServiceUtil(true, memberRepository.save(member), "Update is successful.");
     }
 
-    public MemberDTO addLanguage(List<String> languages){
+    public List<MemberLanguage> addLanguage(List<String> languages){
         Member member = memberRepository.findByUsername(getUsername());
         languages.forEach(language -> {
             Language lang = languageRepository.getByLanguageName(language);
@@ -180,6 +180,19 @@ public class JwtUserDetailsService implements UserDetailsService {
                 memberLanguageRepository.save(memLang);
             }
         });
-        return memberDTOConverterService.apply(member);
+        return member.getMemberLanguages();
     }
+
+    public List<MemberLanguage> removeLanguage(List<String> languages){
+        Member member = memberRepository.findByUsername(getUsername());
+        languages.forEach(language -> {
+            Language lang = languageRepository.getByLanguageName(language);
+            MemberLanguage memLang = memberLanguageRepository.getByMemberIdAndLanguage(member.getId(), lang);
+            if(memLang != null) {
+                memberLanguageRepository.delete(memLang);
+            }
+        });
+        return member.getMemberLanguages();
+    }
+
 }
