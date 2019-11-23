@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -70,6 +71,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         });
         seeFullBio.callOnClick();
 
+
         listView = findViewById(R.id.userLanguageListView);
 
         updateProfileInfo(sharedPref, editor);
@@ -127,9 +129,12 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
                     mailTextView.setText(sharedPref.getString("mail", "mail"));
                     expandableTextView.setText(sharedPref.getString("bio", ""));
 
+
                     if (expandableTextView.getText().equals("")) {
                         seeFullBio.setVisibility(View.GONE);
                         expandableTextView.setVisibility(View.GONE);
+                    }else if(expandableTextView.getText().length()<10){
+                        seeFullBio.setVisibility(View.GONE);
                     }
 
                     for (int i = 0; i < userInfo.getMemberLanguages().length; i++) {
@@ -204,16 +209,13 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
 
     @Override
     public void itemClick(int item) {
-        if(item == 0){
+        if (item == 0) {
             editProfile();
-        }
-        else if(item == 1){
+        } else if (item == 1) {
             completedWritingExercises();
-        }
-        else if(item == 2){
+        } else if (item == 2) {
 
-        }
-        else{
+        } else {
             logout();
         }
     }
