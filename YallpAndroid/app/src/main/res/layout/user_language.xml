@@ -1,4 +1,4 @@
-<GridLayout
+<RelativeLayout
     android:id="@+id/languageLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,8 +22,7 @@
         style="@style/MainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="1"
+        android:layout_toRightOf="@+id/countryFlag"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:text="English">
@@ -35,8 +34,8 @@
         style="@style/MainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_row="1"
-        android:layout_column="1"
+        android:layout_toRightOf="@+id/countryFlag"
+        android:layout_below="@+id/languageName"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:text="Not graded yet"
@@ -44,4 +43,14 @@
 
     </TextView>
 
-</GridLayout>
+
+    <ImageView
+        android:id="@+id/deleteIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/delete_icon"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>
