@@ -57,6 +57,9 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.equals("") ) {
+                    listAllQuizzes()
+                }
                 return false
             }
         })
@@ -74,6 +77,7 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
         call.enqueue(object : Callback<Array<QuizListElement>> {
             override fun onResponse(call: Call<Array<QuizListElement>>, response: Response<Array<QuizListElement>>) {
                 if (response.isSuccessful) {
+                    quizList.clear()
                     Collections.addAll(quizList, *response.body())
                     quizRecyclerView.adapter = adapter
                     adapter?.notifyDataSetChanged()
