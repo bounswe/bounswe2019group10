@@ -24,5 +24,9 @@
     <string name="not_graded_yet">Not Graded Yet</string>
     <string name="quiz_list_tab">Quizzes</string>
     <string name="writing_list_tab">Writings</string>
+    <string name="not_solved">Not Solved</string>
+    <string name="pending">Pending</string>
+    <string name="solved">Solved</string>
+    <string name="return_to_language_dashboard">Return to Language Dashboard</string>
     <string name="submit">Submit</string>
 </resources>

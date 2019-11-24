@@ -1,7 +1,10 @@
 package com.example.yallp_android.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -10,26 +13,36 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yallp_android.R;
+import com.example.yallp_android.models.MemberLanguage;
+import com.example.yallp_android.models.UserInfo;
+import com.example.yallp_android.util.RetroClients.UserRetroClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class QuizScoreActivity extends AppCompatActivity {
-
-    String levelText = "";
+    SharedPreferences sharedPref;
+    int langId=1;
+    int quizId;
+    int score;
+    String levelName="";
+    TextView scoreText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_score);
 
 
-        TextView scoreText = findViewById(R.id.scoreText);
+        scoreText = findViewById(R.id.scoreText);
         if(getIntent().getExtras()!=null){
-            int level = getIntent().getExtras().getInt("level");
-            int score = getIntent().getExtras().getInt("score");
-
-            levelText = level > 7 ? "Advanced" : (level > 4 ? "Intermediate" : "Beginner");
-            String text = "Your score is: " + score+ " \n Your level is: " + levelText;
-            scoreText.setText(text);
+            langId = getIntent().getExtras().getInt("langId");
+            score = getIntent().getExtras().getInt("score");
+            quizId = getIntent().getExtras().getInt("quizId");
+            getLevelName(sharedPref);
         }
 
         Button returnButton = findViewById(R.id.returnButton);
@@ -38,12 +51,54 @@ public class QuizScoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                i.putExtra("levelText", levelText);
                 startActivity(i);
                 finish();
             }
         });
+    }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    public void getLevelName(final SharedPreferences sharedPref) {
+        Call<UserInfo> call;
+
+        String token = sharedPref.getString("token", null);
+        call = UserRetroClient.getInstance().getUserApi().getProfileInfo("Bearer " + token);
+
+        call.enqueue(new Callback<UserInfo>() {
+            @Override
+            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                if (response.isSuccessful()) {
+
+                    UserInfo userInfo = response.body();
+                    MemberLanguage[] ml = userInfo.getMemberLanguages();
+                    for (MemberLanguage memberLanguage : ml) {
+                        if (memberLanguage.getLanguage().getId() == langId) {
+                            levelName = memberLanguage.getLevelName();
+                        }
+                    }
+                    String text;
+                    if(quizId==66){
+                        text = "Your score is: " + score + " \n Your level is: " + levelName;
+                    }else{
+                        text = "Your score is: " + score ;
+                    }
+
+                    scoreText.setText(text);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
+            }
+        });
 
     }
+
 }

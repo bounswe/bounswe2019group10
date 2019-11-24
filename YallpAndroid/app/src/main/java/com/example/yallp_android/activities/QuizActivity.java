@@ -27,6 +27,7 @@ import com.example.yallp_android.fragments.QuestionFragment;
 import com.example.yallp_android.models.Answer;
 import com.example.yallp_android.models.Quiz;
 import com.example.yallp_android.models.QuizAnswers;
+import com.example.yallp_android.models.QuizListElement;
 import com.example.yallp_android.models.QuizResult;
 import com.example.yallp_android.util.RetroClients.QuizRetroClient;
 
@@ -50,6 +51,7 @@ public class QuizActivity extends AppCompatActivity {
     private ObjectAnimator progressAnimator;
     private RadioGroup optionGroup;
     int quizId;
+    int langId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,16 +120,17 @@ public class QuizActivity extends AppCompatActivity {
 
         sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
 
-        Call<Quiz> call;
+        Call<QuizListElement> call;
         Intent intent = getIntent();
         quizId = Integer.parseInt(intent.getStringExtra("quizId"));
+        langId = intent.getIntExtra("langId",1);
         call = QuizRetroClient.getInstance().getQuizApi().getQuiz("Bearer " + sharedPref.getString("token", null),quizId);
 
-        call.enqueue(new Callback<Quiz>() {
+        call.enqueue(new Callback<QuizListElement>() {
             @Override
-            public void onResponse(Call<Quiz> call, Response<Quiz> response) {
+            public void onResponse(Call<QuizListElement> call, Response<QuizListElement> response) {
                 if (response.isSuccessful()) {
-                    currentQuiz = response.body();
+                    currentQuiz = response.body().getQuiz();
                     nofQuestions = currentQuiz.getQuestions().length;
                     givenAnswers = new int[nofQuestions];
                     placeQuestionFragment(0);
@@ -138,7 +141,7 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Quiz> call, Throwable t) {
+            public void onFailure(Call<QuizListElement> call, Throwable t) {
 
             }
         });
@@ -187,6 +190,8 @@ public class QuizActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), QuizScoreActivity.class);
         intent.putExtra("level", level);
         intent.putExtra("score", score);
+        intent.putExtra("langId", langId);
+        intent.putExtra("quizId", quizId);
         startActivity(intent);
         finish();
     }

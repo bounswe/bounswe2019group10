@@ -1,4 +1,4 @@
-package com.example.yallp_android;
+package com.example.yallp_android.custom_views;
 
 import android.content.Context;
 import android.text.SpannableStringBuilder;
@@ -8,10 +8,6 @@ import android.view.View;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-/**
- * User: Bazlur Rahman Rokon
- * Date: 9/7/13 - 3:33 AM
- */
 public class ExpandableTextView extends AppCompatTextView {
     private static final String ELLIPSIS = "...";
 

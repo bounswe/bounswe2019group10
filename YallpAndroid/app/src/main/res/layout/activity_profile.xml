@@ -54,7 +54,7 @@
                 android:textColor="#888"
                 android:textSize="15dp" />
 
-            <com.example.yallp_android.ExpandableTextView
+            <com.example.yallp_android.custom_views.ExpandableTextView
                 android:id="@+id/expandableTextView"
                 style="@style/MainTitle"
                 android:layout_width="wrap_content"
