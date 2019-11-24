@@ -55,7 +55,7 @@ public class WritingExerciseScoreFragment extends Fragment {
         }else{
             evaluatorOrOwnerText.setText("User:");
         }
-        evaluatorOrOwnerName.setText(evaluatorName);
+        evaluatorOrOwnerName.setText(evaluatorName.substring(0,1).toUpperCase() + evaluatorName.substring(1).toLowerCase());
 
 
         return view;

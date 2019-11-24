@@ -1,19 +1,12 @@
 package com.example.yallp_android.models;
 
-public class ReadWritingContent {
+public class WritingDTO {
     private int id;
     private int languageId;
     private String taskText;
     private String writingName;
 
-    public ReadWritingContent(int id, int languageId, String taskText, String writingName) {
-        this.id = id;
-        this.languageId = languageId;
-        this.taskText = taskText;
-        this.writingName = writingName;
-    }
-
-    public int getId() {
+    public int getId(){
         return id;
     }
 
@@ -21,7 +14,7 @@ public class ReadWritingContent {
         this.id = id;
     }
 
-    public int getLanguageId() {
+    public int getLanguageId(){
         return languageId;
     }
 

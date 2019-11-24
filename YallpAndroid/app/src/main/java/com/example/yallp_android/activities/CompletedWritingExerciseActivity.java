@@ -46,7 +46,7 @@ public class CompletedWritingExerciseActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(),WritingDetailActivity.class);
                 i.putExtra("writingId",completedWritingExercises.get(position).getId()+"");
                 i.putExtra("answerText",completedWritingExercises.get(position).getAnswerText());
-                i.putExtra("evaluatorName",completedWritingExercises.get(position).getAssignedMemberId()+"");
+                i.putExtra("evaluatorName",completedWritingExercises.get(position).getAssignedMemberName());
                 i.putExtra("score",completedWritingExercises.get(position).getScore()+"");
                 i.putExtra("isScored",completedWritingExercises.get(position).isScored());
                 startActivity(i);

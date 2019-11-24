@@ -1,6 +1,7 @@
 package com.example.yallp_android.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +18,18 @@ public class UserLanguageListAdapter extends BaseAdapter {
     private ArrayList<String> languageNameList;
     private ArrayList<String> languageLevelList;
     private LayoutInflater layoutInflater;
+    private int unsubsList;
 
-    public UserLanguageListAdapter(Context aContext, ArrayList<String> nameList, ArrayList<String> levelList) {
+    public UserLanguageListAdapter(Context aContext, ArrayList<String> nameList, ArrayList<String> levelList,int unsubsList) {
         this.languageNameList = nameList;
         this.languageLevelList = levelList;
+        this.unsubsList = unsubsList;
         layoutInflater = LayoutInflater.from(aContext);
     }
 
     @Override
     public int getCount() {
+        if(this.unsubsList<=0) return languageNameList.size();
         return languageNameList.size() + 1;
     }
 

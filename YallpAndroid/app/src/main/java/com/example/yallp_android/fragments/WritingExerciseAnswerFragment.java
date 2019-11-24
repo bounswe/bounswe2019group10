@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.yallp_android.R;
-import com.example.yallp_android.models.ReadWritingContent;
+import com.example.yallp_android.models.WritingListElement;
 import com.example.yallp_android.util.RetroClients.WritingRetroClient;
 
 import retrofit2.Call;
@@ -45,19 +45,19 @@ public class WritingExerciseAnswerFragment extends Fragment {
         final String answer = (String) getArguments().getSerializable("answerText");
         String token = (String) getArguments().getSerializable("token");
 
-        Call<ReadWritingContent> call;
+        Call<WritingListElement> call;
 
         call = WritingRetroClient
                 .getInstance()
                 .getWritingApi()
                 .readDetailsOfOneWriting("Bearer " + token,writingId);
 
-        call.enqueue(new Callback<ReadWritingContent>() {
+        call.enqueue(new Callback<WritingListElement>() {
             @Override
-            public void onResponse(Call<ReadWritingContent> call, Response<ReadWritingContent> response) {
+            public void onResponse(Call<WritingListElement> call, Response<WritingListElement> response) {
                 if(response.isSuccessful()){
-                    ReadWritingContent result = response.body();
-                    questionText.setText(result.getTaskText());
+                    WritingListElement result = response.body();
+                    questionText.setText(result.getWritingDTO().getTaskText());
                     answerText.setText(answer);
                 }
                 else {
@@ -66,7 +66,7 @@ public class WritingExerciseAnswerFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ReadWritingContent> call, Throwable t) {
+            public void onFailure(Call<WritingListElement> call, Throwable t) {
 
             }
         });

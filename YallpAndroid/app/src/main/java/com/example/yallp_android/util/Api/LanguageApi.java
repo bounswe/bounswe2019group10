@@ -10,6 +10,6 @@ import retrofit2.http.Headers;
 public interface LanguageApi {
 
     @Headers({"Content-Type: application/json"})
-    @GET("lang")
-    Call<Language[]> getLanguages(@Header("Authorization") String token);
+    @GET("lang/unsubs")
+    Call<Language[]> getUnsubsLanguages(@Header("Authorization") String token);
 }
