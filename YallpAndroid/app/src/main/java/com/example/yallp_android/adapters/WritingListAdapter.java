@@ -2,7 +2,6 @@ package com.example.yallp_android.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,11 @@ import com.example.yallp_android.models.WritingListElement;
 
 import java.util.ArrayList;
 
-public class WritingListAdapter  extends RecyclerView.Adapter<WritingListAdapter.MyViewHolder>  {
+public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.MyViewHolder> {
 
     public interface WritingListAdapterClickListener {
 
-        void writingListAdapterClick(String topic, String quizId);
+        void writingListAdapterClick();
     }
 
     private Context context;
@@ -55,50 +54,51 @@ public class WritingListAdapter  extends RecyclerView.Adapter<WritingListAdapter
 
         Context context;
         TextView topicName;
-        TextView writingId;
+      //  TextView writingId;
         TextView isSolvedText;
         TextView scoreText;
         int position;
         WritingListElement writingListElement;
         WritingListAdapterClickListener writingListAdapterClickListener;
 
-        public MyViewHolder(Context context,View view, WritingListAdapterClickListener  writingListAdapterClickListener) {
+        MyViewHolder(Context context, View view, WritingListAdapterClickListener writingListAdapterClickListener) {
             super(view);
-            this.context=context;
+            this.context = context;
             topicName = view.findViewById(R.id.topicName);
-            writingId =  view.findViewById(R.id.writingId);
-            isSolvedText =  view.findViewById(R.id.isSolvedText);
-            scoreText =  view.findViewById(R.id.scoreWriting);
+         //   writingId = view.findViewById(R.id.quizLevel);
+            isSolvedText = view.findViewById(R.id.isSolvedText);
+            scoreText = view.findViewById(R.id.scoreWriting);
             this.writingListAdapterClickListener = writingListAdapterClickListener;
             view.setOnClickListener(this);
         }
 
-        public void setData(WritingListElement writingListElement, int position) {
-           this.writingListElement = writingListElement;
+        void setData(WritingListElement writingListElement, int position) {
+            this.writingListElement = writingListElement;
             this.position = position;
             this.topicName.setText(writingListElement.getWritingDTO().getWritingName());
-            this.writingId.setText(writingListElement.getWritingDTO().getId()+"");
-            if(!writingListElement.isSolved()){
-                this.isSolvedText.setText("Not Solved");
+         //   this.writingId.setText(writingListElement.getWritingDTO().getId() + "");
+            if (!writingListElement.isSolved()) {
+                this.isSolvedText.setText(context.getResources().getString(R.string.not_solved));
                 this.isSolvedText.setTextColor(Color.BLACK);
-                this.isSolvedText.setCompoundDrawablesRelative(null,null,null,null);
-                this.scoreText.setText("");
-            }else if(!writingListElement.getWritingResultDTO().isScored()){
-                this.isSolvedText.setText("Pending");
-                this.isSolvedText.setCompoundDrawablesRelative(null,null,null,null);
-                this.scoreText.setText("");
+                this.isSolvedText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                this.scoreText.setText("-");
+            } else if (!writingListElement.getWritingResultDTO().isScored()) {
+                this.isSolvedText.setText(context.getResources().getString(R.string.pending));
+                this.isSolvedText.setCompoundDrawablesWithIntrinsicBounds(null, null,  null, null);
+                this.scoreText.setText("-");
                 this.isSolvedText.setTextColor(context.getResources().getColor(R.color.colorAccent));
-            }else{
-                this.isSolvedText.setText("Solved");
+            } else {
+                this.isSolvedText.setText(context.getResources().getString(R.string.solved));
+                this.isSolvedText.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_check), null);
                 this.isSolvedText.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-                this.scoreText.setText(""+writingListElement.getWritingResultDTO().getScore()+"/10");
+                this.scoreText.setText("" + writingListElement.getWritingResultDTO().getScore() + "/10");
 
             }
         }
 
         @Override
         public void onClick(View view) {
-         //   writingListAdapterClickListener.writingListAdapterClick (writingListElement.getQuizType(), writingListElement.getId()+"");
+             writingListAdapterClickListener.writingListAdapterClick ();
         }
     }
 }

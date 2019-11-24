@@ -27,6 +27,7 @@ import com.example.yallp_android.fragments.QuestionFragment;
 import com.example.yallp_android.models.Answer;
 import com.example.yallp_android.models.Quiz;
 import com.example.yallp_android.models.QuizAnswers;
+import com.example.yallp_android.models.QuizListElement;
 import com.example.yallp_android.models.QuizResult;
 import com.example.yallp_android.util.RetroClients.QuizRetroClient;
 
@@ -118,17 +119,17 @@ public class QuizActivity extends AppCompatActivity {
 
         sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
 
-        Call<Quiz> call;
+        Call<QuizListElement> call;
         Intent intent = getIntent();
         quizId = Integer.parseInt(intent.getStringExtra("quizId"));
         call = QuizRetroClient.getInstance().getQuizApi().getQuiz("Bearer " + sharedPref.getString("token", null),quizId);
 
-        call.enqueue(new Callback<Quiz>() {
+        call.enqueue(new Callback<QuizListElement>() {
             @Override
-            public void onResponse(Call<Quiz> call, Response<Quiz> response) {
+            public void onResponse(Call<QuizListElement> call, Response<QuizListElement> response) {
                 if (response.isSuccessful()) {
-                    currentQuiz = response.body();
-                    nofQuestions = currentQuiz.getQuestions().length;
+                    currentQuiz = response.body().getQuiz();
+                    nofQuestions = currentQuiz.getQuestions().length;  //todo(Attempt to get length of null array)
                     givenAnswers = new int[nofQuestions];
                     placeQuestionFragment(0);
                     questionNumberText.setText("Question " + (currentQuestion + 1));
@@ -138,7 +139,7 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Quiz> call, Throwable t) {
+            public void onFailure(Call<QuizListElement> call, Throwable t) {
 
             }
         });

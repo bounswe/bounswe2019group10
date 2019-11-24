@@ -23,8 +23,8 @@ public class AreYouSureFragment extends DialogFragment {
                 .setPositiveButton("I'm sure", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent i  = new Intent(getContext(), ProfileActivity.class);
-                        startActivity(i);
+                       /* Intent i  = new Intent(getContext(), ProfileActivity.class);
+                        startActivity(i);*/
                         getActivity().finish();
                     }
                 })

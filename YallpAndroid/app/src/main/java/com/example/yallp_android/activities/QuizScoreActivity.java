@@ -13,7 +13,7 @@ import com.example.yallp_android.R;
 
 public class QuizScoreActivity extends AppCompatActivity {
 
-    String levelText = "";
+  //  String levelText = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +27,8 @@ public class QuizScoreActivity extends AppCompatActivity {
             int level = getIntent().getExtras().getInt("level");
             int score = getIntent().getExtras().getInt("score");
 
-            levelText = level > 7 ? "Advanced" : (level > 4 ? "Intermediate" : "Beginner");
-            String text = "Your score is: " + score+ " \n Your level is: " + levelText;
+         //    levelText = level > 7 ? "Advanced" : (level > 4 ? "Intermediate" : "Beginner");
+            String text = "Your score is: " + score ; //+ " \n Your level is: " + levelText;
             scoreText.setText(text);
         }
 
@@ -38,7 +38,7 @@ public class QuizScoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                i.putExtra("levelText", levelText);
+            //    i.putExtra("levelText", levelText);
                 startActivity(i);
                 finish();
             }

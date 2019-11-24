@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.QuizListAdapter;
 import com.example.yallp_android.models.Quiz;
+import com.example.yallp_android.models.QuizListElement;
 import com.example.yallp_android.util.RetroClients.QuizRetroClient;
 
 import java.util.ArrayList;
@@ -29,8 +30,7 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
     private SharedPreferences sharedPref;
     private RecyclerView quizList;
     private QuizListAdapter adapter;
-    ArrayList<Quiz> quizzes = new ArrayList<>();
-
+    ArrayList<QuizListElement> quizzes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +47,14 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
 
         if (getIntent().getExtras() != null) {
 
-            Call<Quiz[]> call;
+            Call<QuizListElement[]> call;
             call = QuizRetroClient.getInstance().getQuizApi().getQuizForLevelOrLowerAndLanguage("Bearer " + sharedPref.getString("token", null),
                     getIntent().getIntExtra("level", 1),
                     getIntent().getIntExtra("languageId", 1));
 
-            call.enqueue(new Callback<Quiz[]>() {
+            call.enqueue(new Callback<QuizListElement[]>() {
                 @Override
-                public void onResponse(Call<Quiz[]> call, Response<Quiz[]> response) {
+                public void onResponse(Call<QuizListElement[]> call, Response<QuizListElement[]> response) {
                     if (response.isSuccessful()) {
                         Collections.addAll(quizzes, response.body());
                         adapter.notifyDataSetChanged();
@@ -65,7 +65,7 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
                 }
 
                 @Override
-                public void onFailure(Call<Quiz[]> call, Throwable t) {
+                public void onFailure(Call<QuizListElement[]> call, Throwable t) {
 
                 }
             });

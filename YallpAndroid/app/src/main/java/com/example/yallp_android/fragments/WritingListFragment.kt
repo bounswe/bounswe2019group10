@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.example.yallp_android.R
 import com.example.yallp_android.activities.WritingActivity
 import com.example.yallp_android.adapters.WritingListAdapter
 import com.example.yallp_android.models.WritingListElement
+import com.example.yallp_android.util.RetroClients.SearchRetroClient
 import com.example.yallp_android.util.RetroClients.WritingRetroClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,8 +47,8 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
         adapter = WritingListAdapter(this.activity?.applicationContext, writingList,this)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                if (query.length >= 0) {
-                    listAllQuizzes()
+                if (query.equals("") ) {
+                    listAllWritings()
                 } else {
                     submitQuery(query)
                 }
@@ -54,21 +56,25 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.equals("") ) {
+                    listAllWritings()
+                }
                 return false
             }
         })
-        listAllQuizzes()
+        listAllWritings()
 
         return root
     }
 
-    fun listAllQuizzes() {
+    fun listAllWritings() {
         val call: Call<Array<WritingListElement>> = WritingRetroClient.getInstance().writingApi.getWritingListForLanguage("Bearer " + sharedPref?.getString("token", null)!!,
                 this.activity?.intent!!.getIntExtra("languageId", 1))
 
         call.enqueue(object : Callback<Array<WritingListElement>> {
             override fun onResponse(call: Call<Array<WritingListElement>>, response: Response<Array<WritingListElement>>) {
                 if (response.isSuccessful) {
+                    writingList.clear()
                     Collections.addAll(writingList, *response.body())
                     writingRecyclerView.adapter = adapter
                     adapter?.notifyDataSetChanged()
@@ -85,45 +91,35 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
     }
 
     fun submitQuery(query: String) {
-        /*   val call: Call<ArrayList<Card>> = CardRetroClient.getInstance().cardApi.search(query)
+        val call: Call<Array<WritingListElement>> = SearchRetroClient.getInstance().searchApi.searchWriting("Bearer " + sharedPref?.getString("token", null)!!,
+                this.activity?.intent!!.getIntExtra("languageId", 1),
+                query)
 
-           call.enqueue(object : Callback<ArrayList<Card>> {
-               override fun onResponse(
-                       call: Call<ArrayList<Card>>,
-                       response: Response<ArrayList<Card>>
-               ) {
-                   if (response.isSuccessful) {
-                       list = response.body()!!
-                       if (list.size >= 10)
-                           list = ArrayList(list.subList(0, 9))
-                       adapter = context?.let {
-                           CardAdapter(
-                                   it,
-                                   list
-                           )
-                       }
-                       writingRecyclerView.adapter = adapter
-                   } else {
-                       list.clear()
-                       adapter = context?.let {
-                           CardAdapter(
-                                   it,
-                                   list
-                           )
-                       }
-                       writingRecyclerView.adapter = adapter
-                   }
-               }
+        call.enqueue(object : Callback<Array<WritingListElement>> {
 
-               override fun onFailure(call: Call<ArrayList<Card>>, t: Throwable) {
-                   Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
-               }
-           })*/
+            override fun onResponse(
+                    call: Call<Array<WritingListElement>>,
+                    response: Response<Array<WritingListElement>>
+            ) {
+                if (response.isSuccessful) {
+                    writingList.clear()
+                    Collections.addAll(writingList, *response.body())
+                    writingRecyclerView.adapter = adapter
+                    adapter?.notifyDataSetChanged()
+                } else {
+                }
+            }
+
+            override fun onFailure(call: Call<Array<WritingListElement>>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
 
-    override fun writingListAdapterClick(topic: String?, quizId: String?) {
-        val builder = AlertDialog.Builder(this.activity?.applicationContext!!)
+    override fun writingListAdapterClick() {
+
+      /* val builder = AlertDialog.Builder(this.activity?.applicationContext!!)
         builder.setTitle("Last one step")
                 .setMessage("Do you want to start solving $topic $quizId ?")
                 .setIcon(R.drawable.penguin)
@@ -136,8 +132,7 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
                 .setNegativeButton("No") { _, _ -> }
         val dialog = builder.create()
         dialog.show()
-        //todo("You need to use a Theme.AppCompat theme (or descendant) with this activity.")
-
+*/
     }
 
     companion object {

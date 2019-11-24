@@ -29,7 +29,7 @@
                 android:id="@+id/topicText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="3dp"
                 android:text="Topic Name:"
                 android:textSize="20dp"
                 android:textStyle="bold"
@@ -37,27 +37,27 @@
 
             <TextView
                 android:id="@+id/topicName"
-                android:layout_toRightOf="@+id/topicText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
                 android:text="Phrasal"
                 android:textSize="18dp"
+                android:layout_toStartOf="@id/isSolvedText"
+                android:layout_toEndOf="@+id/topicText"
                 android:layout_marginStart="20dp"
                 android:textStyle="italic"
                 android:textColor="#969693"  />
             <TextView
                 android:id="@+id/isSolvedText"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Solved"
                 android:textSize="18dp"
-                android:layout_marginRight="3dp"
+                android:layout_marginEnd="3dp"
                 android:drawablePadding="5dp"
                 android:textStyle="italic"
                 android:textColor="#969693"
-                android:drawableRight="@drawable/ic_check"/>
+                android:drawableEnd="@drawable/ic_check"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -69,21 +69,20 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/writingNumberText"
+                android:id="@+id/quizLevelText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:text="Quiz Number:"
+                android:layout_marginStart="3dp"
+                android:text="Level:"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 android:textColor="#40403d" />
 
             <TextView
-                android:id="@+id/writingId"
-                android:layout_toRightOf="@+id/writingNumberText"
+                android:id="@+id/quizLevel"
+                android:layout_toRightOf="@+id/quizLevelText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
                 android:text="1"
                 android:textSize="18dp"
                 android:layout_marginStart="20dp"
@@ -91,10 +90,10 @@
                 android:textColor="#969693" />
             <TextView
                 android:id="@+id/scoreWriting"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
+                android:layout_marginEnd="3dp"
                 android:text="8/10"
                 android:textSize="18dp"
                 android:textStyle="italic"

@@ -15,9 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.yallp_android.ExpandableTextView;
+import com.example.yallp_android.custom_views.ExpandableTextView;
 import com.example.yallp_android.R;
-import com.example.yallp_android.adapters.LanguageListAdapter;
 import com.example.yallp_android.adapters.UserLanguageListAdapter;
 import com.example.yallp_android.custom_views.ThreeDotsView;
 import com.example.yallp_android.models.Language;
@@ -28,14 +27,13 @@ import com.example.yallp_android.util.RetroClients.UserRetroClient;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.ThreeDotsClickListener {
-    private int unsubsLangsSize = 0;
+    private int unsubsLangsSize = 1;
     private UserInfo userInfo;
     private ListView listView;
     private UserLanguageListAdapter adapter;
@@ -150,6 +148,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
                             languageLevelList.add(getResources().getString(R.string.not_graded_yet));
                         else languageLevelList.add(lang.getLevelName());
                     }
+                    Log.e("e",unsubsLangsSize+"");
                     adapter = new UserLanguageListAdapter(getApplicationContext(), languageNameList, languageLevelList, unsubsLangsSize);
                     listView.setAdapter(adapter);
                 }
@@ -252,7 +251,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
+           logout();
             return;
         }
 
