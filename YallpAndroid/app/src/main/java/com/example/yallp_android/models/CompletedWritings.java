@@ -6,20 +6,33 @@ public class CompletedWritings {
     private int assignedMemberId;
     private int id;
     private int memberId;
+    private String memberName;
     private int score;
     private boolean scored;
     private int writingId;
     private String writingName;
+    private String assignedMemberName;
 
-    public CompletedWritings(String answerText, int assignedMemberId, int id, int memberId, int score, boolean scored, int writingId,String writingName) {
+    public CompletedWritings(String answerText, int assignedMemberId, int id, int memberId, int score,
+                             boolean scored, int writingId,String writingName,String assignedMemberName,String memberName) {
         this.answerText = answerText;
         this.assignedMemberId = assignedMemberId;
+        this.assignedMemberName = assignedMemberName;
         this.id = id;
         this.memberId = memberId;
+        this.memberName =memberName;
         this.score = score;
         this.scored = scored;
         this.writingId = writingId;
         this.writingName = writingName;
+    }
+
+    public String getAssignedMemberName() {
+        return assignedMemberName;
+    }
+
+    public void setAssignedMemberName(String assignedMemberName) {
+        this.assignedMemberName = assignedMemberName;
     }
 
     public String getAnswerText() {

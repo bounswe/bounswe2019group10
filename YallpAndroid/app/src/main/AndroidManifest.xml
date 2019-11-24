@@ -24,7 +24,10 @@
         <activity android:name=".activities.QuizScoreActivity" />
         <activity android:name=".activities.AddLanguageActivity"/>
         <activity android:name=".activities.QuizListActivity"/>
-        <activity android:name=".activities.CompletedWritingExercises"/>
+        <activity android:name=".activities.CompletedWritingExerciseActivity"/>
         <activity android:name=".activities.LanguageMainActivity"/>
+        <activity android:name=".activities.WritingDetailActivity"
+            android:windowSoftInputMode="stateHidden" />
+
     </application>
 </manifest>
