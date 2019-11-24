@@ -51,6 +51,7 @@ public class QuizActivity extends AppCompatActivity {
     private ObjectAnimator progressAnimator;
     private RadioGroup optionGroup;
     int quizId;
+    int langId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,7 @@ public class QuizActivity extends AppCompatActivity {
         Call<QuizListElement> call;
         Intent intent = getIntent();
         quizId = Integer.parseInt(intent.getStringExtra("quizId"));
+        langId = intent.getIntExtra("langId",1);
         call = QuizRetroClient.getInstance().getQuizApi().getQuiz("Bearer " + sharedPref.getString("token", null),quizId);
 
         call.enqueue(new Callback<QuizListElement>() {
@@ -188,6 +190,7 @@ public class QuizActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), QuizScoreActivity.class);
         intent.putExtra("level", level);
         intent.putExtra("score", score);
+        intent.putExtra("langId", langId);
         startActivity(intent);
         finish();
     }

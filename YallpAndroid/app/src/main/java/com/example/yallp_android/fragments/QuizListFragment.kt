@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +31,7 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
     private lateinit var quizRecyclerView: RecyclerView
     private var quizList = ArrayList<QuizListElement>()
     private var adapter: QuizListAdapter? = null
+    private var langId =1
 
 
     override fun onCreateView(
@@ -39,7 +39,7 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
             savedInstanceState: Bundle?
     ): View? {
         sharedPref = this.activity?.getSharedPreferences("yallp", Context.MODE_PRIVATE)
-
+        langId = this.activity?.intent!!.getIntExtra("languageId", 1)
         val root = inflater.inflate(R.layout.fragment_quiz_list, container, false)
         searchView = root.findViewById(R.id.searchView) as SearchView
         quizRecyclerView = root.findViewById(R.id.listView) as RecyclerView
@@ -81,13 +81,10 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
                     Collections.addAll(quizList, *response.body())
                     quizRecyclerView.adapter = adapter
                     adapter?.notifyDataSetChanged()
-                } else {
-
                 }
             }
 
             override fun onFailure(call: Call<Array<QuizListElement>>, t: Throwable) {
-
             }
         })
     }
@@ -107,8 +104,6 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
                     Collections.addAll(quizList, *response.body())
                     quizRecyclerView.adapter = adapter
                     adapter?.notifyDataSetChanged()
-                } else {
-                    Log.e("e", "e")
                 }
             }
 
@@ -122,6 +117,7 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
     override fun quizListAdapterClick(topic: String?, quizId: String?) {
         val intent = Intent(this.activity?.applicationContext, QuizActivity::class.java)
         intent.putExtra("quizId", quizId)
+        intent.putExtra("langId", langId)
         startActivity(intent)
         //todo("Dialog is deleted due to fragment errors")
     }

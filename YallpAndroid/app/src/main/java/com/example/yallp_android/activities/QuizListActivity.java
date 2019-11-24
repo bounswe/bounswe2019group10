@@ -31,6 +31,7 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
     private RecyclerView quizList;
     private QuizListAdapter adapter;
     ArrayList<QuizListElement> quizzes = new ArrayList<>();
+    int langId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
         adapter = new QuizListAdapter(getApplicationContext(), quizzes, this);
 
         if (getIntent().getExtras() != null) {
-
+            langId =  getIntent().getIntExtra("languageId", 1);
             Call<QuizListElement[]> call;
             call = QuizRetroClient.getInstance().getQuizApi().getQuizForLevelOrLowerAndLanguage("Bearer " + sharedPref.getString("token", null),
                     getIntent().getIntExtra("level", 1),
@@ -85,6 +86,7 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
                         intent.putExtra("quizId", quizId);
+                        intent.putExtra("langId", langId);
                         startActivity(intent);
                         finish();
                     }
