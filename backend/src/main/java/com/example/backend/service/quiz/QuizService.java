@@ -122,6 +122,11 @@ public class QuizService {
 
         quizRequest.setScore(score);
 
+        MemberQuiz memberQuiz = memberQuizRepository.findByMemberIdAndQuizId(curMember.getId(), quizId);
+        if(memberQuiz != null){
+            memberQuizRepository.deleteById(memberQuiz.getId());
+        }
+
         memberQuizRepository.save(new MemberQuiz(curMember.getId(), quizId, score));
 
         return  quizRequest;
