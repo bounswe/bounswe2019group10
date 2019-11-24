@@ -24,15 +24,18 @@ public class MainActivity extends AppCompatActivity {
         if(sharedPref.contains("token")){
             Intent i = new Intent(this,ProfileActivity.class);
             startActivity(i);
+            finish();
         }
     }
     public void getStarted(View view){
         Intent i = new Intent(this,GetStartedActivity.class);
         startActivity(i);
+        finish();
     }
 
     public void signIn(View view){
         Intent i = new Intent(this,SignInActivity.class);
         startActivity(i);
+        finish();
     }
 }

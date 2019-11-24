@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +26,7 @@ import retrofit2.Response;
 public class EditProfileActivity extends AppCompatActivity {
 
     private EditText name, surname, mail, bio, password, passwordConfirm;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,20 +52,35 @@ public class EditProfileActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(passwordsMatch()) confirmUpdate();
+                if (passwordsMatch()) confirmUpdate();
             }
         });
     }
 
     @Override
-    public void onBackPressed(){
-        Intent i = new Intent(this,ProfileActivity.class);
-        startActivity(i);
-        finish();
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            Intent i = new Intent(this, ProfileActivity.class);
+            startActivity(i);
+            finish();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+
     }
 
-    public boolean passwordsMatch(){
-        if(!password.getText().toString().equals(passwordConfirm.getText().toString())){
+    public boolean passwordsMatch() {
+        if (!password.getText().toString().equals(passwordConfirm.getText().toString())) {
             passwordConfirm.setError("Passwords have to match.");
             passwordConfirm.requestFocus();
             return false;
@@ -70,18 +88,18 @@ public class EditProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean isEmpty(EditText editText){
+    public boolean isEmpty(EditText editText) {
         return editText.getText().toString().trim().length() <= 0;
     }
 
-    public void confirmUpdate(){
+    public void confirmUpdate() {
         final ProgressDialog progressDialog = new ProgressDialog(EditProfileActivity.this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
 
         final SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
-        String token = sharedPref.getString("token",null);
+        String token = sharedPref.getString("token", null);
         Call<Token> call = UserRetroClient.getInstance().getUserApi().updateProfileInfo
                 ("Bearer " + token,
                         new UserInfo(0,
@@ -100,12 +118,12 @@ public class EditProfileActivity extends AppCompatActivity {
         call.enqueue(new Callback<Token>() {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     progressDialog.dismiss();
                     Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);
                     finish();
-                }else{
+                } else {
                     progressDialog.dismiss();
 
                 }

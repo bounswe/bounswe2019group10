@@ -8,10 +8,6 @@ import android.view.View;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-/**
- * User: Bazlur Rahman Rokon
- * Date: 9/7/13 - 3:33 AM
- */
 public class ExpandableTextView extends AppCompatTextView {
     private static final String ELLIPSIS = "...";
 

@@ -54,7 +54,6 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
 
         Context context;
         TextView topicName;
-      //  TextView writingId;
         TextView isSolvedText;
         TextView scoreText;
         int position;
@@ -65,7 +64,6 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
             super(view);
             this.context = context;
             topicName = view.findViewById(R.id.topicName);
-         //   writingId = view.findViewById(R.id.quizLevel);
             isSolvedText = view.findViewById(R.id.isSolvedText);
             scoreText = view.findViewById(R.id.scoreWriting);
             this.writingListAdapterClickListener = writingListAdapterClickListener;
@@ -76,7 +74,6 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
             this.writingListElement = writingListElement;
             this.position = position;
             this.topicName.setText(writingListElement.getWritingDTO().getWritingName());
-         //   this.writingId.setText(writingListElement.getWritingDTO().getId() + "");
             if (!writingListElement.isSolved()) {
                 this.isSolvedText.setText(context.getResources().getString(R.string.not_solved));
                 this.isSolvedText.setTextColor(Color.BLACK);

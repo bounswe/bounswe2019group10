@@ -131,7 +131,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onResponse(Call<QuizListElement> call, Response<QuizListElement> response) {
                 if (response.isSuccessful()) {
                     currentQuiz = response.body().getQuiz();
-                    nofQuestions = currentQuiz.getQuestions().length;  //todo(Attempt to get length of null array)
+                    nofQuestions = currentQuiz.getQuestions().length;
                     givenAnswers = new int[nofQuestions];
                     placeQuestionFragment(0);
                     questionNumberText.setText("Question " + (currentQuestion + 1));
@@ -191,6 +191,7 @@ public class QuizActivity extends AppCompatActivity {
         intent.putExtra("level", level);
         intent.putExtra("score", score);
         intent.putExtra("langId", langId);
+        intent.putExtra("quizId", quizId);
         startActivity(intent);
         finish();
     }

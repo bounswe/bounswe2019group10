@@ -1,7 +1,6 @@
 package com.example.yallp_android.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,16 +48,12 @@ public class UserLanguageListAdapter extends BaseAdapter {
         ViewHolderAddLanguage addHolder;
 
         if (position == languageLevelList.size()) {
-            //add Language
-
             v = layoutInflater.inflate(R.layout.add_language, null);
             addHolder = new ViewHolderAddLanguage();
             v.setTag(addHolder);
 
 
         } else {
-            //user Languages
-
             v = layoutInflater.inflate(R.layout.user_language, null);
             languageHolder = new ViewHolderLanguage();
             languageHolder.languageName = v.findViewById(R.id.languageName);
@@ -80,7 +75,7 @@ public class UserLanguageListAdapter extends BaseAdapter {
         ImageView countryFlag;
     }
 
-    static class ViewHolderAddLanguage {
+    private static class ViewHolderAddLanguage {
 
     }
 }

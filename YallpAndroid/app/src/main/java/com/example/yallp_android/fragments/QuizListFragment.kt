@@ -119,19 +119,11 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
         intent.putExtra("quizId", quizId)
         intent.putExtra("langId", langId)
         startActivity(intent)
-        //todo("Dialog is deleted due to fragment errors")
+        this.activity?.finish()
     }
 
     companion object {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         @JvmStatic
         fun newInstance(): QuizListFragment {
             return QuizListFragment()

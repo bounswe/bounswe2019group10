@@ -1,21 +1,17 @@
 package com.example.yallp_android.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yallp_android.R
-import com.example.yallp_android.activities.WritingActivity
 import com.example.yallp_android.adapters.WritingListAdapter
 import com.example.yallp_android.models.WritingListElement
 import com.example.yallp_android.util.RetroClients.SearchRetroClient
@@ -78,9 +74,6 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
                     Collections.addAll(writingList, *response.body())
                     writingRecyclerView.adapter = adapter
                     adapter?.notifyDataSetChanged()
-                } else {
-
-                    //    Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -106,7 +99,6 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
                     Collections.addAll(writingList, *response.body())
                     writingRecyclerView.adapter = adapter
                     adapter?.notifyDataSetChanged()
-                } else {
                 }
             }
 
@@ -119,32 +111,10 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
 
     override fun writingListAdapterClick() {
 
-      /* val builder = AlertDialog.Builder(this.activity?.applicationContext!!)
-        builder.setTitle("Last one step")
-                .setMessage("Do you want to start solving $topic $quizId ?")
-                .setIcon(R.drawable.penguin)
-                .setCancelable(true)
-                .setPositiveButton("Yes") { _, _ ->
-                    val intent = Intent(this.activity?.applicationContext, WritingActivity::class.java)
-                    intent.putExtra("quizId", quizId)
-                    startActivity(intent)
-                }
-                .setNegativeButton("No") { _, _ -> }
-        val dialog = builder.create()
-        dialog.show()
-*/
     }
 
     companion object {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         @JvmStatic
         fun newInstance(): WritingListFragment {
             return WritingListFragment()
