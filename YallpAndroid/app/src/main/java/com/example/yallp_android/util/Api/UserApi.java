@@ -52,4 +52,11 @@ public interface UserApi {
             @Body UserInfo newProfileInfo
     );
 
+    @Headers({"Content-Type: application/json"})
+    @POST("member/removelang")
+    Call<UserInfo> removeLanguage(
+            @Header("Authorization") String token,
+            @Body String[] languageToRemove
+    );
+
 }
