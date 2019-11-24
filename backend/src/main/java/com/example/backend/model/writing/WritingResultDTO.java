@@ -67,7 +67,10 @@ public class WritingResultDTO {
     }
 
     public void setScore(Integer score) {
-        this.score = score;
+        if(score == null)
+            this.score =0;
+        else
+            this.score = score;
     }
 
     public boolean isScored() {
