@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.yallp_android.ExpandableTextView;
 import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.LanguageListAdapter;
+import com.example.yallp_android.adapters.NonCompletedAssignmentAdapter;
 import com.example.yallp_android.adapters.UserLanguageListAdapter;
 import com.example.yallp_android.custom_views.ThreeDotsView;
 import com.example.yallp_android.models.Language;
@@ -236,6 +237,12 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         finish();
     }
 
+    private void nonCompletedAssignments() {
+        Intent i = new Intent(getApplicationContext(), NonCompletedAssignmentsActivity.class);
+        startActivity(i);
+        finish();
+    }
+
     @Override
     public void itemClick(int item) {
         if (item == 0) {
@@ -243,7 +250,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         } else if (item == 1) {
             completedWritingExercises();
         } else if (item == 2) {
-
+            nonCompletedAssignments();
         } else {
             logout();
         }

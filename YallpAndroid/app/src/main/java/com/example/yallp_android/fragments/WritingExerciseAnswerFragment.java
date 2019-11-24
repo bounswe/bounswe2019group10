@@ -38,7 +38,7 @@ public class WritingExerciseAnswerFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_writing_details, container, false);
+        final View view = inflater.inflate(R.layout.fragment_writing_exercise_answer, container, false);
         questionText = view.findViewById(R.id.questionText);
         answerText = view.findViewById(R.id.answerText);
         int writingId =(Integer) getArguments().getSerializable("writingId");

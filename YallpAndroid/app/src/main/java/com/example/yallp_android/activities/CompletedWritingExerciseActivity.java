@@ -38,13 +38,13 @@ public class CompletedWritingExerciseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_list_of_writings);
+        setContentView(R.layout.activity_completed_writings_or_noncompleted_assignments_list);
         writingList = findViewById(R.id.writingList);
         writingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                 Intent i = new Intent(getApplicationContext(),WritingDetailActivity.class);
-                i.putExtra("writingId",completedWritingExercises.get(position).getId()+"");
+                i.putExtra("writingId",completedWritingExercises.get(position).getWritingId()+"");
                 i.putExtra("answerText",completedWritingExercises.get(position).getAnswerText());
                 i.putExtra("evaluatorName",completedWritingExercises.get(position).getAssignedMemberName());
                 i.putExtra("score",completedWritingExercises.get(position).getScore()+"");

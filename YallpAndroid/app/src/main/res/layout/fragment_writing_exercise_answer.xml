@@ -14,11 +14,11 @@
         android:layout_marginRight="@dimen/inputMarginHorizontal"
         android:layout_marginBottom="40dp"
         android:gravity="center_horizontal"
-        android:textSize="@dimen/titleTextSize" />
+        android:textSize="16sp" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_below="@+id/questionText"
         android:layout_marginLeft="@dimen/inputMarginHorizontal"
         android:layout_marginRight="@dimen/inputMarginHorizontal"

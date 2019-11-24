@@ -44,7 +44,7 @@ public class CompletedWritingsAdapter extends BaseAdapter {
         ViewHolder holder;
 
         if (v == null) {
-            v = layoutInflater.inflate(R.layout.writing_list, null);
+            v = layoutInflater.inflate(R.layout.completed_writing_list_row, null);
             holder = new ViewHolder();
             holder.writingName = (TextView) v.findViewById(R.id.writingName);
             holder.writingStatus = (TextView) v.findViewById(R.id.writingStatus);

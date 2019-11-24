@@ -27,6 +27,14 @@ public class CompletedWritings {
         this.writingName = writingName;
     }
 
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
     public String getAssignedMemberName() {
         return assignedMemberName;
     }

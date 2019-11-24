@@ -16,9 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.EditProfileActivity" />
-        <activity android:name=".activities.GetStartedActivity"/>
-        <activity android:name=".activities.SignInActivity"/>
+        <activity android:name=".activities.EditProfileActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.GetStartedActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.SignInActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.ProfileActivity"/>
         <activity android:name=".activities.QuizActivity" />
         <activity android:name=".activities.QuizScoreActivity" />
@@ -27,7 +30,10 @@
         <activity android:name=".activities.CompletedWritingExerciseActivity"/>
         <activity android:name=".activities.LanguageMainActivity"/>
         <activity android:name=".activities.WritingDetailActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.GiveScoreForWritingActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.NonCompletedAssignmentsActivity"/>
 
     </application>
 </manifest>
