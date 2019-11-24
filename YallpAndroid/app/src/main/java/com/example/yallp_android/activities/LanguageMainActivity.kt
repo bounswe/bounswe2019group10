@@ -3,7 +3,6 @@ package com.example.yallp_android.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.Window
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.yallp_android.R

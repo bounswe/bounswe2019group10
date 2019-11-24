@@ -2,6 +2,7 @@ package com.example.yallp_android.util.Api;
 
 import com.example.yallp_android.models.Quiz;
 import com.example.yallp_android.models.QuizAnswers;
+import com.example.yallp_android.models.QuizListElement;
 import com.example.yallp_android.models.QuizResult;
 
 import retrofit2.Call;
@@ -17,7 +18,7 @@ public interface QuizApi {
 
     @Headers({"Content-Type: application/json"})
     @GET("quiz/{quizId}")
-    Call<Quiz> getQuiz(
+    Call<QuizListElement> getQuiz(
             @Header("Authorization") String token,
             @Path("quizId") int quizId);
 
@@ -31,7 +32,7 @@ public interface QuizApi {
 
     @Headers({"Content-Type: application/json"})
     @GET("quiz/levelorlower/{level}/language/{languageId}")
-    Call<Quiz[]> getQuizForLevelOrLowerAndLanguage(
+    Call<QuizListElement[]> getQuizForLevelOrLowerAndLanguage(
             @Header("Authorization") String token,
             @Path("level") int level,
             @Path("languageId") int languageId);
