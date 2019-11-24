@@ -231,7 +231,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
     }
 
     private void completedWritingExercises() {
-        Intent i = new Intent(getApplicationContext(), CompletedWritingExercises.class);
+        Intent i = new Intent(getApplicationContext(), CompletedWritingExerciseActivity.class);
         startActivity(i);
         finish();
     }

@@ -19,5 +19,11 @@ public interface WritingApi {
     @GET("getJson/{languageId}")
     Call<WritingListElement[]> getWritingListForLanguage(@Header("Authorization") String token, @Path("languageId") int languageId);
 
+    @Headers({"Content-Type: application/json"})
+    @GET("read/{writingId}")
+    Call<WritingListElement> readDetailsOfOneWriting(
+            @Header("Authorization") String token,
+            @Path("writingId") int writingId);
+
 
 }
