@@ -32,7 +32,7 @@ public class WritingExerciseScoreFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_writing_evaluator_or_owner, container, false);
+        final View view = inflater.inflate(R.layout.fragment_writing_exercise_score, container, false);
         evaluatorOrOwnerText = view.findViewById(R.id.evaluatorOrOwnerText);
         evaluatorOrOwnerName = view.findViewById(R.id.evaluatorOrOwnerName);
         scoreText = view.findViewById(R.id.scoreText);
@@ -43,19 +43,24 @@ public class WritingExerciseScoreFragment extends Fragment {
         boolean isScored = (boolean) getArguments().getSerializable("isScored");
 
         if(userOrEvaluator.equals("user")){
-            evaluatorOrOwnerText.setText("Evaluator:");
             if(isScored){
+                evaluatorOrOwnerText.setText("Evaluated by:");
                 score.setEnabled(false);
                 score.setBackground(null);
                 score.setText(scoreOfUser+"/10");
             }else{
+                evaluatorOrOwnerText.setText("Waiting for evaluation by:");
                 scoreText.setVisibility(View.GONE);
                 score.setVisibility(View.GONE);
             }
         }else{
-            evaluatorOrOwnerText.setText("User:");
+            evaluatorOrOwnerText.setText("Written by:");
+            score.setBackground(null);
+            score.setHint("...");
+            score.setText("");
         }
         evaluatorOrOwnerName.setText(evaluatorName.substring(0,1).toUpperCase() + evaluatorName.substring(1).toLowerCase());
+
 
 
         return view;

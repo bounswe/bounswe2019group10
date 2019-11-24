@@ -39,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
     private UserLanguageListAdapter adapter;
     private ArrayList<String> languageNameList = new ArrayList<>();
     private ArrayList<String> languageLevelList = new ArrayList<>();
-    private boolean doubleBackToExitPressedOnce= false;
+    private boolean doubleBackToExitPressedOnce = false;
 
     TextView seeFullBio;
     ExpandableTextView expandableTextView;
@@ -234,6 +234,12 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         finish();
     }
 
+    private void nonCompletedAssignments() {
+        Intent i = new Intent(getApplicationContext(), NonCompletedAssignmentsActivity.class);
+        startActivity(i);
+        finish();
+    }
+
     @Override
     public void itemClick(int item) {
         if (item == 0) {
@@ -241,6 +247,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         } else if (item == 1) {
             completedWritingExercises();
         } else if (item == 2) {
+            nonCompletedAssignments();
 
         } else {
             logout();
@@ -250,7 +257,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-           logout();
+            logout();
             return;
         }
 
@@ -261,7 +268,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
