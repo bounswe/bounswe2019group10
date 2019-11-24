@@ -50,15 +50,16 @@ public class GiveScoreForWritingActivity extends AppCompatActivity {
 
 
         giveScoreButton = findViewById(R.id.giveScoreButton);
-        score = findViewById(R.id.score);
 
         giveScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                score = findViewById(R.id.score);
                 int value = Integer.parseInt(score.getText().toString());
 
                 if(value<0 || value > 10){
-                    Toast.makeText(getApplicationContext(),"You have to enter a score between 0 and 10",Toast.LENGTH_SHORT).show();
+                    score.setText("");
+                    Toast.makeText(getApplicationContext(),"Score must be between 0 and 10",Toast.LENGTH_SHORT).show();
                 }
                 else{
 

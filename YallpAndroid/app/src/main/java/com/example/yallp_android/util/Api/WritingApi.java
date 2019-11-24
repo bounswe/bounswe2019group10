@@ -29,11 +29,11 @@ public interface WritingApi {
             @Path("writingId") int writingId);
 
     @Headers({"Content-Type: application/json"})
-    @GET("nonCompletedAssignments}")
+    @GET("nonCompletedAssignments")
     Call<NonCompletedAssignments[]> nonCompletedAssignments(@Header("Authorization") String token);
 
     @Headers({"Content-Type: application/json"})
-    @POST("score/{writingResultId}}")
+    @POST("score/{writingResultId}")
     Call<CompletedWritings> giveScoreForWriting(
             @Header("Authorization") String token,
             @Path("writingResultId") int writingResultId,

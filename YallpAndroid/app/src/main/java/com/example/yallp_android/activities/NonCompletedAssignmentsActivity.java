@@ -40,13 +40,8 @@ public class NonCompletedAssignmentsActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_completed_writings_or_noncompleted_assignments_list);
-        nonCompletedAssignments.add(new NonCompletedAssignments("asd",1,1,1,1,false,1,"asd","asd","asd"));
-        nonCompletedAssignments.add(new NonCompletedAssignments("asd",1,1,1,1,false,1,"asd","asd","asd"));
 
         writingListToBeScored = findViewById(R.id.writingList);
-
-        adapter = new NonCompletedAssignmentAdapter(getApplicationContext(), nonCompletedAssignments);
-        writingListToBeScored.setAdapter(adapter);
 
         writingListToBeScored.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,7 +56,7 @@ public class NonCompletedAssignmentsActivity extends AppCompatActivity {
             }
         });
 
-        /*Call<NonCompletedAssignments[]> call;
+        Call<NonCompletedAssignments[]> call;
 
         call = WritingRetroClient
                 .getInstance()
@@ -84,7 +79,7 @@ public class NonCompletedAssignmentsActivity extends AppCompatActivity {
             public void onFailure(Call<NonCompletedAssignments[]> call, Throwable t) {
 
             }
-        });*/
+        });
     }
 
     @Override
