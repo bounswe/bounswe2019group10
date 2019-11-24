@@ -57,7 +57,7 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.equals("") ) {
+                if (newText.equals("")) {
                     listAllQuizzes()
                 }
                 return false
@@ -93,29 +93,29 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
     }
 
     fun submitQuery(query: String) {
-           val call: Call<Array<QuizListElement>> = SearchRetroClient.getInstance().searchApi.searchQuiz("Bearer " + sharedPref?.getString("token", null)!!,
-                   this.activity?.intent!!.getIntExtra("languageId", 1),
-                   query)
-           call.enqueue(object : Callback<Array<QuizListElement>> {
+        val call: Call<Array<QuizListElement>> = SearchRetroClient.getInstance().searchApi.searchQuiz("Bearer " + sharedPref?.getString("token", null)!!,
+                this.activity?.intent!!.getIntExtra("languageId", 1),
+                query)
+        call.enqueue(object : Callback<Array<QuizListElement>> {
 
-               override fun onResponse(
-                       call: Call<Array<QuizListElement>>,
-                       response: Response<Array<QuizListElement>>
-               ) {
-                   if (response.isSuccessful) {
-                       quizList.clear()
-                       Collections.addAll(quizList, *response.body())
-                       quizRecyclerView.adapter = adapter
-                       adapter?.notifyDataSetChanged()
-                   } else {
-                       Log.e("e","e")
-                   }
-               }
+            override fun onResponse(
+                    call: Call<Array<QuizListElement>>,
+                    response: Response<Array<QuizListElement>>
+            ) {
+                if (response.isSuccessful) {
+                    quizList.clear()
+                    Collections.addAll(quizList, *response.body())
+                    quizRecyclerView.adapter = adapter
+                    adapter?.notifyDataSetChanged()
+                } else {
+                    Log.e("e", "e")
+                }
+            }
 
-               override fun onFailure(call: Call<Array<QuizListElement>>, t: Throwable) {
-                   Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
-               }
-           })
+            override fun onFailure(call: Call<Array<QuizListElement>>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
 
