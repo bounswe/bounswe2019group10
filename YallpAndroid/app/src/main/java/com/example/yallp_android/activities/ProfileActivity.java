@@ -148,7 +148,6 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
                             languageLevelList.add(getResources().getString(R.string.not_graded_yet));
                         else languageLevelList.add(lang.getLevelName());
                     }
-                    Log.e("e",unsubsLangsSize+"");
                     adapter = new UserLanguageListAdapter(getApplicationContext(), languageNameList, languageLevelList, unsubsLangsSize);
                     listView.setAdapter(adapter);
                 }
