@@ -39,13 +39,14 @@ class ProfilePage extends React.Component {
       <Layout className="layout menu-style">
         <HeaderComponent />
         <Content style={{ marginTop: '24px' }}>
-          
+          <Row>
             <Col span={8} offset={4}>
               {profile && <Profile {...profile} updateProfile={this.props.updateProfile}/>}
             </Col>
             <Col span={8} offset={1}>
               {profile && <Language {...profile} removeLanguage={this.props.removeLanguage}/>}
             </Col>
+          </Row>
         </Content>
         <FooterComponent />
       </Layout>
@@ -93,10 +94,10 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { mail, username, bio, name, surname } = this.props;
+    const { mail, username, bio, name, surname } = this.state;
 
     return (
-      <div style={{ background: '#fff', padding: 24, minHeight: 280, width: 600 }}>
+      <div style={{ background: '#fff', padding: 24 }}>
         <Descriptions title="User Info" bordered={true} column={1}>
           <Descriptions.Item label="Name">
             {

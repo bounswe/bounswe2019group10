@@ -200,6 +200,7 @@ function removeLanguage(language) {
             .then(
                 profile => {
                     dispatch(success(profile));
+                    getProfile()(dispatch);
                 },
                 error => {
                     dispatch(failure(error.toString()));
