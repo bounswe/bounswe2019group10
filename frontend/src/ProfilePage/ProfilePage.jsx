@@ -13,7 +13,7 @@ import { userActions } from '../_actions';
 const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
-class ProfilePage extends React.Component {
+class ProfilePagee extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -29,8 +29,7 @@ class ProfilePage extends React.Component {
         <HeaderComponent />        
         <Content style={{ marginTop: '24px'}}>
           <Row>
-            <Col span={1} />
-            <Col span={11}>
+            <Col span={20} offset={2}>
               {profile && <Profile profile={profile} />}
             </Col>
           </Row>
