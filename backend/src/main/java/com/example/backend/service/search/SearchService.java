@@ -21,6 +21,7 @@ import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -57,6 +58,7 @@ public class SearchService {
     @Autowired
     WritingService writingService;
 
+    @Transactional
     public List<QuizResponseDTO> quizSearchResult(String searchTerm, int languageId){
 
         List<String> tags = quizRepository.getDistinctQuizTypes();
@@ -96,6 +98,7 @@ public class SearchService {
         return quizResponseDTOConverterService.applyAll(result);
     }
 
+    @Transactional
     public List<WritingIsSolvedResponse> writingSearchResult(String searchTerm, int languageId){
         List<String> taskTexts = writingRepository.getDistinctTaskTexts();
 
