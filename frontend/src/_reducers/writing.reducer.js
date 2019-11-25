@@ -3,25 +3,29 @@ import { writingConstants } from '../_constants';
 export function writing(state = {}, action) {
   switch (action.type) {
     case writingConstants.GET_WRITING:
-      return { writing: action.writing };
+      return { ...state, writing: action.writing };
     case writingConstants.GET_WRITING_FAILURE:
       return { error: action.error };
     case writingConstants.SUBMIT_WRITING:
-      return { result: action.result };
+      return { ...state, result: action.result };
     case writingConstants.SUBMIT_WRITING_FAILURE:
       return { error: action.error };
     case writingConstants.SCORE_WRITING:
-      return { result: action.result };
+      return { ...state, result: action.result };
     case writingConstants.SCORE_WRITING_FAILURE:
-      return { error: action.error };
+      return { ...state, error: action.error };
     case writingConstants.GET_ASSIGN_WRITING:
-      return { assignments: action.result };
+      return { ...state, assignments: action.result };
     case writingConstants.GET_ASSIGN_WRITING_FAILURE:
-      return { error: action.error };
+      return { ...state, error: action.error };
     case writingConstants.GET_CASSIGN_WRITING:
-      return { cassignments: action.result };
+      return { ...state, cassignments: action.result };
     case writingConstants.GET_CASSIGN_WRITING_FAILURE:
-      return { error: action.error };
+      return { ...state, error: action.error };
+    case writingConstants.GET_WRITING_LIST:
+      return { ...state, result: action.result };
+    case writingConstants.GET_WRITING_LIST_FAILURE:
+      return { ...state, error: action.error };
 
     default:
       return state

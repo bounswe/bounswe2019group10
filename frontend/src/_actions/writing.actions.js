@@ -101,6 +101,6 @@ function getWritingList(languageId){
             }
         );
   };
-  function success(result) { return { type: writingConstants.GET_LIST_WRITING, result } }
-  function failure(error) { return { type: writingConstants.GET_LIST_WRITING_FAILURE, error } }
+  function success(result) { return { type: writingConstants.GET_WRITING_LIST, result } }
+  function failure(error) { return { type: writingConstants.GET_WRITING_LIST_FAILURE, error } }
 }
