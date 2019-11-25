@@ -6,6 +6,7 @@ import { history } from '../_helpers';
 export const userActions = {
     login,
     getProfile,
+    updateProfile,
     logout,
     register,
     getUserLanguages,
@@ -18,7 +19,7 @@ export const userActions = {
 };
 
 function login(username, password) {
-    return dispatch => {  
+    return dispatch => {
         dispatch(request({ username }));
 
         userService.login(username, password)
@@ -70,7 +71,7 @@ function getProfile() {
     return dispatch => {
         userService.getProfile()
             .then(
-                profile => { 
+                profile => {
                     dispatch(success(profile));
                 },
                 error => {
@@ -83,6 +84,30 @@ function getProfile() {
     function failure(error) { return { type: userConstants.PROFILE_FAILURE, error } }
 }
 
+function updateProfile(newProfile) {
+    return dispatch => {
+        userService.updateProfile(newProfile)
+            .then(
+                token => {
+                    userService.getProfile()
+                        .then(
+                            profile => {
+                                dispatch(success(profile));
+                            },
+                            error => {
+                                dispatch(failure(error.toString()));
+                            }
+                        );
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(profile) { return { type: userConstants.UPDATE_PROFILE_SUCCESS, profile } }
+    function failure(error) { return { type: userConstants.UPDATE_PROFILE_FAILURE, error } }
+}
 
 function getAll() {
     return dispatch => {
@@ -122,7 +147,7 @@ function getUserLanguages() {
     return dispatch => {
         userService.getUserLanguages()
             .then(
-                languages => { 
+                languages => {
                     dispatch(success(languages));
                 },
                 error => {
@@ -139,7 +164,7 @@ function getAllLanguages() {
     return dispatch => {
         userService.getAllLanguages()
             .then(
-                languages => { 
+                languages => {
                     dispatch(success(languages));
                 },
                 error => {
@@ -156,7 +181,7 @@ function addLanguage(language) {
     return dispatch => {
         userService.addLanguage(language)
             .then(
-                profile => { 
+                profile => {
                     dispatch(success(profile));
                 },
                 error => {
@@ -173,7 +198,7 @@ function removeLanguage(language) {
     return dispatch => {
         userService.removeLanguage(language)
             .then(
-                profile => { 
+                profile => {
                     dispatch(success(profile));
                 },
                 error => {
