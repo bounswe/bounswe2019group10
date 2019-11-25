@@ -39,54 +39,61 @@ function logout() {
     localStorage.removeItem('user');
 }
 
-function getProfile(){
+function getProfile() {
     const requestOptions = {
         method: 'GET',
-        headers: {...authHeader(),"Access-Control-Allow-Origin":"*"}
+        headers: { ...authHeader(), "Access-Control-Allow-Origin": "*" }
     };
     return fetch(`${config.apiUrl}/member/profile`, requestOptions).then(handleResponse);
 }
 
-function updateProfile(newProfile){
+function updateProfile(newProfile) {
     const requestOptions = {
         method: 'PUT',
-        headers: {...authHeader(),"Access-Control-Allow-Origin":"*"},
+        headers: { ...authHeader(), "Access-Control-Allow-Origin": "*", 'Content-Type': 'application/json' },
         body: JSON.stringify(newProfile)
     };
-    console.log(requestOptions,newProfile)
-    return fetch(`${config.apiUrl}/member/update`, requestOptions).then(handleResponse);
+    console.log(requestOptions, newProfile)
+    return fetch(`${config.apiUrl}/member/update`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('user', JSON.stringify(user));
+
+            return user;
+        });
 }
 
-function getUserLanguages(){
+function getUserLanguages() {
     const requestOptions = {
         method: 'GET',
-        headers: {...authHeader(),"Access-Control-Allow-Origin":"*"}
+        headers: { ...authHeader(), "Access-Control-Allow-Origin": "*" }
     };
     return fetch(`${config.apiUrl}/member/languages`, requestOptions).then(handleResponse);
 }
 
-function getAllLanguages(){
+function getAllLanguages() {
     const requestOptions = {
         method: 'GET',
-        headers: {...authHeader(),"Access-Control-Allow-Origin":"*"}
+        headers: { ...authHeader(), "Access-Control-Allow-Origin": "*" }
     };
     return fetch(`${config.apiUrl}/lang`, requestOptions).then(handleResponse);
 }
 
-function addLanguage(language){
+function addLanguage(language) {
     const requestOptions = {
         method: 'POST',
-        headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+        headers: { ...authHeader(), "Access-Control-Allow-Origin": "*", 'Content-Type': 'application/json' },
         body: JSON.stringify([language])
     };
     return fetch(`${config.apiUrl}/member/addlang`, requestOptions).then(handleResponse);
 }
 
 // TODO update endpoint
-function removeLanguage(language){
+function removeLanguage(language) {
     const requestOptions = {
         method: 'POST',
-        headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+        headers: { ...authHeader(), "Access-Control-Allow-Origin": "*", 'Content-Type': 'application/json' },
         body: JSON.stringify([language])
     };
     return fetch(`${config.apiUrl}/member/removelang`, requestOptions).then(handleResponse);
@@ -118,10 +125,10 @@ function register(user) {
     };
     return fetch(`${config.apiUrl}/register`, requestOptions)
         .then(handleResponse)
-            .then(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
-                return user;
+        .then(user => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('user', JSON.stringify(user));
+            return user;
         });
 }
 

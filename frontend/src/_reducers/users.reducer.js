@@ -63,7 +63,7 @@ export function users(state = initialState, action) {
     case userConstants.UPDATE_PROFILE_SUCCESS:
         return {
           ...state,
-          profile:action.profile
+          profileUpdated:true
         }
     case userConstants.UPDATE_PROFILE_FAILURE:
         return {

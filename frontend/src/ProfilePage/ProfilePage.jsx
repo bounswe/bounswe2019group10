@@ -13,7 +13,6 @@ import { FooterComponent } from '../FooterComponent';
 
 import { flags, history } from '../_helpers';
 import { userActions } from '../_actions';
-import { LanguageDashboard } from './LanguageDashboard';
 
 const { Content } = Layout;
 
@@ -41,10 +40,10 @@ class ProfilePage extends React.Component {
         <Content style={{ marginTop: '24px' }}>
           
             <Col span={8} offset={4}>
-              {profile && <Profile {...profile} />}
+              {profile && <Profile {...profile} updateProfile={this.props.updateProfile}/>}
             </Col>
             <Col span={8} offset={1}>
-              {profile && <Language {...profile} />}
+              {profile && <Language {...profile} removeLanguage={this.props.removeLanguage}/>}
             </Col>
         </Content>
         <FooterComponent />
@@ -62,7 +61,12 @@ class Profile extends React.Component {
     this.handleDoneButton = this.handleDoneButton.bind(this);
 
     this.state = {
-      isEditing: false
+      isEditing: false,
+      name: this.props.name,
+      surname: this.props.surname,
+      username: this.props.username,
+      mail: this.props.mail,
+      bio: this.props.bio,
     }
   }
 
@@ -72,11 +76,19 @@ class Profile extends React.Component {
   }
 
   handleEditButton(e) {
-    this.setState({ isEditing: true })
+    this.setState({ isEditing: true });
   }
 
   handleDoneButton(e) {
-    this.setState({ isEditing: false })
+    const newProfile={
+      bio: this.state.bio,
+      name: this.state.name,
+      surname: this.state.surname,
+      username: this.state.username,
+      mail: this.state.mail,
+    };
+    this.props.updateProfile(newProfile);
+    this.setState({ isEditing: false });
   }
 
   render() {
@@ -105,7 +117,7 @@ class Profile extends React.Component {
             {
               this.state.isEditing ?
                 <Input placeholder={username ? username : "No username!"}
-                  defaultValue={username} name="mail" onChange={this.handleChange} />
+                  defaultValue={username} name="username" onChange={this.handleChange} />
                 : username ? username : "No username!"
             }
           </Descriptions.Item>
@@ -139,6 +151,11 @@ class Profile extends React.Component {
 class Language extends React.Component {
   constructor(props) {
     super(props);
+    this.handleRemoveButton = this.handleRemoveButton.bind(this);
+  }
+
+  handleRemoveButton(language){
+    this.props.removeLanguage(language)
   }
 
   render() {
@@ -151,8 +168,9 @@ class Language extends React.Component {
             memberLanguages && memberLanguages.map((memberLanguage, i) => {
               return (
                 <Descriptions.Item label={memberLanguage.language.languageName} key={i}>
-                  {memberLanguage.languageLevel}
-                  <Button type="link"> edit</Button>
+                  {memberLanguage.levelName}
+                  {!memberLanguage.levelName && "Take level test"}
+                  <Button type="link" onClick={() => this.handleRemoveButton(memberLanguage.language.languageName)}> Remove</Button>
                 </Descriptions.Item>
               )
             })
