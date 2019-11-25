@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout, Menu, Row, Col,
-    Avatar, Card,List, Spin,Skeleton } from 'antd';
+    Avatar, Card,List, Spin,Skeleton,Typography,Empty } from 'antd';
 const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
+const { Title } = Typography;
 
 import { userActions,quizActions, writingActions } from '../_actions';
 import { history } from '../_helpers';
@@ -12,6 +13,8 @@ import { history } from '../_helpers';
 import './HomePage.css';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
+import { WritingResultComponent } from '../SearchPage/WritingResultComponent';
+import { QuizResultComponent } from '../SearchPage/QuizResultComponent';
 
 class HomePage extends React.Component {
 
@@ -65,43 +68,47 @@ class HomePage extends React.Component {
                 activeLanguageId: activeLanguageId,
                 activeLanguage: this.props.activeLanguage.languageName
             });
+            this.props.getWritingList(activeLanguageId);
         }
     }
 
     render() {
         const { profile,quizList } = this.props;
+        let searchResults = [];
+        if (this.props.writing){
+            searchResults = this.props.writing.result;
+        }
         return (
             <Layout className="layout">
             <HeaderComponent />
-            <Content style={{ padding: '0 50px' }}>
+            <Content style={{ padding: '0 50px'}}>
                 <Row>
                     <Col span={2} />
                     <Col span={8}>
-                        <Card title={ this.props.activeLanguage.languageName } style={{ width: 500, height: 300, marginTop: '24px' }}>
-                            <div className="scrollable">
-                            {quizList && quizList.map((value, index) => {
-                                return (
-                                <p key={index}>
-                                <Link to={{
-                                    pathname: '/quiz',
-                                    state: {
-                                        quizId: value.id
-                                    }
-                                    }}>Quiz {value.id} - Level: {value.level}</Link>
-                                </p>
-                                );
-                            })}
-                            </div>
-                        </Card>
-                        <Card title="Spanish" style={{ width: 500, height: '50vh'}}>
-                            <Skeleton />
-                        </Card>
+                        <Title level={3} style={{textAlign: "center"}}>Quizes</Title>                        
+                        {quizList && (
+                        quizList.map((searchResult, i) => {
+                        return (
+                            <Row key={i}>
+                            <QuizResultComponent quizId={searchResult.quiz.id} quizType={searchResult.quiz.quizType} 
+                                levelName={searchResult.quiz.levelName} solved={searchResult.solved} score={searchResult.score} />
+                            </Row>
+                            ) 
+                        }))}
+                        {(quizList && quizList.length==0) && <Empty description="No quiz found :("/>}
                     </Col>
-                    <Col span={2} />
-                    <Col span={8}>
-                        <Card title="Completed Quizes" style={{ width: 500, height: '50vh', marginTop: '24px' }}>
-                        <Skeleton />
-                        </Card>
+                    <Col span={8} offset={2}>
+                        <Title level={3} style={{textAlign: "center"}}>Writing Exercises</Title>
+                        { searchResults && (
+                            searchResults.map((searchResult, i) => {
+                            return (
+                                <Row key={i}>
+                                <WritingResultComponent writingId={searchResult.writingDTO.id} writingName={searchResult.writingDTO.writingName} 
+                                    taskText={searchResult.writingDTO.taskText} solved={searchResult.solved} />
+                                </Row>
+                            ) 
+                        }))}
+                        {(searchResults && searchResults.length==0) && <Empty description="No writing found :("/>}
                     </Col>
                 </Row>
             </Content>
@@ -112,10 +119,10 @@ class HomePage extends React.Component {
 }
 
 function mapState(state) {
-    const { users,quiz } = state;
+    const { users,quiz,writing } = state;
     const { profile,activeLanguage } = users;
     const { quizList } = quiz;
-    return { profile,quizList,activeLanguage };
+    return { profile,quizList,activeLanguage,writing };
 }
 
 const actionCreators = {
