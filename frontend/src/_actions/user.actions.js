@@ -8,6 +8,11 @@ export const userActions = {
     getProfile,
     logout,
     register,
+    getUserLanguages,
+    getAllLanguages,
+    addLanguage,
+    removeLanguage,
+    changeActiveLanguage
 };
 
 function login(username, password) {
@@ -108,4 +113,82 @@ function _delete(id) {
     function request(id) { return { type: userConstants.DELETE_REQUEST, id } }
     function success(id) { return { type: userConstants.DELETE_SUCCESS, id } }
     function failure(id, error) { return { type: userConstants.DELETE_FAILURE, id, error } }
+}
+
+
+function getUserLanguages() {
+    return dispatch => {
+        userService.getUserLanguages()
+            .then(
+                languages => { 
+                    dispatch(success(languages));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(languages) { return { type: userConstants.LANGUAGE_SUCCESS, languages } }
+    function failure(error) { return { type: userConstants.LANGUAGE_FAILURE, error } }
+}
+
+function getAllLanguages() {
+    return dispatch => {
+        userService.getAllLanguages()
+            .then(
+                languages => { 
+                    dispatch(success(languages));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(languages) { return { type: userConstants.ALL_LANGUAGES_SUCCESS, languages } }
+    function failure(error) { return { type: userConstants.ALL_LANGUAGES_FAILURE, error } }
+}
+
+function addLanguage(language) {
+    return dispatch => {
+        userService.addLanguage(language)
+            .then(
+                profile => { 
+                    dispatch(success(profile));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(profile) { return { type: userConstants.ADD_LANGUAGE_SUCCESS, profile } }
+    function failure(error) { return { type: userConstants.ADD_LANGUAGE_FAILURE, error } }
+}
+
+function removeLanguage(language) {
+    return dispatch => {
+        userService.removeLanguage(language)
+            .then(
+                profile => { 
+                    dispatch(success(profile));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(profile) { return { type: userConstants.REMOVE_LANGUAGE_SUCCESS, profile } }
+    function failure(error) { return { type: userConstants.REMOVE_LANGUAGE_FAILURE, error } }
+}
+
+function changeActiveLanguage(language) {
+    return dispatch => {
+        dispatch(success(language));
+        localStorage.setItem('activeLanguage', JSON.stringify(language));
+    };
+
+    function success(language) { return { type: userConstants.CHANGE_LANGUAGE_SUCCESS, language } }
 }

@@ -41,9 +41,9 @@ function submitQuiz(quizId,answers){
   function failure(error) { return { type: quizConstants.SUBMIT_QUIZ_FAILURE, error } }
 }
 
-function getQuizes(){
+function getQuizes(activeLanguageId,level){
   return dispatch => {
-    quizService.getQuizes()
+    quizService.getQuizes(activeLanguageId,level)
         .then(
             result => { 
               dispatch(success(result))

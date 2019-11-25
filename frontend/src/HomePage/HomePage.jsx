@@ -17,11 +17,52 @@ class HomePage extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            gotQuiz: false,
+            activeLanguage: "",
+            activeLanguageId: -1,
+            level: -1
+        };
     }
 
     componentDidMount() {
         this.props.getProfile();
-        this.props.getQuizes();
+    }
+
+    getIdandLevel() {
+        let level = 0;
+        let activeLanguageId = 0;
+        for (const [index, language] of this.props.profile.memberLanguages.entries()) {
+            if (this.props.activeLanguage==language.language.languageName){
+                level = language.languageLevel;
+                activeLanguageId = language.language.id;
+                break;
+            }
+        }
+        return [level,activeLanguageId];
+    }
+    
+    componentDidUpdate(){
+        if (!this.state.gotQuiz){
+            const [level,activeLanguageId] = this.getIdandLevel();
+            this.props.getQuizes(activeLanguageId,level);
+            this.setState({
+                gotQuiz: true,
+                level: level,
+                activeLanguageId: activeLanguageId,
+                activeLanguage: this.props.activeLanguage
+            });
+        }
+        if (this.state.activeLanguage!=this.props.activeLanguage){
+            const [level,activeLanguageId] = this.getIdandLevel();
+            this.props.getQuizes(activeLanguageId,level);
+            this.setState({
+                gotQuiz: true,
+                level: level,
+                activeLanguageId: activeLanguageId,
+                activeLanguage: this.props.activeLanguage
+            });
+        }
     }
 
     render() {
@@ -33,8 +74,7 @@ class HomePage extends React.Component {
                 <Row>
                     <Col span={2} />
                     <Col span={8}>
-
-                        <Card title="English" style={{ width: 500, height: 300, marginTop: '24px' }}>
+                        <Card title={ this.props.activeLanguage } style={{ width: 500, height: 300, marginTop: '24px' }}>
                             <div className="scrollable">
                             {quizList && quizList.map((value, index) => {
                                 return (
@@ -54,7 +94,7 @@ class HomePage extends React.Component {
                             <Skeleton />
                         </Card>
                     </Col>
-                    <Col span={4} />
+                    <Col span={2} />
                     <Col span={8}>
                         <Card title="Completed Quizes" style={{ width: 500, height: '50vh', marginTop: '24px' }}>
                         <Skeleton />
@@ -70,9 +110,9 @@ class HomePage extends React.Component {
 
 function mapState(state) {
     const { users,quiz } = state;
-    const { profile } = users;
+    const { profile,activeLanguage } = users;
     const { quizList } = quiz;
-    return { profile,quizList };
+    return { profile,quizList,activeLanguage };
 }
 
 const actionCreators = {
