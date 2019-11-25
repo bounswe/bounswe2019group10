@@ -43,9 +43,14 @@ class HeaderComponent extends React.Component {
                     <Menu.Item
                         key="1"
                     >
-                    <Link to={{pathname: '/profile-page'}}>Profile</Link>
-                        
+                    <Link to={{pathname: '/profile-page'}}>Profile</Link>                       
                     </Menu.Item>
+                    <Menu.Item
+                        key="2"
+                    >
+                    <Link to={{pathname: '/writing-review-page'}}>Evaluate Writings</Link>                       
+                    </Menu.Item>
+                    
                     <Menu.Item
                         key="3"
                         onClick={this.logOut}

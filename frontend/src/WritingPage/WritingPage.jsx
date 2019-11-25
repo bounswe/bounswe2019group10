@@ -20,7 +20,7 @@ const { Title } = Typography
 class WritingPage extends React.Component {
   constructor(props) {
     super(props);
-    let writingId = 1;
+    let writingId = 2;
     if (this.props.location.state) {
       writingId = this.props.location.state.writingId;
     }
@@ -43,6 +43,9 @@ class WritingPage extends React.Component {
       evaluatorUsername: this.state.reviewer
     }
     this.props.submitWriting(t);
+    this.setState({
+      writingFinished: true
+    });
   }
   setModalVisible(modalVisible) {
     this.setState({ modalVisible });
@@ -52,7 +55,7 @@ class WritingPage extends React.Component {
     this.setState({ [name]: value });
   }
   componentDidMount() {
-    this.props.getWriting();
+    this.props.getWriting(this.state.writingId);
   }
   onChange = e => {
     this.setState({
@@ -72,41 +75,59 @@ class WritingPage extends React.Component {
       <Layout className="layout">
         <HeaderComponent />
         <Content style={{ padding: '0 50px' }}>
-
-          <Col span={4} />
-          <Col span={16}>
-            {writing.writing &&
-              <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={3}>{writing.writing.taskText}</Title>
-            }
-            <div style={{ margin: '10px 0' }} />
-            <TextArea placeholder="Write your answer here"
-              autoSize={{ minRows: 10, maxRows: 15 }}
-              name="answer"
-              value={this.state.answer}
-              onChange={this.handleChange}
-            />
-            <div style={{ margin: '10px 0' }} />
-            <Button type="primary" onClick={() => this.setModalVisible(true)} >Submit</Button>
-          </Col>
-          <Col span={4} />
-          <Modal
-            title=""
-            centered
-            visible={this.state.modalVisible}
-            onOk={() => this.handleClick()}
-            onCancel={() => this.setModalVisible(false)}
-            okText="Send to Review"
-          >
-            <Radio.Group onChange={this.onChange} value={this.state.reviewer}>              
-              {writing.writing && writing.writing.evaluatorUsernames.map((value, index) => {
-                return (
-                  <Radio style={radioStyle}  value={value} key={index + 1}>
-                    {value}
-                  </Radio>
-                );
-              })}
-            </Radio.Group>
-          </Modal>
+          {
+            this.state.writingFinished
+              ? (
+                <div>
+                  <Col span={4} />
+                  <Col span={16}>
+                  <h1>
+                    Sended your writing for review.
+                    </h1>
+                  <Link to={{ pathname: '/' }}>Return to home page</Link>
+                  </Col>
+                  <Col span={4} />
+                </div>
+              )
+              : (
+                <div>
+                  <Col span={4} />
+                  <Col span={16}>
+                    {writing.writing &&
+                      <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={3}>{writing.writing.writingDTO.taskText}</Title>
+                    }
+                    <div style={{ margin: '10px 0' }} />
+                    <TextArea placeholder="Write your answer here"
+                      autoSize={{ minRows: 10, maxRows: 15 }}
+                      name="answer"
+                      value={this.state.answer}
+                      onChange={this.handleChange}
+                    />
+                    <div style={{ margin: '10px 0' }} />
+                    <Button type="primary" onClick={() => this.setModalVisible(true)} >Submit</Button>
+                  </Col>
+                  <Col span={4} />
+                  <Modal
+                    title=""
+                    centered
+                    visible={this.state.modalVisible}
+                    onOk={() => this.handleClick()}
+                    onCancel={() => this.setModalVisible(false)}
+                    okText="Send to Review"
+                  >
+                    <Radio.Group onChange={this.onChange} value={this.state.reviewer}>
+                      {writing.writing && writing.writing.usernames.map((value, index) => {
+                        return (
+                          <Radio style={radioStyle} value={value} key={index + 1}>
+                            {value}
+                          </Radio>
+                        );
+                      })}
+                    </Radio.Group>
+                  </Modal>
+                </div>
+              )
+          }
         </Content>
         <FooterComponent />
       </Layout>

@@ -10,6 +10,7 @@ import { OpeningPage } from '../OpeningPage';
 import { ProfilePage } from '../ProfilePage';
 import { QuizPage } from '../QuizPage';
 import { WritingPage } from '../WritingPage';
+import { WritingReviewPage } from '../WritingReviewPage';
 
 class App extends React.Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class App extends React.Component {
                         <PrivateRoute exact path="/quiz" component={QuizPage} />
                         <PrivateRoute exact path="/profile-page" component={ProfilePage} />
                         <PrivateRoute exact path="/writing-page" component={WritingPage} />
+                        <PrivateRoute exact path="/writing-review-page" component={WritingReviewPage} />
                         <Redirect from="*" to="/" />
                     </Switch>
                 </Router>
