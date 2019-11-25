@@ -33,9 +33,6 @@ class ProfilePage extends React.Component {
             <Col span={11}>
               {profile && <Profile profile={profile} />}
             </Col>
-            {/* <Col span={12}>
-              <Language />
-            </Col> */}
           </Row>
         </Content>
         <FooterComponent />        
@@ -43,19 +40,6 @@ class ProfilePage extends React.Component {
     )
   }
 }
-
-const languageData = [
-  {
-    title: 'English',
-    avatar: 'https://image.flaticon.com/icons/svg/294/294059.svg',
-    color: 'red'
-  },
-  {
-    title: 'Spanish',
-    avatar: 'https://image.flaticon.com/icons/svg/323/323365.svg',
-    color: 'blue'
-  }
-]
 
 class Profile extends React.Component {
   constructor(props) {
@@ -83,29 +67,6 @@ class Profile extends React.Component {
   }
 }
 
-class Language extends React.Component {
-  render() {
-      return(
-        <div style={{ background: '#fff', padding: 24, minHeight: 280, width:800 }}>
-          <p> <b>Language</b> </p>
-          <List
-            itemLayout='horizontal'
-            dataSource={languageData}
-            renderItem={item => (
-              <List.Item>
-                <List.Item.Meta
-                  avatar={<Avatar src={item.avatar} />}
-                  title={<a href="https://ant.design" style={{color: item.color }}>{item.title}</a>}
-                  description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                />
-              </List.Item>
-            )}
-          />
-        </div>
-      )
-  }
-}
-
 function mapState(state) {
   const { users } = state;
   const { profile } = users;
@@ -115,6 +76,7 @@ function mapState(state) {
 
 const actionCreators = {
   getProfile: userActions.getProfile,
+  updateProfile: userActions.updateProfile
 }
 
 const connectedProfilePage = connect(mapState, actionCreators)(ProfilePage);
