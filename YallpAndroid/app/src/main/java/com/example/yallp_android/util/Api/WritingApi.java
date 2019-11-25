@@ -2,7 +2,10 @@ package com.example.yallp_android.util.Api;
 
 import com.example.yallp_android.models.CompletedWritings;
 import com.example.yallp_android.models.NonCompletedAssignments;
+import com.example.yallp_android.models.Token;
+import com.example.yallp_android.models.WritingExerciseElement;
 import com.example.yallp_android.models.WritingListElement;
+import com.example.yallp_android.models.WritingRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -39,4 +42,16 @@ public interface WritingApi {
             @Path("writingResultId") int writingResultId,
             @Body int score);
 
+    @Headers({"Content-Type: application/json"})
+    @GET("{writingId}")
+    Call<WritingExerciseElement> getWritingExercise(
+            @Header("Authorization") String token,
+            @Path("writingId") int writingId);
+
+    @Headers({"Content-Type: application/json"})
+    @POST("{writingId}/submit")
+    Call<Token> submitWriting(
+            @Header("Authorization") String token,
+            @Path("writingId") int writingId,
+            @Body WritingRequest writingRequest);
 }
