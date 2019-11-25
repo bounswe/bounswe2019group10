@@ -38,6 +38,9 @@ public class Member{
     @Column(name="surname")
     private String surname;
 
+    @Column(name="native_language")
+    private String nativeLanguage;
+
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "member_id")
     private List<MemberLanguage> memberLanguages = new ArrayList<>();
@@ -151,5 +154,13 @@ public class Member{
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getNativeLanguage() {
+        return nativeLanguage;
+    }
+
+    public void setNativeLanguage(String nativeLanguage) {
+        this.nativeLanguage = nativeLanguage;
     }
 }
