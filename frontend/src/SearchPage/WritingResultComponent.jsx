@@ -6,6 +6,7 @@ const { Title } = Typography;
 const { confirm } = Modal;
 
 import { userActions } from '../_actions';
+import { history } from '../_helpers';
 
 class WritingResultComponent extends React.Component {
 
@@ -17,6 +18,10 @@ class WritingResultComponent extends React.Component {
     onClick(e){
       const { writingId,writingName,taskText,solved } = this.props;
       console.log(writingId,writingName,taskText,solved);
+      history.push({
+        pathname: '/writing-page',
+        state: { writingId: writingId }
+      })
     }
 
     componentDidMount() {
