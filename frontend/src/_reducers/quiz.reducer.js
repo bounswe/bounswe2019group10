@@ -3,7 +3,7 @@ import { quizConstants } from '../_constants';
 export function quiz(state = {}, action) {
   switch (action.type) {
     case quizConstants.GET_QUIZ:
-      return { quiz: action.quiz };
+      return { quiz: action.quiz.quiz };
     case quizConstants.GET_QUIZ_FAILURE:
       return { error: action.error };
     case quizConstants.SUBMIT_QUIZ:

@@ -6,6 +6,7 @@ const { Title } = Typography;
 const { confirm } = Modal;
 
 import { userActions } from '../_actions';
+import { history } from '../_helpers';
 
 class QuizResultComponent extends React.Component {
 
@@ -16,7 +17,10 @@ class QuizResultComponent extends React.Component {
 
     onClick(e){
       const { quizId,quizType,levelName,solved,score } = this.props;
-      console.log(quizId,quizType,levelName,solved,score);
+      history.push({
+        pathname: '/quiz',
+        state: { quizId: quizId }
+      });
     }
 
     componentDidMount() {

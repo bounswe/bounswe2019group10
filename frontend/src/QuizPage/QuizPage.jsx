@@ -94,11 +94,11 @@ class QuizPage extends React.Component {
         paddingTop: "10px",
         paddingBottom: "40px",
       };
-      const { quiz } = this.props;
+      let { quiz } = this.props;
       let question = {};
       let options = [];
       if ("quiz" in quiz && !this.state.quizFinished){
-        if (quiz.quiz.questions.length > this.state.current){
+        if ("questions" in quiz.quiz && quiz.quiz.questions.length > this.state.current){
           question = quiz.quiz.questions[this.state.current];
           options.push(question.firstChoice);
           options.push(question.secondChoice);
