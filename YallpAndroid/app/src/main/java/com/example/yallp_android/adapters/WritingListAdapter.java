@@ -18,7 +18,7 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
 
     public interface WritingListAdapterClickListener {
 
-        void writingListAdapterClick();
+        void writingListAdapterClick(String writingId);
     }
 
     private Context context;
@@ -95,7 +95,7 @@ public class WritingListAdapter extends RecyclerView.Adapter<WritingListAdapter.
 
         @Override
         public void onClick(View view) {
-             writingListAdapterClickListener.writingListAdapterClick ();
+             writingListAdapterClickListener.writingListAdapterClick (writingListElement.getWritingDTO().getId() + "");
         }
     }
 }

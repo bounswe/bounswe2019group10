@@ -1,6 +1,7 @@
 package com.example.yallp_android.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yallp_android.R
+import com.example.yallp_android.activities.WritingActivity
 import com.example.yallp_android.adapters.WritingListAdapter
 import com.example.yallp_android.models.WritingListElement
 import com.example.yallp_android.util.RetroClients.SearchRetroClient
@@ -27,6 +29,7 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
     private lateinit var writingRecyclerView: RecyclerView
     private var writingList = ArrayList<WritingListElement>()
     private var adapter: WritingListAdapter? = null
+    private var langId = 1
 
 
     override fun onCreateView(
@@ -34,7 +37,7 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
             savedInstanceState: Bundle?
     ): View? {
         sharedPref = this.activity?.getSharedPreferences("yallp", Context.MODE_PRIVATE)
-
+        langId = this.activity?.intent!!.getIntExtra("languageId", 1)
         val root = inflater.inflate(R.layout.fragment_quiz_list, container, false)
         searchView = root.findViewById(R.id.searchView) as SearchView
         writingRecyclerView = root.findViewById(R.id.listView) as RecyclerView
@@ -109,8 +112,11 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
     }
 
 
-    override fun writingListAdapterClick() {
-
+    override fun writingListAdapterClick(writingId: String?) {
+        val intent = Intent(this.activity?.applicationContext, WritingActivity::class.java)
+        intent.putExtra("writingId", writingId)
+        startActivity(intent)
+        this.activity?.finish()
     }
 
     companion object {
