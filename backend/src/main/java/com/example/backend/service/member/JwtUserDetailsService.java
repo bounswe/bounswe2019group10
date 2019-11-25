@@ -137,6 +137,10 @@ public class JwtUserDetailsService implements UserDetailsService {
             member.setBio(memberDTO.getBio());
         }
 
+        if (memberDTO.getNativeLanguage() != null){
+            member.setNativeLanguage(memberDTO.getNativeLanguage());
+        }
+
         Pattern pattern;
 
         if(memberDTO.getUsername() != null){

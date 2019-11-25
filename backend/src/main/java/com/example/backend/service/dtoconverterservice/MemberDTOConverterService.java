@@ -16,6 +16,7 @@ public class MemberDTOConverterService {
         memberDTO.setSurname(member.getSurname());
         memberDTO.setId(member.getId());
         memberDTO.setBio(member.getBio());
+        memberDTO.setNativeLanguage(member.getNativeLanguage());
         return memberDTO;
     }
 }
