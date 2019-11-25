@@ -6,7 +6,7 @@ import { Layout, Menu, Row, Col,
 const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 
-import { userActions,quizActions } from '../_actions';
+import { userActions,quizActions, writingActions } from '../_actions';
 import { history } from '../_helpers';
 
 import './HomePage.css';
@@ -117,7 +117,8 @@ function mapState(state) {
 
 const actionCreators = {
     getProfile: userActions.getProfile,
-    getQuizes: quizActions.getQuizes
+    getQuizes: quizActions.getQuizes,
+    getWritingList: writingActions.getWritingList
 }
 
 const connectedHomePage = connect(mapState, actionCreators)(HomePage);
