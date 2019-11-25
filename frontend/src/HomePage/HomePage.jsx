@@ -33,7 +33,7 @@ class HomePage extends React.Component {
         let level = 0;
         let activeLanguageId = 0;
         for (const [index, language] of this.props.profile.memberLanguages.entries()) {
-            if (this.props.activeLanguage==language.language.languageName){
+            if (this.props.activeLanguage.languageName==language.language.languageName){
                 level = language.languageLevel;
                 activeLanguageId = language.language.id;
                 break;
@@ -53,14 +53,14 @@ class HomePage extends React.Component {
                 activeLanguage: this.props.activeLanguage
             });
         }
-        if (this.state.activeLanguage!=this.props.activeLanguage){
+        if (this.state.activeLanguage!=this.props.activeLanguage.languageName){
             const [level,activeLanguageId] = this.getIdandLevel();
             this.props.getQuizes(activeLanguageId,level);
             this.setState({
                 gotQuiz: true,
                 level: level,
                 activeLanguageId: activeLanguageId,
-                activeLanguage: this.props.activeLanguage
+                activeLanguage: this.props.activeLanguage.languageName
             });
         }
     }
@@ -74,7 +74,7 @@ class HomePage extends React.Component {
                 <Row>
                     <Col span={2} />
                     <Col span={8}>
-                        <Card title={ this.props.activeLanguage } style={{ width: 500, height: 300, marginTop: '24px' }}>
+                        <Card title={ this.props.activeLanguage.languageName } style={{ width: 500, height: 300, marginTop: '24px' }}>
                             <div className="scrollable">
                             {quizList && quizList.map((value, index) => {
                                 return (
