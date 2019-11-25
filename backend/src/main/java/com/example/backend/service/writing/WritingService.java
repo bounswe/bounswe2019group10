@@ -74,7 +74,7 @@ public class WritingService {
         List<String> users = new ArrayList<>();
         List<MemberLanguage> memberLanguages = memberLanguageRepository.get10ForWriting(languageId, curMemberId);
         for (MemberLanguage m : memberLanguages) {
-            users.add(memberRepository.getOne(m.getId()).getUsername());
+            users.add(memberRepository.getOne(m.getMemberId()).getUsername());
         }
         return users;
     }
