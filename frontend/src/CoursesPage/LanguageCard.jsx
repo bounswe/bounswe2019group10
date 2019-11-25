@@ -4,24 +4,27 @@ import { Avatar, Card,Icon,Modal } from 'antd';
 
 const { confirm } = Modal;
 
-import { flags } from '../_helpers';
+import { flags,history } from '../_helpers';
 import { userActions } from '../_actions';
 
 class LanguageCard extends React.Component {
 
     constructor(props) {
       super(props);
+      this.state = {removed: false};
     }
 
     componentDidMount() {
     }
 
     learn(){
-      const { isLearning,language,addLanguage,removeLanguage,getProfile } = this.props;
+      const { isLearning,languageId,language,addLanguage,removeLanguage,getProfile,changeActiveLanguage } = this.props;
+      const setState = this.setState.bind(this);
+      const removed = this.state.removed;
       let title = 'Do you want to learn '+this.props.language+'?';
       let content = 'You can use the materials of '+this.props.language+".";
       let okText = 'Start';
-      if (this.props.isLearning){
+      if (this.props.isLearning && !removed){
         title = 'Do you want to remove '+this.props.language+' from your profile?';
         content = 'You will not be able to use the materials of '+this.props.language+" any more.";
         okText = "Remove";
@@ -32,12 +35,17 @@ class LanguageCard extends React.Component {
         okText: okText,
         cancelText: 'Cancel',
         onOk() {
-          if (isLearning){
+          if (isLearning && !removed){
             removeLanguage(language);
             getProfile();
+            setState({
+              removed: true
+            });
           }
           else{
             addLanguage(language);
+            changeActiveLanguage({languageName:language,id:languageId});
+            history.push('/');
           }
         },
         onCancel() {
@@ -51,7 +59,7 @@ class LanguageCard extends React.Component {
       return (
         <Card style={{textAlign: 'center'}} hoverable={true} onClick={() => this.learn()}>
             <div style={{display: "flex", justifyContent: "flex-end"}}>
-              { this.props.isLearning ?(
+              { this.props.isLearning && !this.state.removed ?(
                   <Icon type="check-circle" style={{ fontSize: '24px', color: '#08c' }} />
                 ) : (
                   <Icon type="check-circle" style={{ fontSize: '24px', color: '#fff' }} />
@@ -74,6 +82,7 @@ const actionCreators = {
   addLanguage: userActions.addLanguage,
   removeLanguage: userActions.removeLanguage,
   getProfile: userActions.getProfile,
+  changeActiveLanguage: userActions.changeActiveLanguage
 }
 
 const connectedLanguageCard = connect(mapState, actionCreators)(LanguageCard);

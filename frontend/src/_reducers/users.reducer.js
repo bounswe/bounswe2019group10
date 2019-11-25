@@ -1,6 +1,6 @@
 import { userConstants } from '../_constants';
 let activeLanguage = JSON.parse(localStorage.getItem('activeLanguage'));
-const initialState = activeLanguage ? { activeLanguage: activeLanguage } : { activeLanguage: {id: 1, languageName: "ENGLISH"} };
+const initialState = activeLanguage ? { activeLanguage: activeLanguage } : { activeLanguage: {}};
 
 export function users(state = initialState, action) {
   switch (action.type) {
