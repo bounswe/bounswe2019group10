@@ -1,6 +1,6 @@
 import { userConstants } from '../_constants';
 let activeLanguage = JSON.parse(localStorage.getItem('activeLanguage'));
-const initialState = activeLanguage ? { activeLanguage: activeLanguage } : { activeLanguage: "ENGLISH" };
+const initialState = activeLanguage ? { activeLanguage: activeLanguage } : { activeLanguage: {id: 1, languageName: "ENGLISH"} };
 
 export function users(state = initialState, action) {
   switch (action.type) {
@@ -85,6 +85,21 @@ export function users(state = initialState, action) {
         ...state,
         activeLanguage: action.language
       };
+    case userConstants.SEARCH_SUCCESS:
+      return {
+        ...state,
+        searchResults: action.result  
+      }
+    case userConstants.SEARCH_FAILURE:
+      return {
+        ...state,
+        error: action.error
+      };
+    case userConstants.SEARCH_CLEAR:
+        return {
+          ...state,
+          searchResults: []  
+        }
     default:
       return state
   }

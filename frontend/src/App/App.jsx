@@ -13,6 +13,7 @@ import { QuizPage } from '../QuizPage';
 import { WritingPage } from '../WritingPage';
 import { WritingReviewPage } from '../WritingReviewPage';
 import { CoursesPage } from '../CoursesPage';
+import { SearchPage } from '../SearchPage';
 
 class App extends React.Component {
     constructor(props) {
@@ -34,6 +35,7 @@ class App extends React.Component {
                         <PrivateRoute exact path="/quiz" component={QuizPage} />
                         <PrivateRoute exact path="/courses" component={CoursesPage} />
                         <PrivateRoute exact path="/profile-page" component={ProfilePage} />
+                        <PrivateRoute exact path="/search" component={SearchPage} />
                         <PrivateRoute exact path="/writing-page" component={WritingPage} />
                         <PrivateRoute exact path="/writing-review-page" component={WritingReviewPage} />
                         <Redirect from="*" to="/" />

@@ -12,7 +12,9 @@ export const userActions = {
     getAllLanguages,
     addLanguage,
     removeLanguage,
-    changeActiveLanguage
+    changeActiveLanguage,
+    search,
+    clearSearch
 };
 
 function login(username, password) {
@@ -191,4 +193,29 @@ function changeActiveLanguage(language) {
     };
 
     function success(language) { return { type: userConstants.CHANGE_LANGUAGE_SUCCESS, language } }
+}
+
+function search(type,term,languageId) {
+    return dispatch => {
+        userService.search(type,term,languageId)
+            .then(
+                result => { 
+                    dispatch(success(result));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(result) { return { type: userConstants.SEARCH_SUCCESS, result } }
+    function failure(error) { return { type: userConstants.SEARCH_FAILURE, error } }
+}
+
+function clearSearch(){
+    return dispatch => {
+        dispatch(success());
+    };
+
+    function success() { return { type: userConstants.SEARCH_CLEAR, } }
 }
