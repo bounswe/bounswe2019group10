@@ -60,7 +60,7 @@ class HeaderComponent extends React.Component {
               style={{ lineHeight: '64px' }} 
               onClick={() => this.search()}>
               <Menu.Item>
-              <Icon type="search" style={{ fontSize: '18px', color: '#08c' }}/>
+              <Icon type="search" style={{ fontSize: '18px', color: '#FFFFFF' }}/>
               </Menu.Item>
 
             </Menu>
@@ -72,9 +72,11 @@ class HeaderComponent extends React.Component {
             style={{ lineHeight: '64px' }} >
             <SubMenu title={
               <span className="submenu-title-wrapper">
-                {activeLanguage &&
+                {"languageName" in activeLanguage ?(
                   <Avatar size="small" src={flags[activeLanguage.languageName]["src"]} />
-                }
+                ) : (
+                  <Icon type="plus-circle" style={{ fontSize: '16px', color: '#FFFFFF' }}/>
+                )}
               </span>
             }>
             {memberLanguages && memberLanguages.map((memberLanguage, i) => {
