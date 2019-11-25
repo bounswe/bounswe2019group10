@@ -11,6 +11,7 @@ export const userService = {
     getAllLanguages,
     addLanguage,
     removeLanguage,
+    search,
     getAll,
     getById,
     update,
@@ -89,14 +90,21 @@ function addLanguage(language) {
     return fetch(`${config.apiUrl}/member/addlang`, requestOptions).then(handleResponse);
 }
 
-// TODO update endpoint
-function removeLanguage(language) {
+function removeLanguage(language){
     const requestOptions = {
         method: 'POST',
         headers: { ...authHeader(), "Access-Control-Allow-Origin": "*", 'Content-Type': 'application/json' },
         body: JSON.stringify([language])
     };
     return fetch(`${config.apiUrl}/member/removelang`, requestOptions).then(handleResponse);
+}
+
+function search(type,term,languageId){
+    const requestOptions = {
+        method: 'POST',
+        headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+    };
+    return fetch(`${config.apiUrl}/search/${type}/${languageId}/${term}`, requestOptions).then(handleResponse);
 }
 
 function getAll() {

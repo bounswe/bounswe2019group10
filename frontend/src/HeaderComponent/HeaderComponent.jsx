@@ -30,6 +30,10 @@ class HeaderComponent extends React.Component {
     this.props.changeActiveLanguage(memberLanguage);
     history.push('/');
   }
+  
+  search(){
+    history.push('/search');
+  }
 
   componentDidMount() {
     this.props.getProfile();
@@ -39,7 +43,7 @@ class HeaderComponent extends React.Component {
     const { profile,activeLanguage } = this.props;
     let memberLanguages = [];
     if (profile){
-      memberLanguages = profile.memberLanguages.map((l) => l.language.languageName);
+      memberLanguages = profile.memberLanguages.map((l) => l.language);
     } 
     return (
       <Header>
@@ -48,7 +52,19 @@ class HeaderComponent extends React.Component {
           <Col id='yallp' span={10}> 
             <Link to={{pathname: '/'}}>YALLP</Link>
           </Col>
-          <Col span={6} />
+          <Col span={4} />
+          <Col span={2} >
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              style={{ lineHeight: '64px' }} 
+              onClick={() => this.search()}>
+              <Menu.Item>
+              <Icon type="search" style={{ fontSize: '18px', color: '#08c' }}/>
+              </Menu.Item>
+
+            </Menu>
+          </Col>
           <Col span={2}>
           <Menu
             theme="dark"
@@ -57,7 +73,7 @@ class HeaderComponent extends React.Component {
             <SubMenu title={
               <span className="submenu-title-wrapper">
                 {activeLanguage &&
-                  <Avatar size="small" src={flags[activeLanguage]["src"]} />
+                  <Avatar size="small" src={flags[activeLanguage.languageName]["src"]} />
                 }
               </span>
             }>
@@ -65,7 +81,7 @@ class HeaderComponent extends React.Component {
                 return (
                   <Menu.Item
                     key={i} onClick={() => this.changeActiveLanguage(memberLanguage)}>
-                    <Avatar size="small" src={flags[memberLanguage]["src"]} /> {memberLanguage}
+                    <Avatar size="small" src={flags[memberLanguage.languageName]["src"]} /> {memberLanguage.languageName}
                   </Menu.Item>
                   ) 
               })}
@@ -94,6 +110,12 @@ class HeaderComponent extends React.Component {
               >
               <Link to={{pathname: '/profile-page'}}>Profile</Link>
               </Menu.Item>
+              <Menu.Item
+              key="2"
+              >
+              <Link to={{pathname: '/writing-review-page'}}>Evaluate Writings</Link>                       
+              </Menu.Item>
+
               <Menu.Item
                   key="3"
                   onClick={this.logOut}

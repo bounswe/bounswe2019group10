@@ -6,6 +6,7 @@ import {
   Layout, Menu, Row, Col, Descriptions,
   Input, Button, Typography, Avatar, Card, Icon
 } from 'antd';
+
 import 'antd//dist/antd.css';
 import './ProfilePage.css';
 import { HeaderComponent } from '../HeaderComponent';
