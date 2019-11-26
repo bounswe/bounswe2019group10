@@ -49,7 +49,9 @@ function scoreWriting(IdnScore){
     writingService.scoreWriting(IdnScore)
         .then(
             result => {
-              dispatch(success(result))
+              dispatch(success(result));
+              getnonCompletedAssignments()(dispatch);
+              getCompletedAssignments()(dispatch);
             },
             error => {
               dispatch(failure(error.toString()));

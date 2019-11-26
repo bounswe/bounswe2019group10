@@ -76,7 +76,7 @@ class HomePage extends React.Component {
         const { profile,quizList } = this.props;
         let searchResults = [];
         if (this.props.writing){
-            searchResults = this.props.writing.result;
+            searchResults = this.props.writing.writingList;
         }
         return (
             <Layout className="layout">

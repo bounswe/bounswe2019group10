@@ -23,7 +23,7 @@ export function writing(state = {}, action) {
     case writingConstants.GET_CASSIGN_WRITING_FAILURE:
       return { ...state, error: action.error };
     case writingConstants.GET_WRITING_LIST:
-      return { ...state, result: action.result };
+      return { ...state, writingList: action.result };
     case writingConstants.GET_WRITING_LIST_FAILURE:
       return { ...state, error: action.error };
 
