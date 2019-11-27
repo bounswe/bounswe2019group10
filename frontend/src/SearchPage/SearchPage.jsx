@@ -1,10 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Layout, Menu, Row, Col,Radio,Typography,Button,Input } from 'antd';
-const { Header, Content, Footer } = Layout;
-const { SubMenu } = Menu;
-const { Title } = Typography;
+import { Layout, Row, Col,Radio,Typography,Button,Input } from 'antd';
 
 import { userActions } from '../_actions';
 
@@ -12,6 +8,8 @@ import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
 import { WritingResultComponent } from './WritingResultComponent';
 import { QuizResultComponent } from './QuizResultComponent';
+const { Content } = Layout;
+const { Title } = Typography;
 
 class SearchPage extends React.Component {
 

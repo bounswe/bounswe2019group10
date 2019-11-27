@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Avatar, Card,Icon,Modal,Typography } from 'antd';
-const { Title } = Typography;
-
-const { confirm } = Modal;
 
 import { userActions } from '../_actions';
 import { history } from '../_helpers';
+const { Title } = Typography;
+
+const { confirm } = Modal;
 
 class QuizResultComponent extends React.Component {
 

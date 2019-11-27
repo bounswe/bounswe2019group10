@@ -1,18 +1,14 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import {
-  Layout, Menu, Row, Col, Descriptions,
-  Input, Button, Typography, Avatar, Card, Icon
-} from 'antd';
+import { Layout, Row, Col, Descriptions,Input, Button } from 'antd';
 
 import 'antd//dist/antd.css';
 import './ProfilePage.css';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
 
-import { flags, history } from '../_helpers';
+import { history } from '../_helpers';
 import { userActions } from '../_actions';
 
 const { Content } = Layout;

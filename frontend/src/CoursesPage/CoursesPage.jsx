@@ -1,23 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Layout, Menu, Row, Col,
-    Avatar, Card,List,Typography } from 'antd';
-const { Header, Content, Footer } = Layout;
-const { SubMenu } = Menu;
-const { Title } = Typography;
-
+import { Layout, Row, Col, Typography } from 'antd';
 import { userActions } from '../_actions';
 
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
 import { LanguageCard } from './LanguageCard';
+const { Content } = Layout;
+const { Title } = Typography;
 
 class CoursesPage extends React.Component {
-
-    constructor(props) {
-      super(props);
-    }
 
     componentDidMount() {
       this.props.getProfile();
@@ -25,10 +17,6 @@ class CoursesPage extends React.Component {
     }
 
     render() {
-      const gridStyle = {
-        width: '25%',
-        textAlign: 'center',
-      };
       const { profile, all_languages } = this.props;
       let memberLanguages = [];
       if (profile){

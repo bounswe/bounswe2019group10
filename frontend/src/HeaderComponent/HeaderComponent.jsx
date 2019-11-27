@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout, Menu, Row, Col,Icon,
     Avatar} from 'antd';
-const { Header } = Layout;
-const { SubMenu } = Menu;
 
 import { userActions } from '../_actions';
 import { flags,history } from '../_helpers';
+const { Header } = Layout;
+const { SubMenu } = Menu;
 
 class HeaderComponent extends React.Component {
   constructor(props) {

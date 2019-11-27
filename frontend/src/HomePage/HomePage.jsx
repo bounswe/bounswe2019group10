@@ -1,20 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Layout, Menu, Row, Col,
-    Avatar, Card,List, Spin,Skeleton,Typography,Empty } from 'antd';
-const { Header, Content, Footer } = Layout;
-const { SubMenu } = Menu;
-const { Title } = Typography;
-
+import { Layout, Row, Col, Typography,Empty } from 'antd';
 import { userActions,quizActions, writingActions } from '../_actions';
-import { history } from '../_helpers';
-
 import './HomePage.css';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
 import { WritingResultComponent } from '../SearchPage/WritingResultComponent';
 import { QuizResultComponent } from '../SearchPage/QuizResultComponent';
+    
+const { Content } = Layout;
+const { Title } = Typography;
+
 
 class HomePage extends React.Component {
 
@@ -73,7 +69,7 @@ class HomePage extends React.Component {
     }
 
     render() {
-        const { profile,quizList } = this.props;
+        const { quizList } = this.props;
         let searchResults = [];
         if (this.props.writing){
             searchResults = this.props.writing.writingList;

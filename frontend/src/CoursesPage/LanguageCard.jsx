@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Avatar, Card,Icon,Modal } from 'antd';
-
-const { confirm } = Modal;
-
 import { flags,history } from '../_helpers';
 import { userActions } from '../_actions';
+const { confirm } = Modal;
 
 class LanguageCard extends React.Component {
 

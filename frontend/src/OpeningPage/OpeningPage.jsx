@@ -2,16 +2,16 @@ import React from 'react';
 import logo from '../images/logo.png';
 import { connect } from 'react-redux';
 import { Layout, Menu, Button, Col, Row, Modal, Input } from 'antd';
-const { Header, Content } = Layout;
-const { SubMenu } = Menu;
 import { Tabs } from 'antd';
-const { TabPane } = Tabs;
 
 import './OpeningPage.css';
 import { history } from '../_helpers';
 
 import { userActions } from '../_actions';
 import { userService } from '../_services';
+const { Header, Content } = Layout;
+const { SubMenu } = Menu;
+const { TabPane } = Tabs;
 
 class OpeningPage extends React.Component {
   constructor(props) {

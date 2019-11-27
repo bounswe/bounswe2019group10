@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { Layout, Menu, Breadcrumb, Row, Col, Radio, Button,Alert,
   Avatar, Descriptions, List } from 'antd';
 import { Link } from 'react-router-dom';
-const { Header, Content, Footer } = Layout;
-const { SubMenu } = Menu;
 import { quizActions,userActions } from '../_actions';
 import './QuizPage.css';
 import { history } from '../_helpers';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
+const { Header, Content, Footer } = Layout;
+const { SubMenu } = Menu;
 
 class QuizPage extends React.Component {
     constructor(props) {
