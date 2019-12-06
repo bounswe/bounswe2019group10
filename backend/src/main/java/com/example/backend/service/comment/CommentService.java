@@ -61,4 +61,21 @@ public class CommentService {
         return "This is not your Comment!";
     }
 
+    public MemberComment updateComment(MemberCommentDTO memberCommentDTO) {
+
+        MemberComment memberComment = memberCommentRepository.findById(memberCommentDTO.getId()).orElse(null);
+
+        if (memberComment == null || jwtUserDetailsService.getUserId() != memberComment.getCommentatorId()){
+            return null;
+        }
+
+        memberComment.setComment(memberCommentDTO.getComment());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        memberComment.setUpdatedAt(Timestamp.valueOf(localDateTime));
+
+        memberCommentRepository.save(memberComment);
+
+        return memberCommentRepository.getOne(memberComment.getId());
+    }
+
 }

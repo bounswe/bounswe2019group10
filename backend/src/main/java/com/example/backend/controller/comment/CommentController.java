@@ -37,4 +37,11 @@ public class CommentController {
     public ResponseEntity<String> deleteComment(@RequestParam(value = "id") int id){
         return ResponseEntity.ok(commentService.deleteComment(id));
     }
+
+    @PostMapping("/update")
+    @ApiOperation(value = "update comment")
+    public ResponseEntity<MemberComment> deleteComment(@RequestBody MemberCommentDTO memberCommentDTO){
+        return ResponseEntity.ok(commentService.updateComment(memberCommentDTO));
+    }
+
 }
