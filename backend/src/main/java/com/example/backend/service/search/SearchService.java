@@ -1,14 +1,18 @@
 package com.example.backend.service.search;
 
+import com.example.backend.model.member.Member;
+import com.example.backend.model.member.MemberDTO;
 import com.example.backend.model.quiz.Quiz;
 import com.example.backend.model.quiz.QuizDTO;
 import com.example.backend.model.quiz.QuizResponseDTO;
 import com.example.backend.model.search.TagSimilarity;
 import com.example.backend.model.writing.Writing;
 import com.example.backend.model.writing.WritingIsSolvedResponse;
+import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.repository.search.TagSimilarityRepository;
 import com.example.backend.repository.quiz.QuizRepository;
 import com.example.backend.repository.writing.WritingRepository;
+import com.example.backend.service.dtoconverterservice.MemberDTOConverterService;
 import com.example.backend.service.dtoconverterservice.QuizDTOConverterService;
 import com.example.backend.service.dtoconverterservice.QuizResponseDTOConverterService;
 import com.example.backend.service.language.LanguageService;
@@ -16,6 +20,7 @@ import com.example.backend.service.writing.WritingService;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +52,9 @@ public class SearchService {
     TagSimilarityRepository tagSimilarityRepository;
 
     @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
     LanguageService languageService;
 
     @Autowired
@@ -57,6 +65,9 @@ public class SearchService {
 
     @Autowired
     WritingService writingService;
+
+    @Autowired
+    MemberDTOConverterService memberDTOConverterService;
 
     @Transactional
     public List<QuizResponseDTO> quizSearchResult(String searchTerm, int languageId){
@@ -183,5 +194,11 @@ public class SearchService {
         return 0.0;
 
     }
+
+
+    public List<MemberDTO> memberSearchResult(String username){
+        return memberDTOConverterService.applyAll(memberRepository.searchByUsernameStartsWith(username));
+    }
+
 
 }

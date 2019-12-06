@@ -1,5 +1,7 @@
 package com.example.backend.controller.search;
 
+import com.example.backend.model.member.Member;
+import com.example.backend.model.member.MemberDTO;
 import com.example.backend.model.quiz.Quiz;
 import com.example.backend.model.quiz.QuizResponseDTO;
 import com.example.backend.model.writing.Writing;
@@ -30,6 +32,12 @@ public class SearchController {
     @ApiOperation(value = "search writings related to search term")
     public ResponseEntity<List<WritingIsSolvedResponse>> getSearchedWritings(@PathVariable int languageId, @PathVariable String term){
         return ResponseEntity.ok(searchService.writingSearchResult(term, languageId));
+    }
+
+    @GetMapping("/member/{username}")
+    @ApiOperation(value = "search users starts with username term")
+    public ResponseEntity<List<MemberDTO>> getSearchedMembers(@PathVariable String username){
+        return ResponseEntity.ok(searchService.memberSearchResult(username));
     }
 
 
