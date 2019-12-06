@@ -22,8 +22,14 @@ public class CommentController {
 
     @GetMapping()
     @ApiOperation(value = "Get comments made to me")
-    public ResponseEntity<List<MemberComment>> getComments(){
-        return ResponseEntity.ok(commentService.getAllComments());
+    public ResponseEntity<List<MemberComment>> getMyComments(){
+        return ResponseEntity.ok(commentService.getAllMyComments());
+    }
+
+    @GetMapping("/{memberId}")
+    @ApiOperation(value = "Get comments made to specific")
+    public ResponseEntity<List<MemberComment>> getComments(@PathVariable int memberId){
+        return ResponseEntity.ok(commentService.getAllComments(memberId));
     }
 
     @PostMapping("/make")

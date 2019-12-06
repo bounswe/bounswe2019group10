@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 
 
@@ -22,8 +21,13 @@ public class CommentService {
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
 
-    public List<MemberComment> getAllComments() {
+    public List<MemberComment> getAllMyComments() {
         int memberId = jwtUserDetailsService.getUserId();
+
+        return memberCommentRepository.getAllByMemberId(memberId);
+    }
+
+    public List<MemberComment> getAllComments(int memberId) {
 
         return memberCommentRepository.getAllByMemberId(memberId);
     }
@@ -36,6 +40,7 @@ public class CommentService {
         memberComment.setComment(memberCommentDTO.getComment());
         LocalDateTime localDateTime = LocalDateTime.now();
         memberComment.setCreatedAt(Timestamp.valueOf(localDateTime));
+        memberComment.setUpdatedAt(Timestamp.valueOf(localDateTime));
 
         memberCommentRepository.save(memberComment);
 
