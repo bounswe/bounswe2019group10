@@ -27,7 +27,7 @@ public class CommentController {
     }
 
     @GetMapping("/{memberId}")
-    @ApiOperation(value = "Get comments made to specific")
+    @ApiOperation(value = "Get comments made to specific member")
     public ResponseEntity<List<MemberComment>> getComments(@PathVariable int memberId){
         return ResponseEntity.ok(commentService.getAllComments(memberId));
     }
