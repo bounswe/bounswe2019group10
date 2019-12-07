@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ConversationService {
+public class MessageService {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -38,6 +38,12 @@ public class ConversationService {
         Member otherMember = memberRepository.getOne(member.getId()==conversation.getMember1Id()?
                                                         conversation.getMember2Id():
                                                         conversation.getMember1Id());
+
+        if(conversation.getMember2Id()!=member.getId() && conversation.getMember1Id()!=member.getId()){
+            //Illegal request. Shouldn't permit the user to see other conversation
+            return null;
+        }
+
         List<Message> messages = messageRepository.getAllByConversationId(conversationId);
         List<MessageDTO> messageDTOS = new ArrayList<>();
         messages.forEach(message -> messageDTOS.add(messageDTOConverterService.apply(message)));
@@ -48,7 +54,7 @@ public class ConversationService {
         Member otherMember = memberRepository.findByUsername(messageRequest.getTargetUsername());
         Member member = memberRepository.findByUsername(memberUsername);
 
-        if(otherMember == null){
+        if(otherMember == null || member.getUsername().equals(otherMember.getUsername())){
             return null;
         }
 
