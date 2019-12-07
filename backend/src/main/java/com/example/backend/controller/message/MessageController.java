@@ -45,7 +45,7 @@ public class MessageController {
     }
 
     @GetMapping("/conversations")
-    @ApiOperation(value = "Get conversation by ID.")
+    @ApiOperation(value = "Get all of the conversations of the user.")
     public ResponseEntity<List<ConversationDTO>> getConversations() {
         String memberUname = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(messageService.getAllConversations(memberUname));
