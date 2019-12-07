@@ -15,7 +15,9 @@ public interface ConversationRepository extends JpaRepository<Conversation, Inte
     @Query(nativeQuery = true, value = "select * from conversation c where c.member1_id = :mem_id or c.member2_id = :mem_id")
     List<Conversation> getAllByMemberId(@Param("mem_id") Integer memId);
 
-
-    Conversation getAllByMember1IdAndMember2Id(int member1Id, int member2Id);
+    @Query(nativeQuery = true, value = "select * from conversation c where " +
+            "(c.member1_id = :mem_id_1 and c.member2_id = :mem_id_2) or" +
+            "(c.member1_id = :mem_id_2 and c.member2_id = :mem_id_1)")
+    Conversation getAllByTwoMemberIds(@Param("mem_id_1") int member1Id, @Param("mem_id_1") int member2Id);
 
 }
