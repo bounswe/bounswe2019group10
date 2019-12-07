@@ -20,14 +20,22 @@ public class AnnotationController {
 
     @GetMapping("/{writingResultId}")
     @ApiOperation(value = "Get annotations of a writing")
-    public ResponseEntity<List<Annotation>> getComments(@PathVariable int writingResultId){
+    public ResponseEntity<List<Annotation>> getAnnotations(@PathVariable int writingResultId){
         return ResponseEntity.ok(annotationService.findAllByWriting(writingResultId));
     }
 
     @PostMapping("/create")
     @ApiOperation(value = "Create annotation for a writing")
-    public ResponseEntity<Annotation> getComments(@RequestBody AnnotationDTO annotationDTO){
+    public ResponseEntity<Annotation> createAnnotation(@RequestBody AnnotationDTO annotationDTO){
         return ResponseEntity.ok(annotationService.createAnnotation(annotationDTO));
     }
+
+    @PostMapping("/delete")
+    @ApiOperation(value = "delete annotation")
+    public ResponseEntity<String> deleteAnnotation(@RequestParam(value = "id") int id){
+        return ResponseEntity.ok(annotationService.deleteAnnotation(id));
+    }
+
+
 
 }

@@ -38,5 +38,21 @@ public class AnnotationService {
 
     }
 
+    public String deleteAnnotation(int id){
+        Annotation annotation = annotationRepository.findById(id).orElse(null);
+        if (annotation == null){
+            return "No such Annotation exists!";
+        }
+
+        if(annotation.getAnnotatorId() != jwtUserDetailsService.getUserId()){
+            return "This annotation belongs to someone else!";
+        }
+
+        annotationRepository.delete(annotation);
+
+        return "Annotation is deleted successfully!";
+
+    }
+
 
 }
