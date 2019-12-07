@@ -14,10 +14,10 @@ public class Conversation {
     private int id;
 
     @Column(name = "member1_id")
-    private int member1_id;
+    private int member1Id;
 
     @Column(name = "member2_id")
-    private int member2_id;
+    private int member2Id;
 
 
     public int getId() {
@@ -28,20 +28,20 @@ public class Conversation {
         this.id = id;
     }
 
-    public int getMember1_id() {
-        return member1_id;
+    public int getMember1Id() {
+        return member1Id;
     }
 
-    public void setMember1_id(int member1_id) {
-        this.member1_id = member1_id;
+    public void setMember1Id(int member1Id) {
+        this.member1Id = member1Id;
     }
 
-    public int getMember2_id() {
-        return member2_id;
+    public int getMember2Id() {
+        return member2Id;
     }
 
-    public void setMember2_id(int member2_id) {
-        this.member2_id = member2_id;
+    public void setMember2Id(int member2Id) {
+        this.member2Id = member2Id;
     }
 }
 
