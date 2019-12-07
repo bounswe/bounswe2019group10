@@ -18,7 +18,25 @@ public class AnnotationController {
     @Autowired
     AnnotationService annotationService;
 
-    @GetMapping("/{writingResultId}")
+    @GetMapping("{id}")
+    @ApiOperation(value = "Get annotation")
+    public ResponseEntity<String> getAnnotation(@PathVariable int id){
+        return ResponseEntity.ok(annotationService.getAnnotation(id));
+    }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "Get all annotations")
+    public ResponseEntity<List<String>> getAllAnnotations(){
+        return ResponseEntity.ok(annotationService.getAllAnnotations());
+    }
+
+    @GetMapping("all/{writingId}")
+    @ApiOperation(value = "Get annotation")
+    public ResponseEntity<List<String>> getAllAnnotationsByWriting(@PathVariable int writingId){
+        return ResponseEntity.ok(annotationService.getAllAnnotationsByWriting(writingId));
+    }
+
+    @GetMapping("/writing/{writingResultId}")
     @ApiOperation(value = "Get annotations of a writing")
     public ResponseEntity<List<Annotation>> getAnnotations(@PathVariable int writingResultId){
         return ResponseEntity.ok(annotationService.findAllByWriting(writingResultId));
