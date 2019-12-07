@@ -37,13 +37,13 @@ public class MessageService {
 
     public ConversationDTO getById(int conversationId, String username){
         Member member = memberRepository.findByUsername(username);
-        Conversation conversation = conversationRepository.getOne(conversationId);
+        Conversation conversation = conversationRepository.findById(conversationId).orElse(null);
         if(conversation == null){
             return null;
         }
-        Member otherMember = memberRepository.getOne(member.getId()==conversation.getMember1Id()?
+        Member otherMember = memberRepository.findById(member.getId()==conversation.getMember1Id()?
                                                         conversation.getMember2Id():
-                                                        conversation.getMember1Id());
+                                                        conversation.getMember1Id()).orElse(null);
 
         if(conversation.getMember2Id()!=member.getId() && conversation.getMember1Id()!=member.getId()){
             //Illegal request. Shouldn't permit the user to see other conversation
