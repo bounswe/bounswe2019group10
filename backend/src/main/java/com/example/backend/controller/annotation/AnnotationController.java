@@ -36,6 +36,10 @@ public class AnnotationController {
         return ResponseEntity.ok(annotationService.deleteAnnotation(id));
     }
 
-
+    @PostMapping("/update")
+    @ApiOperation(value = "Update annotation that you wrote")
+    public ResponseEntity<Annotation> updateAnnotation(@RequestBody AnnotationDTO annotationDTO){
+        return ResponseEntity.ok(annotationService.updateAnnotation(annotationDTO));
+    }
 
 }

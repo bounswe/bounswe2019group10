@@ -54,5 +54,30 @@ public class AnnotationService {
 
     }
 
+    public Annotation updateAnnotation(AnnotationDTO annotationDTO){
+        Annotation annotation = annotationRepository.findById(annotationDTO.getId()).orElse(null);
+        if (annotation == null){
+            return null;
+        }
+
+        if(annotation.getAnnotatorId() != jwtUserDetailsService.getUserId()){
+            return null;
+        }
+
+        if(annotationDTO.getAnnotationText() != null)
+            annotation.setAnnotationText(annotationDTO.getAnnotationText());
+
+        if(annotationDTO.getPosStart() != null)
+            annotation.setPosStart(annotationDTO.getPosStart());
+
+        if(annotationDTO.getPosEnd() != null)
+            annotation.setPosEnd(annotationDTO.getPosEnd());
+
+        annotationRepository.save(annotation);
+
+        return annotation;
+
+    }
+
 
 }

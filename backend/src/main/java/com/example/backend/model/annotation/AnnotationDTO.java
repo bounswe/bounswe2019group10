@@ -10,9 +10,9 @@ public class AnnotationDTO {
 
     private String annotationText;
 
-    private int posStart;
+    private Integer posStart;
 
-    private int posEnd;
+    private Integer posEnd;
 
 
     public int getId() {
@@ -47,19 +47,19 @@ public class AnnotationDTO {
         this.annotationText = annotationText;
     }
 
-    public int getPosStart() {
+    public Integer getPosStart() {
         return posStart;
     }
 
-    public void setPosStart(int posStart) {
+    public void setPosStart(Integer posStart) {
         this.posStart = posStart;
     }
 
-    public int getPosEnd() {
+    public Integer getPosEnd() {
         return posEnd;
     }
 
-    public void setPosEnd(int posEnd) {
+    public void setPosEnd(Integer posEnd) {
         this.posEnd = posEnd;
     }
 }
