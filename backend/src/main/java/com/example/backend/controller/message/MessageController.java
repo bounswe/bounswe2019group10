@@ -40,8 +40,8 @@ public class MessageController {
     @PostMapping("/send")
     @ApiOperation(value = "Send a message to another user.")
     public ResponseEntity<MessageDTO> sendMessage(@RequestBody MessageRequest messageRequest){
-        String memberUname = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(messageService.addMessage(messageRequest, memberUname));
+        String memberUsername = jwtUserDetailsService.getUsername();
+        return ResponseEntity.ok(messageService.addMessage(messageRequest, memberUsername));
     }
 
     @GetMapping("/conversations")
