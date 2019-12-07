@@ -10,8 +10,12 @@ import com.example.backend.service.dtoconverterservice.MessageDTOConverterServic
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class MessageService {
@@ -31,10 +35,12 @@ public class MessageService {
     @Autowired
     private ConversationDTOConverterService conversationDTOConverterService;
 
-
     public ConversationDTO getById(int conversationId, String username){
         Member member = memberRepository.findByUsername(username);
         Conversation conversation = conversationRepository.getOne(conversationId);
+        if(conversation == null){
+            return null;
+        }
         Member otherMember = memberRepository.getOne(member.getId()==conversation.getMember1Id()?
                                                         conversation.getMember2Id():
                                                         conversation.getMember1Id());
@@ -70,7 +76,12 @@ public class MessageService {
         Message message = new Message();
         message.setConversationId(conversation.getId());
         message.setMessageText(messageRequest.getMessage());
-        messageRepository.save(message);
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        message.setMessageTime(Timestamp.valueOf(localDateTime));
+
+
+        messageRepository.saveAndFlush(message);
         return messageDTOConverterService.apply(message);
     }
 

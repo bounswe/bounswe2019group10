@@ -3,9 +3,11 @@ package com.example.backend.service.dtoconverterservice;
 import com.example.backend.model.message.Conversation;
 import com.example.backend.model.message.ConversationDTO;
 import com.example.backend.model.message.MessageDTO;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class ConversationDTOConverterService {
 
     public ConversationDTO apply(Conversation conversation, List<MessageDTO> messageDTOS, String otherusername){

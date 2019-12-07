@@ -1,15 +1,14 @@
 package com.example.backend.model.message;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "conversation")
 public class Conversation {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
+    @SequenceGenerator(name="id_generator", sequenceName = "conversation_id_seq", allocationSize = 1)
     @Column(name = "id")
     private int id;
 
