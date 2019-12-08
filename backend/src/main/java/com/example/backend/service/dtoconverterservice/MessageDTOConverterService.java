@@ -13,6 +13,8 @@ public class MessageDTOConverterService {
         messageDTO.setId(message.getId());
         messageDTO.setMessageText(message.getMessageText());
         messageDTO.setMessageTime(message.getMessageTime());
+        messageDTO.setReceiverUsername(message.getReceiverUsername());
+        messageDTO.setSenderUsername(message.getSenderUsername());
         return messageDTO;
     }
 }

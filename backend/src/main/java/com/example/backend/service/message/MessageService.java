@@ -76,6 +76,8 @@ public class MessageService {
         Message message = new Message();
         message.setConversationId(conversation.getId());
         message.setMessageText(messageRequest.getMessage());
+        message.setSenderUsername(member.getUsername());
+        message.setReceiverUsername(otherMember.getUsername());
 
         LocalDateTime localDateTime = LocalDateTime.now();
         message.setMessageTime(Timestamp.valueOf(localDateTime));
