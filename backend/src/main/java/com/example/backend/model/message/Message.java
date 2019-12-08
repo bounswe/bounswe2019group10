@@ -19,6 +19,14 @@ public class Message {
     @Column(name = "message_text")
     private String messageText;
 
+
+    @Column(name = "sender_username")
+    private String senderUsername;
+
+    @Column(name = "receiver_username")
+    private String receiverUsername;
+
+
     @Column(name = "message_time")
     private Timestamp messageTime;
 
@@ -52,5 +60,21 @@ public class Message {
 
     public void setMessageTime(Timestamp messageTime) {
         this.messageTime = messageTime;
+    }
+
+    public String getSenderUsername() {
+        return senderUsername;
+    }
+
+    public void setSenderUsername(String senderUsername) {
+        this.senderUsername = senderUsername;
+    }
+
+    public String getReceiverUsername() {
+        return receiverUsername;
+    }
+
+    public void setReceiverUsername(String receiverUsername) {
+        this.receiverUsername = receiverUsername;
     }
 }

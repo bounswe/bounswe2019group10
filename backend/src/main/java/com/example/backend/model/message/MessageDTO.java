@@ -12,6 +12,10 @@ public class MessageDTO {
 
     private Timestamp messageTime;
 
+    private String senderUsername;
+
+    private String receiverUsername;
+
     public int getId() {
         return id;
     }
@@ -42,5 +46,21 @@ public class MessageDTO {
 
     public void setMessageTime(Timestamp messageTime) {
         this.messageTime = messageTime;
+    }
+
+    public String getSenderUsername() {
+        return senderUsername;
+    }
+
+    public void setSenderUsername(String senderUsername) {
+        this.senderUsername = senderUsername;
+    }
+
+    public String getReceiverUsername() {
+        return receiverUsername;
+    }
+
+    public void setReceiverUsername(String receiverUsername) {
+        this.receiverUsername = receiverUsername;
     }
 }
