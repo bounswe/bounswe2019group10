@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -21,7 +22,7 @@ public class AnnotationService {
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
 
-    public JSONObject getAnnotation(int id){
+    public Map<String, Object> getAnnotation(int id){
         Annotation annotation = annotationRepository.findById(id).orElse(null);
 
         if (annotation == null)
@@ -33,30 +34,30 @@ public class AnnotationService {
 
     }
 
-    public List<JSONObject> getAllAnnotations(){
-        List<JSONObject> list = new ArrayList<>();
+    public List<Map<String, Object>> getAllAnnotations(){
+        List<Map<String, Object>> list = new ArrayList<>();
         annotationRepository.findAll().forEach(annotation -> {
             list.add(toAnnotationModel(annotation));
         });
         return list;
     }
 
-    public List<JSONObject> getAllAnnotationsByWriting(int writingId){
-        List<JSONObject> list = new ArrayList<>();
+    public List<Map<String, Object>> getAllAnnotationsByWriting(int writingId){
+        List<Map<String, Object>> list = new ArrayList<>();
         annotationRepository.findAllByWritingResultId(writingId).forEach(annotation -> {
             list.add(toAnnotationModel(annotation));
         });
         return list;
     }
 
-    private JSONObject toAnnotationModel(Annotation annotation){
+    private Map<String, Object> toAnnotationModel(Annotation annotation){
 
         JSONObject anno = new JSONObject();
 
         anno.put("@context", "http://www.w3.org/ns/anno.jsonld");
         anno.put("id", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/annotation/" + annotation.getId());
         anno.put("type", "Annotation");
-        anno.put("creator", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/member" + annotation.getAnnotatorId());
+        anno.put("creator", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/member/" + annotation.getAnnotatorId());
         anno.put("bodyValue", annotation.getAnnotationText());
 
         JSONObject target = new JSONObject();
@@ -71,7 +72,7 @@ public class AnnotationService {
         target.put("selector", selector);
         anno.put("target", target);
 
-        return anno;
+        return anno.toMap();
 
     }
 
@@ -91,7 +92,7 @@ public class AnnotationService {
 
         annotationRepository.save(annotation);
 
-        return annotationRepository.findByAnnotatorIdAndWritingResultId(annotationDTO.getAnnotatorId(), annotationDTO.getWritingResultId());
+        return annotation;
 
     }
 

@@ -11,5 +11,4 @@ public interface AnnotationRepository extends JpaRepository<Annotation, Integer>
 
     List<Annotation> findAllByWritingResultId(int writingResultId);
 
-    Annotation findByAnnotatorIdAndWritingResultId(int annotatorId, int writingResultId);
 }

@@ -4,12 +4,12 @@ import com.example.backend.model.annotation.Annotation;
 import com.example.backend.model.annotation.AnnotationDTO;
 import com.example.backend.service.annotation.AnnotationService;
 import io.swagger.annotations.ApiOperation;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/annotation")
@@ -21,19 +21,19 @@ public class AnnotationController {
 
     @GetMapping("{id}")
     @ApiOperation(value = "Get annotation")
-    public ResponseEntity<JSONObject> getAnnotation(@PathVariable int id){
+    public ResponseEntity<Map<String, Object>> getAnnotation(@PathVariable int id){
         return ResponseEntity.ok(annotationService.getAnnotation(id));
     }
 
     @GetMapping("/all")
     @ApiOperation(value = "Get all annotations")
-    public ResponseEntity<List<JSONObject>> getAllAnnotations(){
+    public ResponseEntity<List<Map<String, Object>>> getAllAnnotations(){
         return ResponseEntity.ok(annotationService.getAllAnnotations());
     }
 
     @GetMapping("all/{writingId}")
     @ApiOperation(value = "Get annotation")
-    public ResponseEntity<List<JSONObject>> getAllAnnotationsByWriting(@PathVariable int writingId){
+    public ResponseEntity<List<Map<String, Object>>> getAllAnnotationsByWriting(@PathVariable int writingId){
         return ResponseEntity.ok(annotationService.getAllAnnotationsByWriting(writingId));
     }
 
