@@ -4,14 +4,13 @@ import com.example.backend.model.annotation.Annotation;
 import com.example.backend.model.annotation.AnnotationDTO;
 import com.example.backend.repository.annotation.AnnotationRepository;
 import com.example.backend.service.member.JwtUserDetailsService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
+
 
 @Service
 public class AnnotationService {
@@ -22,7 +21,7 @@ public class AnnotationService {
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
 
-    public String getAnnotation(int id){
+    public JSONObject getAnnotation(int id){
         Annotation annotation = annotationRepository.findById(id).orElse(null);
 
         if (annotation == null)
@@ -34,76 +33,47 @@ public class AnnotationService {
 
     }
 
-    public List<String> getAllAnnotations(){
-        List<String> list = new ArrayList<>();
+    public List<JSONObject> getAllAnnotations(){
+        List<JSONObject> list = new ArrayList<>();
         annotationRepository.findAll().forEach(annotation -> {
             list.add(toAnnotationModel(annotation));
         });
         return list;
     }
 
-    public List<String> getAllAnnotationsByWriting(int writingId){
-        List<String> list = new ArrayList<>();
+    public List<JSONObject> getAllAnnotationsByWriting(int writingId){
+        List<JSONObject> list = new ArrayList<>();
         annotationRepository.findAllByWritingResultId(writingId).forEach(annotation -> {
             list.add(toAnnotationModel(annotation));
         });
         return list;
     }
 
-    private String toAnnotationModel(Annotation annotation){
-        TreeMap<String, String> map = new TreeMap<>();
+    private JSONObject toAnnotationModel(Annotation annotation){
 
-        map.put("@context", "http://www.w3.org/ns/anno.jsonld");
-        map.put("id", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/annotation/" + annotation.getId());
-        map.put("type", "Annotation");
-        map.put("creator", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/member" + annotation.getAnnotatorId());
-        map.put("bodyValue", annotation.getAnnotationText());
-        map.put("target", toTargetValue(annotation));
+        JSONObject anno = new JSONObject();
 
-        ObjectMapper obj = new ObjectMapper();
+        anno.put("@context", "http://www.w3.org/ns/anno.jsonld");
+        anno.put("id", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/annotation/" + annotation.getId());
+        anno.put("type", "Annotation");
+        anno.put("creator", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/member" + annotation.getAnnotatorId());
+        anno.put("bodyValue", annotation.getAnnotationText());
 
-        try {
-            return obj.writeValueAsString(map);
-        } catch (JsonProcessingException e) {
-            return "";
-        }
-    }
+        JSONObject target = new JSONObject();
 
-    private String toTargetValue(Annotation annotation) {
 
-        class Target{
+        JSONObject selector = new JSONObject();
 
-            class Selector{
-                String type;
-                int start;
-                int end;
-                Selector(String type, int start, int end){
-                    this.type = type;
-                    this.start = start;
-                    this.end = end;
-                }
-            }
+        selector.put("type", "TextPositionSelector");
+        selector.put("start", annotation.getPosStart());
+        selector.put("end", annotation.getPosEnd());
 
-            Selector selector;
+        target.put("selector", selector);
+        anno.put("target", target);
 
-            Target(String type, int start, int end){
-                this.selector = new Selector(type, start, end);
-            }
-
-        }
-
-        Target target = new Target("TextPositionSelector", annotation.getPosStart(), annotation.getPosEnd());
-
-        ObjectMapper obj = new ObjectMapper();
-
-        try {
-            return obj.writeValueAsString(target);
-        } catch (JsonProcessingException e) {
-            return "";
-        }
+        return anno;
 
     }
-
 
     public List<Annotation> findAllByWriting(int writingResultId){
         return annotationRepository.findAllByWritingResultId(writingResultId);
