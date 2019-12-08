@@ -83,4 +83,10 @@ public class WritingController {
         return ResponseEntity.ok(writingService.evaluateWriting(memberUsername, writingResultId, score));
     }
 
+    @GetMapping("/resulttext/{writingResultId}")
+    @ApiOperation(value = "Get writing results answer text")
+    public ResponseEntity<String> getWritingResultAnswerText(@PathVariable int writingResultId) {
+        return ResponseEntity.ok(writingService.getWritingResultAnswerText(writingResultId));
+    }
+
 }

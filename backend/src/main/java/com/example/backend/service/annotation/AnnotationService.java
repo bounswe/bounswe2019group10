@@ -62,6 +62,8 @@ public class AnnotationService {
 
         JSONObject target = new JSONObject();
 
+        target.put("source",
+                "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/writing/resulttext/" + annotation.getWritingResultId());
 
         JSONObject selector = new JSONObject();
 

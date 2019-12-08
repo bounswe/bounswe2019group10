@@ -123,6 +123,16 @@ public class WritingService {
         return writingResultDTOS;
     }
 
+    public String getWritingResultAnswerText(int id) {
+
+        WritingResult writingResult = writingResultRepository.findById(id).orElse(null);
+
+        if(writingResult == null)
+            return null;
+
+        return writingResult.getAnswerText();
+    }
+
     public WritingResultDTO processWritingAnswer(WritingRequest writingRequest, String username, int writingId) {
         Member evMember = memberRepository.findByUsername(writingRequest.getEvaluatorUsername());
         Member curMember = memberRepository.findByUsername(username);
