@@ -96,4 +96,8 @@ class SearchUserActivity : AppCompatActivity(), UserListAdapter.UserListAdapterC
     override fun userListAdapterClick(id: Int) {
 
     }
+
+    override fun onBackPressed() {
+        finish()
+    }
 }

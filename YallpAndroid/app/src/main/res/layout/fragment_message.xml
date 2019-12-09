@@ -3,4 +3,15 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+        <Button
+            android:id="@+id/searchButton"
+            style="@style/WhiteBackgroundButtonTheme"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/search_user"
+            android:layout_margin="15dp"/>
+
+
+
 </LinearLayout>

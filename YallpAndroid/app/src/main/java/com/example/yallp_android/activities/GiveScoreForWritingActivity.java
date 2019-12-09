@@ -108,8 +108,8 @@ public class GiveScoreForWritingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(getApplicationContext(), NonCompletedAssignmentsActivity.class);
-        startActivity(i);
+      //  Intent i = new Intent(getApplicationContext(), NonCompletedAssignmentsActivity.class);
+     //   startActivity(i);
         finish();
     }
 }

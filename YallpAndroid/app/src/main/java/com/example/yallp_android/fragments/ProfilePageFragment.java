@@ -105,19 +105,16 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
     private void editProfile() {
         Intent i = new Intent(getActivity(), EditProfileActivity.class);
         startActivity(i);
-        getActivity().finish();
     }
 
     private void completedWritingExercises() {
         Intent i = new Intent(getActivity(), CompletedWritingExerciseActivity.class);
         startActivity(i);
-        getActivity().finish();
     }
 
     private void nonCompletedAssignments() {
         Intent i = new Intent(getActivity(), NonCompletedAssignmentsActivity.class);
         startActivity(i);
-        getActivity().finish();
     }
 
     private void logout() {
