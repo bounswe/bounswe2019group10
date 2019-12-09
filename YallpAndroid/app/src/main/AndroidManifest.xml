@@ -29,7 +29,6 @@
         <activity
             android:name=".activities.SignInActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.QuizActivity" />
         <activity android:name=".activities.QuizScoreActivity" />
         <activity android:name=".activities.AddLanguageActivity" />
@@ -43,6 +42,7 @@
             android:name=".activities.GiveScoreForWritingActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.NonCompletedAssignmentsActivity" />
+        <activity android:name=".activities.HomePageActivity" />
         <activity android:name=".activities.SearchUserActivity" />
     </application>
 

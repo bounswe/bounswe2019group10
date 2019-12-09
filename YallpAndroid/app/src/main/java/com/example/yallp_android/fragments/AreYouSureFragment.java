@@ -10,7 +10,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.yallp_android.R;
-import com.example.yallp_android.activities.ProfileActivity;
+import com.example.yallp_android.activities.HomePageActivity;
 
 public class AreYouSureFragment extends DialogFragment {
     @Override
@@ -23,7 +23,7 @@ public class AreYouSureFragment extends DialogFragment {
                 .setPositiveButton("I'm sure", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent i  = new Intent(getContext(), ProfileActivity.class);
+                        Intent i  = new Intent(getContext(), HomePageActivity.class);
                         startActivity(i);
                         getActivity().finish();
                     }

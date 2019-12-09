@@ -103,7 +103,7 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, ProfileActivity.class);
+        Intent i = new Intent(this, HomePageActivity.class);
         startActivity(i);
         finish();
     }

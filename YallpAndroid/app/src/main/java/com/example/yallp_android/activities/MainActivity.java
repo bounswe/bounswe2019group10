@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
         if(sharedPref.contains("token")){
-            Intent i = new Intent(this,ProfileActivity.class);
+            Intent i = new Intent(this,HomePageActivity.class);
             startActivity(i);
             finish();
         }
