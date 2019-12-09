@@ -99,6 +99,7 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
             }
 
         });
+
     }
 
     public void updateProfileInfo(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
@@ -182,7 +183,6 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         });
     }
 
-
     private void logout() {
         clearApplicationData();
         SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
@@ -191,7 +191,6 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         startActivity(i);
         finish();
     }
-
 
     private void clearApplicationData() {
         File cacheDirectory = getCacheDir();
@@ -240,6 +239,12 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
         finish();
     }
 
+    private void searchUser(){
+        Intent i = new Intent(getApplicationContext(), SearchUserActivity.class);
+        startActivity(i);
+        finish();
+    }
+
     @Override
     public void itemClick(int item) {
         if (item == 0) {
@@ -248,6 +253,9 @@ public class ProfileActivity extends AppCompatActivity implements ThreeDotsView.
             completedWritingExercises();
         } else if (item == 2) {
             nonCompletedAssignments();
+
+        }else if (item == 4) {
+            searchUser();
 
         } else {
             logout();

@@ -42,6 +42,13 @@
             android:padding="10dp"
             android:textSize="18sp"/>
         <TextView
+            android:id="@+id/search_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search User"
+            android:padding="10dp"
+            android:textSize="18sp"/>
+        <TextView
             android:id="@+id/log_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

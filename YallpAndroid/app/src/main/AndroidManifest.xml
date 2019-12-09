@@ -43,6 +43,7 @@
             android:name=".activities.GiveScoreForWritingActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activities.NonCompletedAssignmentsActivity" />
+        <activity android:name=".activities.SearchUserActivity" />
     </application>
 
 </manifest>

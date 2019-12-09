@@ -26,7 +26,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/topicText"
+                android:id="@+id/nameSurnameTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_toStartOf="@id/isSolvedText"
-                android:layout_toEndOf="@+id/topicText"
+                android:layout_toEndOf="@+id/nameSurnameTitle"
                 android:text="Phrasal"
                 android:textColor="#969693"
                 android:textSize="18dp"
@@ -68,26 +68,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-         <!--   <TextView
-                android:id="@+id/writingLevelText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:text="Level:"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="#40403d" />
 
-            <TextView
-                android:id="@+id/quizId"
-                android:layout_toEndOf="@+id/writingLevelText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:textSize="18dp"
-                android:layout_marginStart="20dp"
-                android:textStyle="italic"
-                android:textColor="#969693" />-->
             <TextView
                 android:id="@+id/scoreWriting"
                 android:layout_alignParentEnd="true"
