@@ -84,13 +84,7 @@ public class WritingService {
         List<String> users = new ArrayList<>();
         List<MemberLanguage> memberLanguages = memberLanguageRepository.get10ForWriting(languageId, curMemberId);
         for (MemberLanguage m : memberLanguages) {
-            Member member = memberRepository.getOne(m.getMemberId());
-            users.add(member.getUsername());
-            Notification notification = new Notification();
-            notification.setMemberId(member.getId());
-            notification.setNotificationType(NotificationType.WRITING_EVALUATE);
-            notification.setText("You have a new writing to evaluate!");
-            notificationService.save(notification);
+            users.add(memberRepository.getOne(m.getMemberId()).getUsername());
         }
         return users;
     }
@@ -158,6 +152,12 @@ public class WritingService {
         if (writingResult == null){
             writingResult = new WritingResult();
         }
+        Notification notification = new Notification();
+        notification.setMemberId(evMember.getId());
+        notification.setNotificationType(NotificationType.WRITING_EVALUATE);
+        notification.setText("You have a new writing to evaluate!");
+        notificationService.save(notification);
+
         writingResult.setAnswerText(writingRequest.getAnswerText());
         writingResult.setAssignedMemberId(evMember.getId());
         writingResult.setMemberId(memberRepository.findByUsername(username).getId());
