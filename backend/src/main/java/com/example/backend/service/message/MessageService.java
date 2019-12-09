@@ -2,11 +2,14 @@ package com.example.backend.service.message;
 
 import com.example.backend.model.member.Member;
 import com.example.backend.model.message.*;
+import com.example.backend.model.notification.Notification;
+import com.example.backend.model.notification.NotificationType;
 import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.repository.message.ConversationRepository;
 import com.example.backend.repository.message.MessageRepository;
 import com.example.backend.service.dtoconverterservice.ConversationDTOConverterService;
 import com.example.backend.service.dtoconverterservice.MessageDTOConverterService;
+import com.example.backend.service.notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +37,9 @@ public class MessageService {
 
     @Autowired
     private ConversationDTOConverterService conversationDTOConverterService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     public ConversationDTO getById(int conversationId, String username){
         Member member = memberRepository.findByUsername(username);
@@ -78,6 +84,12 @@ public class MessageService {
         message.setMessageText(messageRequest.getMessage());
         message.setSenderUsername(member.getUsername());
         message.setReceiverUsername(otherMember.getUsername());
+
+        Notification notification = new Notification();
+        notification.setMemberId(otherMember.getId());
+        notification.setNotificationType(NotificationType.NEW_MESSAGE);
+        notification.setText("You have a new message from "+ member.getUsername());
+        notificationService.save(notification);
 
         LocalDateTime localDateTime = LocalDateTime.now();
         message.setMessageTime(Timestamp.valueOf(localDateTime));

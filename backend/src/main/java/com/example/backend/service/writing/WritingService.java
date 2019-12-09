@@ -2,6 +2,8 @@ package com.example.backend.service.writing;
 
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberLanguage;
+import com.example.backend.model.notification.Notification;
+import com.example.backend.model.notification.NotificationType;
 import com.example.backend.model.writing.*;
 import com.example.backend.repository.language.LanguageRepository;
 import com.example.backend.repository.member.MemberLanguageRepository;
@@ -11,6 +13,7 @@ import com.example.backend.repository.writing.WritingResultRepository;
 import com.example.backend.service.dtoconverterservice.WritingDTOConverterService;
 import com.example.backend.service.dtoconverterservice.WritingResultDTOConverterService;
 import com.example.backend.service.member.JwtUserDetailsService;
+import com.example.backend.service.notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +47,9 @@ public class WritingService {
 
     @Autowired
     private WritingResultDTOConverterService writingResultDTOConverterService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     public WritingIsSolvedResponse getById(int id) {
         Integer memberId = jwtUserDetailsService.getUserId();
@@ -146,6 +152,12 @@ public class WritingService {
         if (writingResult == null){
             writingResult = new WritingResult();
         }
+        Notification notification = new Notification();
+        notification.setMemberId(evMember.getId());
+        notification.setNotificationType(NotificationType.WRITING_EVALUATE);
+        notification.setText("You have a new writing to evaluate!");
+        notificationService.save(notification);
+
         writingResult.setAnswerText(writingRequest.getAnswerText());
         writingResult.setAssignedMemberId(evMember.getId());
         writingResult.setMemberId(memberRepository.findByUsername(username).getId());
@@ -191,7 +203,11 @@ public class WritingService {
         writingResult.setScore(score);
         writingResult.setScored(true);
         writingResultRepository.save(writingResult);
-
+        Notification notification = new Notification();
+        notification.setMemberId(writingResult.getMemberId());
+        notification.setNotificationType(NotificationType.WRITING_RESULT);
+        notification.setText("You have an evaluated writing!");
+        notificationService.save(notification);
         return writingResultDTOConverterService.apply(writingResult);
     }
 
