@@ -98,7 +98,7 @@ public class GetStartedActivity extends AppCompatActivity {
                     editor.putString("token",response.body().getToken());
                     editor.putBoolean("newSession", true);
                     editor.apply();
-                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
                     context.startActivity(intent);
                     finish();
                 }
