@@ -60,7 +60,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            Intent i = new Intent(this, ProfileActivity.class);
+            Intent i = new Intent(this, HomePageActivity.class);
             startActivity(i);
             finish();
             return;
@@ -120,7 +120,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if (response.isSuccessful()) {
                     progressDialog.dismiss();
-                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
                     startActivity(intent);
                     finish();
                 } else {

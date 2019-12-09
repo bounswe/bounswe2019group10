@@ -50,7 +50,7 @@ public class QuizScoreActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                Intent i = new Intent(getApplicationContext(), HomePageActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -59,7 +59,7 @@ public class QuizScoreActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+        Intent i = new Intent(getApplicationContext(), HomePageActivity.class);
         startActivity(i);
         finish();
     }

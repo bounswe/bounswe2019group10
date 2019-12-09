@@ -27,7 +27,7 @@ class LanguageMainActivity   : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val i = Intent(this, ProfileActivity::class.java)
+        val i = Intent(this, HomePageActivity::class.java)
         startActivity(i)
         finish()
     }

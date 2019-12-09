@@ -116,7 +116,7 @@ public class WritingActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 submitWriting();
-                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                Intent i = new Intent(getApplicationContext(), HomePageActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -151,7 +151,7 @@ public class WritingActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     progressDialog.dismiss();
                     Toast.makeText(getBaseContext(), "Writing successfully submitted!", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
                     startActivity(intent);
                     finish();
                 } else {

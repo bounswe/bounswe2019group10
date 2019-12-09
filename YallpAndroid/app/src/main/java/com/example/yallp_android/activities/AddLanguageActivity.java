@@ -113,7 +113,7 @@ public class AddLanguageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this,ProfileActivity.class);
+        Intent i = new Intent(this,HomePageActivity.class);
         startActivity(i);
         finish();
     }
