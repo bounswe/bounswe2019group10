@@ -29,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddLanguageActivity extends AppCompatActivity {
+
     private SharedPreferences sharedPref;
     private ListView mListView;
     private LanguageListAdapter aAdapter;
@@ -113,7 +114,7 @@ public class AddLanguageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this,HomePageActivity.class);
+        Intent i = new Intent(this, HomePageActivity.class);
         startActivity(i);
         finish();
     }

@@ -18,6 +18,7 @@ import com.example.yallp_android.R;
 import com.example.yallp_android.activities.AddLanguageActivity;
 import com.example.yallp_android.activities.LanguageMainActivity;
 import com.example.yallp_android.adapters.UserLanguageListAdapter;
+
 import java.util.ArrayList;
 
 public class LanguageListFragment extends Fragment {
@@ -56,6 +57,7 @@ public class LanguageListFragment extends Fragment {
                 if (arg2 == languageLevelList.size()) {
                     Intent i = new Intent(getActivity(), AddLanguageActivity.class);
                     startActivity(i);
+                    getActivity().finish();
                 } else {
                     Intent i = new Intent(getActivity(), LanguageMainActivity.class);
                     String languageAndLevelId = (String) (((ArrayList<String>)getArguments().getSerializable("languageAndLevelId")).get(arg2));
@@ -63,7 +65,7 @@ public class LanguageListFragment extends Fragment {
                     i.putExtra("languageId", Integer.parseInt(splitted[0]));
                     i.putExtra("level", Integer.parseInt(splitted[1]));
                     startActivity(i);
-                    getActivity().finish();
+                  //  getActivity().finish();
                 }
             }
 
@@ -75,4 +77,5 @@ public class LanguageListFragment extends Fragment {
         listView.setAdapter(adapter);
         return view;
     }
+
 }

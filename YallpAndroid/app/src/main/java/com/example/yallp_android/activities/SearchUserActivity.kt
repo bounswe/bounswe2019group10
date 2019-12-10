@@ -2,6 +2,7 @@ package com.example.yallp_android.activities
 
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Window
@@ -94,7 +95,8 @@ class SearchUserActivity : AppCompatActivity(), UserListAdapter.UserListAdapterC
     }
 
     override fun userListAdapterClick(id: Int) {
-
+        val i = Intent(this.applicationContext,ProfileVisitPageActivity::class.java)
+        startActivity(i)
     }
 
     override fun onBackPressed() {
