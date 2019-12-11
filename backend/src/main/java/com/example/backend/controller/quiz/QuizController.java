@@ -2,8 +2,12 @@ package com.example.backend.controller.quiz;
 
 
 import com.example.backend.config.JwtTokenUtil;
+import com.example.backend.model.quiz.QuestionDTO;
 import com.example.backend.model.quiz.QuizDTO;
 import com.example.backend.model.quiz.QuizRequest;
+import com.example.backend.model.quiz.QuizResponseDTO;
+import com.example.backend.service.dtoconverterservice.MemberDTOConverterService;
+import com.example.backend.service.dtoconverterservice.QuizResponseDTOConverterService;
 import com.example.backend.service.member.JwtUserDetailsService;
 import com.example.backend.service.quiz.QuizService;
 import io.swagger.annotations.ApiOperation;
@@ -23,27 +27,33 @@ public class QuizController {
     private QuizService quizService;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private JwtUserDetailsService jwtUserDetailsService;
 
     @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
+    private QuizResponseDTOConverterService quizResponseDTOConverterService;
 
     @GetMapping()
     @ApiOperation(value = "Get all quizzes")
-    public ResponseEntity<List<QuizDTO>> getAllQuizzes() {
-        return ResponseEntity.ok(quizService.findAll());
+    public ResponseEntity<List<QuizResponseDTO>> getAllQuizzes() {
+        return ResponseEntity.ok(
+                quizResponseDTOConverterService.applyAll(quizService.findAll())
+        );
     }
 
     @GetMapping("/{quizId}")
     @ApiOperation(value = "Get quiz by ID")
-    public ResponseEntity<QuizDTO> getById(@PathVariable int quizId) {
-        return ResponseEntity.ok(quizService.getById(quizId));
+    public ResponseEntity<QuizResponseDTO> getById(@PathVariable int quizId) {
+        return ResponseEntity.ok(
+                quizResponseDTOConverterService.apply(quizService.getById(quizId))
+        );
     }
 
     @GetMapping("/level")
     @ApiOperation(value = "Get a placement quiz")
-    public ResponseEntity<QuizDTO> getLevelQuiz() {
-        return ResponseEntity.ok(quizService.getById(66));
+    public ResponseEntity<QuizResponseDTO> getLevelQuiz() {
+        return ResponseEntity.ok(
+                quizResponseDTOConverterService.apply(quizService.getById(66))
+        );
     }
 
     @PostMapping("/{quizId}/submit")
@@ -57,26 +67,34 @@ public class QuizController {
 
     @GetMapping("/language/{languageId}")
     @ApiOperation(value = "Get quiz by language ID")
-    public ResponseEntity<List<QuizDTO>> getByLanguageId(@PathVariable int languageId) {
-        return ResponseEntity.ok(quizService.getAllQuizzesByLanguageId(languageId));
+    public ResponseEntity<List<QuizResponseDTO>> getByLanguageId(@PathVariable int languageId) {
+        return ResponseEntity.ok(
+                quizResponseDTOConverterService.applyAll(quizService.getAllQuizzesByLanguageId(languageId))
+        );
     }
 
     @GetMapping("/level/{levelId}")
     @ApiOperation(value = "Get quiz by level")
-    public ResponseEntity<List<QuizDTO>> getByLevelId(@PathVariable int levelId) {
-        return ResponseEntity.ok(quizService.getAllQuizzesByLevelId(levelId));
+    public ResponseEntity<List<QuizResponseDTO>> getByLevelId(@PathVariable int levelId) {
+        return ResponseEntity.ok(
+                quizResponseDTOConverterService.applyAll(quizService.getAllQuizzesByLevelId(levelId))
+        );
     }
 
     @GetMapping("/level/{level}/language/{languageId}")
     @ApiOperation(value = "Get quiz by level and languageId")
-    public ResponseEntity<List<QuizDTO>> getByLevelId(@PathVariable int level, @PathVariable int languageId) {
-        return ResponseEntity.ok(quizService.getAllQuizzesByLevelandLanguageId(level, languageId));
+    public ResponseEntity<List<QuizResponseDTO>> getByLevelId(@PathVariable int level, @PathVariable int languageId) {
+        return ResponseEntity.ok(
+                quizResponseDTOConverterService.applyAll(quizService.getAllQuizzesByLevelandLanguageId(level, languageId))
+        );
     }
 
     @GetMapping("/levelorlower/{level}/language/{languageId}")
     @ApiOperation(value = "Get quiz by level and languageId")
-    public ResponseEntity<List<QuizDTO>> getAllByLevelIdorLower(@PathVariable int level, @PathVariable int languageId) {
-        return ResponseEntity.ok(quizService.getAllQuizzesByLanguageIdandLevelLess(level, languageId));
+    public ResponseEntity<List<QuizResponseDTO>> getAllByLevelIdorLower(@PathVariable int level, @PathVariable int languageId) {
+        return ResponseEntity.ok(
+                quizResponseDTOConverterService.applyAll(quizService.getAllQuizzesByLanguageIdandLevelLess(level, languageId))
+        );
     }
 
 }

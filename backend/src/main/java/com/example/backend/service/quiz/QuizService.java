@@ -4,9 +4,11 @@ import com.example.backend.model.language.Language;
 import com.example.backend.model.language.LevelName;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberLanguage;
+import com.example.backend.model.member.MemberQuiz;
 import com.example.backend.model.quiz.*;
 import com.example.backend.repository.language.LanguageRepository;
 import com.example.backend.repository.member.MemberLanguageRepository;
+import com.example.backend.repository.member.MemberQuizRepository;
 import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.repository.quiz.QuestionRepository;
 import com.example.backend.repository.quiz.QuizRepository;
@@ -35,6 +37,9 @@ public class QuizService {
 
     @Autowired
     private LanguageRepository languageRepository;
+
+    @Autowired
+    private MemberQuizRepository memberQuizRepository;
 
     @Autowired
     private QuizDTOConverterService quizDTOConverterService;
@@ -117,7 +122,13 @@ public class QuizService {
 
         quizRequest.setScore(score);
 
-        //TODO ADD THE DETAILS OF THE QUIZ TO THE NEW TABLE -> quiz_result table
+        MemberQuiz memberQuiz = memberQuizRepository.findByMemberIdAndQuizId(curMember.getId(), quizId);
+        if(memberQuiz != null){
+            memberQuizRepository.deleteById(memberQuiz.getId());
+        }
+
+        memberQuizRepository.save(new MemberQuiz(curMember.getId(), quizId, score));
+
         return  quizRequest;
     }
 

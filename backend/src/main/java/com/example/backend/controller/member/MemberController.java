@@ -5,6 +5,7 @@ import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.member.JwtResponse;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberDTO;
+import com.example.backend.model.member.MemberLanguage;
 import com.example.backend.service.member.JwtUserDetailsService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,13 @@ public class MemberController {
         return ResponseEntity.ok(jwtUserDetailsService.getByUsername(username));
     }
 
+    @GetMapping("/{memberId}")
+    @ApiOperation(value = "Get profile information by member id")
+    public ResponseEntity<Member> getUserbyId(@PathVariable int memberId){
+
+        return ResponseEntity.ok(jwtUserDetailsService.getbyUserId(memberId));
+    }
+
     @PutMapping("/update")
     @ApiOperation(value = "Update profile information")
     public ResponseEntity<JwtResponse> updateUser(@RequestBody MemberDTO memberDTO){
@@ -56,8 +64,14 @@ public class MemberController {
 
     @PostMapping("/addlang")
     @ApiOperation(value = "Add a new language")
-    public ResponseEntity<MemberDTO> addLanguage(@RequestBody List<String> languages){
+    public ResponseEntity<List<MemberLanguage>> addLanguage(@RequestBody List<String> languages){
         return  ResponseEntity.ok(jwtUserDetailsService.addLanguage(languages));
+    }
+
+    @PostMapping("/removelang")
+    @ApiOperation(value = "remove selected language")
+    public ResponseEntity<List<MemberLanguage>> removeLanguage(@RequestBody List<String> languages){
+        return  ResponseEntity.ok(jwtUserDetailsService.removeLanguage(languages));
     }
 
 }

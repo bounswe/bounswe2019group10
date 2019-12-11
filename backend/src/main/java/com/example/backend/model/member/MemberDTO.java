@@ -9,6 +9,7 @@ public class MemberDTO {
     private int id;
     private String bio;
     private String password;
+    private String nativeLanguage;
 
     public String getName() {
         return name;
@@ -64,5 +65,13 @@ public class MemberDTO {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public String getNativeLanguage() {
+        return nativeLanguage;
+    }
+
+    public void setNativeLanguage(String nativeLanguage) {
+        this.nativeLanguage = nativeLanguage;
     }
 }

@@ -81,6 +81,14 @@ public class JwtUserDetailsService implements UserDetailsService {
         return userDetails.getUsername();
     }
 
+    public int getUserId(){
+        return getByUsername(getUsername()).getId();
+    }
+
+    public Member getbyUserId(int id){
+        return memberRepository.getOne(id);
+    }
+
     public JwtUserDetailsServiceUtil save(MemberDTO user) {
         Member newUser = new Member();
 
@@ -129,6 +137,10 @@ public class JwtUserDetailsService implements UserDetailsService {
             member.setBio(memberDTO.getBio());
         }
 
+        if (memberDTO.getNativeLanguage() != null){
+            member.setNativeLanguage(memberDTO.getNativeLanguage());
+        }
+
         Pattern pattern;
 
         if(memberDTO.getUsername() != null){
@@ -169,7 +181,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         return new JwtUserDetailsServiceUtil(true, memberRepository.save(member), "Update is successful.");
     }
 
-    public MemberDTO addLanguage(List<String> languages){
+    public List<MemberLanguage> addLanguage(List<String> languages){
         Member member = memberRepository.findByUsername(getUsername());
         languages.forEach(language -> {
             Language lang = languageRepository.getByLanguageName(language);
@@ -180,6 +192,19 @@ public class JwtUserDetailsService implements UserDetailsService {
                 memberLanguageRepository.save(memLang);
             }
         });
-        return memberDTOConverterService.apply(member);
+        return member.getMemberLanguages();
     }
+
+    public List<MemberLanguage> removeLanguage(List<String> languages){
+        Member member = memberRepository.findByUsername(getUsername());
+        languages.forEach(language -> {
+            Language lang = languageRepository.getByLanguageName(language);
+            MemberLanguage memLang = memberLanguageRepository.getByMemberIdAndLanguage(member.getId(), lang);
+            if(memLang != null) {
+                memberLanguageRepository.delete(memLang);
+            }
+        });
+        return member.getMemberLanguages();
+    }
+
 }

@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.security.SecureRandom;
+import java.time.ZoneId;
+import java.util.TimeZone;
 
 @Configuration
 @EnableWebSecurity
@@ -44,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // user for matching credentials
         // Use BCryptPasswordEncoder
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+        TimeZone.setDefault(TimeZone.getTimeZone(ZoneId.of("GMT+03:00")));
     }
 
     @Bean

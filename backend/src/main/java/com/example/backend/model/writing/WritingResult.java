@@ -10,7 +10,6 @@ public class WritingResult {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
     @SequenceGenerator(name="id_generator", sequenceName = "writing_result_id_seq", allocationSize = 1)
-
     @Column(name = "id")
     private int id;
 
