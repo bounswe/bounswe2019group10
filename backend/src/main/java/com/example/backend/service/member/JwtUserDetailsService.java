@@ -73,12 +73,20 @@ public class JwtUserDetailsService implements UserDetailsService {
         return memberRepository.findByUsername(name);
     }
 
+
     public Member getByMail(String mail){return memberRepository.findByMail(mail);}
 
     public String getUsername(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         return userDetails.getUsername();
+    }
+
+    public String getUsernameById(int id){
+        Member member = memberRepository.findById(id).orElse(null);
+        if(member == null) return "";
+
+        return member.getUsername();
     }
 
     public int getUserId(){
