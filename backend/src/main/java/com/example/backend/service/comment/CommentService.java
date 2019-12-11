@@ -2,6 +2,7 @@ package com.example.backend.service.comment;
 
 import com.example.backend.model.member.MemberComment;
 import com.example.backend.model.member.MemberCommentDTO;
+import com.example.backend.model.member.MemberCommentMakeDTO;
 import com.example.backend.repository.member.MemberCommentRepository;
 import com.example.backend.service.dtoconverterservice.MemberCommentDTOConverterService;
 import com.example.backend.service.member.JwtUserDetailsService;
@@ -36,7 +37,7 @@ public class CommentService {
         return memberCommentDTOConverterService.applyAll(memberCommentRepository.getAllByMemberId(memberId));
     }
 
-    public MemberComment makeComment(MemberCommentDTO memberCommentDTO) {
+    public MemberComment makeComment(MemberCommentMakeDTO memberCommentDTO) {
         MemberComment memberComment = new MemberComment();
 
         memberComment.setMemberId(memberCommentDTO.getMemberId());

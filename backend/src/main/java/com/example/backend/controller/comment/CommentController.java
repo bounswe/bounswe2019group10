@@ -2,10 +2,10 @@ package com.example.backend.controller.comment;
 
 import com.example.backend.model.member.MemberComment;
 import com.example.backend.model.member.MemberCommentDTO;
+import com.example.backend.model.member.MemberCommentMakeDTO;
 import com.example.backend.service.comment.CommentService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +34,7 @@ public class CommentController {
 
     @PostMapping("/make")
     @ApiOperation(value = "Make comment to a user")
-    public ResponseEntity<MemberComment> makeComment(@RequestBody MemberCommentDTO memberCommentDTO){
+    public ResponseEntity<MemberComment> makeComment(@RequestBody MemberCommentMakeDTO memberCommentDTO){
         return ResponseEntity.ok(commentService.makeComment(memberCommentDTO));
     }
 
