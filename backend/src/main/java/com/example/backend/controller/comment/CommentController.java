@@ -22,13 +22,13 @@ public class CommentController {
 
     @GetMapping()
     @ApiOperation(value = "Get comments made to me")
-    public ResponseEntity<List<MemberComment>> getMyComments(){
+    public ResponseEntity<List<MemberCommentDTO>> getMyComments(){
         return ResponseEntity.ok(commentService.getAllMyComments());
     }
 
     @GetMapping("/{memberId}")
     @ApiOperation(value = "Get comments made to specific member")
-    public ResponseEntity<List<MemberComment>> getComments(@PathVariable int memberId){
+    public ResponseEntity<List<MemberCommentDTO>> getComments(@PathVariable int memberId){
         return ResponseEntity.ok(commentService.getAllComments(memberId));
     }
 
