@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Layout, Row, Col,Typography,Input,Card,Icon,Avatar } from 'antd';
+import { Layout, Row, Col,Typography,Input,Card,Icon,Avatar,AutoComplete } from 'antd';
 
 import { userActions } from '../_actions';
 
@@ -15,10 +15,17 @@ class MessagingPage extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        message: ""
-      }
+        message: "",
+        newMessage: false,
+        userSearchData: [],
+        chatUsername: "Username"
+      };
       this.onChange = this.onChange.bind(this);
       this.sendMessage = this.sendMessage.bind(this);
+      this.searchUser = this.searchUser.bind(this);
+      this.changeUserSearch = this.changeUserSearch.bind(this);
+      this.newMessage = this.newMessage.bind(this);
+      this.userSelect = this.userSelect.bind(this);
       
     }
     onChange(e) {
@@ -31,6 +38,35 @@ class MessagingPage extends React.Component {
       console.log("send message",e);
       this.setState({
         message: "",
+      });
+    }
+
+    searchUser(e){
+      console.log("search user",e);
+      // TODO search user
+      this.setState({
+        userSearch: "",
+        userSearchData: ["qwe","qwe3"]
+      });
+    }
+    userSelect(e){
+      console.log("select user",e);
+      // start conversation with new user
+      this.setState({
+        newMessage: false,
+        chatUsername: e
+      });
+    }
+
+    changeUserSearch(e){
+      this.setState({
+        userSearch: e.target.value,
+      });
+    }
+
+    newMessage(e){
+      this.setState({
+        newMessage: true
       });
     }
     
@@ -46,7 +82,7 @@ class MessagingPage extends React.Component {
             <Row>
             <Col span={4} />
             <Col span={6}>
-            <Card title="Messaging" extra={<Icon type="form" style={{ fontSize: '18px' }}/>} bodyStyle={{overflow:"scroll", height:"70vh"}}>
+            <Card title="Messaging" extra={<Icon type="form" style={{ fontSize: '18px' }} onClick={this.newMessage}/>} bodyStyle={{overflow:"scroll", height:"70vh"}}>
               <Card hoverable>
                 <Row>
                   <Col span={8} >
@@ -78,7 +114,38 @@ class MessagingPage extends React.Component {
             </Card>
             </Col>
             <Col span={10}>
-            <Card title="Username" bodyStyle={{height:"70vh",display:"flex",  flexDirection: "column"}}>
+            <Card title={
+              this.state.newMessage ? (
+                <AutoComplete
+                  className="global-search"
+                  size="large"
+                  dataSource={ this.state.userSearchData }
+                  style={{ width: '100%' }}
+                  onSelect={this.userSelect}
+                  optionLabelProp="text"
+                >
+                  {/* <Input
+                    suffix={
+                      <Button
+                        className="search-btn"
+                        style={{ marginRight: -12 }}
+                        size="large"
+                        type="primary"
+                      >
+                        <Icon type="search" />
+                      </Button>
+                    }
+                  /> */}
+                  <Input addonAfter={<Icon type="caret-right" onClick={this.searchUser}/>} 
+                  placeholder="Search a user"
+                  onChange={this.changeUserSearch}  />
+                </AutoComplete>
+
+                
+              ) : (
+                this.state.chatUsername
+              ) }
+              bodyStyle={{height:"70vh",display:"flex",  flexDirection: "column"}}>
               <div style={{overflow:"scroll"}}>
                 <Card>
                   <Row>
