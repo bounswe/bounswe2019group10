@@ -2,7 +2,9 @@ package com.example.backend.service.comment;
 
 import com.example.backend.model.member.MemberComment;
 import com.example.backend.model.member.MemberCommentDTO;
+import com.example.backend.model.member.MemberCommentMakeDTO;
 import com.example.backend.repository.member.MemberCommentRepository;
+import com.example.backend.service.dtoconverterservice.MemberCommentDTOConverterService;
 import com.example.backend.service.member.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,18 +23,21 @@ public class CommentService {
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
 
-    public List<MemberComment> getAllMyComments() {
+    @Autowired
+    MemberCommentDTOConverterService memberCommentDTOConverterService;
+    public List<MemberCommentDTO> getAllMyComments() {
         int memberId = jwtUserDetailsService.getUserId();
 
-        return memberCommentRepository.getAllByMemberId(memberId);
+        return memberCommentDTOConverterService.applyAll(memberCommentRepository.getAllByMemberId(memberId));
+
     }
 
-    public List<MemberComment> getAllComments(int memberId) {
+    public List<MemberCommentDTO> getAllComments(int memberId) {
 
-        return memberCommentRepository.getAllByMemberId(memberId);
+        return memberCommentDTOConverterService.applyAll(memberCommentRepository.getAllByMemberId(memberId));
     }
 
-    public MemberComment makeComment(MemberCommentDTO memberCommentDTO) {
+    public MemberComment makeComment(MemberCommentMakeDTO memberCommentDTO) {
         MemberComment memberComment = new MemberComment();
 
         memberComment.setMemberId(memberCommentDTO.getMemberId());
