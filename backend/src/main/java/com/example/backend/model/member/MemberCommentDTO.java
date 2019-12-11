@@ -8,7 +8,11 @@ public class MemberCommentDTO {
 
     private int memberId;
 
+    private String memberName;
+
     private int commentatorId;
+
+    private String commentatorName;
 
     private String comment;
 
@@ -32,12 +36,28 @@ public class MemberCommentDTO {
         this.memberId = memberId;
     }
 
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
     public int getCommentatorId() {
         return commentatorId;
     }
 
     public void setCommentatorId(int commentatorId) {
         this.commentatorId = commentatorId;
+    }
+
+    public String getCommentatorName() {
+        return commentatorName;
+    }
+
+    public void setCommentatorName(String commentatorName) {
+        this.commentatorName = commentatorName;
     }
 
     public String getComment() {
