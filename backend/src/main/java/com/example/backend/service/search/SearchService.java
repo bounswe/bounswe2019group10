@@ -1,10 +1,9 @@
 package com.example.backend.service.search;
 
-import com.example.backend.model.member.Member;
-import com.example.backend.model.member.MemberDTO;
 import com.example.backend.model.quiz.Quiz;
 import com.example.backend.model.quiz.QuizDTO;
 import com.example.backend.model.quiz.QuizResponseDTO;
+import com.example.backend.model.search.SearchMemberResponse;
 import com.example.backend.model.search.TagSimilarity;
 import com.example.backend.model.writing.Writing;
 import com.example.backend.model.writing.WritingIsSolvedResponse;
@@ -12,15 +11,14 @@ import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.repository.search.TagSimilarityRepository;
 import com.example.backend.repository.quiz.QuizRepository;
 import com.example.backend.repository.writing.WritingRepository;
-import com.example.backend.service.dtoconverterservice.MemberDTOConverterService;
 import com.example.backend.service.dtoconverterservice.QuizDTOConverterService;
 import com.example.backend.service.dtoconverterservice.QuizResponseDTOConverterService;
+import com.example.backend.service.dtoconverterservice.SearchMemberResponseConverterService;
 import com.example.backend.service.language.LanguageService;
 import com.example.backend.service.writing.WritingService;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,10 +65,10 @@ public class SearchService {
     WritingService writingService;
 
     @Autowired
-    MemberDTOConverterService memberDTOConverterService;
+    SearchMemberResponseConverterService searchMemberResponseConverterService;
 
     @Transactional
-    public List<QuizResponseDTO> quizSearchResult(String searchTerm, int languageId){
+    public List<QuizResponseDTO> quizSearchResult(String searchTerm, int languageId) {
 
         List<String> tags = quizRepository.getDistinctQuizTypes();
 
@@ -81,13 +79,13 @@ public class SearchService {
 
             TagSimilarity tagSimilarity = tagSimilarityRepository.findBySearchTermAndTag(searchTerm, tag);
 
-            if(tagSimilarity == null){
+            if (tagSimilarity == null) {
                 double similarity = getSimilarity(searchTerm, tag);
                 tagSimilarity = new TagSimilarity(searchTerm, tag, similarity);
                 tagSimilarityRepository.save(tagSimilarity);
             }
 
-            if(tagSimilarity.getSimilarity() > 0.1){
+            if (tagSimilarity.getSimilarity() > 0.1) {
                 tagQueue.add(tagSimilarity);
             }
         });
@@ -96,11 +94,11 @@ public class SearchService {
 
         int languageLevel = languageService.getLanguageLevel(languageId);
 
-        while (!tagQueue.isEmpty()){
+        while (!tagQueue.isEmpty()) {
             String tag = tagQueue.remove().getTag();
             ArrayList<Quiz> quizArr = (ArrayList<Quiz>) quizRepository.getAllByQuizTypeAndLanguageId(tag, languageId);
             quizArr.forEach(quiz -> {
-                if(quiz.getLevel() <= languageLevel){
+                if (quiz.getLevel() <= languageLevel) {
                     result.add(quizDTOConverterService.apply(quiz, null));
                 }
             });
@@ -110,7 +108,7 @@ public class SearchService {
     }
 
     @Transactional
-    public List<WritingIsSolvedResponse> writingSearchResult(String searchTerm, int languageId){
+    public List<WritingIsSolvedResponse> writingSearchResult(String searchTerm, int languageId) {
         List<String> taskTexts = writingRepository.getDistinctTaskTexts();
 
         Comparator<TagSimilarity> similarityComparator = Comparator.comparing(TagSimilarity::getComparator);
@@ -120,20 +118,20 @@ public class SearchService {
 
             TagSimilarity tagSimilarity = tagSimilarityRepository.findBySearchTermAndTag(searchTerm, taskText);
 
-            if(tagSimilarity == null){
+            if (tagSimilarity == null) {
                 double similarity = getSimilarity(searchTerm, taskText);
                 tagSimilarity = new TagSimilarity(searchTerm, taskText, similarity);
                 tagSimilarityRepository.save(tagSimilarity);
             }
 
-            if(tagSimilarity.getSimilarity() > 0.2){
+            if (tagSimilarity.getSimilarity() > 0.2) {
                 tagQueue.add(tagSimilarity);
             }
         });
 
         List<WritingIsSolvedResponse> result = new ArrayList<>();
 
-        while (!tagQueue.isEmpty()){
+        while (!tagQueue.isEmpty()) {
             String taskText = tagQueue.remove().getTag();
             List<Writing> list = writingRepository.getAllByTaskTextAndLanguageId(taskText, languageId);
             list.forEach(writing -> {
@@ -183,11 +181,11 @@ public class SearchService {
 
         }
 
-        if(val instanceof  BigDecimal){
-            return ((BigDecimal)val).doubleValue();
+        if (val instanceof BigDecimal) {
+            return ((BigDecimal) val).doubleValue();
         }
 
-        if(val instanceof  BigInteger){
+        if (val instanceof BigInteger) {
             return ((BigInteger) val).doubleValue();
         }
 
@@ -196,8 +194,8 @@ public class SearchService {
     }
 
 
-    public List<MemberDTO> memberSearchResult(String username){
-        return memberDTOConverterService.applyAll(memberRepository.searchByUsernameStartsWith(username));
+    public List<SearchMemberResponse> memberSearchResult(String username) {
+        return searchMemberResponseConverterService.applyAll(memberRepository.findByUsernameContainingIgnoreCase(username));
     }
 
 
