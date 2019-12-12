@@ -14,9 +14,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.HomePageTabAdapter;
+import com.example.yallp_android.models.Comment;
 import com.example.yallp_android.models.Language;
 import com.example.yallp_android.models.MemberLanguage;
 import com.example.yallp_android.models.UserInfo;
+import com.example.yallp_android.util.RetroClients.CommentRetroClient;
 import com.example.yallp_android.util.RetroClients.LanguageRetroClient;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 import com.google.android.material.tabs.TabLayout;
@@ -34,6 +36,7 @@ public class HomePageActivity extends AppCompatActivity {
     private ArrayList<String> languageNameList = new ArrayList<>();
     private ArrayList<String> languageLevelList = new ArrayList<>();
     private ArrayList<String> languageAndLevelId = new ArrayList<>();
+    private Comment[] comments;
     private boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -49,6 +52,7 @@ public class HomePageActivity extends AppCompatActivity {
 
 
         checkUnsubsLanguages(sharedPref);
+        getComments(sharedPref);
         updateProfileInfo(sharedPref, editor);
     }
     public void updateProfileInfo(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
@@ -80,7 +84,7 @@ public class HomePageActivity extends AppCompatActivity {
                         else languageLevelList.add(lang.getLevelName());
                     }
 
-                    HomePageTabAdapter tabAdapter = new  HomePageTabAdapter(getSupportFragmentManager(),3,languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId);
+                    HomePageTabAdapter tabAdapter = new  HomePageTabAdapter(getSupportFragmentManager(),3,languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId,comments);
                     ViewPager viewPager  = findViewById(R.id.view_pager);
                     viewPager.setAdapter(tabAdapter);
                     TabLayout tabs  = findViewById(R.id.tabs);
@@ -114,6 +118,28 @@ public class HomePageActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void getComments(final SharedPreferences sharedPref){
+
+        Call<Comment[]> call;
+        call = CommentRetroClient.getInstance().getCommentApi().getComments("Bearer " + sharedPref.getString("token", null));
+        call.enqueue(new Callback<Comment[]>() {
+            @Override
+            public void onResponse(Call<Comment[]> call, Response<Comment[]> response) {
+                if (response.isSuccessful()) {
+                    comments = response.body();
+
+                } else {
+                    Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Comment[]> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override
