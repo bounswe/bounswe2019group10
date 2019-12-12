@@ -17,6 +17,9 @@ import com.example.backend.service.notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -142,7 +145,11 @@ public class WritingService {
     public WritingResultDTO processWritingAnswer(WritingRequest writingRequest, String username, int writingId) {
         Member evMember = memberRepository.findByUsername(writingRequest.getEvaluatorUsername());
         Member curMember = memberRepository.findByUsername(username);
-        Writing writing = writingRepository.getOne(writingId);
+        Writing writing = writingRepository.findById(writingId).orElse(null);
+        MemberLanguage memberLanguage = memberLanguageRepository.getByMemberIdAndLanguageId(evMember.getId(), writing.getLanguageId());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Timestamp curTimeStamp = Timestamp.valueOf(localDateTime);
+
         if (writingRequest.getEvaluatorUsername() == null || evMember == null || evMember.getUsername().equals(username)) {
             return null;
         }
@@ -163,6 +170,15 @@ public class WritingService {
         writingResult.setMemberId(memberRepository.findByUsername(username).getId());
         writingResult.setWritingId(writingRequest.getWritingId());
         writingResult.setWritingName(writing.getWritingName());
+        writingResult.setAssignmentDate(curTimeStamp);
+
+        //Add to tail
+        String oldstamps[] = memberLanguage.getUnresolvedDates();
+        String timestamps[] = new String[ oldstamps.length + 1];
+        System.arraycopy(oldstamps, 0, timestamps, 0, oldstamps.length);
+        timestamps[oldstamps.length] = localDateTime.toString();
+        memberLanguage.setUnresolvedDates(timestamps);
+
         writingResultRepository.save(writingResult);
         return writingResultDTOConverterService.apply(writingResult);
     }
@@ -194,6 +210,12 @@ public class WritingService {
     public WritingResultDTO evaluateWriting(String username, Integer writingResultId, Integer score) {
         //Check if the user is assigned to that writing first. If not return warning message
         WritingResult writingResult = writingResultRepository.getOne(writingResultId);
+        Writing writing = writingRepository.findById(writingResult.getWritingId()).orElse(null);
+        Member evMember = memberRepository.findByUsername(username);
+        MemberLanguage memberLanguage = memberLanguageRepository.getByMemberIdAndLanguage(evMember.getId(), languageRepository.getById(writing.getLanguageId()));
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Timestamp curTimeStamp = Timestamp.valueOf(localDateTime);
+
         if (writingResult == null) {
             return null;
         } else if (writingResult.getAssignedMemberId() != memberRepository.findByUsername(username).getId()) {
@@ -203,6 +225,13 @@ public class WritingService {
         writingResult.setScore(score);
         writingResult.setScored(true);
         writingResultRepository.save(writingResult);
+
+        //Remove from the head.
+        String oldstamps[] = memberLanguage.getUnresolvedDates();
+        String timestamps[] = new String[ oldstamps.length -1];
+        System.arraycopy(oldstamps, 0, timestamps, 0, oldstamps.length-1);
+        memberLanguage.setUnresolvedDates(timestamps);
+
         Notification notification = new Notification();
         notification.setMemberId(writingResult.getMemberId());
         notification.setNotificationType(NotificationType.WRITING_RESULT);

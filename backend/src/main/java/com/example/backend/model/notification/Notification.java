@@ -6,7 +6,10 @@ import javax.persistence.*;
 @Table(name = "notification")
 public class Notification {
 
+
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_generator")
+    @SequenceGenerator(name="id_generator", sequenceName = "notification_id_seq", allocationSize = 1)
     @Column(name = "id")
     private int id;
 
