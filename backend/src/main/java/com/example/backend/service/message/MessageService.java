@@ -59,17 +59,26 @@ public class MessageService {
         List<Message> messages = messageRepository.getAllByConversationId(conversationId);
         List<MessageDTO> messageDTOS = new ArrayList<>();
         messages.forEach(message -> messageDTOS.add(messageDTOConverterService.apply(message)));
-        if(read){
-            if(member.getId()==conversation.getMember1Id()){
-                conversation.setMember1Read(true);
-            }
-            else
-            {
-                conversation.setMember2Read(true);
-            }
 
+        boolean isRead;
+        if(member.getId()==conversation.getMember1Id()){
+            if(read) {
+                conversation.setMember1Read(true);
+                conversationRepository.save(conversation);//Save the changes.
+            }
+            isRead = conversation.isMember1Read();
         }
-        return conversationDTOConverterService.apply(conversation, messageDTOS, otherMember.getUsername());
+        else
+        {
+            if(read){
+                conversation.setMember2Read(true);
+                conversationRepository.save(conversation);
+            }
+            isRead = conversation.isMember2Read();
+        }
+
+
+        return conversationDTOConverterService.apply(conversation, messageDTOS, otherMember.getUsername(), isRead);
     }
 
     public MessageDTO addMessage(MessageRequest messageRequest, String memberUsername){

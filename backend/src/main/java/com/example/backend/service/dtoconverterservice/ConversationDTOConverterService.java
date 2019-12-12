@@ -10,14 +10,14 @@ import java.util.List;
 @Component
 public class ConversationDTOConverterService {
 
-    public ConversationDTO apply(Conversation conversation, List<MessageDTO> messageDTOS, String otherusername){
+    public ConversationDTO apply(Conversation conversation, List<MessageDTO> messageDTOS, String otherusername, boolean isRead){
         ConversationDTO conversationDTO = new ConversationDTO();
         conversationDTO.setId(conversation.getId());
         conversationDTO.setMember1_id(conversation.getMember1Id());
         conversationDTO.setMember2_id(conversation.getMember2Id());
         conversationDTO.setOtherUsername(otherusername);
         conversationDTO.setMessages(messageDTOS);
-
+        conversationDTO.setRead(isRead);
         return conversationDTO;
     }
 }

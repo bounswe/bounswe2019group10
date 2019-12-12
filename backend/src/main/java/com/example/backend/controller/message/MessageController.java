@@ -34,7 +34,7 @@ public class MessageController {
     @ApiOperation(value = "Get conversation by ID.")
     public ResponseEntity<ConversationDTO> getById(@PathVariable int conversationId) {
         String memberUname = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(messageService.getById(conversationId, memberUname));
+        return ResponseEntity.ok(messageService.getById(conversationId, memberUname, true));
     }
 
     @PostMapping("/send")
