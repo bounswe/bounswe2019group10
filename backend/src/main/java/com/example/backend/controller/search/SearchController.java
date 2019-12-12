@@ -23,14 +23,14 @@ public class SearchController {
     @PostMapping("/quiz/{languageId}")
     @ApiOperation(value = "search quizzes related to search term")
     public ResponseEntity<List<QuizResponseDTO>> getSearchedQuizzes(@PathVariable int languageId, @RequestBody SearchRequest searchRequest){
-        return ResponseEntity.ok(searchService.quizSearchResult(searchRequest.getSearchTerm(), languageId));
+        return ResponseEntity.ok(searchService.quizSearchResult(searchRequest.getSearchTerm().toLowerCase(), languageId));
     }
 
     @PostMapping("/writing/{languageId}")
     @ApiOperation(value = "search writings related to search term")
     public ResponseEntity<List<WritingIsSolvedResponse>> getSearchedWritings(@PathVariable int languageId,
                                                                              @RequestBody SearchRequest searchRequest){
-        return ResponseEntity.ok(searchService.writingSearchResult(searchRequest.getSearchTerm(), languageId));
+        return ResponseEntity.ok(searchService.writingSearchResult(searchRequest.getSearchTerm().toLowerCase(), languageId));
     }
 
     @GetMapping("/member")
