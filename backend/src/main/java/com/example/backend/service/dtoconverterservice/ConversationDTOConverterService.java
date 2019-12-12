@@ -17,6 +17,7 @@ public class ConversationDTOConverterService {
         conversationDTO.setMember2_id(conversation.getMember2Id());
         conversationDTO.setOtherUsername(otherusername);
         conversationDTO.setMessages(messageDTOS);
+
         return conversationDTO;
     }
 }
