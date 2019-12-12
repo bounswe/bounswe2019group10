@@ -2,11 +2,19 @@ package com.example.backend.model.member;
 
 import com.example.backend.model.language.Language;
 import com.example.backend.model.language.LevelName;
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
+@TypeDefs({
+        @TypeDef(
+                name = "string-array",
+                typeClass = StringArrayType.class
+        )})
 @Table(name = "member_language")
 public class MemberLanguage {
     @Id
@@ -29,8 +37,10 @@ public class MemberLanguage {
     @Column(name = "level_name")
     private LevelName levelName;
 
-    @Column(name = "unresolved_dates")
-    private Timestamp unresolvedDates[];
+    @Type( type = "string-array" )
+    @Column(name = "unresolved_dates",
+            columnDefinition = "text[]")
+    private String[] unresolvedDates;
 
     public LevelName getLevelName() {
         return levelName;
@@ -79,11 +89,11 @@ public class MemberLanguage {
         this.language = language;
     }
 
-    public Timestamp[] getUnresolvedDates() {
+    public String[] getUnresolvedDates() {
         return unresolvedDates;
     }
 
-    public void setUnresolvedDates(Timestamp[] unresolvedDates) {
+    public void setUnresolvedDates(String[] unresolvedDates) {
         this.unresolvedDates = unresolvedDates;
     }
 }

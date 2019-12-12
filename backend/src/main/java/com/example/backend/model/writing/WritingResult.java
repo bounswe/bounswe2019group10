@@ -2,7 +2,6 @@ package com.example.backend.model.writing;
 
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name = "writing_result")
@@ -36,7 +35,7 @@ public class WritingResult {
     private String writingName;
 
     @Column(name = "assignment_date")
-    private Timestamp assignmentDate;
+    private String assignmentDate;
 
     public int getId() {
         return id;
@@ -102,11 +101,11 @@ public class WritingResult {
         this.writingName = writingName;
     }
 
-    public Timestamp getAssignmentDate() {
+    public String getAssignmentDate() {
         return assignmentDate;
     }
 
-    public void setAssignmentDate(Timestamp assignmentDate) {
+    public void setAssignmentDate(String assignmentDate) {
         this.assignmentDate = assignmentDate;
     }
 }
