@@ -18,10 +18,10 @@ public class Conversation {
     @Column(name = "member2_id")
     private int member2Id;
 
-    @Column(name = "isMember1Read")
+    @Column(name = "is_member1_read")
     private boolean isMember1Read;
 
-    @Column(name = "isMember2Read")
+    @Column(name = "is_member2_read")
     private boolean isMember2Read;
 
     public int getId() {
