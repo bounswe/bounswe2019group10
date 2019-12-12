@@ -13,71 +13,78 @@
         android:elevation="999999dp" />
 
 
-    <LinearLayout
-        android:id="@+id/signInLayout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:orientation="vertical">
+        android:layout_marginTop="80dp">
 
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:background="@drawable/border_image"
-            android:src="@drawable/orangebird" />
-
-        <TextView
-            android:id="@+id/profileUsername"
-            style="@style/MainTitle"
+        <LinearLayout
+            android:id="@+id/signInLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="username(name surname)" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/profileMail"
-            style="@style/MainTitle"
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:background="@drawable/border_image"
+                android:src="@drawable/orangebird" />
+
+            <TextView
+                android:id="@+id/profileUsername"
+                style="@style/MainTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="username(name surname)" />
+
+            <TextView
+                android:id="@+id/profileMail"
+                style="@style/MainTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="mail address"
+                android:textColor="#888"
+                android:textSize="15dp" />
+
+            <com.example.yallp_android.custom_views.ExpandableTextView
+                android:id="@+id/expandableTextView"
+                style="@style/MainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#888" />
+
+            <TextView
+                android:id="@+id/seeFullBio"
+                style="@style/MainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/hide_bio"
+                android:textColor="@color/colorBrown"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/languages"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="mail address"
-            android:textColor="#888"
-            android:textSize="15dp" />
+            android:layout_height="wrap_content" />
 
-        <com.example.yallp_android.custom_views.ExpandableTextView
-            android:id="@+id/expandableTextView"
-            style="@style/MainTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#888" />
+        <ListView
+            android:id="@+id/comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/seeFullBio"
-            style="@style/MainTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/hide_bio"
-            android:textColor="@color/colorBrown"
-            android:textSize="15sp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-
-    </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

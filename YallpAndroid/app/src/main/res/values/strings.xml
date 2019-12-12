@@ -32,4 +32,6 @@
     <string name="username_title">UserName :</string>
     <string name="name_surname_title">Name Surname :</string>
     <string name="search_user">Search User</string>
+    <string name="see_languages">See Languages</string>
+    <string name="see_comments">See Comments</string>
 </resources>
