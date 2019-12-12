@@ -17,7 +17,6 @@ import com.example.backend.service.notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -148,7 +147,7 @@ public class WritingService {
         Writing writing = writingRepository.findById(writingId).orElse(null);
         MemberLanguage memberLanguage = memberLanguageRepository.getByMemberIdAndLanguageId(evMember.getId(), writing.getLanguageId());
         LocalDateTime localDateTime = LocalDateTime.now();
-        Timestamp curTimeStamp = Timestamp.valueOf(localDateTime);
+        String curTime = localDateTime.toString();
 
         if (writingRequest.getEvaluatorUsername() == null || evMember == null || evMember.getUsername().equals(username)) {
             return null;
@@ -170,13 +169,13 @@ public class WritingService {
         writingResult.setMemberId(memberRepository.findByUsername(username).getId());
         writingResult.setWritingId(writingRequest.getWritingId());
         writingResult.setWritingName(writing.getWritingName());
-        writingResult.setAssignmentDate(curTimeStamp);
+        writingResult.setAssignmentDate(curTime);
 
         //Add to tail
         String oldstamps[] = memberLanguage.getUnresolvedDates();
         String timestamps[] = new String[ oldstamps.length + 1];
         System.arraycopy(oldstamps, 0, timestamps, 0, oldstamps.length);
-        timestamps[oldstamps.length] = localDateTime.toString();
+        timestamps[oldstamps.length] = curTime;
         memberLanguage.setUnresolvedDates(timestamps);
 
         writingResultRepository.save(writingResult);
@@ -229,7 +228,17 @@ public class WritingService {
         //Remove from the head.
         String oldstamps[] = memberLanguage.getUnresolvedDates();
         String timestamps[] = new String[ oldstamps.length -1];
-        System.arraycopy(oldstamps, 0, timestamps, 0, oldstamps.length-1);
+        boolean found = false;
+        for(int i=0; i<oldstamps.length; ++i){
+            if(oldstamps[i].equals(writingResult.getAssignmentDate())){
+                found= true;
+                continue;
+            }
+            if(found)
+                timestamps[i-1] = oldstamps[i];
+            else
+                timestamps[i] = oldstamps[i];
+        }
         memberLanguage.setUnresolvedDates(timestamps);
 
         Notification notification = new Notification();
@@ -238,6 +247,14 @@ public class WritingService {
         notification.setText("You have an evaluated writing!");
         notificationService.save(notification);
         return writingResultDTOConverterService.apply(writingResult);
+    }
+
+    public int findIndex(String[] arr, String s){
+        for(int i = 0; i<arr.length; ++i){
+            if(arr[i].equals(s))
+                return i;
+        }
+        return -1;
     }
 
     public String getUsernameFromId(Integer id){
