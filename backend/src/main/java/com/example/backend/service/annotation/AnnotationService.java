@@ -57,7 +57,14 @@ public class AnnotationService {
         anno.put("@context", "http://www.w3.org/ns/anno.jsonld");
         anno.put("id", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/annotation/" + annotation.getId());
         anno.put("type", "Annotation");
-        anno.put("creator", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/member/" + annotation.getAnnotatorId());
+
+        JSONObject creator = new JSONObject();
+
+        creator.put("id","http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/member/" + annotation.getAnnotatorId());
+        creator.put("type", "Person");
+        creator.put("nickname", jwtUserDetailsService.getUsernameById(annotation.getAnnotatorId()));
+
+        anno.put("creator", creator);
         anno.put("bodyValue", annotation.getAnnotationText());
 
         JSONObject target = new JSONObject();
