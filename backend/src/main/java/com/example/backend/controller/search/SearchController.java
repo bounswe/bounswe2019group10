@@ -1,7 +1,7 @@
 package com.example.backend.controller.search;
 
-import com.example.backend.model.member.MemberDTO;
 import com.example.backend.model.quiz.QuizResponseDTO;
+import com.example.backend.model.search.SearchMemberResponse;
 import com.example.backend.model.search.SearchRequest;
 import com.example.backend.model.writing.WritingIsSolvedResponse;
 import com.example.backend.service.search.SearchService;
@@ -35,7 +35,7 @@ public class SearchController {
 
     @GetMapping("/member")
     @ApiOperation(value = "search users includes with username term")
-    public ResponseEntity<List<MemberDTO>> getSearchedMembers( @RequestBody SearchRequest searchRequest){
+    public ResponseEntity<List<SearchMemberResponse>> getSearchedMembers(@RequestBody SearchRequest searchRequest){
         return ResponseEntity.ok(searchService.memberSearchResult(searchRequest.getSearchTerm()));
     }
 
