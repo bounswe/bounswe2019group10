@@ -249,14 +249,6 @@ public class WritingService {
         return writingResultDTOConverterService.apply(writingResult);
     }
 
-    public int findIndex(String[] arr, String s){
-        for(int i = 0; i<arr.length; ++i){
-            if(arr[i].equals(s))
-                return i;
-        }
-        return -1;
-    }
-
     public String getUsernameFromId(Integer id){
         return memberRepository.getOne(id).getUsername();
     }
