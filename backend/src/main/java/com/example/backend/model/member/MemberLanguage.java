@@ -4,6 +4,7 @@ import com.example.backend.model.language.Language;
 import com.example.backend.model.language.LevelName;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "member_language")
@@ -27,6 +28,9 @@ public class MemberLanguage {
     @Enumerated(EnumType.STRING)
     @Column(name = "level_name")
     private LevelName levelName;
+
+    @Column(name = "unresolved_dates")
+    private Timestamp unresolvedDates[];
 
     public LevelName getLevelName() {
         return levelName;
@@ -73,5 +77,13 @@ public class MemberLanguage {
 
     public void setLanguage(Language language) {
         this.language = language;
+    }
+
+    public Timestamp[] getUnresolvedDates() {
+        return unresolvedDates;
+    }
+
+    public void setUnresolvedDates(Timestamp[] unresolvedDates) {
+        this.unresolvedDates = unresolvedDates;
     }
 }

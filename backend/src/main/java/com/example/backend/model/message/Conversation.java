@@ -18,6 +18,11 @@ public class Conversation {
     @Column(name = "member2_id")
     private int member2Id;
 
+    @Column(name = "is_member1_read")
+    private boolean isMember1Read;
+
+    @Column(name = "is_member2_read")
+    private boolean isMember2Read;
 
     public int getId() {
         return id;
@@ -41,6 +46,23 @@ public class Conversation {
 
     public void setMember2Id(int member2Id) {
         this.member2Id = member2Id;
+    }
+
+
+    public boolean isMember1Read() {
+        return isMember1Read;
+    }
+
+    public void setMember1Read(boolean member1Read) {
+        isMember1Read = member1Read;
+    }
+
+    public boolean isMember2Read() {
+        return isMember2Read;
+    }
+
+    public void setMember2Read(boolean member2Read) {
+        isMember2Read = member2Read;
     }
 }
 
