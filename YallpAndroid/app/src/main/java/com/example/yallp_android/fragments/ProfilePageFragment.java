@@ -28,7 +28,7 @@ import com.example.yallp_android.models.Comment;
 import java.io.File;
 import java.util.ArrayList;
 
-public class ProfilePageFragment extends Fragment implements ThreeDotsView.ThreeDotsClickListener{
+public class ProfilePageFragment extends Fragment implements ThreeDotsView.ThreeDotsClickListener {
 
 
     TextView seeFullBio;
@@ -55,18 +55,18 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
         listView = view.findViewById(R.id.commentList);
 
         ArrayList<Comment> commentsMadeForUser = new ArrayList<>();
-        for(Comment comment : (Comment[]) getArguments().getSerializable("comments")){
+        for (Comment comment : (Comment[]) getArguments().getSerializable("comments")) {
             commentsMadeForUser.add(comment);
         }
         //ArrayList<Comment> commentsMadeForUser = (ArrayList<Comment>) getArguments().getSerializable("comments");
-        if(commentsMadeForUser.size() != 0){
+        if (commentsMadeForUser.size() != 0) {
             ImageView shochedImage = view.findViewById(R.id.shockedImage);
             TextView noCommentText = view.findViewById(R.id.noCommentText);
             shochedImage.setVisibility(View.GONE);
             noCommentText.setVisibility(View.GONE);
             adapter = new CommentsAdapter(getContext(), commentsMadeForUser);
             listView.setAdapter(adapter);
-        }else{
+        } else {
             listView.setVisibility(View.GONE);
             listView.setEnabled(false);
         }
@@ -133,16 +133,21 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
     private void editProfile() {
         Intent i = new Intent(getActivity(), EditProfileActivity.class);
         startActivity(i);
+        getActivity().finish();
     }
 
     private void completedWritingExercises() {
         Intent i = new Intent(getActivity(), CompletedWritingExerciseActivity.class);
         startActivity(i);
+        getActivity().finish();
+
     }
 
     private void nonCompletedAssignments() {
         Intent i = new Intent(getActivity(), NonCompletedAssignmentsActivity.class);
         startActivity(i);
+        getActivity().finish();
+
     }
 
     private void logout() {

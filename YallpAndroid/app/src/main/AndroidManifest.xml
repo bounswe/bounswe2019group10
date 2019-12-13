@@ -45,6 +45,7 @@
         <activity android:name=".activities.HomePageActivity" />
         <activity android:name=".activities.SearchUserActivity" />
         <activity android:name=".activities.ProfileVisitPageActivity" />
+        <activity android:name=".activities.SeeCommentsActivity" />
     </application>
 
 </manifest>

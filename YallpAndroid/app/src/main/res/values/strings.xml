@@ -33,8 +33,8 @@
     <string name="name_surname_title">Name Surname :</string>
     <string name="search_user">Search User</string>
     <string name="see_languages">See Languages</string>
-    <string name="see_comments">See Comments</string>
     <string name="no_comments">Unfortunately, there are not any comments made for you</string>
     <string name="comments">Comments</string>
     <string name="languages">Languages</string>
+    <string name="see_comments">See Comments</string>
 </resources>

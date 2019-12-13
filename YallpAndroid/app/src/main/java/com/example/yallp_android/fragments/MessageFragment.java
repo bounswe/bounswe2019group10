@@ -32,7 +32,7 @@ public class MessageFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), SearchUserActivity.class);
                 startActivity(i);
-              //  getActivity().finish();
+                getActivity().finish();
             }
         });
         return view;
