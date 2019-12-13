@@ -18,9 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -83,10 +85,54 @@ public class WritingService {
     }
 
     public List<String> RecommendUsers(Integer curMemberId, Integer languageId) {
-        List<String> users = new ArrayList<>();
-        List<MemberLanguage> memberLanguages = memberLanguageRepository.get10ForWriting(languageId, curMemberId);
-        for (MemberLanguage m : memberLanguages) {
-            users.add(memberRepository.getOne(m.getMemberId()).getUsername());
+        ArrayList<String> users = new ArrayList<>();
+        HashSet<String> usernames = new HashSet<>(); //For quick lookup
+        HashMap<Integer, String> idUsernameMap = new HashMap<>();
+        //This probably needs to change when a lot of new members come
+        List<Member> members = memberRepository.findAll();
+        members.forEach(member -> idUsernameMap.put(member.getId(), member.getUsername()));
+        LocalDateTime curTime = LocalDateTime.now();
+        List<MemberLanguage> memberLanguages = memberLanguageRepository.findByLanguageIdExceptMemberIdOrderByLanguageLevelDesc(languageId, curMemberId);
+        int recommendationSize = Math.min(10, memberLanguages.size());
+        int qualifiedSize = recommendationSize*3/4;
+        int i = 0;
+        //Add active and well qualified members that are not busy and not recently assigned a task
+        for (; i<memberLanguages.size() && users.size() != recommendationSize; ++i) {
+            MemberLanguage m = memberLanguages.get(i);
+            String username = idUsernameMap.get(m.getMemberId());
+            String[] dates = m.getUnresolvedDates();
+            if(dates.length > 0){
+                LocalDateTime earlyDate = LocalDateTime.parse(dates[0]);
+                LocalDateTime recentDate = LocalDateTime.parse(dates[dates.length-1]);
+                long inactiveDays = Duration.between(curTime, earlyDate).toDays();
+                long recentAssignmentOffset = Duration.between(curTime, recentDate).toDays();
+                if(inactiveDays<7 && recentAssignmentOffset > 0 && dates.length<5){
+                    users.add(username);
+                    usernames.add(username);
+                }
+            }
+            else{
+                users.add(username);
+                usernames.add(username);
+            }
+        }
+        //Add rest only if the member is not assigned any task.
+        for(; i<memberLanguages.size() && users.size() != recommendationSize ; ++i){
+            MemberLanguage m = memberLanguages.get(i);
+            String username = idUsernameMap.get(m.getMemberId());
+            if(m.getUnresolvedDates().length==0){
+                users.add(username);
+                usernames.add(username);
+            }
+        }
+
+        //If there is still not enough members to be recommended take them in reverse order
+        while(users.size()<recommendationSize && --i >= 0){
+            MemberLanguage m = memberLanguages.get(i);
+            String username = idUsernameMap.get(m.getMemberId());
+            if(!usernames.contains(username)){
+                users.add(username);
+            }
         }
         return users;
     }
