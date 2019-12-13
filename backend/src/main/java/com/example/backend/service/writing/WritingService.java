@@ -249,8 +249,20 @@ public class WritingService {
         return writingResultDTOConverterService.apply(writingResult);
     }
 
+
+    public WritingDTO addNewWriting(WritingDTO writingDTO){
+        Writing writing = new Writing();
+        writing.setLanguageId(writingDTO.getLanguageId());
+        writing.setTaskText(writingDTO.getTaskText());
+        writing.setWritingName(writingDTO.getWritingName());
+        writingRepository.save(writing);
+        return writingDTO;
+    }
+
     public String getUsernameFromId(Integer id){
         return memberRepository.getOne(id).getUsername();
     }
+
+
 
 }

@@ -89,4 +89,12 @@ public class WritingController {
         return ResponseEntity.ok(writingService.getWritingResultAnswerText(writingResultId));
     }
 
+    @PostMapping("/add")
+    @ApiOperation(value = "Add a new writing to the database.  ")
+    public ResponseEntity<WritingDTO> evaluateWritingRequest( @RequestBody WritingDTO writingDTO) {
+        return ResponseEntity.ok(writingService.addNewWriting(writingDTO));
+    }
+
+
+
 }
