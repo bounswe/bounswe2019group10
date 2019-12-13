@@ -2,13 +2,14 @@ package com.example.yallp_android.activities
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.yallp_android.CommentsHelper
 import com.example.yallp_android.R
 import com.example.yallp_android.adapters.UserLanguageListAdapter
 import com.example.yallp_android.custom_views.ExpandableTextView
@@ -25,7 +26,8 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
 
     private lateinit var sharedPref: SharedPreferences
-    private lateinit var userInfo:UserInfo
+    lateinit var comments: Array<Comment>
+    private lateinit var userInfo: UserInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +37,10 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
         sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE)
 
-        Log.e("e", "${intent.extras == null}")
         if (intent.extras != null) {
             callById(intent.getIntExtra("memberId", 120))
         }
+
         val addComment = findViewById<Button>(R.id.addComment)
         addComment.setOnClickListener {
 
@@ -76,6 +78,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             val dialog = builder.create()
             dialog.show()
         }
+
     }
 
     private fun callById(id: Int) {
@@ -87,7 +90,6 @@ class ProfileVisitPageActivity : AppCompatActivity() {
         call.enqueue(object : Callback<UserInfo> {
             override fun onResponse(call: Call<UserInfo>, response: Response<UserInfo>) {
                 if (response.isSuccessful) {
-                    Log.e("e", "succes")
                     userInfo = response.body()
                     val userNameText = findViewById<TextView>(R.id.profileUsername)
                     var username = userInfo.username
@@ -144,7 +146,6 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<UserInfo>, t: Throwable) {
-                Log.e("e", "fail")
 
             }
         })
@@ -152,6 +153,38 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
     private fun seeComments(id: Int) {
 
+        val call: Call<Array<Comment>> = CommentRetroClient.getInstance().commentApi.getCommentsbyId("Bearer " + sharedPref.getString("token", null)!!, id)
+        call.enqueue(object : Callback<Array<Comment>> {
+            override fun onResponse(call: Call<Array<Comment>>, response: Response<Array<Comment>>) {
+                if (response.isSuccessful) {
+                    comments = response.body()
+                    if(comments.isEmpty()){
+                        Toast.makeText(baseContext, "No comment found for this user!", Toast.LENGTH_LONG).show()
+                    }else{
+                        val i = Intent(baseContext, SeeCommentsActivity::class.java)
+                        CommentsHelper.comments.clear()
+                        for(comment in comments){
+                            CommentsHelper.comments.add(comment)
+                        }
+                        startActivity(i)
+                    }
+
+                } else {
+                    Toast.makeText(baseContext, "Error loading comments!", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Array<Comment>>, t: Throwable) {
+
+            }
+        })
+
+    }
+
+    override fun onBackPressed() {
+        val i = Intent(this,HomePageActivity::class.java)
+        startActivity(i)
+        finish()
     }
 
 }

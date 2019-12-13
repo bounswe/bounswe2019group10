@@ -52,8 +52,8 @@ public class WritingDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-       // Intent i = new Intent(getApplicationContext(), CompletedWritingExerciseActivity.class);
-      //  startActivity(i);
+        Intent i = new Intent(getApplicationContext(), CompletedWritingExerciseActivity.class);
+        startActivity(i);
         finish();
     }
 }

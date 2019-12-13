@@ -66,21 +66,21 @@
         android:id="@+id/languagesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/profileLayout"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:text="@string/languages"
         android:textColor="#000"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@id/profileLayout" />
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/blankLine"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#000"
-        android:layout_below="@id/languagesTitle" />
+        android:layout_below="@id/languagesTitle"
+        android:background="#000" />
 
     <ListView
         android:id="@+id/languages"
@@ -88,25 +88,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/blankLine" />
 
-    <TextView
+    <Button
         android:id="@+id/commentsTitle"
+        style="@style/WhiteBackgroundButtonTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:text="See Comments"
-        android:textColor="#000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_below="@id/languages" />
-
-    <View
-        android:id="@+id/blankLine2"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#000"
-        android:layout_below="@id/commentsTitle" />
+        android:layout_below="@id/languages"
+        android:layout_margin="20dp"
+        android:padding="15dp"
+        android:text="@string/see_comments"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/addComment"
@@ -114,12 +105,12 @@
         android:layout_height="wrap_content"
         style="@style/WhiteBackgroundButtonTheme"
         android:text="Add Comment"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:padding="15dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
-        android:layout_below="@+id/blankLine2"
-        android:layout_marginTop="30dp"/>
+        android:layout_below="@id/languages"
+        android:layout_marginTop="20dp"/>
 
 
 </RelativeLayout>

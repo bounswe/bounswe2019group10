@@ -65,7 +65,7 @@ public class LanguageListFragment extends Fragment {
                     i.putExtra("languageId", Integer.parseInt(splitted[0]));
                     i.putExtra("level", Integer.parseInt(splitted[1]));
                     startActivity(i);
-                  //  getActivity().finish();
+                    getActivity().finish();
                 }
             }
 

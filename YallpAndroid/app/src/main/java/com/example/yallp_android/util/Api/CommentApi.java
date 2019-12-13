@@ -10,6 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface CommentApi {
 
@@ -18,11 +19,15 @@ public interface CommentApi {
     @GET("comment")
     Call<Comment[]> getComments(@Header("Authorization") String token);
 
+
+    @Headers({"Content-Type: application/json"})
+    @GET("comment/{memberId}")
+    Call<Comment[]> getCommentsbyId(@Header("Authorization") String token,@Path("memberId") int memberId);
+
     @Headers({"Content-Type: application/json"})
     @POST("comment/make")
     Call<Comment> makeComment(
             @Header("Authorization") String token,
             @Body CommentSubmit comment
     );
-
 }
