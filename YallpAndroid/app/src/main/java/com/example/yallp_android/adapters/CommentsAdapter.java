@@ -55,7 +55,13 @@ public class CommentsAdapter extends BaseAdapter {
 
         holder.comment.setText(listData.get(position).getComment());
         holder.comentatorName.setText("-"+listData.get(position).getCommentatorName());
-        //holder.date.setVisibility(View.GONE);
+        String date = listData.get(position).getUpdatedAt();
+        date = date.substring(0,date.indexOf("T"));
+        String reversedDate ="";
+        for(int i = date.length()-1;i>=0;i--){
+            reversedDate += date.charAt(i);
+        }
+        holder.date.setText(date);
 
         return v;
     }

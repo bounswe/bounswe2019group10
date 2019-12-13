@@ -51,9 +51,7 @@ public class HomePageActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor = sharedPref.edit();
 
 
-        checkUnsubsLanguages(sharedPref);
-        getComments(sharedPref);
-        updateProfileInfo(sharedPref, editor);
+        checkUnsubsLanguages(sharedPref,editor);
     }
     public void updateProfileInfo(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
         Call<UserInfo> call;
@@ -99,7 +97,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     }
 
-    private void checkUnsubsLanguages(final SharedPreferences sharedPref) {
+    private void checkUnsubsLanguages(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
 
         Call<Language[]> call;
         call = LanguageRetroClient.getInstance().getLanguageApi().getUnsubsLanguages("Bearer " + sharedPref.getString("token", null));
@@ -108,6 +106,7 @@ public class HomePageActivity extends AppCompatActivity {
             public void onResponse(Call<Language[]> call, Response<Language[]> response) {
                 if (response.isSuccessful()) {
                     unsubsLangsSize = response.body().length;
+                    getComments(sharedPref,editor);
 
                 } else {
                     Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
@@ -121,7 +120,7 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    private void getComments(final SharedPreferences sharedPref){
+    private void getComments(final SharedPreferences sharedPref, final SharedPreferences.Editor editor){
 
         Call<Comment[]> call;
         call = CommentRetroClient.getInstance().getCommentApi().getComments("Bearer " + sharedPref.getString("token", null));
@@ -130,7 +129,7 @@ public class HomePageActivity extends AppCompatActivity {
             public void onResponse(Call<Comment[]> call, Response<Comment[]> response) {
                 if (response.isSuccessful()) {
                     comments = response.body();
-
+                    updateProfileInfo(sharedPref, editor);
                 } else {
                     Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
                 }
