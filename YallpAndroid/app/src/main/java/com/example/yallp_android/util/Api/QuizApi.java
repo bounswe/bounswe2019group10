@@ -1,6 +1,5 @@
 package com.example.yallp_android.util.Api;
 
-import com.example.yallp_android.models.Quiz;
 import com.example.yallp_android.models.QuizAnswers;
 import com.example.yallp_android.models.QuizListElement;
 import com.example.yallp_android.models.QuizResult;

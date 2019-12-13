@@ -29,14 +29,16 @@ public class UserLanguageListAdapter extends BaseAdapter {
     private int unsubsList;
     private SharedPreferences sharedPref;
     private Context context;
+    private boolean isVisiting;
 
-    public UserLanguageListAdapter(Context aContext, ArrayList<String> nameList, ArrayList<String> levelList,int unsubsList,SharedPreferences sharedPref) {
+    public UserLanguageListAdapter(Context aContext, ArrayList<String> nameList, ArrayList<String> levelList,int unsubsList,SharedPreferences sharedPref, boolean isVisiting) {
         this.languageNameList = nameList;
         this.languageLevelList = levelList;
         this.unsubsList = unsubsList;
         layoutInflater = LayoutInflater.from(aContext);
         this.sharedPref = sharedPref;
         this.context = aContext;
+        this.isVisiting = isVisiting;
     }
 
     @Override
@@ -69,6 +71,7 @@ public class UserLanguageListAdapter extends BaseAdapter {
         } else {
             v = layoutInflater.inflate(R.layout.user_language, null);
             languageHolder = new ViewHolderLanguage();
+            if(isVisiting) v.findViewById(R.id.deleteIcon).setVisibility(View.INVISIBLE);
             languageHolder.languageName = v.findViewById(R.id.languageName);
             languageHolder.languageLevel = v.findViewById(R.id.languageLevel);
             languageHolder.countryFlag = v.findViewById(R.id.countryFlag);

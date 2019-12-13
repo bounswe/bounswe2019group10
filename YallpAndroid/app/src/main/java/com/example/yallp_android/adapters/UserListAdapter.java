@@ -53,8 +53,6 @@ public class UserListAdapter  extends RecyclerView.Adapter<com.example.yallp_and
 
             Context context;
             TextView username;
-            TextView nameSurname;
-            TextView nameSurnameTitle;
             int id = -1 ;
 
             int position;
@@ -65,8 +63,6 @@ public class UserListAdapter  extends RecyclerView.Adapter<com.example.yallp_and
                 super(view);
                 this.context = context;
                 username = view.findViewById(R.id.userNameText);
-                nameSurname = view.findViewById(R.id.nameSurnameText);
-                nameSurnameTitle = view.findViewById(R.id.nameSurnameTitle);
                 this.userListAdapterClickListener = userListAdapterClickListener;
                 view.setOnClickListener(this);
             }
@@ -75,12 +71,6 @@ public class UserListAdapter  extends RecyclerView.Adapter<com.example.yallp_and
                 this.userListElement = userListElement;
                 this.position = position;
                 username.setText(userListElement.getUsername());
-                if( userListElement.getName()==null || userListElement.getSurname()==null || (userListElement.getName().equals("") && userListElement.getName().equals(""))){
-                    nameSurnameTitle.setVisibility(View.INVISIBLE);
-                    nameSurname.setVisibility(View.INVISIBLE);
-                }else{
-                    nameSurname.setText(userListElement.getName()+" "+userListElement.getSurname());
-                }
                 id = userListElement.getId();
 
             }

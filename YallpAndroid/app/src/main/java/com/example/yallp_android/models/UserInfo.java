@@ -13,6 +13,7 @@ public class UserInfo {
     private String role;
     private String name;
     private String surname;
+    private String nativeLanguage;
 
     public int getId() {
         return id;

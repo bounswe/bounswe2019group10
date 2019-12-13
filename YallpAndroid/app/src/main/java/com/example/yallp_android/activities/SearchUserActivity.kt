@@ -96,6 +96,7 @@ class SearchUserActivity : AppCompatActivity(), UserListAdapter.UserListAdapterC
 
     override fun userListAdapterClick(id: Int) {
         val i = Intent(this.applicationContext,ProfileVisitPageActivity::class.java)
+        i.putExtra("memberId",id)
         startActivity(i)
     }
 

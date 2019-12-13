@@ -44,6 +44,7 @@
         <activity android:name=".activities.NonCompletedAssignmentsActivity" />
         <activity android:name=".activities.HomePageActivity" />
         <activity android:name=".activities.SearchUserActivity" />
+        <activity android:name=".activities.ProfileVisitPageActivity" />
     </application>
 
 </manifest>

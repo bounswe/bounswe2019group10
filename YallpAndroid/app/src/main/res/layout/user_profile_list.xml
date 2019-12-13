@@ -49,35 +49,5 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/nameSurnameLayout"
-            android:padding="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/nameSurnameTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:text="@string/name_surname_title"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#40403d" />
-
-            <TextView
-                android:id="@+id/nameSurnameText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_toEndOf="@+id/nameSurnameTitle"
-                android:layout_alignParentEnd="true"
-                android:text="name surname"
-                android:textColor="#969693"
-                android:textSize="18sp"
-                android:textStyle="italic" />
-        </RelativeLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

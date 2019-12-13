@@ -5,6 +5,7 @@ import com.example.yallp_android.models.UserListElement;
 import com.example.yallp_android.models.WritingListElement;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -23,5 +24,7 @@ public interface SearchApi {
 
     @Headers({"Content-Type: application/json"})
     @GET("member/{username}")
-    Call<UserListElement[]> searchUser(@Header("Authorization") String token,@Path("username") String term);
+    Call<UserListElement[]> searchUser(
+            @Header("Authorization") String token,
+            @Path("username") String username);
 }
