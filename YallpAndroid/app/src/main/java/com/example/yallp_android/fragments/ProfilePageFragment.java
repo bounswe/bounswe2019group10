@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,19 +20,27 @@ import com.example.yallp_android.activities.CompletedWritingExerciseActivity;
 import com.example.yallp_android.activities.EditProfileActivity;
 import com.example.yallp_android.activities.MainActivity;
 import com.example.yallp_android.activities.NonCompletedAssignmentsActivity;
+import com.example.yallp_android.adapters.CommentsAdapter;
 import com.example.yallp_android.custom_views.ExpandableTextView;
 import com.example.yallp_android.custom_views.ThreeDotsView;
+import com.example.yallp_android.models.Comment;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class ProfilePageFragment extends Fragment implements ThreeDotsView.ThreeDotsClickListener{
 
 
     TextView seeFullBio;
     ExpandableTextView expandableTextView;
+    private ListView listView;
+    private CommentsAdapter adapter;
 
-    public static ProfilePageFragment newInstance() {
+    public static ProfilePageFragment newInstance(Comment[] comments) {
         ProfilePageFragment fragment = new ProfilePageFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("comments", comments);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -42,6 +52,24 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
 
         TextView usernameTextView = view.findViewById(R.id.profileUsername);
         TextView mailTextView = view.findViewById(R.id.profileMail);
+        listView = view.findViewById(R.id.commentList);
+
+        ArrayList<Comment> commentsMadeForUser = new ArrayList<>();
+        for(Comment comment : (Comment[]) getArguments().getSerializable("comments")){
+            commentsMadeForUser.add(comment);
+        }
+        //ArrayList<Comment> commentsMadeForUser = (ArrayList<Comment>) getArguments().getSerializable("comments");
+        if(commentsMadeForUser.size() != 0){
+            ImageView shochedImage = view.findViewById(R.id.shockedImage);
+            TextView noCommentText = view.findViewById(R.id.noCommentText);
+            shochedImage.setVisibility(View.GONE);
+            noCommentText.setVisibility(View.GONE);
+            adapter = new CommentsAdapter(getContext(), commentsMadeForUser);
+            listView.setAdapter(adapter);
+        }else{
+            listView.setVisibility(View.GONE);
+            listView.setEnabled(false);
+        }
 
         expandableTextView = view.findViewById(R.id.expandableTextView);
         seeFullBio = view.findViewById(R.id.seeFullBio);
