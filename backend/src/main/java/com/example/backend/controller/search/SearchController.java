@@ -33,10 +33,10 @@ public class SearchController {
         return ResponseEntity.ok(searchService.writingSearchResult(searchRequest.getSearchTerm().toLowerCase(), languageId));
     }
 
-    @GetMapping("/member")
+    @GetMapping("/member/{username}")
     @ApiOperation(value = "search users includes with username term")
-    public ResponseEntity<List<SearchMemberResponse>> getSearchedMembers(@RequestBody SearchRequest searchRequest){
-        return ResponseEntity.ok(searchService.memberSearchResult(searchRequest.getSearchTerm()));
+    public ResponseEntity<List<SearchMemberResponse>> getSearchedMembers(@PathVariable String username){
+        return ResponseEntity.ok(searchService.memberSearchResult(username));
     }
 
 
