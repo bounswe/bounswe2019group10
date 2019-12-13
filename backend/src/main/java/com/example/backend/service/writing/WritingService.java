@@ -208,6 +208,7 @@ public class WritingService {
         notification.setMemberId(evMember.getId());
         notification.setNotificationType(NotificationType.WRITING_EVALUATE);
         notification.setText("You have a new writing to evaluate!");
+        notification.setRead(false);
         notificationService.save(notification);
 
         writingResult.setAnswerText(writingRequest.getAnswerText());
@@ -291,6 +292,7 @@ public class WritingService {
         notification.setMemberId(writingResult.getMemberId());
         notification.setNotificationType(NotificationType.WRITING_RESULT);
         notification.setText("You have an evaluated writing!");
+        notification.setRead(false);
         notificationService.save(notification);
         return writingResultDTOConverterService.apply(writingResult);
     }

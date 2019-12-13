@@ -108,6 +108,7 @@ public class MessageService {
         notification.setMemberId(otherMember.getId());
         notification.setNotificationType(NotificationType.NEW_MESSAGE);
         notification.setText("You have a new message from "+ member.getUsername());
+        notification.setRead(false);
         notificationService.save(notification);
 
         LocalDateTime localDateTime = LocalDateTime.now();
