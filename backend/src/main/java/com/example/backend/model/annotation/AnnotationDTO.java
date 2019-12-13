@@ -1,5 +1,7 @@
 package com.example.backend.model.annotation;
 
+import java.sql.Timestamp;
+
 public class AnnotationDTO {
 
     private int id;
@@ -14,6 +16,9 @@ public class AnnotationDTO {
 
     private Integer posEnd;
 
+    private Timestamp createdAt;
+
+    private Timestamp updatedAt;
 
     public int getId() {
         return id;
@@ -61,5 +66,21 @@ public class AnnotationDTO {
 
     public void setPosEnd(Integer posEnd) {
         this.posEnd = posEnd;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
