@@ -14,6 +14,8 @@ public class ConversationDTO {
 
     private String otherUsername;
 
+    private boolean isRead;
+
     public int getId() {
         return id;
     }
@@ -52,5 +54,13 @@ public class ConversationDTO {
 
     public void setOtherUsername(String otherUsername) {
         this.otherUsername = otherUsername;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }

@@ -41,7 +41,7 @@ public class MessageService {
     @Autowired
     private NotificationService notificationService;
 
-    public ConversationDTO getById(int conversationId, String username){
+    public ConversationDTO getById(int conversationId, String username, boolean read){
         Member member = memberRepository.findByUsername(username);
         Conversation conversation = conversationRepository.findById(conversationId).orElse(null);
         if(conversation == null){
@@ -59,7 +59,26 @@ public class MessageService {
         List<Message> messages = messageRepository.getAllByConversationId(conversationId);
         List<MessageDTO> messageDTOS = new ArrayList<>();
         messages.forEach(message -> messageDTOS.add(messageDTOConverterService.apply(message)));
-        return conversationDTOConverterService.apply(conversation, messageDTOS, otherMember.getUsername());
+
+        boolean isRead;
+        if(member.getId()==conversation.getMember1Id()){
+            if(read) {
+                conversation.setMember1Read(true);
+                conversationRepository.save(conversation);//Save the changes.
+            }
+            isRead = conversation.isMember1Read();
+        }
+        else
+        {
+            if(read){
+                conversation.setMember2Read(true);
+                conversationRepository.save(conversation);
+            }
+            isRead = conversation.isMember2Read();
+        }
+
+
+        return conversationDTOConverterService.apply(conversation, messageDTOS, otherMember.getUsername(), isRead);
     }
 
     public MessageDTO addMessage(MessageRequest messageRequest, String memberUsername){
@@ -93,9 +112,18 @@ public class MessageService {
 
         LocalDateTime localDateTime = LocalDateTime.now();
         message.setMessageTime(Timestamp.valueOf(localDateTime));
-
-
         messageRepository.saveAndFlush(message);
+
+        if(member.getId()==conversation.getMember1Id()){
+            conversation.setMember1Read(true);
+            conversation.setMember2Read(false);
+        }
+        else{
+            conversation.setMember1Read(false);
+            conversation.setMember2Read(true);
+        }
+        conversationRepository.save(conversation);
+
         return messageDTOConverterService.apply(message);
     }
 
@@ -104,7 +132,7 @@ public class MessageService {
         List<Conversation> conversations = conversationRepository.getAllByMemberId(member.getId());
         List<ConversationDTO> conversationDTOS = new ArrayList<>();
         conversations.forEach(conversation -> {
-            conversationDTOS.add(getById(conversation.getId(), username));
+            conversationDTOS.add(getById(conversation.getId(), username, false));
         });
         return conversationDTOS;
     }
