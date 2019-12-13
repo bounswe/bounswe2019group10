@@ -23,6 +23,17 @@ public class Notification {
     @Column(name = "text")
     private String text;
 
+    @Column(name = "read")
+    private boolean read;
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
     public int getId() {
         return id;
     }

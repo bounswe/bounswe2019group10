@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification,Integer> {
 
-    public List<Notification> getAllByMemberId(int memberId);
+    List<Notification> getAllByMemberId(int memberId);
+
+    List<Notification> getAllByMemberIdAndRead(int memberId, boolean read);
 }
