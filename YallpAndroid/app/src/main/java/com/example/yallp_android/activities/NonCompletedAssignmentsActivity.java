@@ -52,7 +52,7 @@ public class NonCompletedAssignmentsActivity extends AppCompatActivity {
                 i.putExtra("username", nonCompletedAssignments.get(position).getMemberName());
                 i.putExtra("writingResultId", nonCompletedAssignments.get(position).getId()+"");
                 startActivity(i);
-          //      finish();
+               finish();
             }
         });
 
@@ -84,8 +84,8 @@ public class NonCompletedAssignmentsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-     //   Intent i = new Intent(this, HomePageActivity.class);
-     //   startActivity(i);
+        Intent i = new Intent(this, HomePageActivity.class);
+        startActivity(i);
         finish();
     }
 }

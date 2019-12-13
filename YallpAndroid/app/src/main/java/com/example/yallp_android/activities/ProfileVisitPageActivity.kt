@@ -1,18 +1,21 @@
 package com.example.yallp_android.activities
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.Window
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.yallp_android.CommentsHelper
 import com.example.yallp_android.R
 import com.example.yallp_android.adapters.UserLanguageListAdapter
 import com.example.yallp_android.custom_views.ExpandableTextView
+import com.example.yallp_android.models.Comment
 import com.example.yallp_android.models.UserInfo
+import com.example.yallp_android.util.RetroClients.CommentRetroClient
 import com.example.yallp_android.util.RetroClients.UserRetroClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,6 +25,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
 
     private lateinit var sharedPref: SharedPreferences
+    lateinit var comments: Array<Comment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,14 +35,13 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
         sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE)
 
-        Log.e("e","${intent.extras==null}")
-        if(intent.extras!=null){
-            callById(intent.getIntExtra("memberId",120))
+        if (intent.extras != null) {
+            callById(intent.getIntExtra("memberId", 120))
         }
 
     }
 
-    private fun callById(id:Int) {
+    private fun callById(id: Int) {
         val call: Call<UserInfo> = UserRetroClient
                 .getInstance()
                 .userApi
@@ -47,10 +50,9 @@ class ProfileVisitPageActivity : AppCompatActivity() {
         call.enqueue(object : Callback<UserInfo> {
             override fun onResponse(call: Call<UserInfo>, response: Response<UserInfo>) {
                 if (response.isSuccessful) {
-                    Log.e("e","succes")
                     val userInfo = response.body()
                     val userNameText = findViewById<TextView>(R.id.profileUsername)
-                    var username =  userInfo.username
+                    var username = userInfo.username
                     if (!(userInfo.name == "" && userInfo.surname == "")) {
                         username += " ( "
                         username += userInfo.name
@@ -90,11 +92,11 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
 
                     val listView = findViewById<ListView>(R.id.languages)
-                    val adapter = UserLanguageListAdapter(applicationContext, languageNameList, languageLevelList, 0, sharedPref,true)
+                    val adapter = UserLanguageListAdapter(applicationContext, languageNameList, languageLevelList, 0, sharedPref, true)
                     listView.adapter = adapter
 
                     val seeCommentsView = findViewById<TextView>(R.id.commentsTitle)
-                    seeCommentsView.setOnClickListener{
+                    seeCommentsView.setOnClickListener {
                         seeComments(id)
                     }
 
@@ -104,14 +106,45 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<UserInfo>, t: Throwable) {
-                Log.e("e","fail")
 
             }
         })
     }
 
-    private fun seeComments(id:Int){
-        
+    private fun seeComments(id: Int) {
+
+        val call: Call<Array<Comment>> = CommentRetroClient.getInstance().commentApi.getCommentsbyId("Bearer " + sharedPref.getString("token", null)!!, id)
+        call.enqueue(object : Callback<Array<Comment>> {
+            override fun onResponse(call: Call<Array<Comment>>, response: Response<Array<Comment>>) {
+                if (response.isSuccessful) {
+                    comments = response.body()
+                    if(comments.isEmpty()){
+                        Toast.makeText(baseContext, "No comment found for this user!", Toast.LENGTH_LONG).show()
+                    }else{
+                        val i = Intent(baseContext, SeeCommentsActivity::class.java)
+                        CommentsHelper.comments.clear()
+                        for(comment in comments){
+                            CommentsHelper.comments.add(comment)
+                        }
+                        startActivity(i)
+                    }
+
+                } else {
+                    Toast.makeText(baseContext, "Error loading comments!", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Array<Comment>>, t: Throwable) {
+
+            }
+        })
+
+    }
+
+    override fun onBackPressed() {
+        val i = Intent(this,HomePageActivity::class.java)
+        startActivity(i)
+        finish()
     }
 
 }

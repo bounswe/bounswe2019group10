@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.example.yallp_android.R;
 import com.example.yallp_android.fragments.WritingExerciseAnswerFragment;
 import com.example.yallp_android.fragments.WritingExerciseScoreFragment;
@@ -42,10 +43,10 @@ public class GiveScoreForWritingActivity extends AppCompatActivity {
         int writingId = Integer.parseInt(i.getStringExtra("writingId"));
         final int writingResultId = Integer.parseInt(i.getStringExtra("writingResultId"));
         String answerText = i.getStringExtra("answerText");
-        String token = sharedPref.getString("token",null);
+        String token = sharedPref.getString("token", null);
         String username = i.getStringExtra("username");
 
-        placeWritingDetailsFragment(writingId,answerText,token);
+        placeWritingDetailsFragment(writingId, answerText, token);
         placeScoreFragment(username);
 
 
@@ -57,18 +58,17 @@ public class GiveScoreForWritingActivity extends AppCompatActivity {
                 score = findViewById(R.id.score);
                 int value = Integer.parseInt(score.getText().toString());
 
-                if(value<0 || value > 10){
+                if (value < 0 || value > 10) {
                     score.setText("");
-                    Toast.makeText(getApplicationContext(),"Score must be between 0 and 10",Toast.LENGTH_SHORT).show();
-                }
-                else{
+                    Toast.makeText(getApplicationContext(), "Score must be between 0 and 10", Toast.LENGTH_SHORT).show();
+                } else {
 
                     Call<CompletedWritings> call;
 
                     call = WritingRetroClient
                             .getInstance()
                             .getWritingApi()
-                            .giveScoreForWriting("Bearer " + sharedPref.getString("token", null),writingResultId,value);
+                            .giveScoreForWriting("Bearer " + sharedPref.getString("token", null), writingResultId, value);
 
                     call.enqueue(new Callback<CompletedWritings>() {
                         @Override
@@ -91,16 +91,18 @@ public class GiveScoreForWritingActivity extends AppCompatActivity {
         });
 
     }
-    public void placeWritingDetailsFragment(int writingId,String answerText,String token) {
+
+    public void placeWritingDetailsFragment(int writingId, String answerText, String token) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = WritingExerciseAnswerFragment.newInstance(writingId,answerText,token);
+        Fragment fragment = WritingExerciseAnswerFragment.newInstance(writingId, answerText, token);
         ft.replace(R.id.answerLayout, fragment);
         ft.commit();
 
     }
+
     public void placeScoreFragment(String evaluatorName) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = WritingExerciseScoreFragment.newInstance(evaluatorName,0,"evaluator",false);
+        Fragment fragment = WritingExerciseScoreFragment.newInstance(evaluatorName, 0, "evaluator", false);
         ft.replace(R.id.scoreLayout, fragment);
         ft.commit();
 
@@ -108,8 +110,8 @@ public class GiveScoreForWritingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-      //  Intent i = new Intent(getApplicationContext(), NonCompletedAssignmentsActivity.class);
-     //   startActivity(i);
+        Intent i = new Intent(getApplicationContext(), NonCompletedAssignmentsActivity.class);
+        startActivity(i);
         finish();
     }
 }

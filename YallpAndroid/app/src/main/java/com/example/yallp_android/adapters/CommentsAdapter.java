@@ -45,9 +45,9 @@ public class CommentsAdapter extends BaseAdapter {
         if (v == null) {
             v = layoutInflater.inflate(R.layout.comment_list_row, null);
             holder = new ViewHolder();
-            holder.comment = (TextView) v.findViewById(R.id.comment);
-            holder.comentatorName = (TextView) v.findViewById(R.id.comentatorName);
-            holder.date = (TextView) v.findViewById(R.id.date);
+            holder.comment =  v.findViewById(R.id.comment);
+            holder.comentatorName =  v.findViewById(R.id.comentatorName);
+            holder.date =  v.findViewById(R.id.date);
             v.setTag(holder);
         } else {
             holder = (ViewHolder) v.getTag();
@@ -55,7 +55,6 @@ public class CommentsAdapter extends BaseAdapter {
 
         holder.comment.setText(listData.get(position).getComment());
         holder.comentatorName.setText(listData.get(position).getCommentatorId()+"");
-        //holder.date.setVisibility(View.GONE);
 
         return v;
     }
