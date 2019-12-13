@@ -54,7 +54,8 @@ public class CommentsAdapter extends BaseAdapter {
         }
 
         holder.comment.setText(listData.get(position).getComment());
-        holder.comentatorName.setText(listData.get(position).getCommentatorId()+"");
+        holder.comentatorName.setText("-"+listData.get(position).getCommentatorName());
+        //holder.date.setVisibility(View.GONE);
 
         return v;
     }
