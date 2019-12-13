@@ -196,6 +196,8 @@ public class JwtUserDetailsService implements UserDetailsService {
             if(memberLanguageRepository.getByMemberIdAndLanguage(member.getId(), lang) == null) {
                 MemberLanguage memLang = new MemberLanguage();
                 memLang.setLanguage(lang);
+                String[] arrv = new String[0];
+                memLang.setUnresolvedDates(arrv);
                 memLang.setMemberId(member.getId());
                 memberLanguageRepository.save(memLang);
             }
