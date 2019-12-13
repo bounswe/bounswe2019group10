@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +59,14 @@ public class AnnotationService {
         anno.put("@context", "http://www.w3.org/ns/anno.jsonld");
         anno.put("id", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/annotation/" + annotation.getId());
         anno.put("type", "Annotation");
-        anno.put("creator", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/member/" + annotation.getAnnotatorId());
+
+        JSONObject creator = new JSONObject();
+
+        creator.put("id","http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/member/" + annotation.getAnnotatorId());
+        creator.put("type", "Person");
+        creator.put("nickname", jwtUserDetailsService.getUsernameById(annotation.getAnnotatorId()));
+
+        anno.put("creator", creator);
         anno.put("bodyValue", annotation.getAnnotationText());
 
         JSONObject target = new JSONObject();
@@ -74,14 +83,17 @@ public class AnnotationService {
         target.put("selector", selector);
         anno.put("target", target);
 
+        anno.put("created", annotation.getCreatedAt().toString().replace(" ", "T").substring(0,19)+"Z");
+        anno.put("modified", annotation.getUpdatedAt().toString().replace(" ", "T").substring(0,19)+"Z");
+
         return anno.toMap();
 
     }
-
+/*
     public List<Annotation> findAllByWriting(int writingResultId){
         return annotationRepository.findAllByWritingResultId(writingResultId);
     }
-
+*/
     public Annotation createAnnotation(AnnotationDTO annotationDTO){
 
         Annotation annotation = new Annotation();
@@ -91,7 +103,9 @@ public class AnnotationService {
         annotation.setAnnotationText(annotationDTO.getAnnotationText());
         annotation.setPosStart(annotationDTO.getPosStart());
         annotation.setPosEnd(annotationDTO.getPosEnd());
-
+        LocalDateTime localDateTime = LocalDateTime.now();
+        annotation.setCreatedAt(Timestamp.valueOf(localDateTime));
+        annotation.setUpdatedAt(Timestamp.valueOf(localDateTime));
         annotationRepository.save(annotation);
 
         return annotation;
@@ -132,6 +146,9 @@ public class AnnotationService {
 
         if(annotationDTO.getPosEnd() != null)
             annotation.setPosEnd(annotationDTO.getPosEnd());
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        annotation.setUpdatedAt(Timestamp.valueOf(localDateTime));
 
         annotationRepository.save(annotation);
 
