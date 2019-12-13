@@ -24,4 +24,7 @@ public interface MemberLanguageRepository extends JpaRepository<MemberLanguage, 
     @Query(nativeQuery = true, value = "select  * from member_language m where m.member_id != :curMemId and m.language_id = :langId and number_of_assignments(m.member_id) < 5 order by language_level desc limit 10")
     List<MemberLanguage> get10ForWriting(@Param("langId") Integer langId, @Param("curMemId") Integer curMemId);
 
+    @Query(nativeQuery = true, value = "select  * from member_language m where m.member_id != :curMemId and m.language_id = :langId order by language_level desc")
+    List<MemberLanguage> findByLanguageIdExceptMemberIdOrderByLanguageLevelDesc(@Param("langId") Integer langId, @Param("curMemId")  Integer curMemId);
+
 }
