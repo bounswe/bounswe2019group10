@@ -98,6 +98,7 @@ public class HomePageActivity extends AppCompatActivity {
         });
 
     }
+
     private void checkUnsubsLanguages(final SharedPreferences sharedPref) {
 
         Call<Language[]> call;
@@ -119,6 +120,7 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
     }
+
     private void getComments(final SharedPreferences sharedPref){
 
         Call<Comment[]> call;
@@ -199,4 +201,5 @@ public class HomePageActivity extends AppCompatActivity {
 
         return deletedAll;
     }
+
 }

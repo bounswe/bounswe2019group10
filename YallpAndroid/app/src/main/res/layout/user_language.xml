@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/countryFlag"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_rowSpan="2"
         android:background="@drawable/border_image"
         android:src="@drawable/flag_placeholder">
@@ -37,7 +37,6 @@
         android:layout_toRightOf="@+id/countryFlag"
         android:layout_below="@+id/languageName"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
         android:text="Not graded yet"
         android:textColor="#f80">
 

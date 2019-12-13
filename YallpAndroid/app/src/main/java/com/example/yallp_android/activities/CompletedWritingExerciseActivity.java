@@ -50,7 +50,7 @@ public class CompletedWritingExerciseActivity extends AppCompatActivity {
                 i.putExtra("score",completedWritingExercises.get(position).getScore()+"");
                 i.putExtra("isScored",completedWritingExercises.get(position).isScored());
                 startActivity(i);
-                finish();
+            //    finish();
             }
         });
 
@@ -83,8 +83,8 @@ public class CompletedWritingExerciseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this,HomePageActivity.class);
-        startActivity(i);
+      //  Intent i = new Intent(this,HomePageActivity.class);
+     //   startActivity(i);
         finish();
     }
 }

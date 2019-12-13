@@ -18,6 +18,7 @@ import com.example.yallp_android.R;
 import com.example.yallp_android.activities.AddLanguageActivity;
 import com.example.yallp_android.activities.LanguageMainActivity;
 import com.example.yallp_android.adapters.UserLanguageListAdapter;
+
 import java.util.ArrayList;
 
 public class LanguageListFragment extends Fragment {
@@ -26,7 +27,7 @@ public class LanguageListFragment extends Fragment {
     private UserLanguageListAdapter adapter;
     private ArrayList<String> languageNameList = new ArrayList<>();
     private ArrayList<String> languageLevelList = new ArrayList<>();
-    private int unsubsLangsSize;
+    private int unsubsLangsSize = 0;
 
     public static LanguageListFragment newInstance(ArrayList<String> languageNameList, ArrayList<String> languageLevelList,
                                                    int unsubsLangsSize,ArrayList<String> languageAndLevelId) {
@@ -46,7 +47,7 @@ public class LanguageListFragment extends Fragment {
 
         languageNameList = (ArrayList<String>) getArguments().getSerializable("languageNameList");
         languageLevelList = (ArrayList<String>) getArguments().getSerializable("languageLevelList");
-        unsubsLangsSize = (int) getArguments().getSerializable("unsubsLangsSize");
+       unsubsLangsSize = (int) getArguments().getSerializable("unsubsLangsSize");
 
         listView = view.findViewById(R.id.userLanguageListView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -56,14 +57,15 @@ public class LanguageListFragment extends Fragment {
                 if (arg2 == languageLevelList.size()) {
                     Intent i = new Intent(getActivity(), AddLanguageActivity.class);
                     startActivity(i);
+                    getActivity().finish();
                 } else {
                     Intent i = new Intent(getActivity(), LanguageMainActivity.class);
-                    String languageAndLevelId = (String) (((ArrayList<String>)getArguments().getSerializable("languageAndLevelId")).get(arg2));
+                    String languageAndLevelId = (((ArrayList<String>)getArguments().getSerializable("languageAndLevelId")).get(arg2));
                     String[] splitted = languageAndLevelId.split("\\s+");
                     i.putExtra("languageId", Integer.parseInt(splitted[0]));
                     i.putExtra("level", Integer.parseInt(splitted[1]));
                     startActivity(i);
-                    getActivity().finish();
+                  //  getActivity().finish();
                 }
             }
 
@@ -71,8 +73,9 @@ public class LanguageListFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("yallp", Context.MODE_PRIVATE);
 
-        adapter = new UserLanguageListAdapter(getContext(), languageNameList, languageLevelList, unsubsLangsSize, sharedPreferences);
+        adapter = new UserLanguageListAdapter(getContext(), languageNameList, languageLevelList, unsubsLangsSize, sharedPreferences,false);
         listView.setAdapter(adapter);
         return view;
     }
+
 }

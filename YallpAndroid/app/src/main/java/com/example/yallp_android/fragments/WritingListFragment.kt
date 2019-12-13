@@ -106,7 +106,9 @@ class WritingListFragment : Fragment(), WritingListAdapter.WritingListAdapterCli
             }
 
             override fun onFailure(call: Call<Array<WritingListElement>>, t: Throwable) {
-                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                if(context!=null){
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }

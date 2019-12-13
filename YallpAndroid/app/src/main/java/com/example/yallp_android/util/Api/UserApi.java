@@ -13,6 +13,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface UserApi {
 
@@ -58,5 +59,11 @@ public interface UserApi {
             @Header("Authorization") String token,
             @Body String[] languageToRemove
     );
+
+    @Headers({"Content-Type: application/json"})
+    @GET("member/{memberId}")
+    Call<UserInfo> getProfileInfoWithId(
+            @Header("Authorization") String token,
+            @Path("memberId") int quizId);
 
 }
