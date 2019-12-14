@@ -55,10 +55,10 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
         listView = view.findViewById(R.id.commentList);
 
         ArrayList<Comment> commentsMadeForUser = new ArrayList<>();
-        for (Comment comment : (Comment[]) getArguments().getSerializable("comments")) {
+        Comment[] comments = (Comment[]) getArguments().getSerializable("comments");
+        for(Comment comment : comments){
             commentsMadeForUser.add(comment);
         }
-        //ArrayList<Comment> commentsMadeForUser = (ArrayList<Comment>) getArguments().getSerializable("comments");
         if (commentsMadeForUser.size() != 0) {
             ImageView shochedImage = view.findViewById(R.id.shockedImage);
             TextView noCommentText = view.findViewById(R.id.noCommentText);

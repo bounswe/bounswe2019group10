@@ -1,19 +1,20 @@
 package com.example.yallp_android.activities
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Window
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.yallp_android.CommentsHelper
 import com.example.yallp_android.R
 import com.example.yallp_android.adapters.UserLanguageListAdapter
 import com.example.yallp_android.custom_views.ExpandableTextView
 import com.example.yallp_android.models.Comment
+import com.example.yallp_android.models.CommentSubmit
 import com.example.yallp_android.models.UserInfo
 import com.example.yallp_android.util.RetroClients.CommentRetroClient
 import com.example.yallp_android.util.RetroClients.UserRetroClient
@@ -26,6 +27,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
     private lateinit var sharedPref: SharedPreferences
     lateinit var comments: Array<Comment>
+    private lateinit var userInfo: UserInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,44 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             callById(intent.getIntExtra("memberId", 120))
         }
 
+        val addComment = findViewById<Button>(R.id.addComment)
+        addComment.setOnClickListener {
+
+            val builder = AlertDialog.Builder(this@ProfileVisitPageActivity)
+            val inflater = this@ProfileVisitPageActivity.getLayoutInflater()
+            val view = inflater.inflate(R.layout.dialog_add_comment, null)
+            val commentText = view.findViewById(R.id.commentText) as EditText
+            builder.setView(view)
+                    .setPositiveButton("Send", DialogInterface.OnClickListener { dialog, id ->
+                        val newComment = commentText.getText().toString()
+                        if (newComment.length == 0) {
+                            return@OnClickListener
+                        }else{
+                            val call: Call<Comment>
+                            val commentToSubmit = CommentSubmit(newComment,userInfo.id)
+                            call = CommentRetroClient.getInstance().getCommentApi().makeComment("Bearer " + sharedPref.getString("token", null)!!,commentToSubmit)
+                            call.enqueue(object : Callback<Comment> {
+                                override fun onResponse(call: Call<Comment>, response: Response<Comment>) {
+                                    if (response.isSuccessful) {
+                                        Toast.makeText(baseContext, "Your comment has been successfully added", Toast.LENGTH_LONG).show()
+
+                                    } else {
+                                        Toast.makeText(baseContext, "There has been an error!", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<Comment>, t: Throwable) {
+
+                                }
+                            })
+                        }
+
+                    })
+                    .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id -> })
+            val dialog = builder.create()
+            dialog.show()
+        }
+
     }
 
     private fun callById(id: Int) {
@@ -50,7 +90,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
         call.enqueue(object : Callback<UserInfo> {
             override fun onResponse(call: Call<UserInfo>, response: Response<UserInfo>) {
                 if (response.isSuccessful) {
-                    val userInfo = response.body()
+                    userInfo = response.body()
                     val userNameText = findViewById<TextView>(R.id.profileUsername)
                     var username = userInfo.username
                     if (!(userInfo.name == "" && userInfo.surname == "")) {

@@ -99,5 +99,18 @@
         android:text="@string/see_comments"
         android:textSize="14sp" />
 
+    <Button
+        android:id="@+id/addComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/WhiteBackgroundButtonTheme"
+        android:text="Add Comment"
+        android:textSize="14sp"
+        android:padding="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_below="@id/languages"
+        android:layout_marginTop="20dp"/>
+
 
 </RelativeLayout>
