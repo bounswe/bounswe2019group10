@@ -17,4 +17,19 @@ public class ReportCause {
     @Column(name = "cause")
     private String cause;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCause() {
+        return cause;
+    }
+
+    public void setCause(String cause) {
+        this.cause = cause;
+    }
 }
