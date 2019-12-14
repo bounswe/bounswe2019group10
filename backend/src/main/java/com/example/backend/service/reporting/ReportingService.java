@@ -3,7 +3,6 @@ package com.example.backend.service.reporting;
 
 import com.example.backend.model.reporting.Report;
 import com.example.backend.model.reporting.ReportCause;
-import com.example.backend.model.reporting.ReportDTO;
 import com.example.backend.model.reporting.ReportRequest;
 import com.example.backend.repository.reporting.ReportCauseRepository;
 import com.example.backend.repository.reporting.ReportRepository;
@@ -32,7 +31,6 @@ public class ReportingService {
     }
 
     public List<ReportCause> getReportStructure(){
-        ReportDTO reportDTO = new ReportDTO();
         return reportCauseRepository.findAll();
     }
 
