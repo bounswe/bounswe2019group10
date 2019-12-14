@@ -4,7 +4,7 @@ package com.example.backend.model.reporting;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "reporting_cause")
+@Table(name = "report")
 public class Report {
 
     @Id
