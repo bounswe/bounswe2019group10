@@ -1,12 +1,15 @@
 package com.example.backend.model.member;
 
+
 public class MemberDTO {
     private String username;
     private String name;
     private String surname;
     private String mail;
     private int id;
+    private String bio;
     private String password;
+    private String nativeLanguage;
 
     public String getName() {
         return name;
@@ -54,5 +57,21 @@ public class MemberDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getNativeLanguage() {
+        return nativeLanguage;
+    }
+
+    public void setNativeLanguage(String nativeLanguage) {
+        this.nativeLanguage = nativeLanguage;
     }
 }

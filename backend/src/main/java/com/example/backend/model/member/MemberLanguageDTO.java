@@ -1,4 +1,4 @@
-package com.example.backend.model.quiz;
+package com.example.backend.model.member;
 
 public class MemberLanguageDTO {
 
@@ -9,6 +9,16 @@ public class MemberLanguageDTO {
     private int languageId;
 
     private String languageName;
+
+    private String level;
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
 
     public int getMemberId() {
         return memberId;

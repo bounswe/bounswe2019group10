@@ -1,9 +1,14 @@
 package com.example.backend.service.quiz;
 
+import com.example.backend.model.language.Language;
+import com.example.backend.model.language.LevelName;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberLanguage;
+import com.example.backend.model.member.MemberQuiz;
 import com.example.backend.model.quiz.*;
+import com.example.backend.repository.language.LanguageRepository;
 import com.example.backend.repository.member.MemberLanguageRepository;
+import com.example.backend.repository.member.MemberQuizRepository;
 import com.example.backend.repository.member.MemberRepository;
 import com.example.backend.repository.quiz.QuestionRepository;
 import com.example.backend.repository.quiz.QuizRepository;
@@ -31,6 +36,12 @@ public class QuizService {
     private MemberRepository memberRepository;
 
     @Autowired
+    private LanguageRepository languageRepository;
+
+    @Autowired
+    private MemberQuizRepository memberQuizRepository;
+
+    @Autowired
     private QuizDTOConverterService quizDTOConverterService;
 
     @Autowired
@@ -54,7 +65,7 @@ public class QuizService {
     }
 
     public QuizRequest evaluateQuiz(QuizRequest quizRequest, String memberUname){
-        //Take the request, add the nececssary fields and send back
+        //Take the request, add the necessary fields and send back
         Member curMember = memberRepository.findByUsername(memberUname);
         Quiz quiz = quizRepository.getOne(quizRequest.getQuizId());
         int score = 0;
@@ -84,22 +95,71 @@ public class QuizService {
                 //Default is english:
                 languageId = 1;
             }
+
+            Language lang = languageRepository.getById(languageId);
             //Insert into member_language
             //Check if the member already exists:
-            MemberLanguage memberLanguage = memberLanguageRepository.getByMemberId(curMember.getId());
+            MemberLanguage memberLanguage = memberLanguageRepository.getByMemberIdAndLanguage(curMember.getId(), lang);
             if(memberLanguage == null){
-                memberLanguage = new MemberLanguage(curMember.getId(), languageId);
+                memberLanguage = new MemberLanguage(curMember.getId(), lang);
             }
             memberLanguage.setLanguageLevel(level);
+            if (level < 3) {
+                memberLanguage.setLevelName(LevelName.BEGINNER);
+            }
+            else if (level < 5) {
+                memberLanguage.setLevelName(LevelName.INTERMEDIATE);
+            }
+            else if (level < 7) {
+                memberLanguage.setLevelName(LevelName.UPPER_INTERMEDIATE);
+            }
+            else {
+                memberLanguage.setLevelName(LevelName.ADVANCED);
+            }
 
             memberLanguageRepository.save(memberLanguage);
         }
 
         quizRequest.setScore(score);
 
-        //TODO ADD THE DETAILS OF THE QUIZ TO THE NEW TABLE -> quiz_result table
+        MemberQuiz memberQuiz = memberQuizRepository.findByMemberIdAndQuizId(curMember.getId(), quizId);
+        if(memberQuiz != null){
+            memberQuizRepository.deleteById(memberQuiz.getId());
+        }
+
+        memberQuizRepository.save(new MemberQuiz(curMember.getId(), quizId, score));
+
         return  quizRequest;
     }
 
+    public List<QuizDTO>getAllQuizzesByLanguageId(long languageId) {
+        List<QuizDTO> quizDTOS = new ArrayList<>();
+        quizRepository.getAllByLanguageId(languageId).forEach(quiz ->
+                quizDTOS.add(quizDTOConverterService.apply(quiz, null))
+        );
+        return quizDTOS;
+    }
 
+    public List<QuizDTO>getAllQuizzesByLevelId(long levelId) {
+        List<QuizDTO> quizDTOS = new ArrayList<>();
+        quizRepository.getAllByLevel(levelId).forEach(quiz ->
+                quizDTOS.add(quizDTOConverterService.apply(quiz, null))
+        );
+        return quizDTOS;
+    }
+
+    public List<QuizDTO>getAllQuizzesByLevelandLanguageId(int level, int languageId) {
+        List<QuizDTO> quizDTOS = new ArrayList<>();
+        quizRepository.getAllByLevelAndLanguageId(level, languageId).forEach(quiz ->
+                quizDTOS.add(quizDTOConverterService.apply(quiz, null))
+        );
+        return quizDTOS;
+    }
+    public List<QuizDTO>getAllQuizzesByLanguageIdandLevelLess(int level, int languageId) {
+        List<QuizDTO> quizDTOS = new ArrayList<>();
+        quizRepository.getAllByLanguageIdAndLevelIsLessThanEqual(languageId, level).forEach(quiz ->
+                quizDTOS.add(quizDTOConverterService.apply(quiz, null))
+        );
+        return quizDTOS;
+    }
 }

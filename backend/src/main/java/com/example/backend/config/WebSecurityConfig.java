@@ -16,11 +16,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.security.SecureRandom;
+import java.time.ZoneId;
+import java.util.TimeZone;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static final String[] SWAGGER_ENDPOINTS = {
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
 
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -37,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // user for matching credentials
         // Use BCryptPasswordEncoder
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+        TimeZone.setDefault(TimeZone.getTimeZone(ZoneId.of("GMT+03:00")));
     }
 
     @Bean
@@ -54,11 +64,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.cors();
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests()
                 .antMatchers("/authenticate", "/register").permitAll()
+                .antMatchers(SWAGGER_ENDPOINTS).permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/member/**").hasAuthority("USER")
                 // all other requests need to be authenticated

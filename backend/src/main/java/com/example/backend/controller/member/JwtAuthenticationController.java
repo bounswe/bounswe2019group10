@@ -1,10 +1,13 @@
 package com.example.backend.controller.member;
 
+import com.example.backend.Util.JwtUserDetailsServiceUtil;
 import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.member.JwtRequest;
 import com.example.backend.model.member.JwtResponse;
 import com.example.backend.model.member.MemberDTO;
 import com.example.backend.service.member.JwtUserDetailsService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,14 +34,17 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+    private final String mailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+            "[a-zA-Z0-9_+&*-]+)*@" +
+            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+            "A-Z]{2,7}$";
+
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    @ApiOperation(value = "Log-in to the application")
+    public ResponseEntity<JwtResponse> createAuthenticationToken( @RequestBody JwtRequest authenticationRequest) throws Exception {
         String username = authenticationRequest.getUsername();
                 //Check if the input is of form email.
-        String mailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
+
         Pattern pattern = Pattern.compile(mailRegex);
 
         if(pattern.matcher(username).matches()) { //The credential is of form email
@@ -67,13 +73,17 @@ public class JwtAuthenticationController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@RequestBody MemberDTO user) throws Exception {
+    @ApiOperation(value = "Register a new user")
+    public ResponseEntity<JwtResponse> saveUser(@RequestBody MemberDTO user) throws Exception {
         //Handle registration attempt with same username/password
         if (userDetailsService.getByMail(user.getMail()) != null ||
                 userDetailsService.getByUsername(user.getUsername()) != null) {
             throw new Exception("User already exists");
         }
-        userDetailsService.save(user);
+        JwtUserDetailsServiceUtil serviceOutput = userDetailsService.save(user);
+        if(!serviceOutput.isValid()){ //If the request is invalid return the error message
+            return  ResponseEntity.ok(new JwtResponse(serviceOutput.getInfo()));
+        }
         return createAuthenticationToken(new JwtRequest(user.getUsername(), user.getPassword()));
     }
 }

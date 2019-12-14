@@ -9,7 +9,7 @@ public class QuizRequest {
     private int quizId;
     private List<QuestionRequest> answers;
     private int level;
-    int score;
+    private int score;
 
 
     public int getQuizId() {

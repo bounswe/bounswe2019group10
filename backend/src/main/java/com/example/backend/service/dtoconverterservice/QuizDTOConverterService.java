@@ -1,7 +1,6 @@
 package com.example.backend.service.dtoconverterservice;
 
 
-import com.example.backend.model.quiz.Question;
 import com.example.backend.model.quiz.QuestionDTO;
 import com.example.backend.model.quiz.Quiz;
 import com.example.backend.model.quiz.QuizDTO;
@@ -23,6 +22,7 @@ public class QuizDTOConverterService {
         quizDTO.setId(quiz.getId());
         quizDTO.setLevel(quiz.getLevel());
         quizDTO.setQuizType(quiz.getQuizType());
+        quizDTO.setLevelName(quiz.getLevelName().toString());
 
         if (questionDTOS != null)
             quizDTO.setQuestions(questionDTOS);

@@ -1,6 +1,4 @@
 package com.example.backend.model.member;
-import com.example.backend.model.quiz.MemberLanguage;
-import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -39,6 +37,9 @@ public class Member{
 
     @Column(name="surname")
     private String surname;
+
+    @Column(name="native_language")
+    private String nativeLanguage;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "member_id")
@@ -153,5 +154,13 @@ public class Member{
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getNativeLanguage() {
+        return nativeLanguage;
+    }
+
+    public void setNativeLanguage(String nativeLanguage) {
+        this.nativeLanguage = nativeLanguage;
     }
 }
