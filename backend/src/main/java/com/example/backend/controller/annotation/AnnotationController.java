@@ -36,13 +36,13 @@ public class AnnotationController {
     public ResponseEntity<List<Map<String, Object>>> getAllAnnotationsByWriting(@PathVariable int writingId){
         return ResponseEntity.ok(annotationService.getAllAnnotationsByWriting(writingId));
     }
-
+/*
     @GetMapping("/writing/{writingResultId}")
     @ApiOperation(value = "Get annotations of a writing")
     public ResponseEntity<List<Annotation>> getAnnotations(@PathVariable int writingResultId){
         return ResponseEntity.ok(annotationService.findAllByWriting(writingResultId));
     }
-
+*/
     @PostMapping("/create")
     @ApiOperation(value = "Create annotation for a writing")
     public ResponseEntity<Annotation> createAnnotation(@RequestBody AnnotationDTO annotationDTO){

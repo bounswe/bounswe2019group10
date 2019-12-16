@@ -1,6 +1,7 @@
 package com.example.backend.model.annotation;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "annotation")
@@ -27,6 +28,11 @@ public class Annotation {
     @Column(name = "pos_end")
     private int posEnd;
 
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 
     public Annotation(){
 
@@ -78,5 +84,21 @@ public class Annotation {
 
     public void setPosEnd(int posEnd) {
         this.posEnd = posEnd;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
