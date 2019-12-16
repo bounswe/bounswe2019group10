@@ -71,6 +71,17 @@ class WritingReviewPage extends React.Component {
   componentDidMount() {
     this.props.getnonCompletedAssignments();
     this.props.getCompletedAssignments();
+    document.onmouseup = () => {
+      console.log("selected text: " + window.getSelection().toString());
+      const baseOffset = window.getSelection().baseOffset;
+      const focusOffset = window.getSelection().focusOffset;
+      console.log(window.getSelection());
+      if (window.getSelection().baseNode){
+        console.log(window.getSelection().baseNode.data.substring(baseOffset,focusOffset));
+        console.log(window.getSelection().baseNode.data.substring(0,baseOffset));
+
+      }
+    };
   }
   onChange = e => {
     this.setState({
@@ -81,13 +92,27 @@ class WritingReviewPage extends React.Component {
   render() {
     const { assignments } = this.props;
     const { cassignments } = this.props;
+    // HERE
+    const annotations = [{start:1,end:5, text:"hahaa"},{start:10,end:15, text:"hahaa"}];
+    let selectedAnswer = this.state.selectedAnswer;
+    if (selectedAnswer){
+      annotations.forEach(annotation => {
+        const targetText = this.state.selectedAnswer.substring(annotation.start,annotation.end);
+        const selectedText = "<span>"+targetText+"</span>";
+        selectedAnswer = selectedAnswer.replace(new RegExp(targetText), selectedText)
+      });  
+    }
+    console.log("original");
+    console.log(this.state.selectedAnswer);
+    console.log("updated");
+    console.log(selectedAnswer);
+
     return (
       <Layout className="layout">
         <HeaderComponent />
         <Content style={{ padding: '0 50px' }}>
           <Col span={4} />
           <Col span={16}>
-
             <div style={{ margin: '10px 0' }} />
             <Card title="Requested Writing Reviews">
               <p
