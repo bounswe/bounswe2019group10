@@ -6,6 +6,7 @@ import { users } from './users.reducer';
 import { alert } from './alert.reducer';
 import { quiz } from './quiz.reducer';
 import { writing } from './writing.reducer';
+import { comment } from './comment.reducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   users,
   alert,
   quiz,
-  writing
+  writing,
+  comment
 });
 
 export default rootReducer;
