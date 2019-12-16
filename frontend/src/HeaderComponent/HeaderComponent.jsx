@@ -35,6 +35,10 @@ class HeaderComponent extends React.Component {
     history.push('/search');
   }
 
+  message(){
+    history.push('/messaging');
+  }
+
   componentDidMount() {
     this.props.getProfile();
   }
@@ -52,7 +56,19 @@ class HeaderComponent extends React.Component {
           <Col id='yallp' span={10}> 
             <Link to={{pathname: '/'}}>YALLP</Link>
           </Col>
-          <Col span={4} />
+          <Col span={2} />
+          <Col span={2} >
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              style={{ lineHeight: '64px' }} 
+              onClick={() => this.message()}>
+              <Menu.Item>
+                <Icon type="message" style={{ fontSize: '18px', color: '#FFFFFF' }}/>
+              </Menu.Item>
+
+            </Menu>
+          </Col>
           <Col span={2} >
             <Menu
               theme="dark"
