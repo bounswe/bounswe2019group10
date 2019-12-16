@@ -8,6 +8,7 @@ import com.example.backend.model.writing.*;
 import com.example.backend.repository.language.LanguageRepository;
 import com.example.backend.repository.member.MemberLanguageRepository;
 import com.example.backend.repository.member.MemberRepository;
+import com.example.backend.repository.writing.SuggestionRepository;
 import com.example.backend.repository.writing.WritingRepository;
 import com.example.backend.repository.writing.WritingResultRepository;
 import com.example.backend.service.dtoconverterservice.WritingDTOConverterService;
@@ -41,6 +42,9 @@ public class WritingService {
     private MemberRepository memberRepository;
 
     @Autowired
+    private SuggestionRepository suggestionRepository;
+
+    @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
 
     @Autowired
@@ -54,6 +58,7 @@ public class WritingService {
 
     @Autowired
     private NotificationService notificationService;
+
 
     public WritingIsSolvedResponse getById(int id) {
         Integer memberId = jwtUserDetailsService.getUserId();
@@ -304,7 +309,7 @@ public class WritingService {
         suggestion.setSuggestorUsername(username);
         suggestion.setTaskText(writingDTO.getTaskText());
         suggestion.setWritingName(writingDTO.getWritingName());
-
+        suggestionRepository.save(suggestion);
         return suggestion;
     }
 
