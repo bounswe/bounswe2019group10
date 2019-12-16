@@ -11,6 +11,7 @@ export const userService = {
     addLanguage,
     removeLanguage,
     search,
+    userSearch,
     getAll,
     getById,
     update,
@@ -102,8 +103,17 @@ function search(type,term,languageId){
     const requestOptions = {
         method: 'POST',
         headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+        body: JSON.stringify({"searchTerm": term})
     };
-    return fetch(`${config.apiUrl}/search/${type}/${languageId}/${term}`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/search/${type}/${languageId}`, requestOptions).then(handleResponse);
+}
+
+function userSearch(username){
+    const requestOptions = {
+        method: 'GET',
+        headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+    };
+    return fetch(`${config.apiUrl}/search/member/${username}`, requestOptions).then(handleResponse);
 }
 
 function getAll() {

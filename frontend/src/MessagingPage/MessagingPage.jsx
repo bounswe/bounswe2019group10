@@ -18,7 +18,8 @@ class MessagingPage extends React.Component {
         message: "",
         newMessage: false,
         userSearchData: [],
-        chatUsername: "Username"
+        chatUsername: "Username",
+        userSearch: ""
       };
       this.onChange = this.onChange.bind(this);
       this.sendMessage = this.sendMessage.bind(this);
@@ -26,8 +27,8 @@ class MessagingPage extends React.Component {
       this.changeUserSearch = this.changeUserSearch.bind(this);
       this.newMessage = this.newMessage.bind(this);
       this.userSelect = this.userSelect.bind(this);
-      
     }
+
     onChange(e) {
       this.setState({
         message: e.target.value,
@@ -43,24 +44,23 @@ class MessagingPage extends React.Component {
 
     searchUser(e){
       console.log("search user",e);
-      // TODO search user
-      this.setState({
-        userSearch: "",
-        userSearchData: ["qwe","qwe3"]
-      });
+      this.props.userSearch(this.state.userSearch);
     }
+
     userSelect(e){
       console.log("select user",e);
       // start conversation with new user
+      this.props.clearUserSearch();
       this.setState({
+        chatUsername: e,
+        userSearchData: [],
         newMessage: false,
-        chatUsername: e
       });
     }
 
     changeUserSearch(e){
       this.setState({
-        userSearch: e.target.value,
+        userSearch: e,
       });
     }
 
@@ -71,6 +71,19 @@ class MessagingPage extends React.Component {
     }
     
     componentDidMount() {
+    }
+
+    componentDidUpdate(){
+      if (this.state.newMessage && this.state.userSearchData && this.state.userSearchData.length==0 && 
+        this.props.userSearchResults && this.props.userSearchResults.length>0){
+        const searchResult = [];
+        for (const [index, userSearchResult] of this.props.userSearchResults.entries()) {
+          searchResult.push(userSearchResult.username);
+        }
+        this.setState({
+          userSearchData: searchResult,
+        });
+      }
     }
 
     render() {
@@ -123,6 +136,7 @@ class MessagingPage extends React.Component {
                   style={{ width: '100%' }}
                   onSelect={this.userSelect}
                   optionLabelProp="text"
+                  onChange={this.changeUserSearch}
                 >
                   {/* <Input
                     suffix={
@@ -137,8 +151,7 @@ class MessagingPage extends React.Component {
                     }
                   /> */}
                   <Input addonAfter={<Icon type="caret-right" onClick={this.searchUser}/>} 
-                  placeholder="Search a user"
-                  onChange={this.changeUserSearch}  />
+                  placeholder="Search a user" />
                 </AutoComplete>
 
                 
@@ -291,13 +304,15 @@ class MessagingPage extends React.Component {
 
 function mapState(state) {
   const { users } = state;
-  const { activeLanguage,searchResults } = users;
-  return { searchResults,activeLanguage };
+  const { activeLanguage,searchResults, userSearchResults } = users;
+  return { searchResults,activeLanguage,userSearchResults };
 }
 
 const actionCreators = {
   search: userActions.search,
-  clearSearch: userActions.clearSearch
+  clearSearch: userActions.clearSearch,
+  userSearch: userActions.userSearch,
+  clearUserSearch: userActions.clearUserSearch
 }
 
 const connectedMessagingPage = connect(mapState, actionCreators)(MessagingPage);

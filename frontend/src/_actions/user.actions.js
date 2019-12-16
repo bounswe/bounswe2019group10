@@ -15,6 +15,8 @@ export const userActions = {
     removeLanguage,
     changeActiveLanguage,
     search,
+    userSearch,
+    clearUserSearch,
     clearSearch
 };
 
@@ -202,6 +204,30 @@ function search(type,term,languageId) {
 
     function success(result) { return { type: userConstants.SEARCH_SUCCESS, result } }
     function failure(error) { return { type: userConstants.SEARCH_FAILURE, error } }
+}
+
+function userSearch(username) {
+    return dispatch => {
+        userService.userSearch(username)
+            .then(
+                result => { 
+                    dispatch(success(result));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(result) { return { type: userConstants.USER_SEARCH_SUCCESS, result } }
+    function failure(error) { return { type: userConstants.USER_SEARCH_FAILURE, error } }
+}
+
+function clearUserSearch(){
+    return dispatch => {
+        dispatch(success());
+    };
+    function success() { return { type: userConstants.USER_SEARCH_CLEAR, } }
 }
 
 function clearSearch(){

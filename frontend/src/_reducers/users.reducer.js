@@ -106,10 +106,25 @@ export function users(state = initialState, action) {
         error: action.error
       };
     case userConstants.SEARCH_CLEAR:
-        return {
-          ...state,
-          searchResults: []  
-        }
+      return {
+        ...state,
+        searchResults: []  
+      };
+    case userConstants.USER_SEARCH_SUCCESS:
+      return {
+        ...state,
+        userSearchResults: action.result  
+      }
+    case userConstants.USER_SEARCH_FAILURE:
+      return {
+        ...state,
+        error: action.error
+      };
+    case userConstants.USER_SEARCH_CLEAR:
+      return {
+        ...state,
+        userSearchResults: []  
+      };
     default:
       return state
   }
