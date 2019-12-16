@@ -12,6 +12,9 @@ export const userService = {
     removeLanguage,
     search,
     userSearch,
+    sendMessage,
+    getConversations,
+    getConversation,
     getAll,
     getById,
     update,
@@ -114,6 +117,31 @@ function userSearch(username){
         headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
     };
     return fetch(`${config.apiUrl}/search/member/${username}`, requestOptions).then(handleResponse);
+}
+
+function sendMessage(username,text){
+    const requestOptions = {
+        method: 'POST',
+        headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+        body: JSON.stringify({message: text,targetUsername:username})
+    };
+    return fetch(`${config.apiUrl}/message/send`, requestOptions).then(handleResponse);
+}
+
+function getConversations(){
+    const requestOptions = {
+        method: 'GET',
+        headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+    };
+    return fetch(`${config.apiUrl}/message/conversations`, requestOptions).then(handleResponse);
+}
+
+function getConversation(conversationId){
+    const requestOptions = {
+        method: 'GET',
+        headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+    };
+    return fetch(`${config.apiUrl}/message/${conversationId}`, requestOptions).then(handleResponse);
 }
 
 function getAll() {
