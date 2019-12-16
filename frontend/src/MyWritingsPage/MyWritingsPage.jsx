@@ -17,7 +17,7 @@ const { TextArea } = Input;
 const { Title } = Typography;
 const {Option} = Select;
 
-class WritingReviewPage extends React.Component {
+class MyWritingsPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,22 +28,11 @@ class WritingReviewPage extends React.Component {
       selectedAnswer: "",
       selectedUser: "",
       writingResultId: 0,
-      oktext: "Score this assignment" 
+      oktext: "Done" 
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
     this.selectScore= this.selectScore.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
-  }
-  handleClick(action) {
-    const IdnScore = {
-      writingResultId: this.state.writingResultId,
-      score: this.state.score
-    }
-    {!this.state.scored &&
-    this.props.scoreWriting(IdnScore);
-    }
-    this.setState({modalVisible: false});
   }
   selectScore(score){
     this.setState({score});
@@ -56,22 +45,14 @@ class WritingReviewPage extends React.Component {
     this.setState({ writingResultId });
     this.setState({ scored });
     this.setState({ score });
-    {
-      if(!scored)
-    {
-      this.setState({oktext: "Score this assignment"})
-    }
-    else{
-      this.setState({oktext: "Return to assignments"})
-    }};
+    this.setState({oktext: "Return to your Writings"}) 
   }
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   }
   componentDidMount() {
-    this.props.getnonCompletedAssignments();
-    this.props.getCompletedAssignments();
+    this.props.getMyWritings();
   }
   onChange = e => {
     this.setState({
@@ -80,8 +61,7 @@ class WritingReviewPage extends React.Component {
   };
 
   render() {
-    const { assignments } = this.props;
-    const { cassignments } = this.props;
+    const { writings } = this.props;
     return (
       <Layout className="layout">
         <HeaderComponent />
@@ -90,7 +70,7 @@ class WritingReviewPage extends React.Component {
           <Col span={16}>
 
             <div style={{ margin: '10px 0' }} />
-            <Card title="Requested Writing Reviews">
+            <Card title="My Writings">
               <p
                 style={{
                   fontSize: 14,
@@ -99,42 +79,29 @@ class WritingReviewPage extends React.Component {
                   fontWeight: 500,
                 }}
               >
-                Not Yet Reviewed
             </p>
-              { assignments && assignments.length==0 &&
-                <Card type="inner" title="No New Assignments" >
+              { writings && writings.length==0 &&
+                <Card type="inner" title="No Writings yet" >
+                  
                 </Card>
               }
-              {assignments && assignments.map((value, index) => {
-                let t = value.writingName + " by " + value.memberName;
+              {writings && writings.map((value, index) => {
+                let sc;
+                if(value.scored){
+                sc=" ,Your Score: "+ value.score;
+                }else{
+                sc= " ,Score is Pending";
+                }
+                let t = value.writingName + sc;
                 let t2 = value.answerText.split('.') + " ... ";
                 return (
                   <Card type="inner" title={t} key={index + 1}
-                    extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored,value.score)} >Score</Button>}>
+                    extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.assignedMemberName,value.id,value.scored,value.score)} >Review</Button>}>
                     {t2}
                   </Card>
                 );
               })}
-            <p
-                style={{
-                  fontSize: 14,
-                  color: 'rgba(0, 0, 0, 0.85)',
-                  marginBottom: 16,
-                  fontWeight: 500,
-                }}
-              >
-                Already Reviewed
-            </p>
-            {cassignments && cassignments.map((value, index) => {
-                let t = value.writingName + " by " + value.memberName;
-                let t2 = value.answerText.split('.') + " ... ";
-                return (
-                  <Card type="inner" title={t} key={index + 1}
-                  extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored,value.score)} >Review</Button>}>
-                    {t2} 
-                  </Card>
-                );
-              })}
+            
             </Card>
             <div style={{ margin: '10px 0' }} />
           </Col>
@@ -144,30 +111,18 @@ class WritingReviewPage extends React.Component {
             centered
             width= "1000px"
             visible={this.state.modalVisible}
-            onOk={() => this.handleClick()}
+            onOk={() => this.setModalVisible(false)}
             onCancel={() => this.setModalVisible(false)}
             okText= {this.state.oktext}
           >
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
             <div style={{ margin: '10px 0' }} />
-            <big > Answer: {this.state.selectedAnswer}</big>
+            <h1> Answer: {this.state.selectedAnswer}</h1>
             <div style={{ margin: '10px 0' }} />
-            <h2> by user: {this.state.selectedUser}</h2>
+            <h2> Sent to User: {this.state.selectedUser}</h2>
             {
             !this.state.scored &&
-            <Select defaultValue="score:" style={{ width: 120 }} onChange={this.selectScore}>
-              <Option value="0">0</Option>
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-              <Option value="4">4</Option>
-              <Option value="5">5</Option>
-              <Option value="6">6</Option>
-              <Option value="7">7</Option>
-              <Option value="8">8</Option>
-              <Option value="9">9</Option>
-              <Option value="10">10</Option>
-            </Select>
+            <h2> Not Scored Yet!  </h2>
             }
             {
             this.state.scored &&
@@ -183,16 +138,13 @@ class WritingReviewPage extends React.Component {
 
 function mapState(state) {
   const { writing } = state;
-  const { assignments } = writing;
-  const { cassignments } = writing;
-  return { assignments,cassignments };
+  const { writings } = writing;
+  return { writings };
 }
 
 const actionCreators = {
-  getnonCompletedAssignments: writingActions.getnonCompletedAssignments,
-  scoreWriting: writingActions.scoreWriting,
-  getCompletedAssignments: writingActions.getCompletedAssignments
+  getMyWritings: writingActions.getMyWritings
 }
 
-const connectedWritingReviewPage = connect(mapState, actionCreators)(WritingReviewPage);
-export { connectedWritingReviewPage as WritingReviewPage };
+const connectedMyWritingsPage = connect(mapState, actionCreators)(MyWritingsPage);
+export { connectedMyWritingsPage as MyWritingsPage };

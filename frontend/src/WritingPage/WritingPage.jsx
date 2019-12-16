@@ -6,7 +6,6 @@ import {
   Avatar, Descriptions, List, Input, Button, Typography, Modal
 } from 'antd';
 import 'antd//dist/antd.css';
-import './WritingPage.css';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
 

@@ -5,6 +5,7 @@ import { history } from '../_helpers';
 
 export const userActions = {
     login,
+    getNotifications,
     getProfile,
     updateProfile,
     logout,
@@ -65,6 +66,23 @@ function register(user) {
     function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+function getNotifications() {
+    return dispatch => {
+        userService.getNotifications()
+            .then(
+                result => {
+                    dispatch(success(result));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(result) { return { type: userConstants.NOTIFICATION_SUCCESS, result } }
+    function failure(error) { return { type: userConstants.NOTIFICATION_FAILURE, error } }
 }
 
 function getProfile() {
