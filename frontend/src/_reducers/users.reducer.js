@@ -116,10 +116,65 @@ export function users(state = initialState, action) {
         error: action.error
       };
     case userConstants.SEARCH_CLEAR:
-        return {
-          ...state,
-          searchResults: []  
-        }
+      return {
+        ...state,
+        searchResults: []  
+      };
+    case userConstants.USER_SEARCH_SUCCESS:
+      return {
+        ...state,
+        userSearchResults: action.result  
+      }
+    case userConstants.USER_SEARCH_FAILURE:
+      return {
+        ...state,
+        error: action.error
+      };
+    case userConstants.USER_SEARCH_CLEAR:
+      return {
+        ...state,
+        userSearchResults: []  
+      };
+    case userConstants.SEND_MESSAGE_SUCCESS:
+      return {
+        ...state,
+        messageSent: action.result
+      };
+    case userConstants.SEND_MESSAGE_FAILURE:
+      return {
+        ...state,
+        error: action.error
+      };
+    case userConstants.GET_CONVERSATIONS_SUCCESS:
+      return {
+        ...state,
+        allConversations: action.result
+      };
+    case userConstants.GET_CONVERSATIONS_FAILURE:
+      return {
+        ...state,
+        error: action.error
+      };
+    case userConstants.GET_CONVERSATION_SUCCESS:
+      return {
+        ...state,
+        activeConversation: action.result
+      };
+    case userConstants.GET_CONVERSATION_FAILURE:
+      return {
+        ...state,
+        error: action.error
+      };
+    case userConstants.SEND_MESSAGE_CLEAR:
+      return {
+        ...state,
+        messageSent: ""
+      };
+    case userConstants.GET_CONVERSATION_CLEAR:
+      return {
+        ...state,
+        activeConversation: []
+      };
     default:
       return state
   }

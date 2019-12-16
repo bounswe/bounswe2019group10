@@ -39,6 +39,10 @@ class HeaderComponent extends React.Component {
   notifications(){
     history.push('/notifications');
   }
+  
+  message(){
+    history.push('/messaging');
+  }
 
   componentDidMount() {
     this.props.getProfile();
@@ -58,13 +62,22 @@ class HeaderComponent extends React.Component {
           <Col id='yallp' span={10}> 
             <Link to={{pathname: '/'}}>YALLP</Link>
           </Col>
-          <Col span={2} />
           <Col span={2} >
             <Badge
               count={notifications && notifications.length}   
               onClick={() => this.notifications()}>    
               <Icon type="bell" onClick={() => this.notifications()} style={{ fontSize: '18px', color: '#FFFFFF' }}/>              
             </Badge>
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              style={{ lineHeight: '64px' }} 
+              onClick={() => this.message()}>
+              <Menu.Item>
+                <Icon type="message" style={{ fontSize: '18px', color: '#FFFFFF' }}/>
+              </Menu.Item>
+
+            </Menu>
           </Col>
           <Col span={2} >
             <Menu
@@ -75,7 +88,6 @@ class HeaderComponent extends React.Component {
               <Menu.Item>
               <Icon type="search" style={{ fontSize: '18px', color: '#FFFFFF' }}/>
               </Menu.Item>
-
             </Menu>
           </Col>
           <Col span={2}>
