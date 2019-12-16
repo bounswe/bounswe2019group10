@@ -298,13 +298,14 @@ public class WritingService {
     }
 
 
-    public WritingDTO addNewWriting(WritingDTO writingDTO){
-        Writing writing = new Writing();
-        writing.setLanguageId(writingDTO.getLanguageId());
-        writing.setTaskText(writingDTO.getTaskText());
-        writing.setWritingName(writingDTO.getWritingName());
-        writingRepository.save(writing);
-        return writingDTO;
+    public Suggestion addNewWriting(WritingDTO writingDTO, String username){
+        Suggestion suggestion = new Suggestion();
+        suggestion.setLanguageId(writingDTO.getLanguageId());
+        suggestion.setSuggestorUsername(username);
+        suggestion.setTaskText(writingDTO.getTaskText());
+        suggestion.setWritingName(writingDTO.getWritingName());
+
+        return suggestion;
     }
 
     public String getUsernameFromId(Integer id){
