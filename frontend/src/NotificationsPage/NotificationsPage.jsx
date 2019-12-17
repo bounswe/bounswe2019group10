@@ -64,11 +64,11 @@ class NotificationsPage extends React.Component {
               }
               {notifications && notifications.map((value, index) => {
                 let firstfield;
-                if(value.notificationType=="NEW_MESSAGE"){
+                if(value.notificationType==="NEW_MESSAGE"){
                     firstfield=" You have a message of from another user.";
-                }else if(value.notificationType=="WRITING_EVALUATE"){
+                }else if(value.notificationType==="WRITING_EVALUATE"){
                     firstfield= " A user requested for an evaluation of their writing.";
-                }else if(value.notificationType=="WRITING_RESULT"){
+                }else if(value.notificationType==="WRITING_RESULT"){
                     firstfield= " Your writing is evaluated";
                 }else{
                     firstfield= " Your have a notification";
