@@ -90,9 +90,10 @@ public class WritingController {
     }
 
     @PostMapping("/add")
-    @ApiOperation(value = "Add a new writing to the database.  ")
-    public ResponseEntity<WritingDTO> evaluateWritingRequest( @RequestBody WritingDTO writingDTO) {
-        return ResponseEntity.ok(writingService.addNewWriting(writingDTO));
+    @ApiOperation(value = "Add a new writing suggestion to the database.  ")
+    public ResponseEntity<Suggestion> evaluateWritingRequest( @RequestBody WritingDTO writingDTO) {
+        String memberUsername = jwtUserDetailsService.getUsername();
+        return ResponseEntity.ok(writingService.addNewWriting(writingDTO, memberUsername));
     }
 
 
