@@ -149,10 +149,10 @@ class WritingReviewPage extends React.Component {
             okText= {this.state.oktext}
           >
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
+            <div style={{ margin: '10px 0' } } />
+            <h2 style={{fontSize: 20 }}> Answer: {this.state.selectedAnswer} </h2>
             <div style={{ margin: '10px 0' }} />
-            <big > Answer: {this.state.selectedAnswer}</big>
-            <div style={{ margin: '10px 0' }} />
-            <h2> by user: {this.state.selectedUser}</h2>
+            <h2 style={{fontSize: 20 }}> by user: {this.state.selectedUser}</h2>
             {
             !this.state.scored &&
             <Select defaultValue="score:" style={{ width: 120 }} onChange={this.selectScore}>
