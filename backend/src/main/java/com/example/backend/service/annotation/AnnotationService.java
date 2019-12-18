@@ -96,6 +96,26 @@ public class AnnotationService {
 
     }
 
+    ///////////////////////////////// Image //////////////////
+
+    public Map<String, Object> getImageAnnotation(int id){
+        ImageAnnotation imageAnnotation = imageAnnotationRepository.findById(id).orElse(null);
+
+        if (imageAnnotation == null)
+            return null;
+
+        return toImageAnnotationModel(imageAnnotation);
+    }
+
+    public List<Map<String, Object>> getAllImageAnnotationsByImageUrl(String imageUrl){
+        List<Map<String, Object>> list = new ArrayList<>();
+        imageAnnotationRepository.findAllByImageUrl(imageUrl).forEach(imageAnnotation -> {
+            list.add(toImageAnnotationModel(imageAnnotation));
+        });
+        return list;
+    }
+
+
     private Map<String, Object> toImageAnnotationModel(ImageAnnotation imageAnnotation){
 
         JSONObject anno = new JSONObject();
