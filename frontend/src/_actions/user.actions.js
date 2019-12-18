@@ -16,7 +16,14 @@ export const userActions = {
     removeLanguage,
     changeActiveLanguage,
     search,
-    clearSearch
+    userSearch,
+    clearUserSearch,
+    clearSearch,
+    sendMessage,
+    getConversations,
+    getConversation,
+    clearMessageSent,
+    clearActiveConversation
 };
 
 function login(username, password) {
@@ -222,10 +229,101 @@ function search(type,term,languageId) {
     function failure(error) { return { type: userConstants.SEARCH_FAILURE, error } }
 }
 
+function userSearch(username) {
+    return dispatch => {
+        userService.userSearch(username)
+            .then(
+                result => { 
+                    dispatch(success(result));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(result) { return { type: userConstants.USER_SEARCH_SUCCESS, result } }
+    function failure(error) { return { type: userConstants.USER_SEARCH_FAILURE, error } }
+}
+
+function clearUserSearch(){
+    return dispatch => {
+        dispatch(success());
+    };
+    function success() { return { type: userConstants.USER_SEARCH_CLEAR, } }
+}
+
 function clearSearch(){
     return dispatch => {
         dispatch(success());
     };
 
     function success() { return { type: userConstants.SEARCH_CLEAR, } }
+}
+
+function sendMessage(username,text){
+    return dispatch => {
+        userService.sendMessage(username,text)
+            .then(
+                result => { 
+                    dispatch(success(result));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(result) { return { type: userConstants.SEND_MESSAGE_SUCCESS, result } }
+    function failure(error) { return { type: userConstants.SEND_MESSAGE_FAILURE, error } }
+}
+
+function getConversations(){
+    return dispatch => {
+        userService.getConversations()
+            .then(
+                result => { 
+                    dispatch(success(result));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(result) { return { type: userConstants.GET_CONVERSATIONS_SUCCESS, result } }
+    function failure(error) { return { type: userConstants.GET_CONVERSATIONS_FAILURE, error } }
+}
+
+function getConversation(conversationId){
+    return dispatch => {
+        userService.getConversation(conversationId)
+            .then(
+                result => { 
+                    dispatch(success(result));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(result) { return { type: userConstants.GET_CONVERSATION_SUCCESS, result } }
+    function failure(error) { return { type: userConstants.GET_CONVERSATION_FAILURE, error } }
+}
+
+function clearMessageSent(){
+    return dispatch => {
+        dispatch(success());
+    };
+
+    function success() { return { type: userConstants.SEND_MESSAGE_CLEAR, } }
+}
+
+function clearActiveConversation(){
+    return dispatch => {
+        dispatch(success());
+    };
+
+    function success() { return { type: userConstants.GET_CONVERSATION_CLEAR, } }
 }
