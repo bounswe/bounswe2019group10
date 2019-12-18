@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout, Menu, Row, Col,Icon,
-    Avatar} from 'antd';
+    Avatar,Badge} from 'antd';
 
 import { userActions } from '../_actions';
 import { flags,history } from '../_helpers';
+import { getBeforeSelectionText } from 'rc-mentions/lib/util';
 const { Header } = Layout;
 const { SubMenu } = Menu;
 
@@ -35,16 +36,21 @@ class HeaderComponent extends React.Component {
     history.push('/search');
   }
 
+  notifications(){
+    history.push('/notifications');
+  }
+  
   message(){
     history.push('/messaging');
   }
 
   componentDidMount() {
     this.props.getProfile();
+    this.props.getNotifications();
   }
 
   render() {
-    const { profile,activeLanguage } = this.props;
+    const { profile,activeLanguage,notifications } = this.props;
     let memberLanguages = [];
     if (profile){
       memberLanguages = profile.memberLanguages.map((l) => l.language);
@@ -56,8 +62,12 @@ class HeaderComponent extends React.Component {
           <Col id='yallp' span={10}> 
             <Link to={{pathname: '/'}}>YALLP</Link>
           </Col>
-          <Col span={2} />
           <Col span={2} >
+            <Badge
+              count={notifications && notifications.length}   
+              onClick={() => this.notifications()}>    
+              <Icon type="bell" onClick={() => this.notifications()} style={{ fontSize: '18px', color: '#FFFFFF' }}/>              
+            </Badge>
             <Menu
               theme="dark"
               mode="horizontal"
@@ -78,7 +88,6 @@ class HeaderComponent extends React.Component {
               <Menu.Item>
               <Icon type="search" style={{ fontSize: '18px', color: '#FFFFFF' }}/>
               </Menu.Item>
-
             </Menu>
           </Col>
           <Col span={2}>
@@ -128,14 +137,27 @@ class HeaderComponent extends React.Component {
               >
               <Link to={{pathname: '/profile-page'}}>Profile</Link>
               </Menu.Item>
+              
               <Menu.Item
-              key="2"
+                  key="2"
+              >
+              <Link to={{pathname: '/mywritings-page'}}>My Writings</Link>        
+              </Menu.Item>
+
+              <Menu.Item
+              key="3"
               >
               <Link to={{pathname: '/writing-review-page'}}>Evaluate Writings</Link>                       
               </Menu.Item>
 
               <Menu.Item
-                  key="3"
+              key="4"
+              >
+              <Link to={{pathname: '/writing-topic-suggest-page'}}>Suggest a New Writing Topic</Link>                       
+              </Menu.Item>
+
+              <Menu.Item
+                  key="5"
                   onClick={this.logOut}
               >
                   Log out
@@ -150,14 +172,15 @@ class HeaderComponent extends React.Component {
 }
 
 function mapState(state) {
-  const { profile,activeLanguage } = state.users;
-  return { profile,activeLanguage };
+  const { profile,activeLanguage,notifications } = state.users;
+  return { profile,activeLanguage,notifications };
 }
 
 const actionCreators = {
   logOut: userActions.logout,
   getProfile: userActions.getProfile,
-  changeActiveLanguage: userActions.changeActiveLanguage
+  changeActiveLanguage: userActions.changeActiveLanguage,
+  getNotifications: userActions.getNotifications
 }
 
 const connectedHeaderPage = connect(mapState, actionCreators)(HeaderComponent);

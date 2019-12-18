@@ -48,13 +48,14 @@ class WritingReviewPage extends React.Component {
   selectScore(score){
     this.setState({score});
   }
-  setModalVisible(modalVisible, selectedAssignment,selectedAnswer,selectedUser,writingResultId,scored) {
+  setModalVisible(modalVisible, selectedAssignment,selectedAnswer,selectedUser,writingResultId,scored,score) {
     this.setState({ modalVisible });
     this.setState({ selectedAssignment });
     this.setState({ selectedAnswer });
     this.setState({ selectedUser });
     this.setState({ writingResultId });
     this.setState({ scored });
+    this.setState({ score });
     {
       if(!scored)
     {
@@ -100,9 +101,8 @@ class WritingReviewPage extends React.Component {
               >
                 Not Yet Reviewed
             </p>
-              { !assignments && 
+              { assignments && assignments.length==0 &&
                 <Card type="inner" title="No New Assignments" >
-                  
                 </Card>
               }
               {assignments && assignments.map((value, index) => {
@@ -110,7 +110,7 @@ class WritingReviewPage extends React.Component {
                 let t2 = value.answerText.split('.') + " ... ";
                 return (
                   <Card type="inner" title={t} key={index + 1}
-                    extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored)} >Score</Button>}>
+                    extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored,value.score)} >Score</Button>}>
                     {t2}
                   </Card>
                 );
@@ -130,7 +130,7 @@ class WritingReviewPage extends React.Component {
                 let t2 = value.answerText.split('.') + " ... ";
                 return (
                   <Card type="inner" title={t} key={index + 1}
-                  extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored)} >Review</Button>}>
+                  extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored,value.score)} >Review</Button>}>
                     {t2} 
                   </Card>
                 );
@@ -149,10 +149,10 @@ class WritingReviewPage extends React.Component {
             okText= {this.state.oktext}
           >
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
+            <div style={{ margin: '10px 0' } } />
+            <h2 style={{fontSize: 20 }}> Answer: {this.state.selectedAnswer} </h2>
             <div style={{ margin: '10px 0' }} />
-            <h1> Answer: {this.state.selectedAnswer}</h1>
-            <div style={{ margin: '10px 0' }} />
-            <h2> by user: {this.state.selectedUser}</h2>
+            <h2 style={{fontSize: 20 }}> by user: {this.state.selectedUser}</h2>
             {
             !this.state.scored &&
             <Select defaultValue="score:" style={{ width: 120 }} onChange={this.selectScore}>
@@ -168,6 +168,10 @@ class WritingReviewPage extends React.Component {
               <Option value="9">9</Option>
               <Option value="10">10</Option>
             </Select>
+            }
+            {
+            this.state.scored &&
+            <h2> Your Score is: {this.state.score} </h2>
             }
           </Modal>
         </Content>
