@@ -3,7 +3,9 @@ package com.example.backend.service.annotation;
 import com.example.backend.model.annotation.Annotation;
 import com.example.backend.model.annotation.AnnotationDTO;
 import com.example.backend.model.annotation.ImageAnnotation;
+import com.example.backend.model.annotation.ImageAnnotationDTO;
 import com.example.backend.repository.annotation.AnnotationRepository;
+import com.example.backend.repository.annotation.ImageAnnotationRepository;
 import com.example.backend.service.member.JwtUserDetailsService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class AnnotationService {
 
     @Autowired
     AnnotationRepository annotationRepository;
+
+    @Autowired
+    ImageAnnotationRepository imageAnnotationRepository;
 
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
@@ -96,7 +101,7 @@ public class AnnotationService {
         JSONObject anno = new JSONObject();
 
         anno.put("@context", "http://www.w3.org/ns/anno.jsonld");
-        anno.put("id", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/annotation/" + imageAnnotation.getId());
+        anno.put("id", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/annotation/image/" + imageAnnotation.getId());
         anno.put("type", "Annotation");
 
         JSONObject creator = new JSONObject();
@@ -125,6 +130,26 @@ public class AnnotationService {
         anno.put("modified", imageAnnotation.getUpdatedAt().toString().replace(" ", "T").substring(0,19)+"Z");
 
         return anno.toMap();
+
+    }
+
+    public ImageAnnotation createImageAnnotation(ImageAnnotationDTO imageAnnotationDTO){
+
+        ImageAnnotation imageAnnotation = new ImageAnnotation();
+
+        imageAnnotation.setImageUrl(imageAnnotationDTO.getImageUrl());
+        imageAnnotation.setAnnotatorId(jwtUserDetailsService.getUserId());
+        imageAnnotation.setAnnotationText(imageAnnotationDTO.getAnnotationText());
+        imageAnnotation.setX(imageAnnotationDTO.getX());
+        imageAnnotation.setY(imageAnnotationDTO.getY());
+        imageAnnotation.setW(imageAnnotationDTO.getW());
+        imageAnnotation.setH(imageAnnotationDTO.getH());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        imageAnnotation.setCreatedAt(Timestamp.valueOf(localDateTime));
+        imageAnnotation.setUpdatedAt(Timestamp.valueOf(localDateTime));
+        imageAnnotationRepository.save(imageAnnotation);
+
+        return imageAnnotation;
 
     }
 
