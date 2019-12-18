@@ -34,7 +34,7 @@ public class CommentController {
     }
 
     @PostMapping("/make")
-    @ApiOperation(value = "Make comment to a user")
+    @ApiOperation(value = "Make comment to a user. Ps: Rating is 1 to 5")
     public ResponseEntity<MemberComment> makeComment(@RequestBody MemberCommentMakeDTO memberCommentDTO){
         return ResponseEntity.ok(commentService.makeComment(memberCommentDTO));
     }
