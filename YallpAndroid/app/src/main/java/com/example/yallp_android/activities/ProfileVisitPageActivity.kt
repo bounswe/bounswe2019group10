@@ -79,6 +79,15 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             dialog.show()
         }
 
+        val sendMessage = findViewById<Button>(R.id.sendMessage)
+        sendMessage.setOnClickListener {
+            val i = Intent(this,ConversationActivity::class.java)
+            i.putExtra("sendTo", userInfo.username)
+
+            startActivity(i)
+            finish()
+        }
+
     }
 
     private fun callById(id: Int) {

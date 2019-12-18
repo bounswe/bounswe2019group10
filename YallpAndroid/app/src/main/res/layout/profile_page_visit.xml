@@ -112,5 +112,18 @@
         android:layout_below="@id/languages"
         android:layout_marginTop="20dp"/>
 
+    <Button
+        android:id="@+id/sendMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/WhiteBackgroundButtonTheme"
+        android:text="Send Message"
+        android:textSize="14sp"
+        android:padding="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_below="@id/addComment"
+        android:layout_marginTop="20dp"/>
+
 
 </RelativeLayout>

@@ -62,12 +62,19 @@ public class ConversationActivity extends AppCompatActivity {
             }
         });
 
+        if(getIntent().hasExtra("conversationId"))
+            getConversation();
+
+    }
+
+    private void getConversation() {
+
         Call<Conversation> call;
 
         String token = "Bearer " + sharedPref.getString("token", null);
         call = MessageRetroClient.getInstance()
-                                 .getMessageApi()
-                                 .getConversation(token, getIntent().getIntExtra("conversationId", 0));
+                .getMessageApi()
+                .getConversation(token, getIntent().getIntExtra("conversationId", 0));
 
         call.enqueue(new Callback<Conversation>() {
             @Override
