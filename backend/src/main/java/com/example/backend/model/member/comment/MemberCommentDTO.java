@@ -1,4 +1,4 @@
-package com.example.backend.model.member;
+package com.example.backend.model.member.comment;
 
 import java.sql.Timestamp;
 
