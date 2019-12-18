@@ -15,11 +15,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.HomePageTabAdapter;
 import com.example.yallp_android.models.Comment;
+import com.example.yallp_android.models.Conversation;
 import com.example.yallp_android.models.Language;
 import com.example.yallp_android.models.MemberLanguage;
 import com.example.yallp_android.models.UserInfo;
 import com.example.yallp_android.util.RetroClients.CommentRetroClient;
 import com.example.yallp_android.util.RetroClients.LanguageRetroClient;
+import com.example.yallp_android.util.RetroClients.MessageRetroClient;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 import com.google.android.material.tabs.TabLayout;
 
@@ -33,10 +35,15 @@ import retrofit2.Response;
 public class HomePageActivity extends AppCompatActivity {
     private int unsubsLangsSize = 1;
     private UserInfo userInfo;
+    private Conversation[] conversations;
     private ArrayList<String> languageNameList = new ArrayList<>();
     private ArrayList<String> languageLevelList = new ArrayList<>();
     private ArrayList<String> languageAndLevelId = new ArrayList<>();
     private Comment[] comments;
+    private ArrayList<String> messageSenderList = new ArrayList<>();
+    private ArrayList<String> messageLastDateList = new ArrayList<>();
+    private ArrayList<Boolean> newMessageList = new ArrayList<>();
+    private ArrayList<Integer> conversationIdList = new ArrayList<>();
     private boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -82,7 +89,32 @@ public class HomePageActivity extends AppCompatActivity {
                         else languageLevelList.add(lang.getLevelName());
                     }
 
-                    HomePageTabAdapter tabAdapter = new  HomePageTabAdapter(getSupportFragmentManager(),3,languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId,comments);
+                    Call<Conversation[]> messageCall;
+
+                    String token = sharedPref.getString("token", null);
+                    messageCall = MessageRetroClient.getInstance().getMessageApi().getAllConversations("Bearer " + token);
+
+                    messageCall.enqueue(new Callback<Conversation[]>() {
+                        @Override
+                        public void onResponse(Call<Conversation[]> call, Response<Conversation[]> response) {
+                            conversations = response.body();
+
+                            for(int i = 0; i < conversations.length; i++){
+                            messageSenderList.add(conversations[i].getOtherUsername());
+                            messageLastDateList.add(conversations[i].getMessages()[0].getMessageTime().substring(0,10));
+                            newMessageList.add(conversations[i].getRead());
+                            conversationIdList.add(conversations[i].getId());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Conversation[]> call, Throwable t) {
+
+                        }
+                    });
+
+                    HomePageTabAdapter tabAdapter = new  HomePageTabAdapter(getSupportFragmentManager(),3,languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId,comments,
+                                                                            messageSenderList, messageLastDateList, newMessageList,conversationIdList);
                     ViewPager viewPager  = findViewById(R.id.view_pager);
                     viewPager.setAdapter(tabAdapter);
                     TabLayout tabs  = findViewById(R.id.tabs);

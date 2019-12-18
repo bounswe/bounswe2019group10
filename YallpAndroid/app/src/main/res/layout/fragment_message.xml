@@ -12,6 +12,9 @@
             android:text="@string/search_user"
             android:layout_margin="15dp"/>
 
-
+        <ListView
+            android:id="@+id/conversationsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>
