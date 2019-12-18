@@ -68,6 +68,8 @@ class HeaderComponent extends React.Component {
               onClick={() => this.notifications()}>    
               <Icon type="bell" onClick={() => this.notifications()} style={{ fontSize: '18px', color: '#FFFFFF' }}/>              
             </Badge>
+            </Col>
+            <Col span={2} >
             <Menu
               theme="dark"
               mode="horizontal"
@@ -92,7 +94,7 @@ class HeaderComponent extends React.Component {
           </Col>
           <Col span={2}>
           <Menu
-            theme="dark"
+            theme="dark"  
             mode="horizontal"
             style={{ lineHeight: '64px' }} >
             <SubMenu title={
