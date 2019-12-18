@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.view.Window;
 import android.widget.Toast;
@@ -26,7 +27,11 @@ import com.example.yallp_android.util.RetroClients.UserRetroClient;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,7 +106,17 @@ public class HomePageActivity extends AppCompatActivity {
 
                             for(int i = 0; i < conversations.length; i++){
                             messageSenderList.add(conversations[i].getOtherUsername());
-                            messageLastDateList.add(conversations[i].getMessages()[0].getMessageTime().substring(0,10));
+
+                            SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+                            SimpleDateFormat after = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+                            Date date = new Date();
+                            try {
+                                date = before.parse(conversations[i].getMessages()[ conversations[i].getMessages().length - 1 ].getMessageTime());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            messageLastDateList.add(after.format(date));
+
                             newMessageList.add(conversations[i].getRead());
                             conversationIdList.add(conversations[i].getId());
                             }

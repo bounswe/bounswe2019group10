@@ -34,6 +34,16 @@
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:textColor="#40403d" />
+            <TextView
+                android:id="@+id/messageDate"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:text="12/14/2019"
+                android:textSize="18dp"
+                android:textStyle="italic"
+                android:textColor="#969693" />
 
 
 
@@ -53,21 +63,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:layout_marginEnd="32dp"
-                android:layout_toStartOf="@+id/conversationDate"
+                android:layout_marginEnd="3dp"
                 android:text="Message content goes here. might be multilined. might be not."
                 android:textColor="#40403d"
                 android:textSize="18dp" />
-            <TextView
-                android:id="@+id/messageDate"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="3dp"
-                android:text="12/14/2019"
-                android:textSize="18dp"
-                android:textStyle="italic"
-                android:textColor="#969693" />
+
         </RelativeLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

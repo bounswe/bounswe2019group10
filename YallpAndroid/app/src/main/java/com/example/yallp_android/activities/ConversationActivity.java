@@ -21,7 +21,10 @@ import com.example.yallp_android.models.Message;
 import com.example.yallp_android.models.SendMessage;
 import com.example.yallp_android.util.RetroClients.MessageRetroClient;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,7 +85,16 @@ public class ConversationActivity extends AppCompatActivity {
                 messages = response.body().getMessages();
                 for(int i = 0; i < messages.length; i++){
                     messageSenderList.add(messages[i].getSenderUsername() + ":");
-                    messageDateList.add(messages[i].getMessageTime().substring(0,10));
+
+                    SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+                    SimpleDateFormat after = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+                    Date date = new Date();
+                    try {
+                        date = before.parse(messages[i].getMessageTime());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    messageDateList.add(after.format(date));
                     messageContentList.add(messages[i].getMessageText());
                 }
 

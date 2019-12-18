@@ -2,11 +2,13 @@ package com.example.yallp_android.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.yallp_android.R;
@@ -52,6 +54,7 @@ public class MessageListAdapter extends BaseAdapter {
 
         v = layoutInflater.inflate(R.layout.user_message, null);
         messageHolder = new ViewHolderMessage();
+        messageHolder.backgroundLayout = v.findViewById(R.id.listItem);
         messageHolder.sender = v.findViewById(R.id.senderName);
         messageHolder.messageDate = v.findViewById(R.id.messageDate);
         messageHolder.messageContent = v.findViewById(R.id.messageContent);
@@ -61,10 +64,15 @@ public class MessageListAdapter extends BaseAdapter {
         messageHolder.messageDate.setText(messageDateList.get(position));
         messageHolder.messageContent.setText(messageContentList.get(position));
 
+        if(messageSenderList.get(position).equals(messageSenderList.get(0))){
+            messageHolder.backgroundLayout.setBackgroundColor(Color.LTGRAY);
+        }
+
         return v;
     }
 
     static class ViewHolderMessage {
+        LinearLayout backgroundLayout;
         TextView sender;
         TextView messageDate;
         TextView messageContent;
