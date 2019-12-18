@@ -6,6 +6,8 @@ public class MemberCommentMakeDTO {
 
     private String comment;
 
+    private int rating;
+
     public int getMemberId() {
         return memberId;
     }
@@ -22,4 +24,11 @@ public class MemberCommentMakeDTO {
         this.comment = comment;
     }
 
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 }

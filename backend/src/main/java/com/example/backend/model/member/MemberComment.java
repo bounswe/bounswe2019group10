@@ -28,6 +28,9 @@ public class MemberComment {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+    @Column(name = "rating")
+    private int rating;
+
     public MemberComment(){ }
 
     public MemberComment(int memberId, int commentatorId, String comment){
@@ -83,5 +86,13 @@ public class MemberComment {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }
