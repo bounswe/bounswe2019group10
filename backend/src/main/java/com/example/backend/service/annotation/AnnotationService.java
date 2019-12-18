@@ -2,6 +2,7 @@ package com.example.backend.service.annotation;
 
 import com.example.backend.model.annotation.Annotation;
 import com.example.backend.model.annotation.AnnotationDTO;
+import com.example.backend.model.annotation.ImageAnnotation;
 import com.example.backend.repository.annotation.AnnotationRepository;
 import com.example.backend.service.member.JwtUserDetailsService;
 import org.json.JSONObject;
@@ -89,6 +90,45 @@ public class AnnotationService {
         return anno.toMap();
 
     }
+
+    private Map<String, Object> toImageAnnotationModel(ImageAnnotation imageAnnotation){
+
+        JSONObject anno = new JSONObject();
+
+        anno.put("@context", "http://www.w3.org/ns/anno.jsonld");
+        anno.put("id", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/annotation/" + imageAnnotation.getId());
+        anno.put("type", "Annotation");
+
+        JSONObject creator = new JSONObject();
+
+        creator.put("id","http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/member/" + imageAnnotation.getAnnotatorId());
+        creator.put("type", "Person");
+        creator.put("nickname", jwtUserDetailsService.getUsernameById(imageAnnotation.getAnnotatorId()));
+
+        anno.put("creator", creator);
+        anno.put("bodyValue", imageAnnotation.getAnnotationText());
+
+        JSONObject target = new JSONObject();
+
+        target.put("source", imageAnnotation.getImageUrl());
+
+        JSONObject selector = new JSONObject();
+
+        selector.put("type", "FragmentSelector");
+        selector.put("conformsTo", "http://www.w3.org/TR/media-frags/");
+        selector.put("value", "xywh="+imageAnnotation.getX()+","+ imageAnnotation.getY() + "," + imageAnnotation.getW()+ "," + imageAnnotation.getH());
+
+        target.put("selector", selector);
+        anno.put("target", target);
+
+        anno.put("created", imageAnnotation.getCreatedAt().toString().replace(" ", "T").substring(0,19)+"Z");
+        anno.put("modified", imageAnnotation.getUpdatedAt().toString().replace(" ", "T").substring(0,19)+"Z");
+
+        return anno.toMap();
+
+    }
+
+
 /*
     public List<Annotation> findAllByWriting(int writingResultId){
         return annotationRepository.findAllByWritingResultId(writingResultId);
