@@ -223,6 +223,8 @@ public class WritingService {
         writingResult.setWritingName(writing.getWritingName());
         writingResult.setAssignmentDate(curTime);
         writingResult.setImage(false);
+        writingResult.setScored(false);
+        writingResult.setScore(0);
 
         //Add to tail
         String oldstamps[] = memberLanguage.getUnresolvedDates();
@@ -260,6 +262,8 @@ public class WritingService {
         notification.setRead(false);
         notificationService.save(notification);
 
+        writingResult.setScored(false);
+        writingResult.setScore(0);
         writingResult.setImage(true);
         writingResult.setImageUrl(imageUrl);
         writingResult.setAssignedMemberId(evMember.getId());
