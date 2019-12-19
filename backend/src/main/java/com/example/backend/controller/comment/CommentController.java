@@ -1,8 +1,9 @@
 package com.example.backend.controller.comment;
 
-import com.example.backend.model.member.MemberComment;
-import com.example.backend.model.member.MemberCommentDTO;
-import com.example.backend.model.member.MemberCommentMakeDTO;
+import com.example.backend.model.member.comment.MemberComment;
+import com.example.backend.model.member.comment.MemberCommentDTO;
+import com.example.backend.model.member.comment.MemberCommentMakeDTO;
+import com.example.backend.model.member.comment.MemberRating;
 import com.example.backend.service.comment.CommentService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class CommentController {
     }
 
     @PostMapping("/make")
-    @ApiOperation(value = "Make comment to a user")
+    @ApiOperation(value = "Make comment to a user. Ps: Rating is 1 to 5")
     public ResponseEntity<MemberComment> makeComment(@RequestBody MemberCommentMakeDTO memberCommentDTO){
         return ResponseEntity.ok(commentService.makeComment(memberCommentDTO));
     }
@@ -48,6 +49,18 @@ public class CommentController {
     @ApiOperation(value = "update comment")
     public ResponseEntity<MemberComment> deleteComment(@RequestBody MemberCommentDTO memberCommentDTO){
         return ResponseEntity.ok(commentService.updateComment(memberCommentDTO));
+    }
+
+    @GetMapping("/rating")
+    @ApiOperation(value = "Get my rating")
+    public ResponseEntity<MemberRating> getMyRating(){
+        return ResponseEntity.ok(commentService.getMyRating());
+    }
+
+    @GetMapping("/rating/{memberId}")
+    @ApiOperation(value = "Get rating of a specific member")
+    public ResponseEntity<MemberRating> getRating(@PathVariable int memberId){
+        return ResponseEntity.ok(commentService.getRating(memberId));
     }
 
 }
