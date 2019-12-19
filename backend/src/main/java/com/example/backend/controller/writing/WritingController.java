@@ -3,12 +3,14 @@ package com.example.backend.controller.writing;
 
 import com.example.backend.config.JwtTokenUtil;
 import com.example.backend.model.writing.*;
+import com.example.backend.service.aws.AmazonClient;
 import com.example.backend.service.member.JwtUserDetailsService;
 import com.example.backend.service.writing.WritingService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,6 +27,9 @@ public class WritingController {
 
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
+
+    @Autowired
+    private AmazonClient amazonClient;
 
     @GetMapping("/{writingId}")
     @ApiOperation(value = "Get Writing by ID. Returns writing plus the recommended usernames.")
@@ -43,6 +48,22 @@ public class WritingController {
     public ResponseEntity<WritingResultDTO> evaluateQuizRequest(@PathVariable int writingId, @RequestBody WritingRequest writingRequest) {
         String memberUname = jwtUserDetailsService.getUsername();
         return ResponseEntity.ok(writingService.processWritingAnswer(writingRequest, memberUname, writingId));
+    }
+
+    @PostMapping(value = "/{writingId}/submitWithImageURL")
+    @ApiOperation(value = "Submit the answers to the writing with an image URL. It requires one selected recommended username.")
+    public ResponseEntity<WritingResultDTO> evaluateQuizRequestByImage(@PathVariable int writingId
+                                                                      , @RequestBody WritingResultImageRequest writingRequest ) {
+
+        String memberUname = jwtUserDetailsService.getUsername();
+        return ResponseEntity.ok(writingService.processWritingAnswerByImage(writingRequest, memberUname, writingId));
+    }
+
+    @PostMapping("/uploadWritingImage")
+    @ApiOperation(value = "Upload writing image. Returns the URL of the image.")
+    public ResponseEntity<String> addWritingImage(@RequestPart(value = "file") MultipartFile file){
+        String imageUrl =  amazonClient.uploadFile(file);
+        return ResponseEntity.ok(imageUrl);
     }
 
     @GetMapping("/language/{languageId}")

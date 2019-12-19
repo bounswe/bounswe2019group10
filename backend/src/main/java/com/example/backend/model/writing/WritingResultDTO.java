@@ -22,6 +22,10 @@ public class WritingResultDTO {
 
     private String memberName;
 
+    private String imageUrl;
+
+    private boolean isImage;
+
     public int getId() {
         return id;
     }
@@ -103,5 +107,21 @@ public class WritingResultDTO {
 
     public void setMemberName(String memberName) {
         this.memberName = memberName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean isImage() {
+        return isImage;
+    }
+
+    public void setImage(boolean image) {
+        isImage = image;
     }
 }
