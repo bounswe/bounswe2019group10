@@ -50,13 +50,13 @@ public class WritingController {
         return ResponseEntity.ok(writingService.processWritingAnswer(writingRequest, memberUname, writingId));
     }
 
-    @PostMapping("/{writingId}/submitAsImage")
-    @ApiOperation(value = "Submit the answers to the writing as an image. It requires one selected recommended username.")
-    public ResponseEntity<WritingResultDTO> evaluateQuizRequestByImage(@PathVariable int writingId, @RequestBody WritingRequest writingRequest,
-                                                                       @RequestPart(value = "file") MultipartFile file) {
-        String imageUrl =  amazonClient.uploadFile(file);
+    @PostMapping(value = "/{writingId}/submitWithImageURL")
+    @ApiOperation(value = "Submit the answers to the writing with an image URL. It requires one selected recommended username.")
+    public ResponseEntity<WritingResultDTO> evaluateQuizRequestByImage(@PathVariable int writingId
+                                                                      , @RequestBody WritingResultImageRequest writingRequest ) {
+
         String memberUname = jwtUserDetailsService.getUsername();
-        return ResponseEntity.ok(writingService.processWritingAnswerByImage(writingRequest, memberUname, writingId, imageUrl));
+        return ResponseEntity.ok(writingService.processWritingAnswerByImage(writingRequest, memberUname, writingId));
     }
 
     @GetMapping("/language/{languageId}")

@@ -235,7 +235,8 @@ public class WritingService {
         return writingResultDTOConverterService.apply(writingResult);
     }
 
-    public WritingResultDTO processWritingAnswerByImage(WritingRequest writingRequest, String username, int writingId, String imageUrl) {
+    public WritingResultDTO processWritingAnswerByImage(WritingResultImageRequest writingRequest, String username, int writingId) {
+        String imageUrl = writingRequest.getImageURL();
         Member evMember = memberRepository.findByUsername(writingRequest.getEvaluatorUsername());
         Member curMember = memberRepository.findByUsername(username);
         Writing writing = writingRepository.findById(writingId).orElse(null);
