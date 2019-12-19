@@ -60,7 +60,7 @@ public class WritingController {
     }
 
     @PostMapping("/uploadWritingImage")
-    @ApiOperation(value = "Upload writing image")
+    @ApiOperation(value = "Upload writing image. Returns the URL of the image.")
     public ResponseEntity<String> addWritingImage(@RequestPart(value = "file") MultipartFile file){
         String imageUrl =  amazonClient.uploadFile(file);
         return ResponseEntity.ok(imageUrl);
