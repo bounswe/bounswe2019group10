@@ -102,6 +102,8 @@ class SearchUserActivity : AppCompatActivity(), UserListAdapter.UserListAdapterC
     }
 
     override fun onBackPressed() {
+        val i = Intent(this, HomePageActivity::class.java)
+        startActivity(i)
         finish()
     }
 }

@@ -144,7 +144,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
                     val adapter = UserLanguageListAdapter(applicationContext, languageNameList, languageLevelList, 0, sharedPref, true)
                     listView.adapter = adapter
 
-                    val seeCommentsView = findViewById<TextView>(R.id.commentsTitle)
+                    val seeCommentsView = findViewById<TextView>(R.id.seeComments)
                     seeCommentsView.setOnClickListener {
                         seeComments(id)
                     }
