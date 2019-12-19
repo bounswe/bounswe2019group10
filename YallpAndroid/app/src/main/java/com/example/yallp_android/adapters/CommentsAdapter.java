@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.yallp_android.R;
@@ -48,6 +49,7 @@ public class CommentsAdapter extends BaseAdapter {
             holder.comment =  v.findViewById(R.id.comment);
             holder.comentatorName =  v.findViewById(R.id.comentatorName);
             holder.date =  v.findViewById(R.id.date);
+            holder.rate =  v.findViewById(R.id.rate);
             v.setTag(holder);
         } else {
             holder = (ViewHolder) v.getTag();
@@ -58,6 +60,8 @@ public class CommentsAdapter extends BaseAdapter {
         String date = listData.get(position).getUpdatedAt();
         date = date.substring(0,date.indexOf("T"));
         holder.date.setText(date);
+        float rating = (float) listData.get(position).getRating();
+        holder.rate.setRating(rating);
 
         return v;
     }
@@ -66,6 +70,7 @@ public class CommentsAdapter extends BaseAdapter {
         TextView comment;
         TextView comentatorName;
         TextView date;
+        RatingBar rate;
     }
 
 }

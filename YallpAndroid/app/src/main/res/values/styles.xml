@@ -74,5 +74,10 @@
         <item name="android:textColor">#000</item>
         <item name="android:textSize">@dimen/titleTextSize</item>>
     </style>
+    <style name="customRatingBar"
+        parent="android:style/Widget.Material.RatingBar.Small">
+    </style><style name="RatingBar" parent="Theme.AppCompat">
+    <item name="colorControlNormal">@color/colorAccent</item>
+</style>
 
 </resources>

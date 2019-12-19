@@ -48,14 +48,16 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             val inflater = this@ProfileVisitPageActivity.getLayoutInflater()
             val view = inflater.inflate(R.layout.dialog_add_comment, null)
             val commentText = view.findViewById(R.id.commentText) as EditText
+            val ratingBar = view.findViewById(R.id.ratingBar) as RatingBar
             builder.setView(view)
                     .setPositiveButton("Send", DialogInterface.OnClickListener { dialog, id ->
                         val newComment = commentText.getText().toString()
+                        val rating = ratingBar.getRating().toDouble()
                         if (newComment.length == 0) {
                             return@OnClickListener
                         }else{
                             val call: Call<Comment>
-                            val commentToSubmit = CommentSubmit(newComment,userInfo.id)
+                            val commentToSubmit = CommentSubmit(newComment,userInfo.id,rating)
                             call = CommentRetroClient.getInstance().getCommentApi().makeComment("Bearer " + sharedPref.getString("token", null)!!,commentToSubmit)
                             call.enqueue(object : Callback<Comment> {
                                 override fun onResponse(call: Call<Comment>, response: Response<Comment>) {
