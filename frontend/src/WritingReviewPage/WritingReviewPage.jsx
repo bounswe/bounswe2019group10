@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   Layout, Menu, Breadcrumb, Row, Col, Card, Radio,
-  Avatar, Descriptions, List, Input, Button, Typography, Modal, Select
+  Avatar, Descriptions, List, Input, Button, Typography, Modal, Select,Popover
 } from 'antd';
 import 'antd//dist/antd.css';
 import { HeaderComponent } from '../HeaderComponent';
@@ -28,7 +28,10 @@ class WritingReviewPage extends React.Component {
       selectedAnswer: "",
       selectedUser: "",
       writingResultId: 0,
-      oktext: "Score this assignment" 
+      oktext: "Score this assignment",
+      hovered: true,
+      annotatedAnswer: [],
+      newAnnotatedAnswer: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -55,6 +58,27 @@ class WritingReviewPage extends React.Component {
     this.setState({ selectedUser });
     this.setState({ writingResultId });
     this.setState({ scored });
+    // TODO get annotations
+    const annotations = [{start:10,end:15, text:"hahaa"},{start:1,end:5, text:"haaha"}];
+    let annotatedAnswer = [selectedAnswer];
+    if (annotatedAnswer[0].length>0){
+      annotations.forEach(annotation => {
+        const annotatedText = annotatedAnswer[0].substring(annotation.start,annotation.end);
+        
+        const selectedText = <Popover placement="top" title={annotation.text} content={annotation.text} trigger="hover">
+            {/* visible={this.state.hovered} onVisibleChange={this.handleHoverChange}> */}
+            <span className="1" style={{backgroundColor: "#FFFF00"}}>{ annotatedText }</span>
+        </Popover>;
+        
+        // "<span>"+targetText+"</span>";
+        // annotatedAnswer = annotatedAnswer.replace(new RegExp(targetText), selectedText);
+        // annotatedAnswer = selectedText;
+        annotatedAnswer.splice(1, 0, annotatedAnswer[0].substring(annotation.end));
+        annotatedAnswer.splice(1, 0, selectedText);
+        annotatedAnswer[0] = annotatedAnswer[0].substring(0,annotation.start);
+      });
+      this.setState({ annotatedAnswer });
+    }
     {
       if(!scored)
     {
@@ -72,15 +96,33 @@ class WritingReviewPage extends React.Component {
     this.props.getnonCompletedAssignments();
     this.props.getCompletedAssignments();
     document.onmouseup = () => {
-      console.log("selected text: " + window.getSelection().toString());
-      const baseOffset = window.getSelection().baseOffset;
-      const focusOffset = window.getSelection().focusOffset;
-      console.log(window.getSelection());
-      if (window.getSelection().baseNode){
-        console.log(window.getSelection().baseNode.data.substring(baseOffset,focusOffset));
-        console.log(window.getSelection().baseNode.data.substring(0,baseOffset));
-
+      // console.log("selected text: " + window.getSelection().toString());
+      const selected = window.getSelection();
+      if (selected.baseNode && selected.baseNode.parentNode.classList 
+        && selected.baseNode.parentNode.classList[0]==="part" && selected.baseNode.parentNode.classList[1]){
+        console.log(selected);
+        const start = Math.min(window.getSelection().baseOffset,window.getSelection().focusOffset);
+        const end = Math.max(window.getSelection().baseOffset,window.getSelection().focusOffset);
+        if (start - end != 0){
+          const partId = parseInt(selected.baseNode.parentNode.classList[1]);
+          let newAnnotatedAnswer = this.state.annotatedAnswer.slice();
+          const selectedPart = newAnnotatedAnswer[partId];
+          const selectedText = <Popover placement="top" title={"annotation.text"} content={"annotation.text"} trigger="click"
+            visible={this.state.hovered} onVisibleChange={this.handleHoverChange} >
+              <span className="1" style={{backgroundColor: "#FFFF00"}}>{ selectedPart.substring(start,end) }</span>
+          </Popover>;
+          newAnnotatedAnswer.splice(partId+1, 0, selectedPart.substring(end));
+          newAnnotatedAnswer.splice(partId+1, 0, selectedText);
+          newAnnotatedAnswer[partId] = selectedPart.substring(0,start);
+          this.setState({newAnnotatedAnswer});
+        }
       }
+        
+        // console.log(selected.baseNode.parentNode.classList[1]);
+      // if (window.getSelection().baseNode){
+      //   console.log(window.getSelection().baseNode.data.substring(baseOffset,focusOffset));
+      //   console.log(window.getSelection().baseNode.data.substring(0,baseOffset));
+      // }
     };
   }
   onChange = e => {
@@ -89,24 +131,28 @@ class WritingReviewPage extends React.Component {
     });
   };
 
+  handleHoverChange = visible => {
+    if (visible){
+      this.setState({
+        hovered: visible,
+      });
+    } else {
+      this.setState({
+        hovered: visible,
+        newAnnotatedAnswer: [],
+        hovered: true
+      });
+    }
+  };
+
   render() {
     const { assignments } = this.props;
     const { cassignments } = this.props;
-    // HERE
-    const annotations = [{start:1,end:5, text:"hahaa"},{start:10,end:15, text:"hahaa"}];
-    let selectedAnswer = this.state.selectedAnswer;
-    if (selectedAnswer){
-      annotations.forEach(annotation => {
-        const targetText = this.state.selectedAnswer.substring(annotation.start,annotation.end);
-        const selectedText = "<span>"+targetText+"</span>";
-        selectedAnswer = selectedAnswer.replace(new RegExp(targetText), selectedText)
-      });  
-    }
-    console.log("original");
-    console.log(this.state.selectedAnswer);
-    console.log("updated");
-    console.log(selectedAnswer);
 
+    const selectedAnswer = this.state.selectedAnswer;
+    const annotatedAnswer = this.state.annotatedAnswer;
+    const newAnnotatedAnswer = this.state.newAnnotatedAnswer;
+    
     return (
       <Layout className="layout">
         <HeaderComponent />
@@ -175,7 +221,21 @@ class WritingReviewPage extends React.Component {
           >
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
             <div style={{ margin: '10px 0' }} />
-            <h1> Answer: {this.state.selectedAnswer}</h1>
+            <h1> Answer: 
+              <div className="answerText">
+                { newAnnotatedAnswer && newAnnotatedAnswer.map((part, i) => {     
+                  console.log("newAnnotatedAnswer written");
+                  return (<span key={i} className={"part "+i}>{part}</span>) 
+                })}
+                { newAnnotatedAnswer.length===0 && annotatedAnswer && annotatedAnswer.map((part, i) => {
+                  console.log("annotatedAnswer written");
+                  return (<span key={i} className={"part "+i}>{part}</span>) 
+                })}
+                { (!annotatedAnswer && selectedAnswer) && 
+                  selectedAnswer 
+                }
+              </div>
+            </h1>
             <div style={{ margin: '10px 0' }} />
             <h2> by user: {this.state.selectedUser}</h2>
             {
