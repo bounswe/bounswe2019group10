@@ -25,6 +25,8 @@ public class WritingResultDTOConverterService {
         writingResultDTO.setWritingName(writing.getWritingName());
         writingResultDTO.setAssignedMemberName(writingService.getUsernameFromId(writing.getAssignedMemberId()));
         writingResultDTO.setMemberName(writingService.getUsernameFromId(writing.getMemberId()));
+        writingResultDTO.setImage(writing.isImage());
+        writingResultDTO.setImageUrl(writing.getImageUrl());
         return writingResultDTO;
     }
 

@@ -222,6 +222,51 @@ public class WritingService {
         writingResult.setWritingId(writingRequest.getWritingId());
         writingResult.setWritingName(writing.getWritingName());
         writingResult.setAssignmentDate(curTime);
+        writingResult.setImage(false);
+
+        //Add to tail
+        String oldstamps[] = memberLanguage.getUnresolvedDates();
+        String timestamps[] = new String[ oldstamps.length + 1];
+        System.arraycopy(oldstamps, 0, timestamps, 0, oldstamps.length);
+        timestamps[oldstamps.length] = curTime;
+        memberLanguage.setUnresolvedDates(timestamps);
+
+        writingResultRepository.save(writingResult);
+        return writingResultDTOConverterService.apply(writingResult);
+    }
+
+    public WritingResultDTO processWritingAnswerByImage(WritingRequest writingRequest, String username, int writingId, String imageUrl) {
+        Member evMember = memberRepository.findByUsername(writingRequest.getEvaluatorUsername());
+        Member curMember = memberRepository.findByUsername(username);
+        Writing writing = writingRepository.findById(writingId).orElse(null);
+        MemberLanguage memberLanguage = memberLanguageRepository.getByMemberIdAndLanguageId(evMember.getId(), writing.getLanguageId());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String curTime = localDateTime.toString();
+
+        if (writingRequest.getEvaluatorUsername() == null || evMember == null || evMember.getUsername().equals(username)) {
+            return null;
+        }
+
+        //Now add the writing result to the table
+        WritingResult writingResult = writingResultRepository.findByWritingIdAndMemberId(writing.getId(), curMember.getId());
+        if (writingResult == null){
+            writingResult = new WritingResult();
+        }
+        Notification notification = new Notification();
+        notification.setMemberId(evMember.getId());
+        notification.setNotificationType(NotificationType.WRITING_EVALUATE);
+        notification.setText("You have a new writing to evaluate!");
+        notification.setRead(false);
+        notificationService.save(notification);
+
+        writingResult.setImage(true);
+        writingResult.setImageUrl(imageUrl);
+        writingResult.setAssignedMemberId(evMember.getId());
+        writingResult.setMemberId(memberRepository.findByUsername(username).getId());
+        writingResult.setWritingId(writingRequest.getWritingId());
+        writingResult.setWritingName(writing.getWritingName());
+        writingResult.setAssignmentDate(curTime);
+
 
         //Add to tail
         String oldstamps[] = memberLanguage.getUnresolvedDates();
