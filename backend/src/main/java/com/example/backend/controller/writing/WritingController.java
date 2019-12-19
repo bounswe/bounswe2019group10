@@ -59,6 +59,13 @@ public class WritingController {
         return ResponseEntity.ok(writingService.processWritingAnswerByImage(writingRequest, memberUname, writingId));
     }
 
+    @PostMapping("/uploadWritingImage")
+    @ApiOperation(value = "Upload writing image")
+    public ResponseEntity<String> addWritingImage(@RequestPart(value = "file") MultipartFile file){
+        String imageUrl =  amazonClient.uploadFile(file);
+        return ResponseEntity.ok(imageUrl);
+    }
+
     @GetMapping("/language/{languageId}")
     @ApiOperation(value = "Get IDs of Writings in a given language")
     public ResponseEntity<List<Integer>> getWritingsInLanguage(@PathVariable int languageId) {
