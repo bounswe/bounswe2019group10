@@ -22,12 +22,17 @@ public class HomePageTabAdapter extends FragmentStatePagerAdapter {
     ArrayList<String> languageNameList;
     ArrayList<String> languageLevelList;
     ArrayList<String> languageAndLevelId;
+    ArrayList<String> messageSenderList;
+    ArrayList<String> messageLastDateList;
+    ArrayList<Boolean> newMessageList;
+    ArrayList<Integer> conversationIdList;
     Comment[] comments;
     int unsubsLangsSize;
     int numOfTabs;
     public HomePageTabAdapter(FragmentManager fm, int NoofTabs, ArrayList<String> languageNameList,
                               ArrayList<String> languageLevelList, int unsubsLangsSize,
-                              ArrayList<String> languageAndLevelId, Comment[] comments){
+                              ArrayList<String> languageAndLevelId, Comment[] comments, ArrayList<String> messageSenderList,
+                              ArrayList<String> messageLastDateList, ArrayList<Boolean> newMessageList, ArrayList<Integer> conversationIdList){
         super(fm);
         this.numOfTabs = NoofTabs;
         this.languageNameList = languageNameList;
@@ -35,6 +40,10 @@ public class HomePageTabAdapter extends FragmentStatePagerAdapter {
         this.unsubsLangsSize = unsubsLangsSize;
         this.languageAndLevelId = languageAndLevelId;
         this.comments = comments;
+        this.messageSenderList = messageSenderList;
+        this.messageLastDateList = messageLastDateList;
+        this.newMessageList = newMessageList;
+        this.conversationIdList = conversationIdList;
     }
 
     @Override
@@ -47,7 +56,7 @@ public class HomePageTabAdapter extends FragmentStatePagerAdapter {
             LanguageListFragment languageList = LanguageListFragment.newInstance(languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId);
             return languageList;
         case 2:
-            MessageFragment message = MessageFragment.newInstance();
+            MessageFragment message = MessageFragment.newInstance(messageSenderList,messageLastDateList,newMessageList,conversationIdList);
             return message;
         default:
             return null;
