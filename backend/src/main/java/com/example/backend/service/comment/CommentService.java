@@ -1,8 +1,9 @@
 package com.example.backend.service.comment;
 
-import com.example.backend.model.member.MemberComment;
-import com.example.backend.model.member.MemberCommentDTO;
-import com.example.backend.model.member.MemberCommentMakeDTO;
+import com.example.backend.model.member.comment.MemberComment;
+import com.example.backend.model.member.comment.MemberCommentDTO;
+import com.example.backend.model.member.comment.MemberCommentMakeDTO;
+import com.example.backend.model.member.comment.MemberRating;
 import com.example.backend.repository.member.MemberCommentRepository;
 import com.example.backend.service.dtoconverterservice.MemberCommentDTOConverterService;
 import com.example.backend.service.member.JwtUserDetailsService;
@@ -46,6 +47,7 @@ public class CommentService {
         LocalDateTime localDateTime = LocalDateTime.now();
         memberComment.setCreatedAt(Timestamp.valueOf(localDateTime));
         memberComment.setUpdatedAt(Timestamp.valueOf(localDateTime));
+        memberComment.setRating(memberCommentDTO.getRating());
 
         memberCommentRepository.save(memberComment);
 
@@ -87,5 +89,36 @@ public class CommentService {
 
         return memberCommentRepository.getOne(memberComment.getId());
     }
+
+
+    public MemberRating getMyRating(){
+        int memberId = jwtUserDetailsService.getUserId();
+
+        List<MemberComment> comments = memberCommentRepository.getAllByMemberId(memberId);
+
+        MemberRating memberRating = new MemberRating();
+
+        memberRating.setNumberOfRatings(comments.size());
+        int rating = comments.stream().mapToInt(MemberComment::getRating).sum();
+
+        memberRating.setRating(1.0*rating/memberRating.getNumberOfRatings());
+
+        return memberRating;
+    }
+
+    public MemberRating getRating(int memberId){
+
+        List<MemberComment> comments = memberCommentRepository.getAllByMemberId(memberId);
+
+        MemberRating memberRating = new MemberRating();
+
+        memberRating.setNumberOfRatings(comments.size());
+        int rating = comments.stream().mapToInt(MemberComment::getRating).sum();
+
+        memberRating.setRating(1.0*rating/memberRating.getNumberOfRatings());
+
+        return memberRating;
+    }
+
 
 }

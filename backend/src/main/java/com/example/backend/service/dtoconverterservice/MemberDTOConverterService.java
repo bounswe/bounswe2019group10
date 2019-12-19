@@ -20,6 +20,7 @@ public class MemberDTOConverterService {
         memberDTO.setId(member.getId());
         memberDTO.setBio(member.getBio());
         memberDTO.setNativeLanguage(member.getNativeLanguage());
+        memberDTO.setProfileImageUrl(member.getProfileImageUrl());
         return memberDTO;
     }
 
@@ -37,6 +38,7 @@ public class MemberDTOConverterService {
             memberDTO.setId(member.getId());
             memberDTO.setBio(member.getBio());
             memberDTO.setNativeLanguage(member.getNativeLanguage());
+            memberDTO.setProfileImageUrl(memberDTO.getProfileImageUrl());
             list.add(memberDTO);
         });
 

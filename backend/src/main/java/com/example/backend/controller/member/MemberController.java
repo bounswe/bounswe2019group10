@@ -6,12 +6,14 @@ import com.example.backend.model.member.JwtResponse;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberDTO;
 import com.example.backend.model.member.MemberLanguage;
+import com.example.backend.service.aws.AmazonClient;
 import com.example.backend.service.member.JwtUserDetailsService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,6 +27,9 @@ public class MemberController {
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private AmazonClient amazonClient;
 
     @GetMapping("/profile")
     @ApiOperation(value = "Get profile information")
@@ -72,6 +77,15 @@ public class MemberController {
     @ApiOperation(value = "remove selected language")
     public ResponseEntity<List<MemberLanguage>> removeLanguage(@RequestBody List<String> languages){
         return  ResponseEntity.ok(jwtUserDetailsService.removeLanguage(languages));
+    }
+
+    @PostMapping("/profileImage")
+    @ApiOperation(value = "upload profile image to member")
+    public ResponseEntity<String> addProfileImage(@RequestPart(value = "file") MultipartFile file){
+        String imageUrl =  amazonClient.uploadFile(file);
+        int memberId = jwtUserDetailsService.getUserId();
+        jwtUserDetailsService.saveProfileImage(imageUrl, memberId);
+        return ResponseEntity.ok(imageUrl);
     }
 
 }

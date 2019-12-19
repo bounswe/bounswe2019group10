@@ -24,14 +24,16 @@ public class NotificationService {
     }
 
     public List<Notification> findAllNotReadNotifications(int memberId) {
-        List<Notification> notifications = notificationRepository.getAllByMemberIdAndRead(memberId, false);
-        notifications.forEach(notification -> notification.setRead(true));
-        notificationRepository.saveAll(notifications);
-        notifications.forEach(notification -> notification.setRead(false));
-        return notifications;
+        return notificationRepository.getAllByMemberIdAndRead(memberId, false);
     }
 
     public List<Notification> findAllReadNotificationsOfMember(int memberId) {
         return notificationRepository.getAllByMemberIdAndRead(memberId, true);
+    }
+
+    public List<Notification> makeNotificationsRead(List<Notification> notifications) {
+        notifications.forEach(notification -> notification.setRead(true));
+        notificationRepository.saveAll(notifications);
+        return notifications;
     }
 }

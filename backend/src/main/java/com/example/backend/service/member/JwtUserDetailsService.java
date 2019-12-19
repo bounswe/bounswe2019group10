@@ -217,4 +217,10 @@ public class JwtUserDetailsService implements UserDetailsService {
         return member.getMemberLanguages();
     }
 
+    public Member saveProfileImage(String imageUrl, int memberId) {
+        Member member = memberRepository.getOne(memberId);
+        member.setProfileImageUrl(imageUrl);
+        memberRepository.save(member);
+        return member;
+    }
 }

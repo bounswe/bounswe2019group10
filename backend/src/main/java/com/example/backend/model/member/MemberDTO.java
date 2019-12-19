@@ -10,6 +10,15 @@ public class MemberDTO {
     private String bio;
     private String password;
     private String nativeLanguage;
+    private String profileImageUrl;
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
 
     public String getName() {
         return name;
