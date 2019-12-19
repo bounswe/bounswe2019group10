@@ -27,6 +27,7 @@ class MemberCommentDTOConverterService {
         memberCommentDTO.setCreatedAt(memberComment.getCreatedAt());
         memberCommentDTO.setUpdatedAt(memberComment.getUpdatedAt());
         memberCommentDTO.setComment(memberComment.getComment());
+        memberCommentDTO.setRating(memberComment.getRating());
         return memberCommentDTO;
     }
 
