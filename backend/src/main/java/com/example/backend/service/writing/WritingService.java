@@ -21,10 +21,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class WritingService {
@@ -81,16 +78,19 @@ public class WritingService {
         Integer memberId = jwtUserDetailsService.getUserId();
         Writing writing = writingRepository.getOne(id);
         WritingDTO writingDTO = writingDTOConverterService.apply(writing);
-        List<String> usernames = RecommendUsers(memberId, writing.getLanguageId());
-
+        HashMap<String, List<?>> listTuple = RecommendUsers(memberId, writing.getLanguageId());
+        List<String> usernames = (List<String>) listTuple.get("usernames");
+        List<Integer> userIds = (List<Integer>) listTuple.get("userids");
         WritingResponse response = new WritingResponse();
         response.setWritingDTO(writingDTO);
         response.setUsernames(usernames);
+        response.setUserIds(userIds);
         return response;
     }
 
-    public List<String> RecommendUsers(Integer curMemberId, Integer languageId) {
+    public HashMap<String, List<?>> RecommendUsers(Integer curMemberId, Integer languageId) {
         ArrayList<String> users = new ArrayList<>();
+        ArrayList<Integer> userIds = new ArrayList<>();
         HashSet<String> usernames = new HashSet<>(); //For quick lookup
         HashMap<Integer, String> idUsernameMap = new HashMap<>();
         //This probably needs to change when a lot of new members come
@@ -113,11 +113,13 @@ public class WritingService {
                 long recentAssignmentOffset = Duration.between(curTime, recentDate).toDays();
                 if(inactiveDays<7 && recentAssignmentOffset > 0 && dates.length<5){
                     users.add(username);
+                    userIds.add(m.getMemberId());
                     usernames.add(username);
                 }
             }
             else{
                 users.add(username);
+                userIds.add(m.getMemberId());
                 usernames.add(username);
             }
         }
@@ -127,6 +129,7 @@ public class WritingService {
             String username = idUsernameMap.get(m.getMemberId());
             if(m.getUnresolvedDates().length==0){
                 users.add(username);
+                userIds.add(m.getMemberId());
                 usernames.add(username);
             }
         }
@@ -136,10 +139,14 @@ public class WritingService {
             MemberLanguage m = memberLanguages.get(i);
             String username = idUsernameMap.get(m.getMemberId());
             if(!usernames.contains(username)){
+                userIds.add(m.getMemberId());
                 users.add(username);
             }
         }
-        return users;
+        HashMap<String, List<?>> listTuple = new HashMap();
+        listTuple.put("usernames", users);
+        listTuple.put("userids", userIds);
+        return listTuple;
     }
 
     public List<Integer> getWritingIDList(List<Writing> writings) {
