@@ -2,18 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
-  Layout, Menu, Breadcrumb, Row, Col, Radio,
-  Avatar, Descriptions, List, Input, Button, Typography, Modal
+  Layout, Col, Radio, Input, Button, Typography, Modal
 } from 'antd';
 import 'antd//dist/antd.css';
 import './WritingPage.css';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
 
-import { history } from '../_helpers';
-import { userActions, writingActions } from '../_actions';
-const { Header, Content, Footer } = Layout;
-const { SubMenu } = Menu;
+import { writingActions } from '../_actions';
+const { Content } = Layout;
 const { TextArea } = Input;
 const { Title } = Typography
 
@@ -65,7 +62,7 @@ class WritingPage extends React.Component {
 
   render() {
     const { writing } = this.props;
-    let options = [];
+    
     const radioStyle = {
       display: 'block',
       height: '30px',

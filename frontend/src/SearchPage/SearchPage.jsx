@@ -69,7 +69,7 @@ class SearchPage extends React.Component {
             {searchResults &&
             <Title style={{paddingTop:"25px",paddingBottom:"25px"}} level={4}>Search Results</Title>
             }
-            {this.state.searchType=="writing" && searchResults && (
+            {this.state.searchType==="writing" && searchResults && (
               searchResults.map((searchResult, i) => {
               return (
                 <Row key={i}>
@@ -78,7 +78,7 @@ class SearchPage extends React.Component {
                 </Row>
                 ) 
             }))}
-            {this.state.searchType=="quiz" && searchResults && (
+            {this.state.searchType==="quiz" && searchResults && (
               searchResults.map((searchResult, i) => {
               return (
                 <Row key={i}>

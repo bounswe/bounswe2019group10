@@ -1,4 +1,4 @@
-import { commentConstants, writingConstants } from '../_constants';
+import { commentConstants } from '../_constants';
 
 const initialState = {}
 

@@ -1,7 +1,5 @@
 import { quizConstants } from '../_constants';
 import { quizService } from '../_services';
-import { alertActions } from './';
-import { history } from '../_helpers';
 
 export const quizActions = {
   getQuiz,

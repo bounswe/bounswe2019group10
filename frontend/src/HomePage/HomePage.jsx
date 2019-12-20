@@ -32,8 +32,8 @@ class HomePage extends React.Component {
         let level = 0;
         let activeLanguageId = 0;
         if (this.props.profile){
-            for (const [index, language] of this.props.profile.memberLanguages.entries()) {
-                if (this.props.activeLanguage.languageName==language.language.languageName){
+            for (const [language] of this.props.profile.memberLanguages.entries()) {
+                if (this.props.activeLanguage.languageName===language.language.languageName){
                     level = language.languageLevel;
                     activeLanguageId = language.language.id;
                     break;
@@ -55,7 +55,7 @@ class HomePage extends React.Component {
                 activeLanguage: this.props.activeLanguage
             });
         }
-        if (this.state.activeLanguage!=this.props.activeLanguage.languageName){
+        if (this.state.activeLanguage!==this.props.activeLanguage.languageName){
             const [level,activeLanguageId] = this.getIdandLevel();
             this.props.getQuizes(activeLanguageId,level);
             this.setState({
@@ -91,7 +91,7 @@ class HomePage extends React.Component {
                             </Row>
                             ) 
                         }))}
-                        {(quizList && quizList.length==0) && <Empty description="No quiz found :("/>}
+                        {(quizList && quizList.length===0) && <Empty description="No quiz found :("/>}
                     </Col>
                     <Col span={8} offset={2}>
                         <Title level={3} style={{textAlign: "center"}}>Writing Exercises</Title>
@@ -104,7 +104,7 @@ class HomePage extends React.Component {
                                 </Row>
                             ) 
                         }))}
-                        {(searchResults && searchResults.length==0) && <Empty description="No writing found :("/>}
+                        {(searchResults && searchResults.length===0) && <Empty description="No writing found :("/>}
                     </Col>
                 </Row>
             </Content>
