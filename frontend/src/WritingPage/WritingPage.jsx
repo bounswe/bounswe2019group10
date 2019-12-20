@@ -27,6 +27,8 @@ class WritingPage extends React.Component {
       writingId: writingId,
       answer: "",
       reviewer: "",
+      answerType : "text",
+      answerPicture: File,
       isSubmit: false,
       writingFinished: false,
       modalVisible: false
@@ -61,10 +63,14 @@ class WritingPage extends React.Component {
       reviewer: e.target.value,
     });
   };
+  typeChange = e => {
+    this.setState({
+      answerType: e.target.value,
+    });
+  };
 
   render() {
     const { writing } = this.props;
-    let options = [];
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -96,12 +102,27 @@ class WritingPage extends React.Component {
                       <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={3}>{writing.writing.writingDTO.taskText}</Title>
                     }
                     <div style={{ margin: '10px 0' }} />
+                    <p>
+                    <Title level={4}>Select a format for writing</Title>
+                    <Radio.Group onChange={this.typeChange} value={this.state.answerType}>
+                    <Radio value="text">Text</Radio>
+                    <Radio value="picture">Picture</Radio>
+                     </Radio.Group>
+                    </p>
+                    {this.state.answerType==="text" &&
                     <TextArea placeholder="Write your answer here"
-                      autoSize={{ minRows: 10, maxRows: 15 }}
-                      name="answer"
-                      value={this.state.answer}
-                      onChange={this.handleChange}
-                    />
+                    autoSize={{ minRows: 10, maxRows: 15 }}
+                    name="answer"
+                    value={this.state.answer}
+                    onChange={this.handleChange}
+                  />
+                    }
+                    {this.state.answerType==="picture" &&
+                    <input type="file"
+                    id="writingpic" name="writingpic  "
+                    accept="image/png, image/jpeg"/>
+                    }
+                    
                     <div style={{ margin: '10px 0' }} />
                     <Button type="primary" onClick={() => this.setModalVisible(true)} >Submit</Button>
                   </Col>
