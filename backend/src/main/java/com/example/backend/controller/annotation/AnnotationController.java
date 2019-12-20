@@ -63,7 +63,7 @@ public class AnnotationController {
     @GetMapping("/image/{id}")
     @ApiOperation(value = "Get image annotation")
     public ResponseEntity<Map<String, Object>> getImageAnnotation(@PathVariable int id) {
-        return ResponseEntity.ok(annotationService.getAnnotation(id));
+        return ResponseEntity.ok(annotationService.getImageAnnotation(id));
     }
 
     @GetMapping("/all")

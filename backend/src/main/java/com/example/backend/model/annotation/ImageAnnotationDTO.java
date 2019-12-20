@@ -1,7 +1,5 @@
 package com.example.backend.model.annotation;
 
-import java.sql.Timestamp;
-
 public class ImageAnnotationDTO {
 
 
