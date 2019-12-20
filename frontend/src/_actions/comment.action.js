@@ -4,7 +4,7 @@ import { commentService } from '../_services';
 export const commentActions = {
     getComments,
     getCommentsForMember,
-    deleteComment,
+    // deleteComment,
     makeComment
 };
 
@@ -68,6 +68,6 @@ function makeComment(memberComment) {
     }
 }
 
-function deleteComment(commentId) {
+// function deleteComment(commentId) {
 
-}
+// }

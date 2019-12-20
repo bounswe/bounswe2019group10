@@ -6,6 +6,7 @@ import { history } from '../_helpers';
 export const userActions = {
     login,
     getProfile,
+    getMemberProfile,
     updateProfile,
     logout,
     register,
@@ -82,6 +83,23 @@ function getProfile() {
 
     function success(profile) { return { type: userConstants.PROFILE_SUCCESS, profile } }
     function failure(error) { return { type: userConstants.PROFILE_FAILURE, error } }
+}
+
+function getMemberProfile(memberId) {
+    return dispatch => {
+        userService.getMemberProfile(memberId)
+            .then(
+                profile => {
+                    dispatch(success(profile));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(profile) { return { type: userConstants.MEMBER_PROFILE_SUCCESS, profile } }
+    function failure(error) { return { type: userConstants.MEMBER_PROFILE_FAILURE, error } }
 }
 
 function updateProfile(newProfile) {
@@ -187,11 +205,11 @@ function changeActiveLanguage(language) {
     function success(language) { return { type: userConstants.CHANGE_LANGUAGE_SUCCESS, language } }
 }
 
-function search(type,term,languageId) {
+function search(type, term, languageId) {
     return dispatch => {
-        userService.search(type,term,languageId)
+        userService.search(type, term, languageId)
             .then(
-                result => { 
+                result => {
                     dispatch(success(result));
                 },
                 error => {
@@ -204,7 +222,7 @@ function search(type,term,languageId) {
     function failure(error) { return { type: userConstants.SEARCH_FAILURE, error } }
 }
 
-function clearSearch(){
+function clearSearch() {
     return dispatch => {
         dispatch(success());
     };

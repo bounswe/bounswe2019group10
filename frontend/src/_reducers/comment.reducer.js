@@ -1,25 +1,23 @@
 import { commentConstants, writingConstants } from '../_constants';
 
-export function comment(state = {}, action) {
+const initialState = {}
+
+export function comment(state = initialState, action) {
     switch (action.type) {
         case commentConstants.GET_COMMENTS:
-            return {};
+            return { comments: action.comment };
         case commentConstants.GET_COMMENTS_FAILURE:
-            return {};
+            return { error: action.error };
         case commentConstants.GET_COMMENTS_FOR_MEMBER:
-            return {};
+            return { comments: action.comment };
         case commentConstants.GET_COMMENTS_FOR_MEMBER_FAILURE:
-            return {};
+            return { error: action.error };
         case commentConstants.MAKE_COMMENT:
-            return {};
+            return { comments: action.comment };
         case commentConstants.MAKE_COMMENT_FAILURE:
-            return {};
-        case commentConstants.DELETE_COMMENT:
-            return {};
-        case commentConstants.DELETE_COMMENT_FAILURE:
-            return {};
+            return { error: action.error };
 
         default:
-            return
+            return state
     }
 }

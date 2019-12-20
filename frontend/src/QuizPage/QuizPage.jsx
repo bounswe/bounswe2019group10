@@ -1,15 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Layout, Menu, Breadcrumb, Row, Col, Radio, Button,Alert,
-  Avatar, Descriptions, List } from 'antd';
+import { Layout, Radio, Button,Alert } from 'antd';
 import { Link } from 'react-router-dom';
-import { quizActions,userActions } from '../_actions';
+import { quizActions } from '../_actions';
 import './QuizPage.css';
-import { history } from '../_helpers';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
-const { Header, Content, Footer } = Layout;
-const { SubMenu } = Menu;
+const { Content } = Layout;
 
 class QuizPage extends React.Component {
     constructor(props) {

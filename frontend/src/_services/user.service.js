@@ -1,10 +1,11 @@
-import { authHeader,config } from '../_helpers';
+import { authHeader, config } from '../_helpers';
 
 export const userService = {
     login,
     logout,
     register,
     getProfile,
+    getMemberProfile,
     updateProfile,
     getUserLanguages,
     getAllLanguages,
@@ -45,6 +46,16 @@ function getProfile() {
         headers: { ...authHeader(), "Access-Control-Allow-Origin": "*" }
     };
     return fetch(`${config.apiUrl}/member/profile`, requestOptions).then(handleResponse);
+}
+
+function getMemberProfile(memberId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', ...authHeader() },
+        body: JSON.stringify({ memberId: memberId })
+    };
+    return fetch(`${config.apiUrl}/member/${memberId}`, requestOptions)
+        .then(handleResponse);
 }
 
 function updateProfile(newProfile) {
@@ -89,7 +100,7 @@ function addLanguage(language) {
     return fetch(`${config.apiUrl}/member/addlang`, requestOptions).then(handleResponse);
 }
 
-function removeLanguage(language){
+function removeLanguage(language) {
     const requestOptions = {
         method: 'POST',
         headers: { ...authHeader(), "Access-Control-Allow-Origin": "*", 'Content-Type': 'application/json' },
@@ -98,10 +109,10 @@ function removeLanguage(language){
     return fetch(`${config.apiUrl}/member/removelang`, requestOptions).then(handleResponse);
 }
 
-function search(type,term,languageId){
+function search(type, term, languageId) {
     const requestOptions = {
         method: 'POST',
-        headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},
+        headers: { ...authHeader(), "Access-Control-Allow-Origin": "*", 'Content-Type': 'application/json' },
     };
     return fetch(`${config.apiUrl}/search/${type}/${languageId}/${term}`, requestOptions).then(handleResponse);
 }

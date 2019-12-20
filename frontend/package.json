@@ -5,10 +5,11 @@
   "dependencies": {
     "antd": "^3.24.2",
     "react": "^16.12.0",
+    "react-avatar-edit": "^0.8.3",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.2.0",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
+    "react-scripts": "^3.3.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0"
