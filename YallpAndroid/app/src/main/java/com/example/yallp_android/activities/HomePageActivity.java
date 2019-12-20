@@ -99,7 +99,7 @@ public class HomePageActivity extends AppCompatActivity {
                     String token = sharedPref.getString("token", null);
                     messageCall = MessageRetroClient.getInstance().getMessageApi().getAllConversations("Bearer " + token);
 
-                    /*messageCall.enqueue(new Callback<Conversation[]>() {
+                    messageCall.enqueue(new Callback<Conversation[]>() {
                         @Override
                         public void onResponse(Call<Conversation[]> call, Response<Conversation[]> response) {
                             conversations = response.body();
@@ -126,7 +126,7 @@ public class HomePageActivity extends AppCompatActivity {
                         public void onFailure(Call<Conversation[]> call, Throwable t) {
 
                         }
-                    });*/
+                    });
 
                     HomePageTabAdapter tabAdapter = new  HomePageTabAdapter(getSupportFragmentManager(),3,languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId,comments,
                                                                             messageSenderList, messageLastDateList, newMessageList,conversationIdList);
