@@ -83,6 +83,7 @@ public class HomePageActivity extends AppCompatActivity {
                             .putString("name", userInfo.getName())
                             .putString("surname", userInfo.getSurname())
                             .putString("bio", userInfo.getBio())
+                            .putString("imageUrl",userInfo.getProfileImageUrl())
                             .commit();
 
                     for (int i = 0; i < userInfo.getMemberLanguages().length; i++) {
@@ -107,15 +108,15 @@ public class HomePageActivity extends AppCompatActivity {
                             for(int i = 0; i < conversations.length; i++){
                             messageSenderList.add(conversations[i].getOtherUsername());
 
-                            SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+                            SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                             SimpleDateFormat after = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
                             Date date = new Date();
-                            try {
+          /*                  try {
                                 date = before.parse(conversations[i].getMessages()[ conversations[i].getMessages().length - 1 ].getMessageTime());
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            messageLastDateList.add(after.format(date));
+                            messageLastDateList.add(after.format(date));*/
 
                             newMessageList.add(conversations[i].getRead());
                             conversationIdList.add(conversations[i].getId());

@@ -13,7 +13,21 @@ public class UserInfo {
     private String role;
     private String name;
     private String surname;
+    private String profileImageUrl;
     private String nativeLanguage;
+
+    public UserInfo(int id, String bio, String password, String username, String mail, String role, String name, String surname, boolean expert, boolean enabled) {
+        this.id = id;
+        this.bio = bio;
+        this.password = password;
+        this.username = username;
+        this.mail = mail;
+        this.role = role;
+        this.name = name;
+        this.surname = surname;
+        this.expert = expert;
+        this.enabled = enabled;
+    }
 
     public int getId() {
         return id;
@@ -95,18 +109,6 @@ public class UserInfo {
         this.enabled = enabled;
     }
 
-    public UserInfo(int id, String bio, String password, String username, String mail, String role, String name, String surname, boolean expert, boolean enabled) {
-        this.id = id;
-        this.bio = bio;
-        this.password = password;
-        this.username = username;
-        this.mail = mail;
-        this.role = role;
-        this.name = name;
-        this.surname = surname;
-        this.expert = expert;
-        this.enabled = enabled;
-    }
 
     public MemberLanguage[] getMemberLanguages() {
         return memberLanguages;
@@ -115,5 +117,22 @@ public class UserInfo {
     public void setMemberLanguages(MemberLanguage[] MemberLanguages) {
         this.memberLanguages = MemberLanguages;
     }
+
+    public String getNativeLanguage() {
+        return nativeLanguage;
+    }
+
+    public void setNativeLanguage(String nativeLanguage) {
+        this.nativeLanguage = nativeLanguage;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
 }
 
