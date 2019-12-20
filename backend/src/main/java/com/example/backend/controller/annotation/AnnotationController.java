@@ -66,7 +66,7 @@ public class AnnotationController {
         return ResponseEntity.ok(annotationService.getImageAnnotation(id));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/image/all")
     @ApiOperation(value = "Get Image annotations for an image")
     public ResponseEntity<List<Map<String, Object>>> getAllImageAnnotationsByImageUrl(@RequestParam(value = "url") String imageUrl) {
         return ResponseEntity.ok(annotationService.getAllImageAnnotationsByImageUrl(imageUrl));
