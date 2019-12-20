@@ -20,12 +20,9 @@ class Language extends React.Component {
 
     render() {
         const { memberLanguages } = this.props;
-        console.log("SHJADHAKJHSDKJSAHDAJKSDK")
-        console.log(this.state.selfPage.selfPage)
         return (
             this.state.selfPage ?
                 <div style={{ background: '#fff', padding: 24, minHeight: 280, width: 600 }}>
-
                     <Card title="Languages">
                         {
                             memberLanguages && memberLanguages.map((memberLanguage, i) => {

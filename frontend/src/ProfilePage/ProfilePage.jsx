@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  Layout, Row, Col, Progress, Button, Card
-} from 'antd';
-
+import { Layout, Row, Col } from 'antd';
 import 'antd//dist/antd.css';
 import './ProfilePage.css';
 import { HeaderComponent } from '../HeaderComponent';
@@ -49,13 +46,15 @@ class ProfilePage extends React.Component {
               selfPage={true} isHidden={false}/>}
             </Col> */}
             <Col span={8} offset={1}>
-              {profile && <Language {...profile} removeLanguage={this.props.removeLanguage} 
-              selfPage={false} isHidden={false}/>}
+              {profile && <Language {...profile} removeLanguage={this.props.removeLanguage} selfPage={true} />}
             </Col>
           </Row>
           <Row>
-            <Col span={8} offset={4}>
-              {comments && <Comment {...comments} />}
+            <Col span={8} offset={1} style={{marginTop:'24px'}}>
+              {comments ?
+                <Comment {...comments} anyComment={true} selfPage={true} />
+                :
+                <Comment {...comments} anyComment={false} selfPage={true} />}
             </Col>
           </Row>
         </Content>
