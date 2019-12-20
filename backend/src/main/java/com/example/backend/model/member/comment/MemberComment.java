@@ -29,7 +29,7 @@ public class MemberComment {
     private Timestamp updatedAt;
 
     @Column(name = "rating")
-    private int rating;
+    private double rating;
 
     public MemberComment(){ }
 
@@ -88,11 +88,11 @@ public class MemberComment {
         this.updatedAt = updatedAt;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 }

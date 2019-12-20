@@ -99,7 +99,7 @@ public class CommentService {
         MemberRating memberRating = new MemberRating();
 
         memberRating.setNumberOfRatings(comments.size());
-        int rating = comments.stream().mapToInt(MemberComment::getRating).sum();
+        double rating = comments.stream().mapToDouble(MemberComment::getRating).sum();
 
         memberRating.setRating(1.0*rating/memberRating.getNumberOfRatings());
 
@@ -113,7 +113,7 @@ public class CommentService {
         MemberRating memberRating = new MemberRating();
 
         memberRating.setNumberOfRatings(comments.size());
-        int rating = comments.stream().mapToInt(MemberComment::getRating).sum();
+        double rating = comments.stream().mapToDouble(MemberComment::getRating).sum();
 
         memberRating.setRating(1.0*rating/memberRating.getNumberOfRatings());
 
