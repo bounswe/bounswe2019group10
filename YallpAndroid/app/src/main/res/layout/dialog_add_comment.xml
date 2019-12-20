@@ -7,4 +7,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:hint="Write your comment here..."/>
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/commentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"/>
 </RelativeLayout>

@@ -9,8 +9,9 @@ public class Comment {
     private int memberId;
     private String memberName;
     private String updatedAt;
+    private double rating;
 
-    public Comment(String comment, int commentatorId, String commentatorName, String createdAt, int id, int memberId, String memberName, String updatedAt) {
+    public Comment(String comment, int commentatorId, String commentatorName, String createdAt, int id, int memberId, String memberName, String updatedAt, double rating) {
         this.comment = comment;
         this.commentatorId = commentatorId;
         this.commentatorName = commentatorName;
@@ -19,6 +20,7 @@ public class Comment {
         this.memberId = memberId;
         this.memberName = memberName;
         this.updatedAt = updatedAt;
+        this.rating = rating;
     }
 
     public String getComment() {
@@ -51,5 +53,9 @@ public class Comment {
 
     public String getMemberName() {
         return memberName;
+    }
+
+    public double getRating() {
+        return rating;
     }
 }
