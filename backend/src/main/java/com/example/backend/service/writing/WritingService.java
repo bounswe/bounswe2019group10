@@ -1,13 +1,16 @@
 package com.example.backend.service.writing;
 
+import com.example.backend.model.language.LevelName;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberLanguage;
+import com.example.backend.model.member.MemberStatus;
 import com.example.backend.model.notification.Notification;
 import com.example.backend.model.notification.NotificationType;
 import com.example.backend.model.writing.*;
 import com.example.backend.repository.language.LanguageRepository;
 import com.example.backend.repository.member.MemberLanguageRepository;
 import com.example.backend.repository.member.MemberRepository;
+import com.example.backend.repository.message.MemberStatusRepository;
 import com.example.backend.repository.writing.SuggestionRepository;
 import com.example.backend.repository.writing.WritingRepository;
 import com.example.backend.repository.writing.WritingResultRepository;
@@ -31,6 +34,9 @@ public class WritingService {
 
     @Autowired
     private WritingResultRepository writingResultRepository;
+
+    @Autowired
+    private MemberStatusRepository memberStatusRepository;
 
     @Autowired
     private MemberLanguageRepository memberLanguageRepository;
@@ -356,6 +362,36 @@ public class WritingService {
         notification.setText("You have an evaluated writing!");
         notification.setRead(false);
         notificationService.save(notification);
+
+        if (memberStatusRepository.getByMemberIdAndAndLangId(writingResult.getMemberId(), writing.getLanguageId()) == null) {
+            MemberStatus memberStatus = new MemberStatus();
+            memberStatus.setMemberId(writingResult.getMemberId());
+            memberStatus.setLangId(writing.getLanguageId());
+            memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
+            memberStatus.setLevelName(LevelName.BEGINNER);
+            if (memberStatus.getNumberOfQuestions() >= 60) {
+                memberStatus.setLevelName(LevelName.INTERMEDIATE);
+                memberStatus.setNumberOfQuestions(0);
+            }
+            memberStatusRepository.save(memberStatus);
+        }
+        else {
+            MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(writingResult.getMemberId(), writing.getLanguageId());
+            memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
+            if (memberStatus.getNumberOfQuestions() >= 60) {
+                memberStatus.setNumberOfQuestions(0);
+                if (memberStatus.getLevelName() == LevelName.BEGINNER) {
+                    memberStatus.setLevelName(LevelName.INTERMEDIATE);
+                }
+                else if (memberStatus.getLevelName() == LevelName.INTERMEDIATE) {
+                    memberStatus.setLevelName(LevelName.UPPER_INTERMEDIATE);
+                }
+                else if (memberStatus.getLevelName() == LevelName.UPPER_INTERMEDIATE) {
+                    memberStatus.setLevelName(LevelName.ADVANCED);
+                }
+            }
+            memberStatusRepository.save(memberStatus);
+        }
         return writingResultDTOConverterService.apply(writingResult);
     }
 

@@ -2,10 +2,8 @@ package com.example.backend.controller.member;
 
 import com.example.backend.Util.JwtUserDetailsServiceUtil;
 import com.example.backend.config.JwtTokenUtil;
-import com.example.backend.model.member.JwtResponse;
-import com.example.backend.model.member.Member;
-import com.example.backend.model.member.MemberDTO;
-import com.example.backend.model.member.MemberLanguage;
+import com.example.backend.model.member.*;
+import com.example.backend.repository.message.MemberStatusRepository;
 import com.example.backend.service.aws.AmazonClient;
 import com.example.backend.service.member.JwtUserDetailsService;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +28,9 @@ public class MemberController {
 
     @Autowired
     private AmazonClient amazonClient;
+
+    @Autowired
+    private MemberStatusRepository memberStatusRepository;
 
     @GetMapping("/profile")
     @ApiOperation(value = "Get profile information")
@@ -86,6 +87,15 @@ public class MemberController {
         int memberId = jwtUserDetailsService.getUserId();
         jwtUserDetailsService.saveProfileImage(imageUrl, memberId);
         return ResponseEntity.ok(imageUrl);
+    }
+
+    @GetMapping("/status/{langId}")
+    @ApiOperation(value = "get member status of a language")
+    public ResponseEntity<MemberStatus> getMemberStatus(@PathVariable int langId) {
+        int memberId = jwtUserDetailsService.getUserId();
+        MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(memberId, langId);
+        memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions()/60);
+        return ResponseEntity.ok(memberStatus);
     }
 
 }
