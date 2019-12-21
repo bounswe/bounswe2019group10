@@ -66,7 +66,7 @@ public class ConversationListAdapter extends BaseAdapter {
         v.setTag(conversationHolder);
 
         conversationHolder.sender.setText(messageSenderList.get(position));
-     //   conversationHolder.lastMessageDate.setText(messageLastDateList.get(position));
+        conversationHolder.lastMessageDate.setText(messageLastDateList.get(position));
         if(!newMessageList.get(position))
         {
             conversationHolder.sender.setTypeface(null, Typeface.BOLD);
