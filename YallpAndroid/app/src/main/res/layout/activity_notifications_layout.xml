@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/notificationBox"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="30dp"
+        android:background="@drawable/settings_border">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/unreadNotifications"
+            android:text="Unread Notifications"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/gray"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/unreadNotifications"
+            android:layout_height="2dp"
+            android:background="@color/lineColor"/>
+        <ListView
+            android:id="@+id/unreadNotificationList"
+            android:layout_below="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:scrollbars="none"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/readNotifications"
+            android:layout_below="@+id/unreadNotificationList"
+            android:text="Read Notifications"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/gray"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/readNotifications"
+            android:layout_height="2dp"
+            android:background="@color/lineColor"/>
+        <ListView
+            android:id="@+id/readNotificationList"
+            android:layout_below="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:scrollbars="none"/>
+    </RelativeLayout>
+
+</RelativeLayout>
