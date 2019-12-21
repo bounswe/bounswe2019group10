@@ -363,10 +363,10 @@ public class WritingService {
         notification.setRead(false);
         notificationService.save(notification);
 
-        if (memberStatusRepository.getByMemberIdAndAndLangId(writingResult.getMemberId(), writing.getLanguageId()) == null) {
+        if (memberStatusRepository.getByMemberIdAndLanguageId(writingResult.getMemberId(), writing.getLanguageId()) == null) {
             MemberStatus memberStatus = new MemberStatus();
             memberStatus.setMemberId(writingResult.getMemberId());
-            memberStatus.setLangId(writing.getLanguageId());
+            memberStatus.setLanguage(languageRepository.getById(writing.getLanguageId()));
             memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
             memberStatus.setLevelName(LevelName.BEGINNER);
             if (memberStatus.getNumberOfQuestions() >= 60) {
@@ -376,7 +376,7 @@ public class WritingService {
             memberStatusRepository.save(memberStatus);
         }
         else {
-            MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(writingResult.getMemberId(), writing.getLanguageId());
+            MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndLanguageId(writingResult.getMemberId(), writing.getLanguageId());
             memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
             if (memberStatus.getNumberOfQuestions() >= 60) {
                 memberStatus.setNumberOfQuestions(0);

@@ -48,6 +48,17 @@ public class Member{
     @JoinColumn(name = "member_id")
     private List<MemberLanguage> memberLanguages = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "member_id")
+    private List<MemberStatus> memberStatuses = new ArrayList<>();
+
+    public List<MemberStatus> getMemberStatuses() {
+        return memberStatuses;
+    }
+
+    public void setMemberStatuses(List<MemberStatus> memberStatuses) {
+        this.memberStatuses = memberStatuses;
+    }
 
     public Member(Boolean isExpert, String bio, String password, String username, String mail, String role, String name, String surname, List<MemberLanguage> memberLanguages) {
         this.isExpert = isExpert;

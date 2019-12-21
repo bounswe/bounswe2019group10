@@ -100,7 +100,7 @@ public class MemberController {
     @ApiOperation(value = "get member status of a language")
     public ResponseEntity<MemberStatus> getMemberStatus(@PathVariable int langId) {
         int memberId = jwtUserDetailsService.getUserId();
-        MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(memberId, langId);
+        MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndLanguageId(memberId, langId);
         memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions()/60);
         return ResponseEntity.ok(memberStatus);
     }

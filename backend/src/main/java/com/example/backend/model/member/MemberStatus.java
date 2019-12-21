@@ -1,5 +1,6 @@
 package com.example.backend.model.member;
 
+import com.example.backend.model.language.Language;
 import com.example.backend.model.language.LevelName;
 
 import javax.persistence.*;
@@ -18,8 +19,9 @@ public class MemberStatus {
     @Column(name = "member_id")
     private int memberId;
 
-    @Column(name = "lang_id")
-    private int langId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "language_id")
+    private Language language;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "level_name")
@@ -49,14 +51,6 @@ public class MemberStatus {
         this.memberId = memberId;
     }
 
-    public int getLangId() {
-        return langId;
-    }
-
-    public void setLangId(int langId) {
-        this.langId = langId;
-    }
-
     public LevelName getLevelName() {
         return levelName;
     }
@@ -64,4 +58,13 @@ public class MemberStatus {
     public void setLevelName(LevelName levelName) {
         this.levelName = levelName;
     }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
 }
+

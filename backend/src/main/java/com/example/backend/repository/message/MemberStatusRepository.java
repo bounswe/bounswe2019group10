@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface MemberStatusRepository extends JpaRepository<MemberStatus, Integer> {
 
-    MemberStatus getByMemberIdAndAndLangId(int memberId, int langId);
+    MemberStatus getByMemberIdAndLanguageId(int memberId, int langId);
 }

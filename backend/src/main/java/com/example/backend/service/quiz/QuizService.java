@@ -124,26 +124,26 @@ public class QuizService {
 
             memberLanguageRepository.save(memberLanguage);
 
-            if (memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), lang.getId()) == null) {
+            if (memberStatusRepository.getByMemberIdAndLanguageId(curMember.getId(), lang.getId()) == null) {
                 MemberStatus memberStatus = new MemberStatus();
                 memberStatus.setMemberId(curMember.getId());
-                memberStatus.setLangId(lang.getId());
+                memberStatus.setLanguage(lang);
                 memberStatus.setNumberOfQuestions(0);
                 memberStatus.setLevelName(memberLanguage.getLevelName());
                 memberStatusRepository.save(memberStatus);
             }
             else {
-               MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), lang.getId());
+               MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndLanguageId(curMember.getId(), lang.getId());
                 memberStatus.setNumberOfQuestions(0);
                 memberStatus.setLevelName(memberLanguage.getLevelName());
                 memberStatusRepository.save(memberStatus);
             }
         }
         else {
-            if (memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), quiz.getLanguageId()) == null) {
+            if (memberStatusRepository.getByMemberIdAndLanguageId(curMember.getId(), quiz.getLanguageId()) == null) {
                 MemberStatus memberStatus = new MemberStatus();
                 memberStatus.setMemberId(curMember.getId());
-                memberStatus.setLangId(quiz.getLanguageId());
+                memberStatus.setLanguage(languageRepository.getById(quiz.getLanguageId()));
                 memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
                 memberStatus.setLevelName(LevelName.BEGINNER);
                 if (memberStatus.getNumberOfQuestions() >= 60) {
@@ -153,7 +153,7 @@ public class QuizService {
                 memberStatusRepository.save(memberStatus);
             }
             else {
-                MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), quiz.getLanguageId());
+                MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndLanguageId(curMember.getId(), quiz.getLanguageId());
                 memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
                 if (memberStatus.getNumberOfQuestions() >= 60) {
                     memberStatus.setNumberOfQuestions(0);
