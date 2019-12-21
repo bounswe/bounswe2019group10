@@ -63,7 +63,7 @@ export function users(state = initialState, action) {
     case userConstants.MEMBER_PROFILE_SUCCESS:
       return {
         ...state,
-        profile: action.profile
+        memberProfile: action.profile
       };
     case userConstants.MEMBER_PROFILE_FAILURE:
       return {

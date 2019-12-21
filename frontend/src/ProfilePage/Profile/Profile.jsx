@@ -16,8 +16,8 @@ class Profile extends React.Component {
 
         this.state = {
             //true if the user is looking at his own profile page (not another user)
-            selfPage: this.props,
-            isHidden: this.props,
+            selfPage: this.props.selfPage,
+            isHidden: this.props.isHidden,
 
             isEditing: false,
             name: this.props.name,
@@ -72,9 +72,8 @@ class Profile extends React.Component {
         return (
             this.state.selfPage ?
                 <div style={{ background: '#fff', padding: 24 }}>
-                    <Descriptions title={username ? username : "No username provided yet!"}
-                        style={{ background: 'yellow' }}>
-                        <Descriptions.Item label="Picture">
+                    <Descriptions title={username ? username : "No username provided yet!"} bordered={true} column={1}>
+                        {/* <Descriptions.Item label="Picture">
                             <Col span={10} offset={1}>
                                 <Avatar
                                     width={200}
@@ -93,7 +92,7 @@ class Profile extends React.Component {
                                     EDIT
                                  </Button>
                             </Col>
-                        </Descriptions.Item>
+                        </Descriptions.Item> */}
                         <Descriptions.Item label="Name">
                             {
                                 this.state.isEditing ?
@@ -143,7 +142,7 @@ class Profile extends React.Component {
                             }
                         </Descriptions.Item>
                     </Descriptions>
-                    <Row style={{ background: 'blue', marginTop: '12px' }}>
+                    <Row style={{ marginTop: '12px' }}>
                         <Col span={3} offset={14}>
                             <Button type="default"
                                 onClick={this.state.isEditing ? this.handleDoneButton : this.handleEditButton}>

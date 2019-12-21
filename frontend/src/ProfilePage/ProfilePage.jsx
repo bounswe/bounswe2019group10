@@ -41,10 +41,10 @@ class ProfilePage extends React.Component {
         <HeaderComponent />
         <Content style={{ marginTop: '24px' }}>
           <Row>
-            {/* <Col span={8} offset={4}>
+            <Col span={8} offset={4}>
               {profile && <Profile {...profile} updateProfile={this.props.updateProfile} 
               selfPage={true} isHidden={false}/>}
-            </Col> */}
+            </Col>
             <Col span={8} offset={1}>
               {profile && <Language {...profile} removeLanguage={this.props.removeLanguage} selfPage={true} />}
             </Col>

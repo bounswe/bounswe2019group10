@@ -11,10 +11,8 @@ class Comment extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);
 
         this.state = {
-            // selfPage: this.props.selfPage,
-            // anyComment: this.props.anyComment,
-            anyComment: true,
-            selfPage: false,
+            selfPage: this.props.selfPage,
+            anyComment: this.props.anyComment,
 
             isCommenting: false,
             usersComment: ''
@@ -26,7 +24,10 @@ class Comment extends React.Component {
     }
 
     handleCommentButton() {
-        this.state.isCommenting ? this.setState({ isCommenting: false }) : this.setState({ isCommenting: true });
+        this.state.isCommenting ? 
+        this.setState({ isCommenting: false }) 
+        : 
+        this.setState({ isCommenting: true });
     }
 
     handleInputChange(e) {
