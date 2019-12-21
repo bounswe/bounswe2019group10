@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.yallp_android.R
 import com.example.yallp_android.adapters.SectionsPagerAdapter
+import com.example.yallp_android.helper.TabHelper
 import com.google.android.material.tabs.TabLayout
 
 class LanguageMainActivity   : AppCompatActivity() {
@@ -28,6 +29,7 @@ class LanguageMainActivity   : AppCompatActivity() {
 
     override fun onBackPressed() {
         val i = Intent(this, HomePageActivity::class.java)
+        i.putExtra("tabNumber", TabHelper.LANGUAGE_TAB_NUMBER)
         startActivity(i)
         finish()
     }

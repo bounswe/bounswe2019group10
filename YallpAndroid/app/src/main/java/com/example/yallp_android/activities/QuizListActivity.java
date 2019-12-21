@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.QuizListAdapter;
+import com.example.yallp_android.helper.TabHelper;
 import com.example.yallp_android.models.Quiz;
 import com.example.yallp_android.models.QuizListElement;
 import com.example.yallp_android.util.RetroClients.QuizRetroClient;
@@ -104,6 +105,7 @@ public class QuizListActivity extends AppCompatActivity implements QuizListAdapt
     @Override
     public void onBackPressed() {
         Intent i = new Intent(this, HomePageActivity.class);
+        i.putExtra("tabNumber", TabHelper.Companion.getLANGUAGE_TAB_NUMBER());
         startActivity(i);
         finish();
     }

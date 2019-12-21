@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.HomePageTabAdapter;
+import com.example.yallp_android.helper.TabHelper;
 import com.example.yallp_android.models.Comment;
 import com.example.yallp_android.models.Conversation;
 import com.example.yallp_android.models.Language;
@@ -49,8 +50,8 @@ public class HomePageActivity extends AppCompatActivity {
     private ArrayList<String> messageLastDateList = new ArrayList<>();
     private ArrayList<Boolean> newMessageList = new ArrayList<>();
     private ArrayList<Integer> conversationIdList = new ArrayList<>();
-    private Notification[]  unreadNotifications;
-    private Notification[]  readNotifications;
+    private Notification[] unreadNotifications;
+    private Notification[] readNotifications;
     private boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -65,8 +66,9 @@ public class HomePageActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor = sharedPref.edit();
 
 
-        checkUnsubsLanguages(sharedPref,editor);
+        checkUnsubsLanguages(sharedPref, editor);
     }
+
     public void updateProfileInfo(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
         Call<UserInfo> call;
 
@@ -117,7 +119,7 @@ public class HomePageActivity extends AppCompatActivity {
             public void onResponse(Call<Language[]> call, Response<Language[]> response) {
                 if (response.isSuccessful()) {
                     unsubsLangsSize = response.body().length;
-                    getUnreadNotifications(sharedPref,editor);
+                    getUnreadNotifications(sharedPref, editor);
 
                 } else {
                     Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
@@ -131,7 +133,7 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    private void getUnreadNotifications(final SharedPreferences sharedPref, final SharedPreferences.Editor editor){
+    private void getUnreadNotifications(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
 
         Call<Notification[]> call;
         call = NotificationRetroClient.getInstance().getNotificationApi().getUnreadNotifications("Bearer " + sharedPref.getString("token", null));
@@ -154,7 +156,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     }
 
-    private void getReadNotifications(final SharedPreferences sharedPref, final SharedPreferences.Editor editor){
+    private void getReadNotifications(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
 
         Call<Notification[]> call;
         call = NotificationRetroClient.getInstance().getNotificationApi().getReadNotifications("Bearer " + sharedPref.getString("token", null));
@@ -177,7 +179,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     }
 
-    private void getComments(final SharedPreferences sharedPref, final SharedPreferences.Editor editor){
+    private void getComments(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
 
         Call<Comment[]> call;
         call = CommentRetroClient.getInstance().getCommentApi().getComments("Bearer " + sharedPref.getString("token", null));
@@ -200,7 +202,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     }
 
-    private void getConversations(final SharedPreferences sharedPref, final SharedPreferences.Editor editor){
+    private void getConversations(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
         Call<Conversation[]> messageCall;
 
         String token = sharedPref.getString("token", null);
@@ -209,18 +211,18 @@ public class HomePageActivity extends AppCompatActivity {
         messageCall.enqueue(new Callback<Conversation[]>() {
             @Override
             public void onResponse(Call<Conversation[]> call, Response<Conversation[]> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     conversations = response.body();
 
-                    for(int i = 0; i < conversations.length; i++){
-                        if(conversations[i].getMessages().length > 0){
+                    for (int i = 0; i < conversations.length; i++) {
+                        if (conversations[i].getMessages().length > 0) {
                             messageSenderList.add(conversations[i].getOtherUsername());
 
                             SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                             SimpleDateFormat after = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
                             Date date = new Date();
                             try {
-                                date = before.parse(conversations[i].getMessages()[ conversations[i].getMessages().length - 1 ].getMessageTime());
+                                date = before.parse(conversations[i].getMessages()[conversations[i].getMessages().length - 1].getMessageTime());
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -231,10 +233,11 @@ public class HomePageActivity extends AppCompatActivity {
                         }
                     }
                     setUpTabs();
-                }else{
+                } else {
                     Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
                 }
             }
+
             @Override
             public void onFailure(Call<Conversation[]> call, Throwable t) {
 
@@ -243,13 +246,17 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
 
-    private void setUpTabs(){
-        HomePageTabAdapter tabAdapter = new  HomePageTabAdapter(getSupportFragmentManager(),3,languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId,comments,
-                messageSenderList, messageLastDateList, newMessageList,conversationIdList,unreadNotifications,readNotifications);
-        ViewPager viewPager  = findViewById(R.id.view_pager);
+    private void setUpTabs() {
+        HomePageTabAdapter tabAdapter = new HomePageTabAdapter(getSupportFragmentManager(), 3, languageNameList, languageLevelList, unsubsLangsSize, languageAndLevelId, comments,
+                messageSenderList, messageLastDateList, newMessageList, conversationIdList, unreadNotifications, readNotifications);
+        ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(tabAdapter);
-        TabLayout tabs  = findViewById(R.id.tabs);
+        TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        if (getIntent().getIntExtra("tabNumber", -1) != -1) {
+            TabHelper.Companion.scrollToSelectedTab(tabs, getIntent().getIntExtra("tabNumber", -1));
+        }
+
     }
 
     @Override
@@ -309,5 +316,6 @@ public class HomePageActivity extends AppCompatActivity {
 
         return deletedAll;
     }
+
 
 }

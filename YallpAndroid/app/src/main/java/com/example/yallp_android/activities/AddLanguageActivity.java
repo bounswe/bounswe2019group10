@@ -16,7 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.LanguageListAdapter;
+import com.example.yallp_android.helper.TabHelper;
 import com.example.yallp_android.models.Language;
+import com.example.yallp_android.models.MemberLanguage;
 import com.example.yallp_android.models.UserInfo;
 import com.example.yallp_android.util.RetroClients.LanguageRetroClient;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
@@ -56,13 +58,13 @@ public class AddLanguageActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Call<UserInfo> call;
+                                Call<MemberLanguage> call;
                                 String[] newLanguages = new String[1];
                                 newLanguages[0] = language.getLanguageName().toUpperCase();
                                 call = UserRetroClient.getInstance().getUserApi().addNewLanguages("Bearer " + sharedPref.getString("token", null),newLanguages);
-                                call.enqueue(new Callback<UserInfo>() {
+                                call.enqueue(new Callback<MemberLanguage>() {
                                     @Override
-                                    public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                                    public void onResponse(Call<MemberLanguage> call, Response<MemberLanguage> response) {
                                         if(response.isSuccessful()){
                                             onBackPressed();
                                         }
@@ -72,8 +74,8 @@ public class AddLanguageActivity extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onFailure(Call<UserInfo> call, Throwable t) {
-
+                                    public void onFailure(Call<MemberLanguage> call, Throwable t) {
+                                        onBackPressed();
                                     }
                                 });
                             }
@@ -115,6 +117,7 @@ public class AddLanguageActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent i = new Intent(this, HomePageActivity.class);
+        i.putExtra("tabNumber", TabHelper.Companion.getLANGUAGE_TAB_NUMBER());
         startActivity(i);
         finish();
     }

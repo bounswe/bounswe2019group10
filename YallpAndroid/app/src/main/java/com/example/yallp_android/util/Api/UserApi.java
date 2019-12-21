@@ -3,6 +3,7 @@ package com.example.yallp_android.util.Api;
 import com.example.yallp_android.models.ImageUrl;
 import com.example.yallp_android.models.LoginUserWithEmail;
 import com.example.yallp_android.models.LoginUserWithName;
+import com.example.yallp_android.models.MemberLanguage;
 import com.example.yallp_android.models.SignUpUser;
 import com.example.yallp_android.models.Token;
 import com.example.yallp_android.models.UserInfo;
@@ -48,7 +49,7 @@ public interface UserApi {
 
     @Headers({"Content-Type: application/json"})
     @POST("member/addlang")
-    Call<UserInfo> addNewLanguages(
+    Call<MemberLanguage> addNewLanguages(
             @Header("Authorization") String token,
             @Body String[] newLanguages
     );
