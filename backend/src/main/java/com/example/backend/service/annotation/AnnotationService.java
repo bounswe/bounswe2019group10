@@ -2,7 +2,10 @@ package com.example.backend.service.annotation;
 
 import com.example.backend.model.annotation.Annotation;
 import com.example.backend.model.annotation.AnnotationDTO;
+import com.example.backend.model.annotation.ImageAnnotation;
+import com.example.backend.model.annotation.ImageAnnotationDTO;
 import com.example.backend.repository.annotation.AnnotationRepository;
+import com.example.backend.repository.annotation.ImageAnnotationRepository;
 import com.example.backend.service.member.JwtUserDetailsService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,9 @@ public class AnnotationService {
 
     @Autowired
     AnnotationRepository annotationRepository;
+
+    @Autowired
+    ImageAnnotationRepository imageAnnotationRepository;
 
     @Autowired
     JwtUserDetailsService jwtUserDetailsService;
@@ -89,6 +95,85 @@ public class AnnotationService {
         return anno.toMap();
 
     }
+
+    ///////////////////////////////// Image //////////////////
+
+    public Map<String, Object> getImageAnnotation(int id){
+        ImageAnnotation imageAnnotation = imageAnnotationRepository.findById(id).orElse(null);
+
+        if (imageAnnotation == null)
+            return null;
+
+        return toImageAnnotationModel(imageAnnotation);
+    }
+
+    public List<Map<String, Object>> getAllImageAnnotationsByImageUrl(String imageUrl){
+        List<Map<String, Object>> list = new ArrayList<>();
+        imageAnnotationRepository.findAllByImageUrl(imageUrl).forEach(imageAnnotation -> {
+            list.add(toImageAnnotationModel(imageAnnotation));
+        });
+        return list;
+    }
+
+
+    private Map<String, Object> toImageAnnotationModel(ImageAnnotation imageAnnotation){
+
+        JSONObject anno = new JSONObject();
+
+        anno.put("@context", "http://www.w3.org/ns/anno.jsonld");
+        anno.put("id", "http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/annotation/image/" + imageAnnotation.getId());
+        anno.put("type", "Annotation");
+
+        JSONObject creator = new JSONObject();
+
+        creator.put("id","http://cmpe451group10-env.mw3xz6vhgv.eu-central-1.elasticbeanstalk.com/member/" + imageAnnotation.getAnnotatorId());
+        creator.put("type", "Person");
+        creator.put("nickname", jwtUserDetailsService.getUsernameById(imageAnnotation.getAnnotatorId()));
+
+        anno.put("creator", creator);
+        anno.put("bodyValue", imageAnnotation.getAnnotationText());
+
+        JSONObject target = new JSONObject();
+
+        target.put("source", imageAnnotation.getImageUrl());
+
+        JSONObject selector = new JSONObject();
+
+        selector.put("type", "FragmentSelector");
+        selector.put("conformsTo", "http://www.w3.org/TR/media-frags/");
+        selector.put("value", "xywh="+imageAnnotation.getX()+","+ imageAnnotation.getY() + "," + imageAnnotation.getW()+ "," + imageAnnotation.getH());
+
+        target.put("selector", selector);
+        anno.put("target", target);
+
+        anno.put("created", imageAnnotation.getCreatedAt().toString().replace(" ", "T").substring(0,19)+"Z");
+        anno.put("modified", imageAnnotation.getUpdatedAt().toString().replace(" ", "T").substring(0,19)+"Z");
+
+        return anno.toMap();
+
+    }
+
+    public ImageAnnotation createImageAnnotation(ImageAnnotationDTO imageAnnotationDTO){
+
+        ImageAnnotation imageAnnotation = new ImageAnnotation();
+
+        imageAnnotation.setImageUrl(imageAnnotationDTO.getImageUrl());
+        imageAnnotation.setAnnotatorId(jwtUserDetailsService.getUserId());
+        imageAnnotation.setAnnotationText(imageAnnotationDTO.getAnnotationText());
+        imageAnnotation.setX(imageAnnotationDTO.getX());
+        imageAnnotation.setY(imageAnnotationDTO.getY());
+        imageAnnotation.setW(imageAnnotationDTO.getW());
+        imageAnnotation.setH(imageAnnotationDTO.getH());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        imageAnnotation.setCreatedAt(Timestamp.valueOf(localDateTime));
+        imageAnnotation.setUpdatedAt(Timestamp.valueOf(localDateTime));
+        imageAnnotationRepository.save(imageAnnotation);
+
+        return imageAnnotation;
+
+    }
+
+
 /*
     public List<Annotation> findAllByWriting(int writingResultId){
         return annotationRepository.findAllByWritingResultId(writingResultId);
