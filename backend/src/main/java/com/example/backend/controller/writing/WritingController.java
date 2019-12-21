@@ -2,6 +2,7 @@ package com.example.backend.controller.writing;
 
 
 import com.example.backend.config.JwtTokenUtil;
+import com.example.backend.model.member.ProfileImageDTO;
 import com.example.backend.model.writing.*;
 import com.example.backend.service.aws.AmazonClient;
 import com.example.backend.service.member.JwtUserDetailsService;
@@ -61,9 +62,11 @@ public class WritingController {
 
     @PostMapping("/uploadWritingImage")
     @ApiOperation(value = "Upload writing image. Returns the URL of the image.")
-    public ResponseEntity<String> addWritingImage(@RequestPart(value = "file") MultipartFile file){
+    public ResponseEntity<ProfileImageDTO> addWritingImage(@RequestPart(value = "file") MultipartFile file){
         String imageUrl =  amazonClient.uploadFile(file);
-        return ResponseEntity.ok(imageUrl);
+        ProfileImageDTO profileImageDTO = new ProfileImageDTO();
+        profileImageDTO.setUrl(imageUrl);
+        return ResponseEntity.ok(profileImageDTO);
     }
 
     @GetMapping("/language/{languageId}")
