@@ -89,11 +89,13 @@ public class MemberController {
 
     @PostMapping("/profileImage")
     @ApiOperation(value = "upload profile image to member")
-    public ResponseEntity<String> addProfileImage(@RequestPart(value = "file") MultipartFile file){
+    public ResponseEntity<ProfileImageDTO> addProfileImage(@RequestPart(value = "file") MultipartFile file){
         String imageUrl =  amazonClient.uploadFile(file);
         int memberId = jwtUserDetailsService.getUserId();
         jwtUserDetailsService.saveProfileImage(imageUrl, memberId);
-        return ResponseEntity.ok(imageUrl);
+        ProfileImageDTO profileImageDTO = new ProfileImageDTO();
+        profileImageDTO.setUrl(imageUrl);
+        return ResponseEntity.ok(profileImageDTO);
     }
 
     @GetMapping("/status/{langId}")
