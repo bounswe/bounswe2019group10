@@ -1,4 +1,4 @@
-package com.example.backend.model.member;
+package com.example.backend.model.member.comment;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -27,6 +27,9 @@ public class MemberComment {
 
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+
+    @Column(name = "rating")
+    private double rating;
 
     public MemberComment(){ }
 
@@ -83,5 +86,13 @@ public class MemberComment {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }

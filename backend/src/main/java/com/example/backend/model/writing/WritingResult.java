@@ -37,6 +37,12 @@ public class WritingResult {
     @Column(name = "assignment_date")
     private String assignmentDate;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    @Column(name = "is_image")
+    private boolean isImage;
+
     public int getId() {
         return id;
     }
@@ -107,5 +113,21 @@ public class WritingResult {
 
     public void setAssignmentDate(String assignmentDate) {
         this.assignmentDate = assignmentDate;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean isImage() {
+        return isImage;
+    }
+
+    public void setImage(boolean image) {
+        isImage = image;
     }
 }

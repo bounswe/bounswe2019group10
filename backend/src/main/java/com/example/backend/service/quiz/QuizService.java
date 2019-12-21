@@ -5,11 +5,13 @@ import com.example.backend.model.language.LevelName;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberLanguage;
 import com.example.backend.model.member.MemberQuiz;
+import com.example.backend.model.member.MemberStatus;
 import com.example.backend.model.quiz.*;
 import com.example.backend.repository.language.LanguageRepository;
 import com.example.backend.repository.member.MemberLanguageRepository;
 import com.example.backend.repository.member.MemberQuizRepository;
 import com.example.backend.repository.member.MemberRepository;
+import com.example.backend.repository.message.MemberStatusRepository;
 import com.example.backend.repository.quiz.QuestionRepository;
 import com.example.backend.repository.quiz.QuizRepository;
 import com.example.backend.service.dtoconverterservice.QuestionDTOConverterService;
@@ -25,6 +27,9 @@ public class QuizService {
 
     @Autowired
     private QuizRepository quizRepository;
+
+    @Autowired
+    private MemberStatusRepository memberStatusRepository;
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -118,6 +123,52 @@ public class QuizService {
             }
 
             memberLanguageRepository.save(memberLanguage);
+
+            if (memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), lang.getId()) == null) {
+                MemberStatus memberStatus = new MemberStatus();
+                memberStatus.setMemberId(curMember.getId());
+                memberStatus.setLangId(lang.getId());
+                memberStatus.setNumberOfQuestions(0);
+                memberStatus.setLevelName(memberLanguage.getLevelName());
+                memberStatusRepository.save(memberStatus);
+            }
+            else {
+               MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), lang.getId());
+                memberStatus.setNumberOfQuestions(0);
+                memberStatus.setLevelName(memberLanguage.getLevelName());
+                memberStatusRepository.save(memberStatus);
+            }
+        }
+        else {
+            if (memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), quiz.getLanguageId()) == null) {
+                MemberStatus memberStatus = new MemberStatus();
+                memberStatus.setMemberId(curMember.getId());
+                memberStatus.setLangId(quiz.getLanguageId());
+                memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
+                memberStatus.setLevelName(LevelName.BEGINNER);
+                if (memberStatus.getNumberOfQuestions() >= 60) {
+                    memberStatus.setLevelName(LevelName.INTERMEDIATE);
+                    memberStatus.setNumberOfQuestions(0);
+                }
+                memberStatusRepository.save(memberStatus);
+            }
+            else {
+                MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), quiz.getLanguageId());
+                memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
+                if (memberStatus.getNumberOfQuestions() >= 60) {
+                    memberStatus.setNumberOfQuestions(0);
+                    if (memberStatus.getLevelName() == LevelName.BEGINNER) {
+                        memberStatus.setLevelName(LevelName.INTERMEDIATE);
+                    }
+                    else if (memberStatus.getLevelName() == LevelName.INTERMEDIATE) {
+                        memberStatus.setLevelName(LevelName.UPPER_INTERMEDIATE);
+                    }
+                    else if (memberStatus.getLevelName() == LevelName.UPPER_INTERMEDIATE) {
+                        memberStatus.setLevelName(LevelName.ADVANCED);
+                    }
+                }
+                memberStatusRepository.save(memberStatus);
+            }
         }
 
         quizRequest.setScore(score);

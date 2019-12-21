@@ -38,6 +38,9 @@ public class Member{
     @Column(name="surname")
     private String surname;
 
+    @Column(name="profile_image_url")
+    private String profileImageUrl;
+
     @Column(name="native_language")
     private String nativeLanguage;
 
@@ -162,5 +165,13 @@ public class Member{
 
     public void setNativeLanguage(String nativeLanguage) {
         this.nativeLanguage = nativeLanguage;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

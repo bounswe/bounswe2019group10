@@ -1,13 +1,16 @@
 package com.example.backend.service.writing;
 
+import com.example.backend.model.language.LevelName;
 import com.example.backend.model.member.Member;
 import com.example.backend.model.member.MemberLanguage;
+import com.example.backend.model.member.MemberStatus;
 import com.example.backend.model.notification.Notification;
 import com.example.backend.model.notification.NotificationType;
 import com.example.backend.model.writing.*;
 import com.example.backend.repository.language.LanguageRepository;
 import com.example.backend.repository.member.MemberLanguageRepository;
 import com.example.backend.repository.member.MemberRepository;
+import com.example.backend.repository.message.MemberStatusRepository;
 import com.example.backend.repository.writing.SuggestionRepository;
 import com.example.backend.repository.writing.WritingRepository;
 import com.example.backend.repository.writing.WritingResultRepository;
@@ -21,10 +24,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class WritingService {
@@ -34,6 +34,9 @@ public class WritingService {
 
     @Autowired
     private WritingResultRepository writingResultRepository;
+
+    @Autowired
+    private MemberStatusRepository memberStatusRepository;
 
     @Autowired
     private MemberLanguageRepository memberLanguageRepository;
@@ -81,16 +84,19 @@ public class WritingService {
         Integer memberId = jwtUserDetailsService.getUserId();
         Writing writing = writingRepository.getOne(id);
         WritingDTO writingDTO = writingDTOConverterService.apply(writing);
-        List<String> usernames = RecommendUsers(memberId, writing.getLanguageId());
-
+        HashMap<String, List<?>> listTuple = RecommendUsers(memberId, writing.getLanguageId());
+        List<String> usernames = (List<String>) listTuple.get("usernames");
+        List<Integer> userIds = (List<Integer>) listTuple.get("userids");
         WritingResponse response = new WritingResponse();
         response.setWritingDTO(writingDTO);
         response.setUsernames(usernames);
+        response.setUserIds(userIds);
         return response;
     }
 
-    public List<String> RecommendUsers(Integer curMemberId, Integer languageId) {
+    public HashMap<String, List<?>> RecommendUsers(Integer curMemberId, Integer languageId) {
         ArrayList<String> users = new ArrayList<>();
+        ArrayList<Integer> userIds = new ArrayList<>();
         HashSet<String> usernames = new HashSet<>(); //For quick lookup
         HashMap<Integer, String> idUsernameMap = new HashMap<>();
         //This probably needs to change when a lot of new members come
@@ -113,11 +119,13 @@ public class WritingService {
                 long recentAssignmentOffset = Duration.between(curTime, recentDate).toDays();
                 if(inactiveDays<7 && recentAssignmentOffset > 0 && dates.length<5){
                     users.add(username);
+                    userIds.add(m.getMemberId());
                     usernames.add(username);
                 }
             }
             else{
                 users.add(username);
+                userIds.add(m.getMemberId());
                 usernames.add(username);
             }
         }
@@ -127,6 +135,7 @@ public class WritingService {
             String username = idUsernameMap.get(m.getMemberId());
             if(m.getUnresolvedDates().length==0){
                 users.add(username);
+                userIds.add(m.getMemberId());
                 usernames.add(username);
             }
         }
@@ -136,10 +145,14 @@ public class WritingService {
             MemberLanguage m = memberLanguages.get(i);
             String username = idUsernameMap.get(m.getMemberId());
             if(!usernames.contains(username)){
+                userIds.add(m.getMemberId());
                 users.add(username);
             }
         }
-        return users;
+        HashMap<String, List<?>> listTuple = new HashMap();
+        listTuple.put("usernames", users);
+        listTuple.put("userids", userIds);
+        return listTuple;
     }
 
     public List<Integer> getWritingIDList(List<Writing> writings) {
@@ -222,6 +235,56 @@ public class WritingService {
         writingResult.setWritingId(writingRequest.getWritingId());
         writingResult.setWritingName(writing.getWritingName());
         writingResult.setAssignmentDate(curTime);
+        writingResult.setImage(false);
+        writingResult.setScored(false);
+        writingResult.setScore(0);
+
+        //Add to tail
+        String oldstamps[] = memberLanguage.getUnresolvedDates();
+        String timestamps[] = new String[ oldstamps.length + 1];
+        System.arraycopy(oldstamps, 0, timestamps, 0, oldstamps.length);
+        timestamps[oldstamps.length] = curTime;
+        memberLanguage.setUnresolvedDates(timestamps);
+
+        writingResultRepository.save(writingResult);
+        return writingResultDTOConverterService.apply(writingResult);
+    }
+
+    public WritingResultDTO processWritingAnswerByImage(WritingResultImageRequest writingRequest, String username, int writingId) {
+        String imageUrl = writingRequest.getImageURL();
+        Member evMember = memberRepository.findByUsername(writingRequest.getEvaluatorUsername());
+        Member curMember = memberRepository.findByUsername(username);
+        Writing writing = writingRepository.findById(writingId).orElse(null);
+        MemberLanguage memberLanguage = memberLanguageRepository.getByMemberIdAndLanguageId(evMember.getId(), writing.getLanguageId());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String curTime = localDateTime.toString();
+
+        if (writingRequest.getEvaluatorUsername() == null || evMember == null || evMember.getUsername().equals(username)) {
+            return null;
+        }
+
+        //Now add the writing result to the table
+        WritingResult writingResult = writingResultRepository.findByWritingIdAndMemberId(writing.getId(), curMember.getId());
+        if (writingResult == null){
+            writingResult = new WritingResult();
+        }
+        Notification notification = new Notification();
+        notification.setMemberId(evMember.getId());
+        notification.setNotificationType(NotificationType.WRITING_EVALUATE);
+        notification.setText("You have a new writing to evaluate!");
+        notification.setRead(false);
+        notificationService.save(notification);
+
+        writingResult.setScored(false);
+        writingResult.setScore(0);
+        writingResult.setImage(true);
+        writingResult.setImageUrl(imageUrl);
+        writingResult.setAssignedMemberId(evMember.getId());
+        writingResult.setMemberId(memberRepository.findByUsername(username).getId());
+        writingResult.setWritingId(writingRequest.getWritingId());
+        writingResult.setWritingName(writing.getWritingName());
+        writingResult.setAssignmentDate(curTime);
+
 
         //Add to tail
         String oldstamps[] = memberLanguage.getUnresolvedDates();
@@ -299,6 +362,36 @@ public class WritingService {
         notification.setText("You have an evaluated writing!");
         notification.setRead(false);
         notificationService.save(notification);
+
+        if (memberStatusRepository.getByMemberIdAndAndLangId(writingResult.getMemberId(), writing.getLanguageId()) == null) {
+            MemberStatus memberStatus = new MemberStatus();
+            memberStatus.setMemberId(writingResult.getMemberId());
+            memberStatus.setLangId(writing.getLanguageId());
+            memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
+            memberStatus.setLevelName(LevelName.BEGINNER);
+            if (memberStatus.getNumberOfQuestions() >= 60) {
+                memberStatus.setLevelName(LevelName.INTERMEDIATE);
+                memberStatus.setNumberOfQuestions(0);
+            }
+            memberStatusRepository.save(memberStatus);
+        }
+        else {
+            MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(writingResult.getMemberId(), writing.getLanguageId());
+            memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
+            if (memberStatus.getNumberOfQuestions() >= 60) {
+                memberStatus.setNumberOfQuestions(0);
+                if (memberStatus.getLevelName() == LevelName.BEGINNER) {
+                    memberStatus.setLevelName(LevelName.INTERMEDIATE);
+                }
+                else if (memberStatus.getLevelName() == LevelName.INTERMEDIATE) {
+                    memberStatus.setLevelName(LevelName.UPPER_INTERMEDIATE);
+                }
+                else if (memberStatus.getLevelName() == LevelName.UPPER_INTERMEDIATE) {
+                    memberStatus.setLevelName(LevelName.ADVANCED);
+                }
+            }
+            memberStatusRepository.save(memberStatus);
+        }
         return writingResultDTOConverterService.apply(writingResult);
     }
 

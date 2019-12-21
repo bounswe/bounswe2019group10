@@ -1,4 +1,4 @@
-package com.example.backend.model.member;
+package com.example.backend.model.member.comment;
 
 import java.sql.Timestamp;
 
@@ -19,6 +19,8 @@ public class MemberCommentDTO {
     private Timestamp createdAt;
 
     private Timestamp updatedAt;
+
+    private double rating;
 
     public int getId() {
         return id;
@@ -82,5 +84,13 @@ public class MemberCommentDTO {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }

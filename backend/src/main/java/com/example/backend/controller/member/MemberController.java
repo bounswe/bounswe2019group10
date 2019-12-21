@@ -2,16 +2,16 @@ package com.example.backend.controller.member;
 
 import com.example.backend.Util.JwtUserDetailsServiceUtil;
 import com.example.backend.config.JwtTokenUtil;
-import com.example.backend.model.member.JwtResponse;
-import com.example.backend.model.member.Member;
-import com.example.backend.model.member.MemberDTO;
-import com.example.backend.model.member.MemberLanguage;
+import com.example.backend.model.member.*;
+import com.example.backend.repository.message.MemberStatusRepository;
+import com.example.backend.service.aws.AmazonClient;
 import com.example.backend.service.member.JwtUserDetailsService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,6 +26,12 @@ public class MemberController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private AmazonClient amazonClient;
+
+    @Autowired
+    private MemberStatusRepository memberStatusRepository;
+
     @GetMapping("/profile")
     @ApiOperation(value = "Get profile information")
     public ResponseEntity<Member> getUser(){
@@ -39,6 +45,13 @@ public class MemberController {
     public ResponseEntity<Member> getUserbyId(@PathVariable int memberId){
 
         return ResponseEntity.ok(jwtUserDetailsService.getbyUserId(memberId));
+    }
+
+    @GetMapping("/username/{username}")
+    @ApiOperation(value = "Get profile information by member id")
+    public ResponseEntity<Member> getUserbyUsername(@PathVariable String username){
+
+        return ResponseEntity.ok(jwtUserDetailsService.getByUsername(username));
     }
 
     @PutMapping("/update")
@@ -72,6 +85,26 @@ public class MemberController {
     @ApiOperation(value = "remove selected language")
     public ResponseEntity<List<MemberLanguage>> removeLanguage(@RequestBody List<String> languages){
         return  ResponseEntity.ok(jwtUserDetailsService.removeLanguage(languages));
+    }
+
+    @PostMapping("/profileImage")
+    @ApiOperation(value = "upload profile image to member")
+    public ResponseEntity<ProfileImageDTO> addProfileImage(@RequestPart(value = "file") MultipartFile file){
+        String imageUrl =  amazonClient.uploadFile(file);
+        int memberId = jwtUserDetailsService.getUserId();
+        jwtUserDetailsService.saveProfileImage(imageUrl, memberId);
+        ProfileImageDTO profileImageDTO = new ProfileImageDTO();
+        profileImageDTO.setUrl(imageUrl);
+        return ResponseEntity.ok(profileImageDTO);
+    }
+
+    @GetMapping("/status/{langId}")
+    @ApiOperation(value = "get member status of a language")
+    public ResponseEntity<MemberStatus> getMemberStatus(@PathVariable int langId) {
+        int memberId = jwtUserDetailsService.getUserId();
+        MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(memberId, langId);
+        memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions()/60);
+        return ResponseEntity.ok(memberStatus);
     }
 
 }

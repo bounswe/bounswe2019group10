@@ -34,4 +34,10 @@ public class NotificationController {
         int memberId = jwtUserDetailsService.getUserId();
         return ResponseEntity.ok(notificationService.findAllNotReadNotifications(memberId));
     }
+
+    @PostMapping("/make/read")
+    @ApiOperation(value = "Make notifications read.")
+    public ResponseEntity<List<Notification>> makeNotificationsRead (@RequestBody List<Notification> notifications) {
+        return ResponseEntity.ok(notificationService.makeNotificationsRead(notifications));
+    }
 }

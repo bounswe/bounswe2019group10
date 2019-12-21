@@ -1,7 +1,7 @@
 package com.example.backend.service.dtoconverterservice;
 
-import com.example.backend.model.member.MemberComment;
-import com.example.backend.model.member.MemberCommentDTO;
+import com.example.backend.model.member.comment.MemberComment;
+import com.example.backend.model.member.comment.MemberCommentDTO;
 
 import com.example.backend.service.member.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,7 @@ class MemberCommentDTOConverterService {
         memberCommentDTO.setCreatedAt(memberComment.getCreatedAt());
         memberCommentDTO.setUpdatedAt(memberComment.getUpdatedAt());
         memberCommentDTO.setComment(memberComment.getComment());
+        memberCommentDTO.setRating(memberComment.getRating());
         return memberCommentDTO;
     }
 
