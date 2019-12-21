@@ -15,7 +15,9 @@ export const writingActions = {
   createAnnotation,
   clearNewAnnotations,
   deleteAnnotation,
-  clearDeleteAnnotation
+  clearDeleteAnnotation,
+  submitWritingTopic,
+  getMyWritings
 };
 
 function getWriting(writingId){
@@ -48,6 +50,22 @@ function submitWriting(exercise){
   };
   function success(result) { return { type: writingConstants.SUBMIT_WRITING, result } }
   function failure(error) { return { type: writingConstants.SUBMIT_WRITING_FAILURE, error } }
+}
+
+function submitWritingTopic(newTopic){
+  return dispatch => {
+    writingService.submitWritingTopic(newTopic)
+        .then(
+            result => {
+              dispatch(success(result))
+            },
+            error => {
+              dispatch(failure(error.toString()));
+            }
+        );
+  };
+  function success(result) { return { type: writingConstants.SUBMIT_WRITING_TOPIC, result } }
+  function failure(error) { return { type: writingConstants.SUBMIT_WRITING_TOPIC_FAILURE, error } }
 }
 
 function scoreWriting(IdnScore){
@@ -97,6 +115,23 @@ function getCompletedAssignments(){
   function success(result) { return { type: writingConstants.GET_CASSIGN_WRITING, result } }
   function failure(error) { return { type: writingConstants.GET_CASSIGN_WRITING_FAILURE, error } }
 }
+
+function getMyWritings(){
+  return dispatch => {
+    writingService.getMyWritings()
+        .then(
+            result => {
+              dispatch(success(result))
+            },
+            error => {
+              dispatch(failure(error.toString()));
+            }
+        );
+  };
+  function success(result) { return { type: writingConstants.GET_MY_WRITINGS, result } }
+  function failure(error) { return { type: writingConstants.GET_MY_WRITINGS_FAILURE, error } }
+}
+
 function getWritingList(languageId){
   return dispatch => {
     writingService.getWritingList(languageId)

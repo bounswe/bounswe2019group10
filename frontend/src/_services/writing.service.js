@@ -9,7 +9,9 @@ export const writingService = {
   getWritingList,
   getWritingAnnotations,
   createAnnotation,
-  deleteAnnotation
+  deleteAnnotation,
+  getMyWritings,
+  submitWritingTopic
 };
 
 function scoreWriting(IdnScore) {
@@ -46,6 +48,14 @@ function getnonCompletedAssignments() {
         headers: { 'Content-Type': 'application/json', ...authHeader() }
     };
     return fetch(`${config.apiUrl}/writing/nonCompletedAssignments`, requestOptions)
+        .then(handleResponse);
+}
+function getMyWritings() {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', ...authHeader() }
+    };
+    return fetch(`${config.apiUrl}/writing/scores`, requestOptions)
         .then(handleResponse);
 }
 
@@ -94,6 +104,15 @@ function deleteAnnotation(writingResultId){
     };
     return fetch(`${config.apiUrl}/annotation/delete?id=${writingResultId}`, requestOptions);
 }
+function submitWritingTopic(newTopic) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeader() },
+        body: JSON.stringify({writingName: newTopic.questionTitle,taskText: newTopic.questionBody,languageId: newTopic.language})
+    };
+    return fetch(`${config.apiUrl}/writing/add`, requestOptions)
+        .then(handleResponse);
+  }
 
 function handleResponse(response) {
     return response.text().then(text => {

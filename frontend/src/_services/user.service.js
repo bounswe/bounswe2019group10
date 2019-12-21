@@ -6,6 +6,7 @@ export const userService = {
     register,
     getProfile,
     updateProfile,
+    getNotifications,
     getUserLanguages,
     getAllLanguages,
     addLanguage,
@@ -49,6 +50,14 @@ function getProfile() {
         headers: { ...authHeader(), "Access-Control-Allow-Origin": "*" }
     };
     return fetch(`${config.apiUrl}/member/profile`, requestOptions).then(handleResponse);
+}
+
+function getNotifications(){
+    const requestOptions = {
+        method: 'GET',
+        headers: { ...authHeader(), "Access-Control-Allow-Origin": "*" }
+    };
+    return fetch(`${config.apiUrl}/notification/read`, requestOptions).then(handleResponse);
 }
 
 function updateProfile(newProfile) {

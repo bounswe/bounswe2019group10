@@ -17,7 +17,11 @@ export function writing(state = {}, action) {
     case writingConstants.GET_ASSIGN_WRITING:
       return { ...state, assignments: action.result };
     case writingConstants.GET_ASSIGN_WRITING_FAILURE:
-      return { ...state, error: action.error };
+      return { ...state, error: action.error };      
+    case writingConstants.GET_MY_WRITINGS:
+      return { ...state, writings: action.result };
+    case writingConstants.GET_MY_WRITINGS_FAILURE:
+      return { ...state, error: action.error };   
     case writingConstants.GET_CASSIGN_WRITING:
       return { ...state, cassignments: action.result };
     case writingConstants.GET_CASSIGN_WRITING_FAILURE:
@@ -44,7 +48,10 @@ export function writing(state = {}, action) {
       return { ...state, error: action.error };
     case writingConstants.DELETE_ANNOTATION_CLEAR:
       return { ...state, deletedAnnotation: "" };
-    
+    case writingConstants.SUBMIT_WRITING_TOPIC:
+      return { ...state, writingsuggestion: action.result };
+    case writingConstants.SUBMIT_WRITING_TOPIC_FAILURE:
+      return { ...state, error: action.error };
     default:
       return state
   }

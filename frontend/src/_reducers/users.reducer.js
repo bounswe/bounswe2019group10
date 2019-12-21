@@ -50,6 +50,16 @@ export function users(state = initialState, action) {
           return user;
         })
       };
+    case userConstants.NOTIFICATION_SUCCESS:
+      return {
+        ...state,
+        notifications:action.result
+      };
+    case userConstants.NOTIFICATION_FAILURE:
+      return {
+        ...state,
+        error: action.error
+      };
     case userConstants.PROFILE_SUCCESS:
       return {
         ...state,
