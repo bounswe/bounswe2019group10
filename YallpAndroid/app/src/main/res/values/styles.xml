@@ -59,6 +59,17 @@
     </style>
 
 
+    <style name="MarginPaddingStyle" parent="@style/MainTitle">
+        <item name="android:layout_marginLeft">@dimen/inputMarginHorizontal</item>
+        <item name="android:layout_marginRight">@dimen/inputMarginHorizontal</item>
+        <item name="android:layout_marginBottom">@dimen/inputBottomMargin</item>
+        <item name="android:paddingLeft">@dimen/inputHorizantalPadding</item>
+        <item name="android:paddingRight">@dimen/inputHorizantalPadding</item>
+        <item name="android:paddingBottom">@dimen/inputVerticalPaddings</item>
+        <item name="android:paddingTop">@dimen/inputVerticalPaddings</item>
+    </style>
+
+
     <style name="RadioButtonModel" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:background">@drawable/radio_button</item>
         <item name="android:layout_width">match_parent</item>

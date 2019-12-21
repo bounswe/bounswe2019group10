@@ -1,29 +1,51 @@
 package com.example.yallp_android.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yallp_android.R;
 import com.example.yallp_android.fragments.AreYouSureFragment;
+import com.example.yallp_android.helper.FileUtils;
+import com.example.yallp_android.helper.GalleryHelper;
+import com.example.yallp_android.helper.PermissionUtil;
+import com.example.yallp_android.models.ImageUrl;
 import com.example.yallp_android.models.Token;
 import com.example.yallp_android.models.WritingExerciseElement;
 import com.example.yallp_android.models.WritingRequest;
+import com.example.yallp_android.util.RetroClients.UserRetroClient;
 import com.example.yallp_android.util.RetroClients.WritingRetroClient;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,6 +61,11 @@ public class WritingActivity extends AppCompatActivity {
     private TextView writingTaskTextView;
     private Button chooseEvaluatorButton;
     private EditText writingSubmission;
+    private ConstraintLayout writingImageLayout;
+    private ImageView writingImageView;
+    private TextView chooseFileText;
+    private Activity activity;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +75,47 @@ public class WritingActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_writing);
-
+        activity = this;
 
         writingNameView = findViewById(R.id.writingExerciseName);
         writingTaskTextView = findViewById(R.id.writingTaskText);
         chooseEvaluatorButton = findViewById(R.id.chooseEvaluatorButton);
         writingSubmission = findViewById(R.id.writingExerciseSubmission);
-
-
+        writingImageLayout = findViewById(R.id.writingImageLayout);
+        writingImageView = findViewById(R.id.writingImageView);
+        chooseFileText = findViewById(R.id.chooseFileText);
 
         getWritingInfo();
+
+        Spinner spinner = findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position == 0) {
+                    writingImageLayout.setVisibility(View.GONE);
+                    writingSubmission.setVisibility(View.VISIBLE);
+                } else if (position == 1) {
+                    writingSubmission.setVisibility(View.GONE);
+                    writingImageLayout.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        writingImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (PermissionUtil.checkReadPermission(activity) && PermissionUtil.checkWritePermission(activity)) {
+                    GalleryHelper.openGallery(activity);
+                }
+            }
+        });
 
 
     }
@@ -84,7 +142,7 @@ public class WritingActivity extends AppCompatActivity {
                     chooseEvaluatorButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(!isEmpty(writingSubmission))
+                            if (!isEmpty(writingSubmission))
                                 showUserList();
                         }
                     });
@@ -182,4 +240,20 @@ public class WritingActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            chooseFileText.setVisibility(View.GONE);
+            imageUri = data.getData();
+
+            File f = new File(FileUtils.getPath(this,imageUri));
+
+            Picasso.with(this).load(f).into(writingImageView);
+
+        }
+    }
+
+
 }
