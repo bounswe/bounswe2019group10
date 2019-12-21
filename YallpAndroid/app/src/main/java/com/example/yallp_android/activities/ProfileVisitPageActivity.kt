@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -18,6 +19,7 @@ import com.example.yallp_android.models.CommentSubmit
 import com.example.yallp_android.models.UserInfo
 import com.example.yallp_android.util.RetroClients.CommentRetroClient
 import com.example.yallp_android.util.RetroClients.UserRetroClient
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,10 +57,10 @@ class ProfileVisitPageActivity : AppCompatActivity() {
                         val rating = ratingBar.getRating().toDouble()
                         if (newComment.length == 0) {
                             return@OnClickListener
-                        }else{
+                        } else {
                             val call: Call<Comment>
-                            val commentToSubmit = CommentSubmit(newComment,userInfo.id,rating)
-                            call = CommentRetroClient.getInstance().getCommentApi().makeComment("Bearer " + sharedPref.getString("token", null)!!,commentToSubmit)
+                            val commentToSubmit = CommentSubmit(newComment, userInfo.id, rating)
+                            call = CommentRetroClient.getInstance().getCommentApi().makeComment("Bearer " + sharedPref.getString("token", null)!!, commentToSubmit)
                             call.enqueue(object : Callback<Comment> {
                                 override fun onResponse(call: Call<Comment>, response: Response<Comment>) {
                                     if (response.isSuccessful) {
@@ -83,7 +85,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
         val sendMessage = findViewById<Button>(R.id.sendMessage)
         sendMessage.setOnClickListener {
-            val i = Intent(this,ConversationActivity::class.java)
+            val i = Intent(this, ConversationActivity::class.java)
             i.putExtra("sendTo", userInfo.username)
 
             startActivity(i)
@@ -117,6 +119,14 @@ class ProfileVisitPageActivity : AppCompatActivity() {
                     val expandableText = findViewById<ExpandableTextView>(R.id.expandableTextView)
                     expandableText.text = userInfo.bio
                     val seeFullBio = findViewById<TextView>(R.id.seeFullBio)
+
+                    if (expandableText.text == "") {
+                        seeFullBio.visibility = View.GONE
+                        expandableText.visibility = View.GONE
+                    } else if (expandableText.text.length < 10) {
+                        seeFullBio.visibility = View.GONE
+                    }
+
                     seeFullBio.setOnClickListener {
                         expandableText.changeTrim()
                         expandableText.setText()
@@ -127,6 +137,12 @@ class ProfileVisitPageActivity : AppCompatActivity() {
                         }
                     }
                     seeFullBio.callOnClick()
+                    if (userInfo.profileImageUrl != null || userInfo.profileImageUrl != "") {
+                        val profileImage = findViewById<ImageView>(R.id.profileImage)
+                        Picasso.with(applicationContext)
+                                .load(userInfo.profileImageUrl)
+                                .into(profileImage)
+                    }
 
                     val languageNameList = ArrayList<String>()
                     val languageAndLevelId = ArrayList<String>()
@@ -169,12 +185,12 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Array<Comment>>, response: Response<Array<Comment>>) {
                 if (response.isSuccessful) {
                     comments = response.body()
-                    if(comments.isEmpty()){
+                    if (comments.isEmpty()) {
                         Toast.makeText(baseContext, "No comment found for this user!", Toast.LENGTH_LONG).show()
-                    }else{
+                    } else {
                         val i = Intent(baseContext, SeeCommentsActivity::class.java)
                         CommentsHelper.comments.clear()
-                        for(comment in comments){
+                        for (comment in comments) {
                             CommentsHelper.comments.add(comment)
                         }
                         startActivity(i)
@@ -193,7 +209,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val i = Intent(this,HomePageActivity::class.java)
+        val i = Intent(this, HomePageActivity::class.java)
         startActivity(i)
         finish()
     }
