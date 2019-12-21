@@ -12,6 +12,16 @@ public class MemberLanguageDTO {
 
     private String level;
 
+    private int progress;
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
     public String getLevel() {
         return level;
     }
