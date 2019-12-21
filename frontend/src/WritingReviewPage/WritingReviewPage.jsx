@@ -294,9 +294,8 @@ class WritingReviewPage extends React.Component {
           >
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
             <div style={{ margin: '10px 0' } } />
-            <h2 style={{fontSize: 20 }}> Answer: {this.state.selectedAnswer} </h2>
             <div style={{ margin: '10px 0' }} />
-            <h1> Answer: 
+            <h2> Answer: 
               <div className="answerText">
                 { newAnnotatedAnswer && newAnnotatedAnswer.map((part, i) => {     
                   return (<span key={i} className={"part "+i}>{part}</span>) 
@@ -308,7 +307,7 @@ class WritingReviewPage extends React.Component {
                   <span className={"part 0"}>{selectedAnswer}</span> 
                 }
               </div>
-            </h1>
+            </h2>
             <div style={{ margin: '10px 0' }} />
             <h2 style={{fontSize: 20 }}> by user: {this.state.selectedUser}</h2>
             {
