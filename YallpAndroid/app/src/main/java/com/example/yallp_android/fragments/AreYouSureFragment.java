@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.yallp_android.R;
 import com.example.yallp_android.activities.HomePageActivity;
+import com.example.yallp_android.helper.TabHelper;
 
 public class AreYouSureFragment extends DialogFragment {
     @Override
@@ -24,6 +25,7 @@ public class AreYouSureFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Intent i  = new Intent(getContext(), HomePageActivity.class);
+                        i.putExtra("tabNumber", TabHelper.Companion.getLANGUAGE_TAB_NUMBER());
                         startActivity(i);
                         getActivity().finish();
                     }

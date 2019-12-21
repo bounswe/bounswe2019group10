@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yallp_android.R
 import com.example.yallp_android.adapters.UserListAdapter
+import com.example.yallp_android.helper.TabHelper
 import com.example.yallp_android.models.UserListElement
 import com.example.yallp_android.util.RetroClients.SearchRetroClient
 import retrofit2.Call
@@ -103,6 +104,7 @@ class SearchUserActivity : AppCompatActivity(), UserListAdapter.UserListAdapterC
 
     override fun onBackPressed() {
         val i = Intent(this, HomePageActivity::class.java)
+        i.putExtra("tabNumber", TabHelper.MESSAGE_TAB_NUMBER)
         startActivity(i)
         finish()
     }

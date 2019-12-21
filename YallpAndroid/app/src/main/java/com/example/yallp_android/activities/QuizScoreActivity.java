@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yallp_android.R;
+import com.example.yallp_android.helper.TabHelper;
 import com.example.yallp_android.models.MemberLanguage;
 import com.example.yallp_android.models.UserInfo;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
@@ -60,6 +61,7 @@ public class QuizScoreActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent i = new Intent(getApplicationContext(), HomePageActivity.class);
+        i.putExtra("tabNumber", TabHelper.Companion.getLANGUAGE_TAB_NUMBER());
         startActivity(i);
         finish();
     }

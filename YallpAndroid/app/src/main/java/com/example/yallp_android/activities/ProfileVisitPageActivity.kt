@@ -14,6 +14,7 @@ import com.example.yallp_android.helper.CommentsHelper
 import com.example.yallp_android.R
 import com.example.yallp_android.adapters.UserLanguageListAdapter
 import com.example.yallp_android.custom_views.ExpandableTextView
+import com.example.yallp_android.helper.TabHelper
 import com.example.yallp_android.models.Comment
 import com.example.yallp_android.models.CommentSubmit
 import com.example.yallp_android.models.UserInfo
@@ -209,7 +210,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val i = Intent(this, HomePageActivity::class.java)
+        val i = Intent(this, SearchUserActivity::class.java)
         startActivity(i)
         finish()
     }

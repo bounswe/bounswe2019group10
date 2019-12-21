@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.MessageListAdapter;
+import com.example.yallp_android.helper.TabHelper;
 import com.example.yallp_android.models.Conversation;
 import com.example.yallp_android.models.Message;
 import com.example.yallp_android.models.SendMessage;
@@ -137,6 +138,7 @@ public class ConversationActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent i = new Intent(this,HomePageActivity.class);
+        i.putExtra("tabNumber", TabHelper.Companion.getMESSAGE_TAB_NUMBER());
         startActivity(i);
         finish();
     }
