@@ -6,7 +6,10 @@ export const writingService = {
   scoreWriting,
   getnonCompletedAssignments,
   getCompletedAssignments,
-  getWritingList
+  getWritingList,
+  getWritingAnnotations,
+  createAnnotation,
+  deleteAnnotation
 };
 
 function scoreWriting(IdnScore) {
@@ -63,6 +66,33 @@ function submitWriting(exercise) {
   };
   return fetch(`${config.apiUrl}/writing/${exercise.writingId}/submit`, requestOptions)
       .then(handleResponse);
+}
+
+function getWritingAnnotations(writingResultId){
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', ...authHeader() },
+    };
+    return fetch(`${config.apiUrl}/annotation/all/${writingResultId}`, requestOptions)
+        .then(handleResponse);
+}
+
+function createAnnotation(writingResultId, text, start,end) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeader() },
+        body: JSON.stringify({writingResultId: writingResultId,posStart: start,posEnd: end,annotationText:text})
+    };
+    return fetch(`${config.apiUrl}/annotation/create`, requestOptions)
+        .then(handleResponse);
+}
+
+function deleteAnnotation(writingResultId){
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...authHeader() },
+    };
+    return fetch(`${config.apiUrl}/annotation/delete?id=${writingResultId}`, requestOptions);
 }
 
 function handleResponse(response) {
