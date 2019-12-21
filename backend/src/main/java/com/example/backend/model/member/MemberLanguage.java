@@ -42,6 +42,17 @@ public class MemberLanguage {
             columnDefinition = "text[]")
     private String[] unresolvedDates;
 
+    @Column(name = "progress")
+    private int progress;
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
     public LevelName getLevelName() {
         return levelName;
     }

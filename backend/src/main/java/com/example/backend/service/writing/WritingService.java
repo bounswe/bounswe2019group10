@@ -372,25 +372,37 @@ public class WritingService {
             if (memberStatus.getNumberOfQuestions() >= 60) {
                 memberStatus.setLevelName(LevelName.INTERMEDIATE);
                 memberStatus.setNumberOfQuestions(0);
+                memberLanguage.setProgress(0);
             }
             memberStatusRepository.save(memberStatus);
+            memberLanguageRepository.save(memberLanguage);
         }
         else {
             MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(writingResult.getMemberId(), writing.getLanguageId());
             memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
+            double progress = ((double) memberStatus.getNumberOfQuestions() / 30) * 100;
+            int intProgress = (int)progress;
+            memberLanguage.setProgress(intProgress);
             if (memberStatus.getNumberOfQuestions() >= 60) {
                 memberStatus.setNumberOfQuestions(0);
                 if (memberStatus.getLevelName() == LevelName.BEGINNER) {
                     memberStatus.setLevelName(LevelName.INTERMEDIATE);
+                    memberLanguage.setProgress(0);
+                    memberLanguage.setLevelName(LevelName.INTERMEDIATE);
                 }
                 else if (memberStatus.getLevelName() == LevelName.INTERMEDIATE) {
                     memberStatus.setLevelName(LevelName.UPPER_INTERMEDIATE);
+                    memberLanguage.setProgress(0);
+                    memberLanguage.setLevelName(LevelName.UPPER_INTERMEDIATE);
                 }
                 else if (memberStatus.getLevelName() == LevelName.UPPER_INTERMEDIATE) {
                     memberStatus.setLevelName(LevelName.ADVANCED);
+                    memberLanguage.setProgress(0);
+                    memberLanguage.setLevelName(LevelName.ADVANCED);
                 }
             }
             memberStatusRepository.save(memberStatus);
+            memberLanguageRepository.save(memberLanguage);
         }
         return writingResultDTOConverterService.apply(writingResult);
     }
