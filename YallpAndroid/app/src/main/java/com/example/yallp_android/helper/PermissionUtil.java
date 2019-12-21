@@ -1,4 +1,4 @@
-package com.example.yallp_android;
+package com.example.yallp_android.helper;
 
 import android.app.Activity;
 import androidx.core.app.ActivityCompat;

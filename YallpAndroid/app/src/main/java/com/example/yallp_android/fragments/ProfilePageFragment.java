@@ -1,26 +1,17 @@
 package com.example.yallp_android.fragments;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Path;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,14 +20,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.android.internal.http.multipart.MultipartEntity;
-import com.example.yallp_android.FileUtils;
-import com.example.yallp_android.ImageUtility;
-import com.example.yallp_android.PermissionUtil;
+import com.example.yallp_android.helper.PermissionUtil;
 import com.example.yallp_android.R;
 import com.example.yallp_android.activities.CompletedWritingExerciseActivity;
 import com.example.yallp_android.activities.EditProfileActivity;
@@ -46,15 +32,11 @@ import com.example.yallp_android.adapters.CommentsAdapter;
 import com.example.yallp_android.custom_views.ExpandableTextView;
 import com.example.yallp_android.custom_views.ThreeDotsView;
 import com.example.yallp_android.models.Comment;
-import com.example.yallp_android.models.UserInfo;
+import com.example.yallp_android.models.ImageUrl;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import okhttp3.MediaType;
@@ -65,7 +47,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.WINDOW_SERVICE;
 
 public class ProfilePageFragment extends Fragment implements ThreeDotsView.ThreeDotsClickListener {
 
@@ -169,7 +150,7 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
 
             @Override
             public void onClick(View view) {
-                if (PermissionUtil.checkReadPermission(getActivity()) && PermissionUtil.checkWritePermission(getActivity()) ) {
+                if (PermissionUtil.checkReadPermission(getActivity()) && PermissionUtil.checkWritePermission(getActivity())) {
                     openGallery();
                 }
             }
@@ -281,37 +262,35 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
             if (path != null) {
                 imageFile = new File(path);
             }
-            RequestBody body = RequestBody.create(MediaType.parse("text/plain"), "file");
             RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), imageFile);
             MultipartBody.Part part = MultipartBody.Part.createFormData("file", imageFile.getName(), fileReqBody);
 
 
-            Call<String> call = UserRetroClient.getInstance().getUserApi().profileImage
+            Call<ImageUrl> call = UserRetroClient.getInstance().getUserApi().profileImage
                     ("Bearer " + token,
                             part
                     );
 
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<ImageUrl>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
+                public void onResponse(Call<ImageUrl> call, Response<ImageUrl> response) {
                     if (response.isSuccessful()) {
-                        Log.e("e", "succ");
+                        Picasso.with(getActivity()).invalidate(response.body().getUrl());
+                        Picasso.with(getContext())
+                                .load(response.body().getUrl())
+                                .into(profileImage);
+
                     } else {
                         Toast.makeText(getContext(), response.message() + "  " + response.code(), Toast.LENGTH_LONG).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<ImageUrl> call, Throwable t) {
                     Toast.makeText(getContext(), "asd    " + t.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.e("e", t.getMessage());
                 }
             });
-
-            //  }
-            //   }
-
 
         }
     }

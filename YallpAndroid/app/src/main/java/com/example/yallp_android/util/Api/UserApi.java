@@ -1,5 +1,6 @@
 package com.example.yallp_android.util.Api;
 
+import com.example.yallp_android.models.ImageUrl;
 import com.example.yallp_android.models.LoginUserWithEmail;
 import com.example.yallp_android.models.LoginUserWithName;
 import com.example.yallp_android.models.SignUpUser;
@@ -74,9 +75,8 @@ public interface UserApi {
     );
 
     @Multipart
-    @Headers({"Content-Type: application/json"})
     @POST("member/profileImage")
-    Call<String> profileImage(
+    Call<ImageUrl> profileImage(
             @Header("Authorization") String token,
             @Part MultipartBody.Part file
     );
