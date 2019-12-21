@@ -121,7 +121,7 @@ public class QuizService {
             else {
                 memberLanguage.setLevelName(LevelName.ADVANCED);
             }
-
+            memberLanguage.setProgress(0);
             memberLanguageRepository.save(memberLanguage);
 
             if (memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), lang.getId()) == null) {
@@ -140,6 +140,16 @@ public class QuizService {
             }
         }
         else {
+            Integer languageId = quiz.getLanguageId();
+            if(languageId == null){
+                //Default is english:
+                languageId = 1;
+            }
+            Language lang = languageRepository.getById(languageId);
+            MemberLanguage memberLanguage = memberLanguageRepository.getByMemberIdAndLanguage(curMember.getId(), lang);
+            if(memberLanguage == null){
+                memberLanguage = new MemberLanguage(curMember.getId(), lang);
+            }
             if (memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), quiz.getLanguageId()) == null) {
                 MemberStatus memberStatus = new MemberStatus();
                 memberStatus.setMemberId(curMember.getId());
@@ -149,25 +159,38 @@ public class QuizService {
                 if (memberStatus.getNumberOfQuestions() >= 60) {
                     memberStatus.setLevelName(LevelName.INTERMEDIATE);
                     memberStatus.setNumberOfQuestions(0);
+                    memberLanguage.setProgress(0);
+                    memberLanguage.setLevelName(LevelName.INTERMEDIATE);
                 }
                 memberStatusRepository.save(memberStatus);
             }
             else {
                 MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), quiz.getLanguageId());
                 memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
+                double progress = ((double) memberStatus.getNumberOfQuestions() / 30) * 100;
+                int intProgress = (int)progress;
+                memberLanguage.setProgress(intProgress);
+
                 if (memberStatus.getNumberOfQuestions() >= 60) {
                     memberStatus.setNumberOfQuestions(0);
                     if (memberStatus.getLevelName() == LevelName.BEGINNER) {
                         memberStatus.setLevelName(LevelName.INTERMEDIATE);
+                        memberLanguage.setProgress(0);
+                        memberLanguage.setLevelName(LevelName.INTERMEDIATE);
                     }
                     else if (memberStatus.getLevelName() == LevelName.INTERMEDIATE) {
                         memberStatus.setLevelName(LevelName.UPPER_INTERMEDIATE);
+                        memberLanguage.setProgress(0);
+                        memberLanguage.setLevelName(LevelName.UPPER_INTERMEDIATE);
                     }
                     else if (memberStatus.getLevelName() == LevelName.UPPER_INTERMEDIATE) {
                         memberStatus.setLevelName(LevelName.ADVANCED);
+                        memberLanguage.setProgress(0);
+                        memberLanguage.setLevelName(LevelName.ADVANCED);
                     }
                 }
                 memberStatusRepository.save(memberStatus);
+                memberLanguageRepository.save(memberLanguage);
             }
         }
 
