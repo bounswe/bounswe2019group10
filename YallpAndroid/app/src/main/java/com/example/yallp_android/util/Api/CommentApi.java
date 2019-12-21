@@ -1,6 +1,5 @@
 package com.example.yallp_android.util.Api;
 
-
 import com.example.yallp_android.models.Comment;
 import com.example.yallp_android.models.CommentSubmit;
 
@@ -13,7 +12,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface CommentApi {
-
 
     @Headers({"Content-Type: application/json"})
     @GET("comment")

@@ -37,4 +37,6 @@
     <string name="comments">Comments</string>
     <string name="languages">Languages</string>
     <string name="see_comments">See Comments</string>
+    <string name="home">Home</string>
+    <string name="sd_card">sd card</string>
 </resources>

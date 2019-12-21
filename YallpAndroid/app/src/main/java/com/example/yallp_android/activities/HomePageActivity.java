@@ -85,6 +85,7 @@ public class HomePageActivity extends AppCompatActivity {
                             .putString("name", userInfo.getName())
                             .putString("surname", userInfo.getSurname())
                             .putString("bio", userInfo.getBio())
+                            .putString("imageUrl", userInfo.getProfileImageUrl())
                             .commit();
 
                     for (int i = 0; i < userInfo.getMemberLanguages().length; i++) {

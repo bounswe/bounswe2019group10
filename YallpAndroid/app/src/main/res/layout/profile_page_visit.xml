@@ -62,11 +62,53 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileLayout"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/seeComments"
+            style="@style/WhiteBackgroundButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="@string/see_comments"
+            android:textSize="9sp" />
+
+        <Button
+            android:id="@+id/addComment"
+            style="@style/WhiteBackgroundButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="Add Comment"
+            android:textSize="9sp" />
+
+        <Button
+            android:id="@+id/sendMessage"
+            style="@style/WhiteBackgroundButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:text="Message"
+            android:textSize="9sp"
+            android:drawableLeft="@drawable/ic_message"/>
+
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/languagesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profileLayout"
+        android:layout_below="@id/buttonLayout"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
@@ -87,43 +129,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/blankLine" />
-
-    <Button
-        android:id="@+id/commentsTitle"
-        style="@style/WhiteBackgroundButtonTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/languages"
-        android:layout_margin="20dp"
-        android:padding="15dp"
-        android:text="@string/see_comments"
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/addComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/WhiteBackgroundButtonTheme"
-        android:text="Add Comment"
-        android:textSize="14sp"
-        android:padding="15dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:layout_below="@id/languages"
-        android:layout_marginTop="20dp"/>
-
-    <Button
-        android:id="@+id/sendMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/WhiteBackgroundButtonTheme"
-        android:text="Send Message"
-        android:textSize="14sp"
-        android:padding="15dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:layout_below="@id/addComment"
-        android:layout_marginTop="20dp"/>
 
 
 </RelativeLayout>

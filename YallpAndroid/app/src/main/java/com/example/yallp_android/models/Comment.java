@@ -1,6 +1,8 @@
 package com.example.yallp_android.models;
 
-public class Comment {
+import java.io.Serializable;
+
+public class Comment implements Serializable {
     private String comment;
     private int commentatorId;
     private String commentatorName;

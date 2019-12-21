@@ -9,7 +9,7 @@ import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.yallp_android.CommentsHelper
+import com.example.yallp_android.helper.CommentsHelper
 import com.example.yallp_android.R
 import com.example.yallp_android.adapters.UserLanguageListAdapter
 import com.example.yallp_android.custom_views.ExpandableTextView
@@ -146,7 +146,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
                     val adapter = UserLanguageListAdapter(applicationContext, languageNameList, languageLevelList, 0, sharedPref, true)
                     listView.adapter = adapter
 
-                    val seeCommentsView = findViewById<TextView>(R.id.commentsTitle)
+                    val seeCommentsView = findViewById<TextView>(R.id.seeComments)
                     seeCommentsView.setOnClickListener {
                         seeComments(id)
                     }
