@@ -147,7 +147,7 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
         if (expandableTextView.getText().equals("")) {
             seeFullBio.setVisibility(View.GONE);
             expandableTextView.setVisibility(View.GONE);
-        } else if (expandableTextView.getText().length() < 20) {
+        } else if (expandableTextView.getText().length() < 10) {
             seeFullBio.setVisibility(View.GONE);
         }
 
