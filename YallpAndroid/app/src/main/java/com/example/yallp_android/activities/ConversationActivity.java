@@ -124,7 +124,7 @@ public class ConversationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Message> call, Response<Message> response) {
                 Toast.makeText(getBaseContext(), "Your message has been sent!", Toast.LENGTH_LONG).show();
-                onBackPressed();
+                refreshPage();
             }
 
             @Override
@@ -137,6 +137,14 @@ public class ConversationActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent i = new Intent(this,HomePageActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    private void refreshPage(){
+        Intent i = new Intent(this,ConversationActivity.class);
+        i.putExtra("conversationId", getIntent().getIntExtra("conversationId", 0));
+        i.putExtra("sendTo", getIntent().getStringExtra("sendTo"));
         startActivity(i);
         finish();
     }

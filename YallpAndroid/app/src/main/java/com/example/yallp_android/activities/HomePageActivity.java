@@ -97,48 +97,7 @@ public class HomePageActivity extends AppCompatActivity {
                         else languageLevelList.add(lang.getLevelName());
                     }
 
-                    Call<Conversation[]> messageCall;
-
-                    String token = sharedPref.getString("token", null);
-                    messageCall = MessageRetroClient.getInstance().getMessageApi().getAllConversations("Bearer " + token);
-
-                    messageCall.enqueue(new Callback<Conversation[]>() {
-                        @Override
-                        public void onResponse(Call<Conversation[]> call, Response<Conversation[]> response) {
-                            conversations = response.body();
-
-                            for(int i = 0; i < conversations.length; i++){
-                                if(conversations[i].getMessages().length > 0){
-                                    messageSenderList.add(conversations[i].getOtherUsername());
-
-                                    SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-                                    SimpleDateFormat after = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
-                                    Date date = new Date();
-                                    try {
-                                        date = before.parse(conversations[i].getMessages()[ conversations[i].getMessages().length - 1 ].getMessageTime());
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    messageLastDateList.add(after.format(date));
-
-                                    newMessageList.add(conversations[i].getRead());
-                                    conversationIdList.add(conversations[i].getId());
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Conversation[]> call, Throwable t) {
-
-                        }
-                    });
-
-                    HomePageTabAdapter tabAdapter = new  HomePageTabAdapter(getSupportFragmentManager(),3,languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId,comments,
-                                                                            messageSenderList, messageLastDateList, newMessageList,conversationIdList,unreadNotifications,readNotifications);
-                    ViewPager viewPager  = findViewById(R.id.view_pager);
-                    viewPager.setAdapter(tabAdapter);
-                    TabLayout tabs  = findViewById(R.id.tabs);
-                    tabs.setupWithViewPager(viewPager);
+                    getConversations(sharedPref, editor);
                 }
             }
 
@@ -239,6 +198,58 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getConversations(final SharedPreferences sharedPref, final SharedPreferences.Editor editor){
+        Call<Conversation[]> messageCall;
+
+        String token = sharedPref.getString("token", null);
+        messageCall = MessageRetroClient.getInstance().getMessageApi().getAllConversations("Bearer " + token);
+
+        messageCall.enqueue(new Callback<Conversation[]>() {
+            @Override
+            public void onResponse(Call<Conversation[]> call, Response<Conversation[]> response) {
+                if(response.isSuccessful()){
+                    conversations = response.body();
+
+                    for(int i = 0; i < conversations.length; i++){
+                        if(conversations[i].getMessages().length > 0){
+                            messageSenderList.add(conversations[i].getOtherUsername());
+
+                            SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                            SimpleDateFormat after = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+                            Date date = new Date();
+                            try {
+                                date = before.parse(conversations[i].getMessages()[ conversations[i].getMessages().length - 1 ].getMessageTime());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            messageLastDateList.add(after.format(date));
+
+                            newMessageList.add(conversations[i].getRead());
+                            conversationIdList.add(conversations[i].getId());
+                        }
+                    }
+                    setUpTabs();
+                }else{
+                    Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Conversation[]> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void setUpTabs(){
+        HomePageTabAdapter tabAdapter = new  HomePageTabAdapter(getSupportFragmentManager(),3,languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId,comments,
+                messageSenderList, messageLastDateList, newMessageList,conversationIdList,unreadNotifications,readNotifications);
+        ViewPager viewPager  = findViewById(R.id.view_pager);
+        viewPager.setAdapter(tabAdapter);
+        TabLayout tabs  = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
     }
 
     @Override
