@@ -286,14 +286,6 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
             MultipartBody.Part part = MultipartBody.Part.createFormData("file", imageFile.getName(), fileReqBody);
 
 
-       /*     File file = new File(FileUtils.getPath(getContext(), imageUri));
-            RequestBody requestFile = RequestBody.create(
-                    MediaType.parse(getActivity().getContentResolver().getType(imageUri)),
-                    file
-            );
-            MultipartBody.Part part =
-                    MultipartBody.Part.createFormData("image", file.getName(), requestFile);*/
-
             Call<String> call = UserRetroClient.getInstance().getUserApi().profileImage
                     ("Bearer " + token,
                             part
