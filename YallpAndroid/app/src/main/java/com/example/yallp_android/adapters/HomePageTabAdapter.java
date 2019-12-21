@@ -1,6 +1,5 @@
 package com.example.yallp_android.adapters;
 
-import android.content.SharedPreferences;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -11,7 +10,7 @@ import com.example.yallp_android.fragments.LanguageListFragment;
 import com.example.yallp_android.fragments.MessageFragment;
 import com.example.yallp_android.fragments.ProfilePageFragment;
 import com.example.yallp_android.models.Comment;
-import com.example.yallp_android.models.MemberLanguage;
+import com.example.yallp_android.models.Notification;
 
 import java.util.ArrayList;
 
@@ -27,12 +26,15 @@ public class HomePageTabAdapter extends FragmentStatePagerAdapter {
     ArrayList<Boolean> newMessageList;
     ArrayList<Integer> conversationIdList;
     Comment[] comments;
+    Notification[] unreadNotifications;
+    Notification[] readNotifications;
     int unsubsLangsSize;
     int numOfTabs;
     public HomePageTabAdapter(FragmentManager fm, int NoofTabs, ArrayList<String> languageNameList,
                               ArrayList<String> languageLevelList, int unsubsLangsSize,
                               ArrayList<String> languageAndLevelId, Comment[] comments, ArrayList<String> messageSenderList,
-                              ArrayList<String> messageLastDateList, ArrayList<Boolean> newMessageList, ArrayList<Integer> conversationIdList){
+                              ArrayList<String> messageLastDateList, ArrayList<Boolean> newMessageList,
+                              ArrayList<Integer> conversationIdList,Notification[] unreadNotifications, Notification[] readNotifications){
         super(fm);
         this.numOfTabs = NoofTabs;
         this.languageNameList = languageNameList;
@@ -44,13 +46,15 @@ public class HomePageTabAdapter extends FragmentStatePagerAdapter {
         this.messageLastDateList = messageLastDateList;
         this.newMessageList = newMessageList;
         this.conversationIdList = conversationIdList;
+        this.unreadNotifications = unreadNotifications;
+        this.readNotifications = readNotifications;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position){
         case 0:
-            ProfilePageFragment profilePage = ProfilePageFragment.newInstance(comments);
+            ProfilePageFragment profilePage = ProfilePageFragment.newInstance(comments,unreadNotifications,readNotifications);
             return profilePage;
         case 1:
             LanguageListFragment languageList = LanguageListFragment.newInstance(languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId);
