@@ -2,11 +2,10 @@ package com.example.backend.model.member;
 
 import com.example.backend.model.language.LevelName;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "member_status")
 public class MemberStatus {
 
     @Id
