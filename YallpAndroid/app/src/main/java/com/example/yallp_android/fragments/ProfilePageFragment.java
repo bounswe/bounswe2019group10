@@ -20,13 +20,16 @@ import com.example.yallp_android.activities.CompletedWritingExerciseActivity;
 import com.example.yallp_android.activities.EditProfileActivity;
 import com.example.yallp_android.activities.MainActivity;
 import com.example.yallp_android.activities.NonCompletedAssignmentsActivity;
+import com.example.yallp_android.activities.NotificationActivity;
 import com.example.yallp_android.adapters.CommentsAdapter;
 import com.example.yallp_android.custom_views.ExpandableTextView;
 import com.example.yallp_android.custom_views.ThreeDotsView;
 import com.example.yallp_android.models.Comment;
+import com.example.yallp_android.models.Notification;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProfilePageFragment extends Fragment implements ThreeDotsView.ThreeDotsClickListener {
 
@@ -35,18 +38,26 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
     ExpandableTextView expandableTextView;
     private ListView listView;
     private CommentsAdapter adapter;
+    private Notification[] unreadNotifications;
+    private Notification[] readNotifications;
+    View view;
 
-    public static ProfilePageFragment newInstance(Comment[] comments) {
+    public static ProfilePageFragment newInstance(Comment[] comments, Notification[] unreadNotifications,Notification[] readNotifications) {
         ProfilePageFragment fragment = new ProfilePageFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("comments", comments);
+        bundle.putSerializable("unreadNotifications", unreadNotifications);
+        bundle.putSerializable("readNotifications", readNotifications);
         fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_profile_page, container, false);
+
+        unreadNotifications = (Notification[]) getArguments().getSerializable("unreadNotifications");
+        readNotifications = (Notification[]) getArguments().getSerializable("readNotifications");
+        view = inflater.inflate(R.layout.fragment_profile_page, container, false);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("yallp", Context.MODE_PRIVATE);
 
@@ -119,15 +130,36 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
 
     @Override
     public void itemClick(int item) {
-        if (item == 0) {
+        if (item == -1) {
+            placeCorrectNotificationDrawable();
+        }
+        else if (item == 0) {
             editProfile();
         } else if (item == 1) {
-            completedWritingExercises();
+            notifications();
         } else if (item == 2) {
+            completedWritingExercises();
+        } else if (item == 3) {
             nonCompletedAssignments();
         } else {
             logout();
         }
+    }
+
+    private void placeCorrectNotificationDrawable(){
+        TextView notificationText = this.view.findViewById(R.id.notifications);
+        if(this.unreadNotifications.length > 0){
+            notificationText.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_notifications_exist,0);
+        }
+        else{
+            notificationText.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_notifications_none,0);
+        }
+    }
+
+    private void notifications(){
+        Intent i = new Intent(getActivity(), NotificationActivity.class);
+        startActivity(i);
+        getActivity().finish();
     }
 
     private void editProfile() {
