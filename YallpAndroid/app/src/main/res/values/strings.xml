@@ -39,4 +39,18 @@
     <string name="see_comments">See Comments</string>
     <string name="home">Home</string>
     <string name="sd_card">sd card</string>
+    <string name="choose_writing_type">Choose Writing Type</string>
+    <string name="choose_evaluator">choose evaluator</string>
+    <string name="write_here">Write here</string>
+    <string name="subject_goes_here">Subject goes here</string>
+    <string name="writing_exercise">Writing Exercise</string>
+    <string name="choose_file">Choose File</string>
+
+
+    <string-array name="spinner_option_list">
+        <item>Text</item>
+        <item>Image</item>
+    </string-array>
+
+
 </resources>

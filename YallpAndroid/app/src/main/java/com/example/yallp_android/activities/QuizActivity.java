@@ -67,10 +67,10 @@ public class QuizActivity extends AppCompatActivity {
         this.submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int correctAnswer = currentQuiz.getQuestions()[currentQuestion].getCorrectChoiceId();
                 optionGroup = findViewById(R.id.optionGroup);
                 if (optionGroup.getCheckedRadioButtonId() != -1) {
                     if (!isQuestionChecked) {
+                        int correctAnswer = currentQuiz.getQuestions()[currentQuestion].getCorrectChoiceId();
                         isQuestionChecked = true;
                         if (currentQuestion == nofQuestions - 1) submitButton.setText(R.string.finish);
                         else submitButton.setText(R.string.next);

@@ -6,6 +6,7 @@ public class MemberLanguage {
     private int languageLevel;
     private String levelName;
     private int memberId;
+    private int progress;
 
 
     public int getId() {
@@ -48,11 +49,16 @@ public class MemberLanguage {
         levelName = _levelName;
     }
 
-    public MemberLanguage(int _id, int _memberId, Language _language, int _languageLevel) {
+    public int getProgress() {
+        return progress;
+    }
+
+    public MemberLanguage(int _id, int _memberId, Language _language, int _languageLevel, int progress) {
         id = _id;
         memberId = _memberId;
         language = _language;
         languageLevel = _languageLevel;
+        this.progress = progress;
     }
 }
 
