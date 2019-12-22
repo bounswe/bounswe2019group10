@@ -87,7 +87,7 @@ public class ConversationActivity extends AppCompatActivity {
                 for(int i = 0; i < messages.length; i++){
                     messageSenderList.add(messages[i].getSenderUsername() + ":");
 
-                    SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+                    SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     SimpleDateFormat after = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
                     Date date = new Date();
                     try {
