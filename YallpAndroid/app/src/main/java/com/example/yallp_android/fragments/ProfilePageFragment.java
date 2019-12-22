@@ -1,5 +1,6 @@
 package com.example.yallp_android.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -163,12 +164,19 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
             @Override
             public void onClick(View view) {
                 if (PermissionUtil.checkReadPermission(getActivity()) && PermissionUtil.checkWritePermission(getActivity())) {
-                    GalleryHelper.openGallery(getActivity());
+                    openGallery();
                 }
             }
         });
 
         return view;
+    }
+
+    public void openGallery() {
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
     }
 
     @Override
@@ -262,7 +270,6 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
 
         return deletedAll;
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
