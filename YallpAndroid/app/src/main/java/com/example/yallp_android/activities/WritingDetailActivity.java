@@ -27,24 +27,27 @@ public class WritingDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         int writingId = Integer.parseInt(i.getStringExtra("writingId"));
         String answerText = i.getStringExtra("answerText");
-        String token = sharedPref.getString("token",null);
+        String imageUrl = i.getStringExtra("imageUrl");
+        String token = sharedPref.getString("token", null);
         String evaluatorName = i.getStringExtra("evaluatorName");
         int score = Integer.parseInt(i.getStringExtra("score"));
-        boolean isScored = (boolean) i.getBooleanExtra("isScored",false);
-        placeWritingDetailsFragment(writingId,answerText,token);
-        placeScoreFragment(evaluatorName,score,isScored);
+        boolean isScored = i.getBooleanExtra("isScored", false);
+        placeWritingDetailsFragment(writingId, answerText, token, imageUrl);
+        placeScoreFragment(evaluatorName, score, isScored);
 
     }
-    public void placeWritingDetailsFragment(int writingId,String answerText,String token) {
+
+    public void placeWritingDetailsFragment(int writingId, String answerText, String token, String imageUrl) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = WritingExerciseAnswerFragment.newInstance(writingId,answerText,token);
+        Fragment fragment = WritingExerciseAnswerFragment.newInstance(writingId, answerText, token, imageUrl);
         ft.replace(R.id.answerLayout, fragment);
         ft.commit();
 
     }
-    public void placeScoreFragment(String evaluatorName,int score,boolean isScored) {
+
+    public void placeScoreFragment(String evaluatorName, int score, boolean isScored) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = WritingExerciseScoreFragment.newInstance(evaluatorName,score,"user",isScored);
+        Fragment fragment = WritingExerciseScoreFragment.newInstance(evaluatorName, score, "user", isScored);
         ft.replace(R.id.scoreLayout, fragment);
         ft.commit();
 
