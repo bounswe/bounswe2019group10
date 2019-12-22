@@ -1,5 +1,6 @@
 package com.example.yallp_android.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,6 +37,8 @@ import com.example.yallp_android.custom_views.ThreeDotsView;
 import com.example.yallp_android.models.Comment;
 import com.example.yallp_android.models.Notification;
 import com.example.yallp_android.models.ImageUrl;
+import com.example.yallp_android.models.Rating;
+import com.example.yallp_android.util.RetroClients.CommentRetroClient;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 import com.squareup.picasso.Picasso;
 
@@ -66,7 +69,7 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
     private String token;
     private ImageView profileImage;
 
-    public static ProfilePageFragment newInstance(Comment[] comments, Notification[] unreadNotifications,Notification[] readNotifications) {
+    public static ProfilePageFragment newInstance(Comment[] comments, Notification[] unreadNotifications, Notification[] readNotifications) {
         ProfilePageFragment fragment = new ProfilePageFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("comments", comments);
@@ -163,20 +166,51 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
             @Override
             public void onClick(View view) {
                 if (PermissionUtil.checkReadPermission(getActivity()) && PermissionUtil.checkWritePermission(getActivity())) {
-                    GalleryHelper.openGallery(getActivity());
+                    openGallery();
                 }
+            }
+        });
+
+        final TextView avgRate = view.findViewById(R.id.avgRate);
+
+        Call<Rating> call;
+        call = CommentRetroClient.getInstance().getCommentApi().getRating("Bearer " + sharedPreferences.getString("token", null));
+        call.enqueue(new Callback<Rating>() {
+            @Override
+            public void onResponse(Call<Rating> call, Response<Rating> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getRating() > 0) {
+                        avgRate.setText((response.body().getRating() + "").substring(0, 1) + "." + (response.body().getRating() + "").substring(2, 3));
+                    }
+                    else{
+                        avgRate.setVisibility(View.GONE);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "There has been an error!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Rating> call, Throwable t) {
+
             }
         });
 
         return view;
     }
 
+    public void openGallery() {
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), 1);
+    }
+
     @Override
     public void itemClick(int item) {
         if (item == -1) {
             placeCorrectNotificationDrawable();
-        }
-        else if (item == 0) {
+        } else if (item == 0) {
             editProfile();
         } else if (item == 1) {
             notifications();
@@ -189,17 +223,16 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
         }
     }
 
-    private void placeCorrectNotificationDrawable(){
+    private void placeCorrectNotificationDrawable() {
         TextView notificationText = this.view.findViewById(R.id.notifications);
-        if(this.unreadNotifications.length > 0){
-            notificationText.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_notifications_exist,0);
-        }
-        else{
-            notificationText.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_notifications_none,0);
+        if (this.unreadNotifications.length > 0) {
+            notificationText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_notifications_exist, 0);
+        } else {
+            notificationText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_notifications_none, 0);
         }
     }
 
-    private void notifications(){
+    private void notifications() {
         Intent i = new Intent(getActivity(), NotificationActivity.class);
         startActivity(i);
         getActivity().finish();
@@ -262,7 +295,6 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
 
         return deletedAll;
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override

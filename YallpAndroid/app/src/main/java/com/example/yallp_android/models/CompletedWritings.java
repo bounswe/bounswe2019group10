@@ -9,12 +9,15 @@ public class CompletedWritings {
     private String memberName;
     private int score;
     private boolean scored;
+    private boolean image;
     private int writingId;
     private String writingName;
+    private String imageUrl;
     private String assignedMemberName;
 
     public CompletedWritings(String answerText, int assignedMemberId, int id, int memberId, int score,
-                             boolean scored, int writingId,String writingName,String assignedMemberName,String memberName) {
+                             boolean scored,boolean image, int writingId,String writingName,String assignedMemberName,String memberName,
+                             String imageUrl) {
         this.answerText = answerText;
         this.assignedMemberId = assignedMemberId;
         this.assignedMemberName = assignedMemberName;
@@ -25,6 +28,8 @@ public class CompletedWritings {
         this.scored = scored;
         this.writingId = writingId;
         this.writingName = writingName;
+        this.image = image;
+        this.imageUrl = imageUrl;
     }
 
     public String getMemberName() {
@@ -105,5 +110,21 @@ public class CompletedWritings {
 
     public void setWritingId(int writingId) {
         this.writingId = writingId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImage(boolean image) {
+        this.image = image;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean isImage() {
+        return image;
     }
 }

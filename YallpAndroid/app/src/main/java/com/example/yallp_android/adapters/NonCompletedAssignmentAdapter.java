@@ -45,11 +45,10 @@ public class NonCompletedAssignmentAdapter extends BaseAdapter {
         if (v == null) {
             v = layoutInflater.inflate(R.layout.noncompleted_assignments_list_row, null);
             holder = new ViewHolder();
-            holder.writingName = (TextView) v.findViewById(R.id.writingName);
-            holder.writerName = (TextView) v.findViewById(R.id.writerName);
+            holder.writingName = v.findViewById(R.id.writingName);
+            holder.writerName = v.findViewById(R.id.writerName);
             v.setTag(holder);
-        }
-        else {
+        } else {
             holder = (ViewHolder) v.getTag();
         }
         holder.writingName.setText(listData.get(position).getWritingName());

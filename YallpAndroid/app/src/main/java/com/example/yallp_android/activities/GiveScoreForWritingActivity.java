@@ -43,10 +43,11 @@ public class GiveScoreForWritingActivity extends AppCompatActivity {
         int writingId = Integer.parseInt(i.getStringExtra("writingId"));
         final int writingResultId = Integer.parseInt(i.getStringExtra("writingResultId"));
         String answerText = i.getStringExtra("answerText");
+        String imageUrl = i.getStringExtra("imageUrl");
         String token = sharedPref.getString("token", null);
         String username = i.getStringExtra("username");
 
-        placeWritingDetailsFragment(writingId, answerText, token);
+        placeWritingDetailsFragment(writingId, answerText, token,imageUrl);
         placeScoreFragment(username);
 
 
@@ -92,9 +93,9 @@ public class GiveScoreForWritingActivity extends AppCompatActivity {
 
     }
 
-    public void placeWritingDetailsFragment(int writingId, String answerText, String token) {
+    public void placeWritingDetailsFragment(int writingId, String answerText, String token, String imageUrl) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = WritingExerciseAnswerFragment.newInstance(writingId, answerText, token);
+        Fragment fragment = WritingExerciseAnswerFragment.newInstance(writingId, answerText, token,imageUrl);
         ft.replace(R.id.answerLayout, fragment);
         ft.commit();
 

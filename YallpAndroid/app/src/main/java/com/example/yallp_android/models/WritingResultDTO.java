@@ -7,8 +7,13 @@ public class WritingResultDTO {
     private int writingId;
     private int score;
     private boolean scored;
+    private boolean image;
     private String answerText;
     private String writingName;
+    private String assignedMemberName;
+    private String imageUrl;
+    private String memberName;
+
 
     public int getId() {
         return id;
@@ -72,5 +77,37 @@ public class WritingResultDTO {
 
     public String getWritingName() {
         return writingName;
+    }
+
+    public String getAssignedMemberName() {
+        return assignedMemberName;
+    }
+
+    public void setAssignedMemberName(String assignedMemberName) {
+        this.assignedMemberName = assignedMemberName;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public boolean isImage() {
+        return image;
+    }
+
+    public void setImage(boolean image) {
+        this.image = image;
     }
 }

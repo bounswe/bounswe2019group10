@@ -49,6 +49,7 @@ public class NonCompletedAssignmentsActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), GiveScoreForWritingActivity.class);
                 i.putExtra("writingId", nonCompletedAssignments.get(position).getWritingId() + "");
                 i.putExtra("answerText", nonCompletedAssignments.get(position).getAnswerText());
+                i.putExtra("imageUrl", nonCompletedAssignments.get(position).getImageUrl());
                 i.putExtra("username", nonCompletedAssignments.get(position).getMemberName());
                 i.putExtra("writingResultId", nonCompletedAssignments.get(position).getId()+"");
                 startActivity(i);

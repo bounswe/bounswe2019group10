@@ -14,11 +14,9 @@ import com.example.yallp_android.helper.CommentsHelper
 import com.example.yallp_android.R
 import com.example.yallp_android.adapters.UserLanguageListAdapter
 import com.example.yallp_android.custom_views.ExpandableTextView
-import com.example.yallp_android.helper.TabHelper
-import com.example.yallp_android.models.Comment
-import com.example.yallp_android.models.CommentSubmit
-import com.example.yallp_android.models.UserInfo
+import com.example.yallp_android.models.*
 import com.example.yallp_android.util.RetroClients.CommentRetroClient
+import com.example.yallp_android.util.RetroClients.UserReportRetroClient
 import com.example.yallp_android.util.RetroClients.UserRetroClient
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -31,6 +29,10 @@ class ProfileVisitPageActivity : AppCompatActivity() {
     private lateinit var sharedPref: SharedPreferences
     lateinit var comments: Array<Comment>
     private lateinit var userInfo: UserInfo
+    private var userReportCauses: ArrayList<String> = arrayListOf()
+    private var userReportCauseIds: ArrayList<Int> = arrayListOf()
+    private lateinit var spinnerForReport: Spinner
+    private lateinit var adapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +86,64 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             dialog.show()
         }
 
+        val reportUser = findViewById<TextView>(R.id.reportUser)
+        reportUser.setOnClickListener {
+
+            val builder = AlertDialog.Builder(this@ProfileVisitPageActivity)
+            val inflater = this@ProfileVisitPageActivity.getLayoutInflater()
+            val view = inflater.inflate(R.layout.dialog_user_report, null)
+            spinnerForReport = view.findViewById(R.id.spinnerForReport) as Spinner
+            var optionalExplanation = view.findViewById(R.id.optionalExplanationText) as EditText
+            getUserReportCauses(this)
+            var usernameToReport: String = ""
+            val call: Call<UserInfo> = UserRetroClient
+                    .getInstance()
+                    .userApi
+                    .getProfileInfoWithId("Bearer " + sharedPref.getString("token", null)!!, intent.getIntExtra("memberId", 120))
+
+            call.enqueue(object : Callback<UserInfo> {
+                override fun onResponse(call: Call<UserInfo>, response: Response<UserInfo>) {
+                    if (response.isSuccessful) {
+                        userInfo = response.body()
+                        usernameToReport = userInfo.username
+
+                    } else {
+                        Toast.makeText(applicationContext, "There has been an error!", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<UserInfo>, t: Throwable) {
+
+                }
+            })
+
+
+            builder.setView(view)
+                    .setPositiveButton("Send", DialogInterface.OnClickListener { dialog, id ->
+                        val call: Call<UserReportSubmit>
+                        val userReport = UserReportSubmit(userReportCauses.get(spinnerForReport.selectedItemPosition), optionalExplanation.text.toString(), usernameToReport)
+                        call = UserReportRetroClient.getInstance().getUserReportApi().sendReport("Bearer " + sharedPref.getString("token", null)!!, userReport)
+                        call.enqueue(object : Callback<UserReportSubmit> {
+                            override fun onResponse(call: Call<UserReportSubmit>, response: Response<UserReportSubmit>) {
+                                if (response.isSuccessful) {
+                                    Toast.makeText(baseContext, "Your report has been sent successfully", Toast.LENGTH_LONG).show()
+
+                                } else {
+                                    Toast.makeText(baseContext, "There has been an error!", Toast.LENGTH_LONG).show()
+                                }
+                            }
+
+                            override fun onFailure(call: Call<UserReportSubmit>, t: Throwable) {
+
+                            }
+                        })
+
+                    })
+                    .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id -> })
+            val dialog = builder.create()
+            dialog.show()
+        }
+
         val sendMessage = findViewById<Button>(R.id.sendMessage)
         sendMessage.setOnClickListener {
             val i = Intent(this, ConversationActivity::class.java)
@@ -92,6 +152,58 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             startActivity(i)
             finish()
         }
+
+        val avgRate = findViewById<TextView>(R.id.avgRate)
+
+        val call: Call<Rating>
+        call = CommentRetroClient.getInstance().getCommentApi().getRatingByMemberId("Bearer " + sharedPref.getString("token", null)!!, intent.getIntExtra("memberId", 110))
+        call.enqueue(object : Callback<Rating> {
+            override fun onResponse(call: Call<Rating>, response: Response<Rating>) {
+                if (response.isSuccessful) {
+                    if (response.body().rating > 0) {
+                        avgRate.text = (response.body().rating.toString() + "").substring(0, 1) + "." + (response.body().rating.toString() + "").substring(2, 3)
+                    } else {
+                        avgRate.visibility = View.GONE
+                    }
+
+                } else {
+                    Toast.makeText(baseContext, "There has been an error!", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Rating>, t: Throwable) {
+
+            }
+        })
+
+
+    }
+
+    private fun getUserReportCauses(context: Context) {
+        val call: Call<Array<UserReportCause>>
+        call = UserReportRetroClient.getInstance().getUserReportApi().getUserReportCauses("Bearer " + sharedPref.getString("token", null)!!)
+        call.enqueue(object : Callback<Array<UserReportCause>> {
+            override fun onResponse(call: Call<Array<UserReportCause>>, response: Response<Array<UserReportCause>>) {
+                if (response.isSuccessful) {
+                    val causes = response.body()
+                    userReportCauses.clear()
+                    userReportCauseIds.clear()
+                    for (element in causes) {
+                        userReportCauses.add(element.cause)
+                        userReportCauseIds.add(element.id)
+                    }
+                    adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, userReportCauses)
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerForReport!!.setAdapter(adapter)
+                } else {
+                    Toast.makeText(baseContext, "There has been an error!", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Array<UserReportCause>>, t: Throwable) {
+
+            }
+        })
 
     }
 
@@ -162,7 +274,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
 
                     val listView = findViewById<ListView>(R.id.languages)
-                    val adapter = UserLanguageListAdapter(applicationContext, languageNameList, languageLevelList, languageProgressList,0, sharedPref, true)
+                    val adapter = UserLanguageListAdapter(applicationContext, languageNameList, languageLevelList, languageProgressList, 0, sharedPref, true)
                     listView.adapter = adapter
 
                     val seeCommentsView = findViewById<TextView>(R.id.seeComments)
