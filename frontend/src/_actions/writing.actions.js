@@ -67,7 +67,7 @@ function uploadWritingImage(upload){
   return dispatch => {
     writingService.uploadWritingImage(upload)
         .then(
-            result => {
+            upload => {
               dispatch(success(upload))
             },
             error => {
@@ -75,7 +75,7 @@ function uploadWritingImage(upload){
             }
         );
   };
-  function success(result) { return { type: writingConstants.UPLOAD_SUCCESS, result } }
+  function success(upload) { return { type: writingConstants.UPLOAD_SUCCESS, upload } }
   function failure(error) { return { type: writingConstants.UPLOAD_FAILURE, error } }
 }
 

@@ -28,7 +28,7 @@ class WritingPage extends React.Component {
       answer: "",
       reviewer: "",
       answerType : "text",
-      file: File,
+      file: null,
       imageUrl: "",
       isSubmit: false,
       writingFinished: false,
@@ -64,7 +64,7 @@ class WritingPage extends React.Component {
   }
   setPic(e){
     this.setState({file: e.target.files[0]});
-    const data = new FormData() 
+    const data = new FormData()
     data.append('file', this.state.file)
     this.props.uploadWritingImage(data);
   }
@@ -132,7 +132,7 @@ class WritingPage extends React.Component {
                     <input type="file"
                     onChange= {this.setPic}
                     id="writingpic" name="writingpic  "
-                    accept="image/png, image/jpeg"/>
+                    accept="image/png, image/jpeg, image/jpg"/>
                     }
                     <img src={this.state.imageUrl}/>
                     
@@ -169,8 +169,8 @@ class WritingPage extends React.Component {
 }
 
 function mapState(state) {
-  const { writing } = state;
-  return { writing };
+  const { writing,upload } = state;
+  return { writing,upload };
 }
 
 const actionCreators = {
