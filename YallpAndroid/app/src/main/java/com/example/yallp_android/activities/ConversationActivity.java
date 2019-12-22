@@ -125,7 +125,7 @@ public class ConversationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Message> call, Response<Message> response) {
                 Toast.makeText(getBaseContext(), "Your message has been sent!", Toast.LENGTH_LONG).show();
-                refreshPage();
+                refreshPage(response.body().getConversationId());
             }
 
             @Override
@@ -143,9 +143,9 @@ public class ConversationActivity extends AppCompatActivity {
         finish();
     }
 
-    private void refreshPage(){
+    private void refreshPage(int conversationId){
         Intent i = new Intent(this,ConversationActivity.class);
-        i.putExtra("conversationId", getIntent().getIntExtra("conversationId", 0));
+        i.putExtra("conversationId", conversationId);
         i.putExtra("sendTo", getIntent().getStringExtra("sendTo"));
         startActivity(i);
         finish();
