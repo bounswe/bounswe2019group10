@@ -1,6 +1,5 @@
 package com.example.yallp_android.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import com.example.yallp_android.helper.GalleryHelper;
 import com.example.yallp_android.helper.PermissionUtil;
 import com.example.yallp_android.R;
 import com.example.yallp_android.activities.CompletedWritingExerciseActivity;
@@ -39,12 +37,12 @@ import com.example.yallp_android.models.Notification;
 import com.example.yallp_android.models.ImageUrl;
 import com.example.yallp_android.models.Rating;
 import com.example.yallp_android.util.RetroClients.CommentRetroClient;
+import com.example.yallp_android.util.RetroClients.NotificationRetroClient;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -63,53 +61,35 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
     private ListView listView;
     private CommentsAdapter adapter;
     private Notification[] unreadNotifications;
-    private Notification[] readNotifications;
     View view;
     private SharedPreferences sharedPreferences;
     private String token;
     private ImageView profileImage;
+    private Comment[] comments;
 
-    public static ProfilePageFragment newInstance(Comment[] comments, Notification[] unreadNotifications, Notification[] readNotifications) {
+    public static ProfilePageFragment newInstance() {
         ProfilePageFragment fragment = new ProfilePageFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("comments", comments);
-        bundle.putSerializable("unreadNotifications", unreadNotifications);
-        bundle.putSerializable("readNotifications", readNotifications);
-        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        unreadNotifications = (Notification[]) getArguments().getSerializable("unreadNotifications");
-        readNotifications = (Notification[]) getArguments().getSerializable("readNotifications");
         view = inflater.inflate(R.layout.fragment_profile_page, container, false);
 
         sharedPreferences = getActivity().getSharedPreferences("yallp", Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", null);
 
+        getComments(token, view);
+
         TextView usernameTextView = view.findViewById(R.id.profileUsername);
         TextView mailTextView = view.findViewById(R.id.profileMail);
         profileImage = view.findViewById(R.id.profileImage);
-        listView = view.findViewById(R.id.commentList);
 
-        ArrayList<Comment> commentsMadeForUser = new ArrayList<>();
-        Comment[] comments = (Comment[]) getArguments().getSerializable("comments");
-        for (Comment comment : comments) {
-            commentsMadeForUser.add(comment);
-        }
-        if (commentsMadeForUser.size() != 0) {
-            ImageView shochedImage = view.findViewById(R.id.shockedImage);
-            TextView noCommentText = view.findViewById(R.id.noCommentText);
-            shochedImage.setVisibility(View.GONE);
-            noCommentText.setVisibility(View.GONE);
-            adapter = new CommentsAdapter(getContext(), commentsMadeForUser);
-            listView.setAdapter(adapter);
-        } else {
-            listView.setVisibility(View.GONE);
-            listView.setEnabled(false);
-        }
+        ImageView noCommentsImage = view.findViewById(R.id.shockedImage);
+        TextView noCommentsText = view.findViewById(R.id.noCommentText);
+        
+        getUnreadNotifications(token, noCommentsImage, noCommentsText);
 
         expandableTextView = view.findViewById(R.id.expandableTextView);
         seeFullBio = view.findViewById(R.id.seeFullBio);
@@ -181,8 +161,7 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
                 if (response.isSuccessful()) {
                     if (response.body().getRating() > 0) {
                         avgRate.setText((response.body().getRating() + "").substring(0, 1) + "." + (response.body().getRating() + "").substring(2, 3));
-                    }
-                    else{
+                    } else {
                         avgRate.setVisibility(View.GONE);
                     }
                 } else {
@@ -197,6 +176,73 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
         });
 
         return view;
+    }
+
+
+    private void getUnreadNotifications(String token, final ImageView noCommentsImage, final TextView noCommentsText) {
+
+        Call<Notification[]> call;
+        call = NotificationRetroClient.getInstance().getNotificationApi().getUnreadNotifications("Bearer " + token);
+        call.enqueue(new Callback<Notification[]>() {
+            @Override
+            public void onResponse(Call<Notification[]> call, Response<Notification[]> response) {
+                if (response.isSuccessful()) {
+                    unreadNotifications = response.body();
+                    if (unreadNotifications.length == 0) {
+                        noCommentsImage.setVisibility(View.VISIBLE);
+                        noCommentsText.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "There has been an error!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Notification[]> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void getComments(String token, final View view) {
+
+        Call<Comment[]> call;
+        call = CommentRetroClient.getInstance().getCommentApi().getComments("Bearer " + token);
+        call.enqueue(new Callback<Comment[]>() {
+            @Override
+            public void onResponse(Call<Comment[]> call, Response<Comment[]> response) {
+                if (response.isSuccessful()) {
+                    comments = response.body();
+
+                    listView = view.findViewById(R.id.commentList);
+
+                    ArrayList<Comment> commentsMadeForUser = new ArrayList<>();
+                    for (Comment comment : comments) {
+                        commentsMadeForUser.add(comment);
+                    }
+                    if (commentsMadeForUser.size() != 0) {
+                        ImageView shochedImage = view.findViewById(R.id.shockedImage);
+                        TextView noCommentText = view.findViewById(R.id.noCommentText);
+                        shochedImage.setVisibility(View.GONE);
+                        noCommentText.setVisibility(View.GONE);
+                        adapter = new CommentsAdapter(getContext(), commentsMadeForUser);
+                        listView.setAdapter(adapter);
+                    } else {
+                        listView.setVisibility(View.GONE);
+                        listView.setEnabled(false);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "There has been an error!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Comment[]> call, Throwable t) {
+
+            }
+        });
+
     }
 
     public void openGallery() {
