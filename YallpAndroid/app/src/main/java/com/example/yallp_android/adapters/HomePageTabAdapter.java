@@ -20,6 +20,7 @@ public class HomePageTabAdapter extends FragmentStatePagerAdapter {
     private String[] TAB_TITLES = {"Profile","Languages","Messages"};
     ArrayList<String> languageNameList;
     ArrayList<String> languageLevelList;
+    ArrayList<Integer> languageProgressList;
     ArrayList<String> languageAndLevelId;
     ArrayList<String> messageSenderList;
     ArrayList<String> messageLastDateList;
@@ -31,7 +32,7 @@ public class HomePageTabAdapter extends FragmentStatePagerAdapter {
     int unsubsLangsSize;
     int numOfTabs;
     public HomePageTabAdapter(FragmentManager fm, int NoofTabs, ArrayList<String> languageNameList,
-                              ArrayList<String> languageLevelList, int unsubsLangsSize,
+                              ArrayList<String> languageLevelList, ArrayList<Integer> languageProgressList, int unsubsLangsSize,
                               ArrayList<String> languageAndLevelId, Comment[] comments, ArrayList<String> messageSenderList,
                               ArrayList<String> messageLastDateList, ArrayList<Boolean> newMessageList,
                               ArrayList<Integer> conversationIdList,Notification[] unreadNotifications, Notification[] readNotifications){
@@ -39,6 +40,7 @@ public class HomePageTabAdapter extends FragmentStatePagerAdapter {
         this.numOfTabs = NoofTabs;
         this.languageNameList = languageNameList;
         this.languageLevelList = languageLevelList;
+        this.languageProgressList = languageProgressList;
         this.unsubsLangsSize = unsubsLangsSize;
         this.languageAndLevelId = languageAndLevelId;
         this.comments = comments;
@@ -57,7 +59,7 @@ public class HomePageTabAdapter extends FragmentStatePagerAdapter {
             ProfilePageFragment profilePage = ProfilePageFragment.newInstance(comments,unreadNotifications,readNotifications);
             return profilePage;
         case 1:
-            LanguageListFragment languageList = LanguageListFragment.newInstance(languageNameList,languageLevelList,unsubsLangsSize,languageAndLevelId);
+            LanguageListFragment languageList = LanguageListFragment.newInstance(languageNameList,languageLevelList, languageProgressList, unsubsLangsSize,languageAndLevelId);
             return languageList;
         case 2:
             MessageFragment message = MessageFragment.newInstance(messageSenderList,messageLastDateList,newMessageList,conversationIdList);
