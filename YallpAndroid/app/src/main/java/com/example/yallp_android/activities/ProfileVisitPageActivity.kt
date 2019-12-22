@@ -31,8 +31,8 @@ class ProfileVisitPageActivity : AppCompatActivity() {
     private lateinit var userInfo: UserInfo
     private var userReportCauses: ArrayList<String> = arrayListOf()
     private var userReportCauseIds: ArrayList<Int> = arrayListOf()
-    private lateinit var spinnerForReport:Spinner
-    private lateinit var adapter:ArrayAdapter<String>
+    private lateinit var spinnerForReport: Spinner
+    private lateinit var adapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +95,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             spinnerForReport = view.findViewById(R.id.spinnerForReport) as Spinner
             var optionalExplanation = view.findViewById(R.id.optionalExplanationText) as EditText
             getUserReportCauses(this)
-            var usernameToReport: String=""
+            var usernameToReport: String = ""
             val call: Call<UserInfo> = UserRetroClient
                     .getInstance()
                     .userApi
@@ -121,7 +121,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             builder.setView(view)
                     .setPositiveButton("Send", DialogInterface.OnClickListener { dialog, id ->
                         val call: Call<UserReportSubmit>
-                        val userReport = UserReportSubmit(userReportCauses.get(spinnerForReport.selectedItemPosition),optionalExplanation.text.toString(), usernameToReport)
+                        val userReport = UserReportSubmit(userReportCauses.get(spinnerForReport.selectedItemPosition), optionalExplanation.text.toString(), usernameToReport)
                         call = UserReportRetroClient.getInstance().getUserReportApi().sendReport("Bearer " + sharedPref.getString("token", null)!!, userReport)
                         call.enqueue(object : Callback<UserReportSubmit> {
                             override fun onResponse(call: Call<UserReportSubmit>, response: Response<UserReportSubmit>) {
@@ -152,6 +152,30 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             startActivity(i)
             finish()
         }
+
+        val avgRate = findViewById<TextView>(R.id.avgRate)
+
+        val call: Call<Rating>
+        call = CommentRetroClient.getInstance().getCommentApi().getRatingByMemberId("Bearer " + sharedPref.getString("token", null)!!, intent.getIntExtra("memberId", 110))
+        call.enqueue(object : Callback<Rating> {
+            override fun onResponse(call: Call<Rating>, response: Response<Rating>) {
+                if (response.isSuccessful) {
+                    if (response.body().rating > 0) {
+                        avgRate.text = (response.body().rating.toString() + "").substring(0, 1) + "." + (response.body().rating.toString() + "").substring(2, 3)
+                    } else {
+                        avgRate.visibility = View.GONE
+                    }
+
+                } else {
+                    Toast.makeText(baseContext, "There has been an error!", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Rating>, t: Throwable) {
+
+            }
+        })
+
 
     }
 

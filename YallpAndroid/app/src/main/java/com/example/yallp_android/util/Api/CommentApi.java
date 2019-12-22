@@ -33,4 +33,9 @@ public interface CommentApi {
     @Headers({"Content-Type: application/json"})
     @GET("comment/rating")
     Call<Rating> getRating(@Header("Authorization") String token);
+
+
+    @Headers({"Content-Type: application/json"})
+    @GET("comment/rating/{memberId}")
+    Call<Rating> getRatingByMemberId(@Header("Authorization") String token,@Path("memberId") int memberId);
 }

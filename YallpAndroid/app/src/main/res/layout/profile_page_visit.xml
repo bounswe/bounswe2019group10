@@ -32,6 +32,18 @@
             android:src="@drawable/orangebird" />
 
         <TextView
+            android:id="@+id/avgRate"
+            style="@style/MainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:textColor="@color/gray"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:drawableRight="@drawable/star"/>
+
+        <TextView
             android:id="@+id/profileUsername"
             style="@style/MainTitle"
             android:layout_width="match_parent"
