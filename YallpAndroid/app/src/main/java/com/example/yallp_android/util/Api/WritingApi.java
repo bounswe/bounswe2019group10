@@ -1,18 +1,23 @@
 package com.example.yallp_android.util.Api;
 
 import com.example.yallp_android.models.CompletedWritings;
+import com.example.yallp_android.models.ImageUrl;
 import com.example.yallp_android.models.NonCompletedAssignments;
 import com.example.yallp_android.models.Token;
 import com.example.yallp_android.models.WritingExerciseElement;
 import com.example.yallp_android.models.WritingListElement;
 import com.example.yallp_android.models.WritingRequest;
+import com.example.yallp_android.models.WritingRequestWithUrl;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface WritingApi {
@@ -54,4 +59,20 @@ public interface WritingApi {
             @Header("Authorization") String token,
             @Path("writingId") int writingId,
             @Body WritingRequest writingRequest);
+
+
+    @Headers({"Content-Type: application/json"})
+    @POST("{writingId}/submitWithImageURL")
+    Call<Token> submitWritingWithImageUrl(
+            @Header("Authorization") String token,
+            @Path("writingId") int writingId,
+            @Body WritingRequestWithUrl writingRequest);
+
+
+    @Multipart
+    @POST("uploadWritingImage")
+    Call<ImageUrl> writingImageSubmit(
+            @Header("Authorization") String token,
+            @Part MultipartBody.Part file
+    );
 }
