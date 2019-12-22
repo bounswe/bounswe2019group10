@@ -87,7 +87,7 @@ public class UserLanguageListAdapter extends BaseAdapter {
             languageHolder.progressText.setText("Completed: %" + progressList.get(position));
 
             if(!isVisiting){
-                languageHolder.progressBar.setProgress(progressList.get(position) * 10);
+                languageHolder.progressBar.setProgress(progressList.get(position));
             }else{
                 languageHolder.progressBar.setVisibility(View.GONE);
             }
