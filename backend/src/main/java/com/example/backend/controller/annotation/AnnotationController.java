@@ -1,9 +1,6 @@
 package com.example.backend.controller.annotation;
 
-import com.example.backend.model.annotation.Annotation;
-import com.example.backend.model.annotation.AnnotationDTO;
-import com.example.backend.model.annotation.ImageAnnotation;
-import com.example.backend.model.annotation.ImageAnnotationDTO;
+import com.example.backend.model.annotation.*;
 import com.example.backend.service.annotation.AnnotationService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +44,7 @@ public class AnnotationController {
 
     @PostMapping("/delete")
     @ApiOperation(value = "delete annotation")
-    public ResponseEntity<String> deleteAnnotation(@RequestParam(value = "id") int id) {
+    public ResponseEntity<AnnotationResponseMessage> deleteAnnotation(@RequestParam(value = "id") int id) {
         return ResponseEntity.ok(annotationService.deleteAnnotation(id));
     }
 

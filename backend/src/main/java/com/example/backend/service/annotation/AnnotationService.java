@@ -1,9 +1,6 @@
 package com.example.backend.service.annotation;
 
-import com.example.backend.model.annotation.Annotation;
-import com.example.backend.model.annotation.AnnotationDTO;
-import com.example.backend.model.annotation.ImageAnnotation;
-import com.example.backend.model.annotation.ImageAnnotationDTO;
+import com.example.backend.model.annotation.*;
 import com.example.backend.repository.annotation.AnnotationRepository;
 import com.example.backend.repository.annotation.ImageAnnotationRepository;
 import com.example.backend.service.member.JwtUserDetailsService;
@@ -197,19 +194,25 @@ public class AnnotationService {
 
     }
 
-    public String deleteAnnotation(int id){
+    public AnnotationResponseMessage deleteAnnotation(int id){
+
+        AnnotationResponseMessage message = new AnnotationResponseMessage();
+
         Annotation annotation = annotationRepository.findById(id).orElse(null);
         if (annotation == null){
-            return "No such Annotation exists!";
+            message.setMessage("No such Annotation exists!");
+            return message;
         }
 
         if(annotation.getAnnotatorId() != jwtUserDetailsService.getUserId()){
-            return "This annotation belongs to someone else!";
+            message.setMessage("This annotation belongs to someone else!");
+            return message;
         }
 
         annotationRepository.delete(annotation);
 
-        return "Annotation is deleted successfully!";
+        message.setMessage("Annotation is deleted successfully!");
+        return message;
 
     }
 
