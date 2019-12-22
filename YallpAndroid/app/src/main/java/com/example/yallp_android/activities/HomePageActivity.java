@@ -44,6 +44,7 @@ public class HomePageActivity extends AppCompatActivity {
     private Conversation[] conversations;
     private ArrayList<String> languageNameList = new ArrayList<>();
     private ArrayList<String> languageLevelList = new ArrayList<>();
+    private ArrayList<Integer> languageProgressList = new ArrayList<>();
     private ArrayList<String> languageAndLevelId = new ArrayList<>();
     private Comment[] comments;
     private ArrayList<String> messageSenderList = new ArrayList<>();
@@ -94,6 +95,7 @@ public class HomePageActivity extends AppCompatActivity {
                         MemberLanguage lang = userInfo.getMemberLanguages()[i];
                         languageNameList.add(lang.getLanguage().getLanguageName());
                         languageAndLevelId.add(lang.getLanguage().getId() + " " + lang.getLanguageLevel());
+                        languageProgressList.add(lang.getProgress());
                         if (lang.getLevelName() == null)
                             languageLevelList.add(getResources().getString(R.string.not_graded_yet));
                         else languageLevelList.add(lang.getLevelName());
@@ -247,7 +249,7 @@ public class HomePageActivity extends AppCompatActivity {
 
 
     private void setUpTabs() {
-        HomePageTabAdapter tabAdapter = new HomePageTabAdapter(getSupportFragmentManager(), 3, languageNameList, languageLevelList, unsubsLangsSize, languageAndLevelId, comments,
+        HomePageTabAdapter tabAdapter = new HomePageTabAdapter(getSupportFragmentManager(), 3, languageNameList, languageLevelList, languageProgressList, unsubsLangsSize, languageAndLevelId, comments,
                 messageSenderList, messageLastDateList, newMessageList, conversationIdList, unreadNotifications, readNotifications);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(tabAdapter);

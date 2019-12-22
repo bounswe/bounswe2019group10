@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/countryFlag"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="80dp"
+        android:layout_height="110dp"
         android:layout_rowSpan="2"
         android:background="@drawable/border_image"
         android:src="@drawable/flag_placeholder">
@@ -47,9 +47,33 @@
         android:id="@+id/deleteIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="45dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/delete_icon"
         android:layout_alignParentRight="true"/>
+    <TextView
+        android:id="@+id/progressText"
+        android:layout_below="@+id/languageLevel"
+        android:layout_toRightOf="@+id/countryFlag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Completed: %10"
+        android:textSize="14sp"
+        android:textColor="@color/gray"
+        android:textStyle="bold"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_below="@+id/progressText"
+        android:layout_toRightOf="@+id/countryFlag"
+        android:layout_marginStart="5dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:minHeight="10dp"
+        android:max="1000"
+        android:indeterminate="false"
+        android:progress="100"/>
 
 </RelativeLayout>

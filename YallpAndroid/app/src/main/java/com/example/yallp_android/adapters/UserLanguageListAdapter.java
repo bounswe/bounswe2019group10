@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +26,17 @@ public class UserLanguageListAdapter extends BaseAdapter {
 
     private ArrayList<String> languageNameList;
     private ArrayList<String> languageLevelList;
+    private ArrayList<Integer> progressList;
     private LayoutInflater layoutInflater;
     private int unsubsList;
     private SharedPreferences sharedPref;
     private Context context;
     private boolean isVisiting;
 
-    public UserLanguageListAdapter(Context aContext, ArrayList<String> nameList, ArrayList<String> levelList,int unsubsList,SharedPreferences sharedPref, boolean isVisiting) {
+    public UserLanguageListAdapter(Context aContext, ArrayList<String> nameList, ArrayList<String> levelList, ArrayList<Integer> progressList, int unsubsList,SharedPreferences sharedPref, boolean isVisiting) {
         this.languageNameList = nameList;
         this.languageLevelList = levelList;
+        this.progressList = progressList;
         this.unsubsList = unsubsList;
         layoutInflater = LayoutInflater.from(aContext);
         this.sharedPref = sharedPref;
@@ -75,10 +78,19 @@ public class UserLanguageListAdapter extends BaseAdapter {
             languageHolder.languageName = v.findViewById(R.id.languageName);
             languageHolder.languageLevel = v.findViewById(R.id.languageLevel);
             languageHolder.countryFlag = v.findViewById(R.id.countryFlag);
+            languageHolder.progressText = v.findViewById(R.id.progressText);
+            languageHolder.progressBar = v.findViewById(R.id.progressBar);
             v.setTag(languageHolder);
 
             languageHolder.languageName.setText(languageNameList.get(position));
             languageHolder.languageLevel.setText(languageLevelList.get(position));
+            languageHolder.progressText.setText("Completed: %" + progressList.get(position));
+
+            if(!isVisiting){
+                languageHolder.progressBar.setProgress(progressList.get(position) * 10);
+            }else{
+                languageHolder.progressBar.setVisibility(View.GONE);
+            }
 
             ImageView deleteIcon = v.findViewById(R.id.deleteIcon);
             deleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +111,7 @@ public class UserLanguageListAdapter extends BaseAdapter {
                             if (response.isSuccessful()) {
                                 languageNameList.remove(position);
                                 languageLevelList.remove(position);
+                                progressList.remove(position);
                                 notifyDataSetChanged();
 
                             } else {
@@ -123,6 +136,8 @@ public class UserLanguageListAdapter extends BaseAdapter {
         TextView languageName;
         TextView languageLevel;
         ImageView countryFlag;
+        TextView progressText;
+        ProgressBar progressBar;
     }
 
     private static class ViewHolderAddLanguage {

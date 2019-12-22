@@ -148,10 +148,12 @@ class ProfileVisitPageActivity : AppCompatActivity() {
                     val languageNameList = ArrayList<String>()
                     val languageAndLevelId = ArrayList<String>()
                     val languageLevelList = ArrayList<String>()
+                    val languageProgressList = ArrayList<Int>()
 
                     for (element in userInfo.memberLanguages) {
                         languageNameList.add(element.language.languageName)
                         languageAndLevelId.add(element.language.id.toString() + " " + element.languageLevel)
+                        languageProgressList.add(element.progress)
                         if (element.levelName == null)
                             languageLevelList.add(resources.getString(R.string.not_graded_yet))
                         else
@@ -160,7 +162,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
 
                     val listView = findViewById<ListView>(R.id.languages)
-                    val adapter = UserLanguageListAdapter(applicationContext, languageNameList, languageLevelList, 0, sharedPref, true)
+                    val adapter = UserLanguageListAdapter(applicationContext, languageNameList, languageLevelList, languageProgressList,0, sharedPref, true)
                     listView.adapter = adapter
 
                     val seeCommentsView = findViewById<TextView>(R.id.seeComments)
