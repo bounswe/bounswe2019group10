@@ -28,6 +28,7 @@ class MyWritingsPage extends React.Component {
       selectedAnswer: "",
       selectedUser: "",
       writingResultId: 0,
+      imageUrl: File,
       oktext: "Done" 
     };
     this.handleChange = this.handleChange.bind(this);
@@ -37,7 +38,7 @@ class MyWritingsPage extends React.Component {
   selectScore(score){
     this.setState({score});
   }
-  setModalVisible(modalVisible, selectedAssignment,selectedAnswer,selectedUser,writingResultId,scored,score) {
+  setModalVisible(modalVisible, selectedAssignment,selectedAnswer,selectedUser,writingResultId,scored,score,imageUrl) {
     this.setState({ modalVisible });
     this.setState({ selectedAssignment });
     this.setState({ selectedAnswer });
@@ -45,6 +46,7 @@ class MyWritingsPage extends React.Component {
     this.setState({ writingResultId });
     this.setState({ scored });
     this.setState({ score });
+    this.setState({ imageUrl });
     this.setState({oktext: "Return to your Writings"}) 
   }
   handleChange(e) {
@@ -93,10 +95,10 @@ class MyWritingsPage extends React.Component {
                 sc= " ,Score is Pending";
                 }
                 let t = value.writingName + sc;
-                let t2 = value.answerText.split('.') + " ... ";
+                let t2 = value.answerText && value.answerText.split('.') + " ... ";
                 return (
                   <Card type="inner" title={t} key={index + 1}
-                    extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.assignedMemberName,value.id,value.scored,value.score)} >Review</Button>}>
+                    extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.assignedMemberName,value.id,value.scored,value.score,value.imageUrl)} >View</Button>}>
                     {t2}
                   </Card>
                 );
@@ -118,6 +120,7 @@ class MyWritingsPage extends React.Component {
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
             <div style={{ margin: '10px 0' }} />
             <h1> Answer: {this.state.selectedAnswer}</h1>
+            <img src={this.state.imageUrl}/>
             <div style={{ margin: '10px 0' }} />
             <h2> Sent to User: {this.state.selectedUser}</h2>
             {

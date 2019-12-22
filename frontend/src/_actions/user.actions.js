@@ -23,7 +23,8 @@ export const userActions = {
     getConversations,
     getConversation,
     clearMessageSent,
-    clearActiveConversation
+    clearActiveConversation,
+    notificationsSeen
 };
 
 function login(username, password) {
@@ -78,6 +79,23 @@ function register(user) {
 function getNotifications() {
     return dispatch => {
         userService.getNotifications()
+            .then(
+                result => {
+                    dispatch(success(result));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(result) { return { type: userConstants.NOTIFICATION_SUCCESS, result } }
+    function failure(error) { return { type: userConstants.NOTIFICATION_FAILURE, error } }
+}
+
+function notificationsSeen(notifications) {
+    return dispatch => {
+        userService.notificationsSeen(notifications)
             .then(
                 result => {
                     dispatch(success(result));

@@ -28,7 +28,8 @@ class WritingPage extends React.Component {
       answer: "",
       reviewer: "",
       answerType : "text",
-      answerPicture: File,
+      file: File,
+      imageUrl: "",
       isSubmit: false,
       writingFinished: false,
       modalVisible: false
@@ -36,12 +37,15 @@ class WritingPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
+    this.setPic = this.setPic.bind(this);
   }
   handleClick(action) {
     const t = {
       writingId: this.state.writingId,
       answer: this.state.answer,
-      evaluatorUsername: this.state.reviewer
+      imageUrl: this.state.imageUrl,
+      evaluatorUsername: this.state.reviewer,
+      answerType: this.state.answerType
     }
     this.props.submitWriting(t);
     this.setState({
@@ -57,6 +61,12 @@ class WritingPage extends React.Component {
   }
   componentDidMount() {
     this.props.getWriting(this.state.writingId);
+  }
+  setPic(e){
+    this.setState({file: e.target.files[0]});
+    const data = new FormData() 
+    data.append('file', this.state.file)
+    this.props.uploadWritingImage(data);
   }
   onChange = e => {
     this.setState({
@@ -102,26 +112,29 @@ class WritingPage extends React.Component {
                       <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={3}>{writing.writing.writingDTO.taskText}</Title>
                     }
                     <div style={{ margin: '10px 0' }} />
-                    <p>
+                    <div>
                     <Title level={4}>Select a format for writing</Title>
                     <Radio.Group onChange={this.typeChange} value={this.state.answerType}>
                     <Radio value="text">Text</Radio>
                     <Radio value="picture">Picture</Radio>
                      </Radio.Group>
-                    </p>
+                    </div>
+                    <div style={{ margin: '10px 0' }} />
                     {this.state.answerType==="text" &&
                     <TextArea placeholder="Write your answer here"
                     autoSize={{ minRows: 10, maxRows: 15 }}
                     name="answer"
                     value={this.state.answer}
                     onChange={this.handleChange}
-                  />
+                    />
                     }
                     {this.state.answerType==="picture" &&
                     <input type="file"
+                    onChange= {this.setPic}
                     id="writingpic" name="writingpic  "
                     accept="image/png, image/jpeg"/>
                     }
+                    <img src={this.state.imageUrl}/>
                     
                     <div style={{ margin: '10px 0' }} />
                     <Button type="primary" onClick={() => this.setModalVisible(true)} >Submit</Button>
@@ -163,6 +176,7 @@ function mapState(state) {
 const actionCreators = {
   getWriting: writingActions.getWriting,
   submitWriting: writingActions.submitWriting,
+  uploadWritingImage:writingActions.uploadWritingImage
 }
 
 const connectedWritingPage = connect(mapState, actionCreators)(WritingPage);

@@ -11,7 +11,8 @@ export const writingActions = {
   getCompletedAssignments,
   getWritingList,
   submitWritingTopic,
-  getMyWritings
+  getMyWritings,
+  uploadWritingImage
 };
 
 function getWriting(writingId){
@@ -60,6 +61,22 @@ function submitWritingTopic(newTopic){
   };
   function success(result) { return { type: writingConstants.SUBMIT_WRITING_TOPIC, result } }
   function failure(error) { return { type: writingConstants.SUBMIT_WRITING_TOPIC_FAILURE, error } }
+}
+
+function uploadWritingImage(upload){
+  return dispatch => {
+    writingService.uploadWritingImage(upload)
+        .then(
+            result => {
+              dispatch(success(upload))
+            },
+            error => {
+              dispatch(failure(error.toString()));
+            }
+        );
+  };
+  function success(result) { return { type: writingConstants.UPLOAD_SUCCESS, result } }
+  function failure(error) { return { type: writingConstants.UPLOAD_FAILURE, error } }
 }
 
 function scoreWriting(IdnScore){

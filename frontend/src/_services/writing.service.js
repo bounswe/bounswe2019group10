@@ -8,7 +8,8 @@ export const writingService = {
   getCompletedAssignments,
   getWritingList,
   getMyWritings,
-  submitWritingTopic
+  submitWritingTopic,
+  uploadWritingImage
 };
 
 function scoreWriting(IdnScore) {
@@ -66,14 +67,23 @@ function getWriting(writingId) {
 }
 
 function submitWriting(exercise) {
-  const requestOptions = {
+    const requestOptions1 = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...authHeader() },
-      body: JSON.stringify({answerText: exercise.answer,evaluatorUsername: exercise.evaluatorUsername,writingId: exercise.writingId})
-  };
-  return fetch(`${config.apiUrl}/writing/${exercise.writingId}/submit`, requestOptions)
+      body: JSON.stringify({imageUrl: exercise.imageUrl,evaluatorUsername: exercise.evaluatorUsername,writingId: exercise.writingId})
+    };
+    const requestOptions2 = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeader() },
+        body: JSON.stringify({answerText: exercise.answer,evaluatorUsername: exercise.evaluatorUsername,writingId: exercise.writingId})  
+    };
+  if(exercise.answerType==="picture"){
+  return fetch(`${config.apiUrl}/writing/${exercise.writingId}/submitWithImageURL`, requestOptions1)
+    .then(handleResponse);
+  }else if(exercise.answerType==="text"){
+  return fetch(`${config.apiUrl}/writing/${exercise.writingId}/submit`, requestOptions2)
       .then(handleResponse);
-}
+  }}
 
 function submitWritingTopic(newTopic) {
     const requestOptions = {
@@ -82,6 +92,17 @@ function submitWritingTopic(newTopic) {
         body: JSON.stringify({writingName: newTopic.questionTitle,taskText: newTopic.questionBody,languageId: newTopic.language})
     };
     return fetch(`${config.apiUrl}/writing/add`, requestOptions)
+        .then(handleResponse);
+  }
+
+function uploadWritingImage(upload) {
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { ...authHeader() },
+        file: upload
+    };
+    return fetch(`${config.apiUrl}/writing/uploadWritingImage`, requestOptions)
         .then(handleResponse);
   }
 
