@@ -15,16 +15,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.yallp_android.R;
 import com.example.yallp_android.adapters.HomePageTabAdapter;
 import com.example.yallp_android.helper.TabHelper;
-import com.example.yallp_android.models.Comment;
 import com.example.yallp_android.models.Conversation;
 import com.example.yallp_android.models.Language;
 import com.example.yallp_android.models.MemberLanguage;
-import com.example.yallp_android.models.Notification;
 import com.example.yallp_android.models.UserInfo;
-import com.example.yallp_android.util.RetroClients.CommentRetroClient;
 import com.example.yallp_android.util.RetroClients.LanguageRetroClient;
 import com.example.yallp_android.util.RetroClients.MessageRetroClient;
-import com.example.yallp_android.util.RetroClients.NotificationRetroClient;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 import com.google.android.material.tabs.TabLayout;
 
@@ -46,13 +42,10 @@ public class HomePageActivity extends AppCompatActivity {
     private ArrayList<String> languageLevelList = new ArrayList<>();
     private ArrayList<Integer> languageProgressList = new ArrayList<>();
     private ArrayList<String> languageAndLevelId = new ArrayList<>();
-    private Comment[] comments;
     private ArrayList<String> messageSenderList = new ArrayList<>();
     private ArrayList<String> messageLastDateList = new ArrayList<>();
     private ArrayList<Boolean> newMessageList = new ArrayList<>();
     private ArrayList<Integer> conversationIdList = new ArrayList<>();
-    private Notification[] unreadNotifications;
-    private Notification[] readNotifications;
     private boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -121,7 +114,7 @@ public class HomePageActivity extends AppCompatActivity {
             public void onResponse(Call<Language[]> call, Response<Language[]> response) {
                 if (response.isSuccessful()) {
                     unsubsLangsSize = response.body().length;
-                    getUnreadNotifications(sharedPref, editor);
+                    updateProfileInfo(sharedPref, editor);
 
                 } else {
                     Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
@@ -133,75 +126,6 @@ public class HomePageActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void getUnreadNotifications(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
-
-        Call<Notification[]> call;
-        call = NotificationRetroClient.getInstance().getNotificationApi().getUnreadNotifications("Bearer " + sharedPref.getString("token", null));
-        call.enqueue(new Callback<Notification[]>() {
-            @Override
-            public void onResponse(Call<Notification[]> call, Response<Notification[]> response) {
-                if (response.isSuccessful()) {
-                    unreadNotifications = response.body();
-                    getReadNotifications(sharedPref, editor);
-                } else {
-                    Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Notification[]> call, Throwable t) {
-
-            }
-        });
-
-    }
-
-    private void getReadNotifications(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
-
-        Call<Notification[]> call;
-        call = NotificationRetroClient.getInstance().getNotificationApi().getReadNotifications("Bearer " + sharedPref.getString("token", null));
-        call.enqueue(new Callback<Notification[]>() {
-            @Override
-            public void onResponse(Call<Notification[]> call, Response<Notification[]> response) {
-                if (response.isSuccessful()) {
-                    readNotifications = response.body();
-                    getComments(sharedPref, editor);
-                } else {
-                    Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Notification[]> call, Throwable t) {
-
-            }
-        });
-
-    }
-
-    private void getComments(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
-
-        Call<Comment[]> call;
-        call = CommentRetroClient.getInstance().getCommentApi().getComments("Bearer " + sharedPref.getString("token", null));
-        call.enqueue(new Callback<Comment[]>() {
-            @Override
-            public void onResponse(Call<Comment[]> call, Response<Comment[]> response) {
-                if (response.isSuccessful()) {
-                    comments = response.body();
-                    updateProfileInfo(sharedPref, editor);
-                } else {
-                    Toast.makeText(getBaseContext(), "There has been an error!", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Comment[]> call, Throwable t) {
-
-            }
-        });
-
     }
 
     private void getConversations(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
@@ -249,8 +173,8 @@ public class HomePageActivity extends AppCompatActivity {
 
 
     private void setUpTabs() {
-        HomePageTabAdapter tabAdapter = new HomePageTabAdapter(getSupportFragmentManager(), 3, languageNameList, languageLevelList, languageProgressList, unsubsLangsSize, languageAndLevelId, comments,
-                messageSenderList, messageLastDateList, newMessageList, conversationIdList, unreadNotifications, readNotifications);
+        HomePageTabAdapter tabAdapter = new HomePageTabAdapter(getSupportFragmentManager(), 3, languageNameList, languageLevelList, languageProgressList, unsubsLangsSize, languageAndLevelId,
+                messageSenderList, messageLastDateList, newMessageList, conversationIdList);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(tabAdapter);
         TabLayout tabs = findViewById(R.id.tabs);

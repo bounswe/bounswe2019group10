@@ -109,7 +109,8 @@
                 android:layout_height="120dp"
                 android:src="@drawable/patrick"
                 android:layout_gravity="center"
-                android:layout_marginTop="50dp"/>
+                android:layout_marginTop="50dp"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/noCommentText"
                 android:layout_width="wrap_content"
@@ -120,6 +121,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:gravity="center_horizontal"
+                android:visibility="gone"
                 android:text="@string/no_comments"/>
 
             <ListView
