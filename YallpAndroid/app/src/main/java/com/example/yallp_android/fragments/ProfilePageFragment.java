@@ -36,6 +36,8 @@ import com.example.yallp_android.custom_views.ThreeDotsView;
 import com.example.yallp_android.models.Comment;
 import com.example.yallp_android.models.Notification;
 import com.example.yallp_android.models.ImageUrl;
+import com.example.yallp_android.models.Rating;
+import com.example.yallp_android.util.RetroClients.CommentRetroClient;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 import com.squareup.picasso.Picasso;
 
@@ -165,6 +167,27 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
                 if (PermissionUtil.checkReadPermission(getActivity()) && PermissionUtil.checkWritePermission(getActivity())) {
                     GalleryHelper.openGallery(getActivity());
                 }
+            }
+        });
+
+        final TextView avgRate = view.findViewById(R.id.avgRate);
+
+        Call<Rating> call;
+        call = CommentRetroClient.getInstance().getCommentApi().getRating("Bearer " + sharedPreferences.getString("token", null));
+        call.enqueue(new Callback<Rating>() {
+            @Override
+            public void onResponse(Call<Rating> call, Response<Rating> response) {
+                if(response.isSuccessful()){
+                    avgRate.setText((response.body().getRating()+"").substring(0,1) + "." + (response.body().getRating()+"").substring(2,3));
+                }
+                else {
+                    Toast.makeText(getContext(), "There has been an error!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Rating> call, Throwable t) {
+
             }
         });
 

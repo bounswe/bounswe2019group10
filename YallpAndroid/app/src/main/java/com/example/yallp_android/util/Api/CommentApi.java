@@ -2,6 +2,7 @@ package com.example.yallp_android.util.Api;
 
 import com.example.yallp_android.models.Comment;
 import com.example.yallp_android.models.CommentSubmit;
+import com.example.yallp_android.models.Rating;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -28,4 +29,8 @@ public interface CommentApi {
             @Header("Authorization") String token,
             @Body CommentSubmit comment
     );
+
+    @Headers({"Content-Type: application/json"})
+    @GET("comment/rating")
+    Call<Rating> getRating(@Header("Authorization") String token);
 }
