@@ -7,6 +7,7 @@ import com.example.yallp_android.models.Token;
 import com.example.yallp_android.models.WritingExerciseElement;
 import com.example.yallp_android.models.WritingListElement;
 import com.example.yallp_android.models.WritingRequest;
+import com.example.yallp_android.models.WritingRequestWithUrl;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -58,6 +59,14 @@ public interface WritingApi {
             @Header("Authorization") String token,
             @Path("writingId") int writingId,
             @Body WritingRequest writingRequest);
+
+
+    @Headers({"Content-Type: application/json"})
+    @POST("{writingId}/submitWithImageURL")
+    Call<Token> submitWritingWithImageUrl(
+            @Header("Authorization") String token,
+            @Path("writingId") int writingId,
+            @Body WritingRequestWithUrl writingRequest);
 
 
     @Multipart

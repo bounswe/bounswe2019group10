@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -37,6 +38,7 @@ import com.example.yallp_android.models.ImageUrl;
 import com.example.yallp_android.models.Token;
 import com.example.yallp_android.models.WritingExerciseElement;
 import com.example.yallp_android.models.WritingRequest;
+import com.example.yallp_android.models.WritingRequestWithUrl;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 import com.example.yallp_android.util.RetroClients.WritingRetroClient;
 import com.squareup.picasso.Picasso;
@@ -66,6 +68,11 @@ public class WritingActivity extends AppCompatActivity {
     private TextView chooseFileText;
     private Activity activity;
     private Uri imageUri;
+    private String token;
+    private SharedPreferences sharedPreferences;
+    private String writingImageURL;
+    private Boolean isWritingText = true;
+    private Boolean isImageSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +83,9 @@ public class WritingActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_writing);
         activity = this;
+
+        sharedPreferences = this.getSharedPreferences("yallp", Context.MODE_PRIVATE);
+        token = sharedPreferences.getString("token", null);
 
         writingNameView = findViewById(R.id.writingExerciseName);
         writingTaskTextView = findViewById(R.id.writingTaskText);
@@ -94,9 +104,11 @@ public class WritingActivity extends AppCompatActivity {
                 if (position == 0) {
                     writingImageLayout.setVisibility(View.GONE);
                     writingSubmission.setVisibility(View.VISIBLE);
+                    isWritingText = true;
                 } else if (position == 1) {
                     writingSubmission.setVisibility(View.GONE);
                     writingImageLayout.setVisibility(View.VISIBLE);
+                    isWritingText = false;
                 }
             }
 
@@ -105,7 +117,6 @@ public class WritingActivity extends AppCompatActivity {
 
             }
         });
-
 
         writingImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,8 +127,6 @@ public class WritingActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     private void getWritingInfo() {
@@ -142,8 +151,11 @@ public class WritingActivity extends AppCompatActivity {
                     chooseEvaluatorButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (!isEmpty(writingSubmission))
+                            if ((isWritingText && !isEmpty(writingSubmission)) || (!isWritingText && isImageSelected)) {
                                 showUserList();
+                            } else {
+                                Toast.makeText(getBaseContext(), "Please select an image or fill the text!", Toast.LENGTH_LONG).show();
+                            }
                         }
                     });
 
@@ -191,17 +203,52 @@ public class WritingActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
 
-        SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
-
         String submission = writingSubmission.getText().toString();
         String evaluatorUsername = users[chosenUserIndex];
 
-        WritingRequest wr = new WritingRequest();
-        wr.setAnswerText(submission);
+        if (isWritingText) {
+            WritingRequest wr = new WritingRequest();
+            wr.setAnswerText(submission);
+            wr.setEvaluatorUsername(evaluatorUsername);
+            wr.setWritingId(writingId);
+
+            Call<Token> call = WritingRetroClient.getInstance().getWritingApi().submitWriting("Bearer " + sharedPreferences.getString("token", null), writingId, wr);
+
+            call.enqueue(new Callback<Token>() {
+                @Override
+                public void onResponse(Call<Token> call, Response<Token> response) {
+                    if (response.isSuccessful()) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getBaseContext(), "Writing successfully submitted!", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        progressDialog.dismiss();
+                        Toast.makeText(getBaseContext(), "Unexpected error occured", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Token> call, Throwable t) {
+
+                }
+            });
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                sendImageFile(progressDialog, evaluatorUsername);
+            }
+        }
+    }
+
+    private void submitWritingWithUrl(final ProgressDialog progressDialog, String evaluatorUsername) {
+        WritingRequestWithUrl wr = new WritingRequestWithUrl();
+        wr.setImageURL(writingImageURL);
         wr.setEvaluatorUsername(evaluatorUsername);
         wr.setWritingId(writingId);
+        Log.e("e", "imageurl " + writingImageURL);
 
-        Call<Token> call = WritingRetroClient.getInstance().getWritingApi().submitWriting("Bearer " + sharedPref.getString("token", null), writingId, wr);
+        Call<Token> call = WritingRetroClient.getInstance().getWritingApi().submitWritingWithImageUrl("Bearer " + sharedPreferences.getString("token", null), writingId, wr);
 
         call.enqueue(new Callback<Token>() {
             @Override
@@ -223,7 +270,60 @@ public class WritingActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void sendImageFile(final ProgressDialog progressDialog, final String evaluatorUsername) {
+        final String docId = DocumentsContract.getDocumentId(imageUri);
+        Uri contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        final String selection = "_id=?";
+        final String[] selectionArgs = {docId.split(":")[1]};
+
+        final String column = "_data";
+        final String[] projection = {column};
+        String path = null;
+        try (Cursor cursor = this.getContentResolver().query(contentUri, projection, selection,
+                selectionArgs, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                final int index = cursor.getColumnIndexOrThrow(column);
+                path = cursor.getString(index);
+            }
+        }
+        File imageFile = null;
+        if (path != null) {
+            imageFile = new File(path);
+        }
+        RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), imageFile);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("file", imageFile.getName(), fileReqBody);
+
+
+        Call<ImageUrl> call = WritingRetroClient.getInstance().getWritingApi().writingImageSubmit
+                ("Bearer " + token,
+                        part
+                );
+
+
+        call.enqueue(new Callback<ImageUrl>() {
+            @Override
+            public void onResponse(Call<ImageUrl> call, Response<ImageUrl> response) {
+                if (response.isSuccessful()) {
+                    writingImageURL = response.body().getUrl();
+                    submitWritingWithUrl(progressDialog, evaluatorUsername);
+                } else {
+                    Toast.makeText(activity, response.message() + "  " + response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ImageUrl> call, Throwable t) {
+                Toast.makeText(activity, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+    public boolean isEmpty(EditText editText) {
+        return editText.getText().toString().trim().length() <= 0;
     }
 
     @Override
@@ -232,25 +332,25 @@ public class WritingActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "sure");
     }
 
-    public boolean isEmpty(EditText editText) {
-        if (editText.getText().toString().trim().length() <= 0) {
-            editText.setError("Writing cannot be empty");
-            editText.requestFocus();
-            return true;
-        }
-        return false;
-    }
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             chooseFileText.setVisibility(View.GONE);
             imageUri = data.getData();
 
-            File f = new File(FileUtils.getPath(this,imageUri));
+            File f = new File(FileUtils.getPath(this, imageUri));
 
             Picasso.with(this).load(f).into(writingImageView);
+            isImageSelected = true;
+
+        /*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                sendImageFile();
+            }*/
+
+        } else if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            isImageSelected = false;
+            writingImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_folder));
+            chooseFileText.setVisibility(View.VISIBLE);
 
         }
     }

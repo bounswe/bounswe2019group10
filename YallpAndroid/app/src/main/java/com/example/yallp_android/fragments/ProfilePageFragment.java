@@ -314,7 +314,7 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
 
                 @Override
                 public void onFailure(Call<ImageUrl> call, Throwable t) {
-                    Toast.makeText(getContext(), "asd    " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
 
