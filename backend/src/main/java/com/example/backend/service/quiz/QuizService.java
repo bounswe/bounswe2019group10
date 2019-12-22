@@ -162,7 +162,6 @@ public class QuizService {
                     memberLanguage.setProgress(0);
                     memberLanguage.setLevelName(LevelName.INTERMEDIATE);
                 }
-                memberStatusRepository.save(memberStatus);
             }
             else {
                 MemberStatus memberStatus = memberStatusRepository.getByMemberIdAndAndLangId(curMember.getId(), quiz.getLanguageId());
@@ -192,6 +191,7 @@ public class QuizService {
                 memberStatusRepository.save(memberStatus);
                 memberLanguageRepository.save(memberLanguage);
             }
+            memberLanguageRepository.save(memberLanguage);
         }
 
         quizRequest.setScore(score);
