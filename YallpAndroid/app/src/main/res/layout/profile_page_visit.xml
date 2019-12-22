@@ -3,6 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff">
+    <TextView
+        android:id="@+id/reportUser"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/report_user"
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:id="@+id/profileLayout"
