@@ -99,6 +99,10 @@ public class CommentService {
         MemberRating memberRating = new MemberRating();
 
         memberRating.setNumberOfRatings(comments.size());
+        if(memberRating.getNumberOfRatings() == 0){
+            memberRating.setRating(0);
+            return memberRating;
+        }
         double rating = comments.stream().mapToDouble(MemberComment::getRating).sum();
 
         memberRating.setRating(1.0*rating/memberRating.getNumberOfRatings());
@@ -113,6 +117,11 @@ public class CommentService {
         MemberRating memberRating = new MemberRating();
 
         memberRating.setNumberOfRatings(comments.size());
+        if(memberRating.getNumberOfRatings() == 0){
+            memberRating.setRating(0);
+            return memberRating;
+        }
+
         double rating = comments.stream().mapToDouble(MemberComment::getRating).sum();
 
         memberRating.setRating(1.0*rating/memberRating.getNumberOfRatings());
