@@ -32,14 +32,14 @@ public class WritingDetailActivity extends AppCompatActivity {
         String evaluatorName = i.getStringExtra("evaluatorName");
         int score = Integer.parseInt(i.getStringExtra("score"));
         boolean isScored = i.getBooleanExtra("isScored", false);
-        placeWritingDetailsFragment(writingId, answerText, token, imageUrl);
+        placeWritingDetailsFragment(writingId, answerText, token, imageUrl, 0);
         placeScoreFragment(evaluatorName, score, isScored);
 
     }
 
-    public void placeWritingDetailsFragment(int writingId, String answerText, String token, String imageUrl) {
+    public void placeWritingDetailsFragment(int writingId, String answerText, String token, String imageUrl, int writingResultId) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = WritingExerciseAnswerFragment.newInstance(writingId, answerText, token, imageUrl);
+        Fragment fragment = WritingExerciseAnswerFragment.newInstance(writingId, answerText, token, "user", imageUrl, writingResultId);
         ft.replace(R.id.answerLayout, fragment);
         ft.commit();
 

@@ -1,87 +1,87 @@
 package com.example.yallp_android.models;
 
 public class Annotation {
-    private String annotationText;
-    private int annotatorId;
-    private String createdAt;
-    private int id;
-    private int posEnd;
-    private int posStart;
-    private String updatedAt;
-    private int writingResultId;
+    private Creator creator;
+    private String created;
+    private String bodyValue;
+    private String modified;
+    private String id;
+    private String type;
+    private String context;
+    private Target target;
 
-    public String getAnnotationText() {
-        return annotationText;
+    public Creator getCreator() {
+        return creator;
     }
 
-    public void setAnnotationText(String annotationText) {
-        this.annotationText = annotationText;
+    public void setCreator(Creator creator) {
+        this.creator = creator;
     }
 
-    public int getAnnotatorId() {
-        return annotatorId;
+    public String getCreated() {
+        return created;
     }
 
-    public void setAnnotatorId(int annotatorId) {
-        this.annotatorId = annotatorId;
+    public void setCreated(String created) {
+        this.created = created;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getBodyValue() {
+        return bodyValue;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setBodyValue(String bodyValue) {
+        this.bodyValue = bodyValue;
     }
 
-    public int getId() {
+    public String getModified() {
+        return modified;
+    }
+
+    public void setModified(String modified) {
+        this.modified = modified;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getPosEnd() {
-        return posEnd;
+    public String getType() {
+        return type;
     }
 
-    public void setPosEnd(int posEnd) {
-        this.posEnd = posEnd;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public int getPosStart() {
-        return posStart;
+    public String getContext() {
+        return context;
     }
 
-    public void setPosStart(int posStart) {
-        this.posStart = posStart;
+    public void setContext(String context) {
+        this.context = context;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public Target getTarget() {
+        return target;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setTarget(Target target) {
+        this.target = target;
     }
 
-    public int getWritingResultId() {
-        return writingResultId;
-    }
-
-    public void setWritingResultId(int writingResultId) {
-        this.writingResultId = writingResultId;
-    }
-
-    public Annotation(String annotationText, int annotatorId, String createdAt, int id, int posEnd, int posStart, String updatedAt, int writingResultId) {
-        this.annotationText = annotationText;
-        this.annotatorId = annotatorId;
-        this.createdAt = createdAt;
+    public Annotation(Creator creator, String created, String bodyValue, String modified, String id, String type, String context, Target target) {
+        this.creator = creator;
+        this.created = created;
+        this.bodyValue = bodyValue;
+        this.modified = modified;
         this.id = id;
-        this.posEnd = posEnd;
-        this.posStart = posStart;
-        this.updatedAt = updatedAt;
-        this.writingResultId = writingResultId;
+        this.type = type;
+        this.context = context;
+        this.target = target;
     }
 }

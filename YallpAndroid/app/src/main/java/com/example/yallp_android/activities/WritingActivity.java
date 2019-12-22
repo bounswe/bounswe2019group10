@@ -254,13 +254,11 @@ public class WritingActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if (response.isSuccessful()) {
-                    progressDialog.dismiss();
                     Toast.makeText(getBaseContext(), "Writing successfully submitted!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    progressDialog.dismiss();
                     Toast.makeText(getBaseContext(), "Unexpected error occured", Toast.LENGTH_LONG).show();
                 }
             }
