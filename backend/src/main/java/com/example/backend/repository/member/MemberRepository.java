@@ -15,8 +15,8 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
     Member findByMail(String mail);
     Member findByUsername(String username);
 
-    @Query("SELECT m FROM Member m WHERE m.username LIKE %:username%")
-    List<Member> searchByUsernameIncludes(@Param("username") String username);
+    @Query("SELECT m FROM Member m WHERE LOWER(m.username) LIKE %:username% and not :myname =  m.username")
+    List<Member> searchByUsernameIncludes(@Param("username") String username, @Param("myname") String myname);
 
     List<Member> findByUsernameContainingIgnoreCase(String username);
 

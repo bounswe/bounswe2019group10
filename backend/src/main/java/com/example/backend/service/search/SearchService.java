@@ -15,6 +15,7 @@ import com.example.backend.service.dtoconverterservice.QuizDTOConverterService;
 import com.example.backend.service.dtoconverterservice.QuizResponseDTOConverterService;
 import com.example.backend.service.dtoconverterservice.SearchMemberResponseConverterService;
 import com.example.backend.service.language.LanguageService;
+import com.example.backend.service.member.JwtUserDetailsService;
 import com.example.backend.service.writing.WritingService;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -66,6 +67,9 @@ public class SearchService {
 
     @Autowired
     SearchMemberResponseConverterService searchMemberResponseConverterService;
+
+    @Autowired
+    JwtUserDetailsService jwtUserDetailsService;
 
     @Transactional
     public List<QuizResponseDTO> quizSearchResult(String searchTerm, int languageId) {
@@ -195,7 +199,8 @@ public class SearchService {
 
 
     public List<SearchMemberResponse> memberSearchResult(String username) {
-        return searchMemberResponseConverterService.applyAll(memberRepository.findByUsernameContainingIgnoreCase(username));
+        String myname = jwtUserDetailsService.getUsername();
+        return searchMemberResponseConverterService.applyAll(memberRepository.searchByUsernameIncludes(username.toLowerCase(), myname));
     }
 
 
