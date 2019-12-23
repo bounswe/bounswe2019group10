@@ -75,7 +75,6 @@ public class HomePageActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     userInfo = response.body();
-                    MemberLanguage[] memberLanguages = userInfo.getMemberLanguages();
                     editor.putString("username", userInfo.getUsername())
                             .putString("mail", userInfo.getMail())
                             .putString("name", userInfo.getName())
@@ -94,7 +93,7 @@ public class HomePageActivity extends AppCompatActivity {
                         else languageLevelList.add(lang.getLevelName());
                     }
 
-                    getConversations(sharedPref, editor);
+                    getConversations(sharedPref);
                 }
             }
 
@@ -128,7 +127,7 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    private void getConversations(final SharedPreferences sharedPref, final SharedPreferences.Editor editor) {
+    private void getConversations(final SharedPreferences sharedPref) {
         Call<Conversation[]> messageCall;
 
         String token = sharedPref.getString("token", null);
@@ -140,22 +139,24 @@ public class HomePageActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     conversations = response.body();
 
-                    for (int i = 0; i < conversations.length; i++) {
-                        if (conversations[i].getMessages().length > 0) {
-                            messageSenderList.add(conversations[i].getOtherUsername());
+                    for (Conversation conversation : conversations) {
+                        if (conversation.getMessages().length > 0) {
+                            messageSenderList.add(conversation.getOtherUsername());
 
                             SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                             SimpleDateFormat after = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
                             Date date = new Date();
                             try {
-                                date = before.parse(conversations[i].getMessages()[conversations[i].getMessages().length - 1].getMessageTime());
+                                date = before.parse(conversation.getMessages()[conversation.getMessages().length - 1].getMessageTime());
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            messageLastDateList.add(after.format(date));
+                            if(date!=null){
+                                messageLastDateList.add(after.format(date));
+                            }
 
-                            newMessageList.add(conversations[i].getRead());
-                            conversationIdList.add(conversations[i].getId());
+                            newMessageList.add(conversation.getRead());
+                            conversationIdList.add(conversation.getId());
                         }
                     }
                     setUpTabs();
@@ -232,8 +233,11 @@ public class HomePageActivity extends AppCompatActivity {
         if (file != null) {
             if (file.isDirectory()) {
                 String[] children = file.list();
-                for (int i = 0; i < children.length; i++) {
-                    deletedAll = deleteFile(new File(file, children[i])) && deletedAll;
+                if(children!=null){
+
+                    for (String child : children) {
+                        deletedAll = deleteFile(new File(file, child)) && deletedAll;
+                    }
                 }
             } else {
                 deletedAll = file.delete();

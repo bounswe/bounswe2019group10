@@ -27,7 +27,6 @@ import retrofit2.Response;
 public class GiveScoreForWritingActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPref;
-    private Button giveScoreButton;
     private EditText score;
 
     @Override
@@ -51,7 +50,7 @@ public class GiveScoreForWritingActivity extends AppCompatActivity {
         placeScoreFragment(username);
 
 
-        giveScoreButton = findViewById(R.id.giveScoreButton);
+        Button giveScoreButton = findViewById(R.id.giveScoreButton);
 
         giveScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override

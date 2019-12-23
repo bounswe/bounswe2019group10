@@ -12,20 +12,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:orientation="horizontal"
-            android:background="@drawable/border_image">
+            android:background="@drawable/border_image"
+            android:gravity="center">
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Conversation with SureyyaYildi"
+                android:text="@string/conversation_with"
                 android:textSize="@dimen/titleTextSize"
-                android:id="@+id/conversationName"/>
-        </RelativeLayout>
+                android:id="@+id/conversationTitle"/>
+            <View
+                android:id="@+id/blankView"
+                android:layout_width="5dp"
+                android:layout_height="1dp">
+
+            </View>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/titleTextSize"
+                android:id="@+id/conversationUserName"
+                android:textColor="@color/colorOrange"/>
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"

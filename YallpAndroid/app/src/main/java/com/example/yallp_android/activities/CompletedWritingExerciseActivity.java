@@ -25,16 +25,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CompletedWritingExerciseActivity extends AppCompatActivity {
-    private SharedPreferences sharedPref;
     private ListView writingList;
     private CompletedWritingsAdapter adapter;
-    ArrayList<CompletedWritings> completedWritingExercises = new ArrayList<CompletedWritings>();
+    ArrayList<CompletedWritings> completedWritingExercises = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("yallp", Context.MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();

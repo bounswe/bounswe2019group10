@@ -48,7 +48,7 @@ class SearchUserActivity : AppCompatActivity(), UserListAdapter.UserListAdapterC
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 clearList()
-                if (!query.equals("") || query != " ") {
+                if (query != "" || query != " ") {
                     submitQuery(query)
                 }
 
@@ -57,7 +57,7 @@ class SearchUserActivity : AppCompatActivity(), UserListAdapter.UserListAdapterC
 
             override fun onQueryTextChange(newText: String): Boolean {
                 clearList()
-                if (!newText.equals("") || newText != " ") {
+                if (newText != "" || newText != " ") {
                     submitQuery(newText)
                 }
                 return false
@@ -99,7 +99,6 @@ class SearchUserActivity : AppCompatActivity(), UserListAdapter.UserListAdapterC
         val i = Intent(this.applicationContext,ProfileVisitPageActivity::class.java)
         i.putExtra("memberId",id)
         startActivity(i)
-        finish()
     }
 
     override fun onBackPressed() {

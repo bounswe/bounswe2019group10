@@ -55,6 +55,7 @@
     <string name="choose_cause">Please choose the best cause for reporting this user</string>
     <string name="optional_explanatipon">You can write optional explanation here</string>
     <string name="report_user">Report User</string>
+    <string name="conversation_with">Conversation with </string>
 
 
 </resources>

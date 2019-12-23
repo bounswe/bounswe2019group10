@@ -19,7 +19,6 @@ import com.example.yallp_android.adapters.LanguageListAdapter;
 import com.example.yallp_android.helper.TabHelper;
 import com.example.yallp_android.models.Language;
 import com.example.yallp_android.models.MemberLanguage;
-import com.example.yallp_android.models.UserInfo;
 import com.example.yallp_android.util.RetroClients.LanguageRetroClient;
 import com.example.yallp_android.util.RetroClients.UserRetroClient;
 

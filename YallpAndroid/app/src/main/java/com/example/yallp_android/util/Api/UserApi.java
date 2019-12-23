@@ -8,10 +8,7 @@ import com.example.yallp_android.models.SignUpUser;
 import com.example.yallp_android.models.Token;
 import com.example.yallp_android.models.UserInfo;
 
-import java.io.File;
-
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -72,7 +69,14 @@ public interface UserApi {
     @GET("member/{memberId}")
     Call<UserInfo> getProfileInfoWithId(
             @Header("Authorization") String token,
-            @Path("memberId") int quizId
+            @Path("memberId") int memberId
+    );
+
+    @Headers({"Content-Type: application/json"})
+    @GET("member/username/{username}")
+    Call<UserInfo> getProfileInfoWithName(
+            @Header("Authorization") String token,
+            @Path("username") String username
     );
 
     @Multipart
