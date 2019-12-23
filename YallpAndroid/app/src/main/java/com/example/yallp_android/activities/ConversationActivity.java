@@ -41,9 +41,7 @@ public class ConversationActivity extends AppCompatActivity {
     private ListView messageList;
     private MessageListAdapter adapter;
 
-    private TextView conversationName;
     private EditText sendMessageContent;
-    private Button sendMessageButton;
     private String username;
 
     @Override
@@ -55,7 +53,7 @@ public class ConversationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_conversation);
 
         messageList = findViewById(R.id.messageList);
-        conversationName = findViewById(R.id.conversationUserName);
+        TextView conversationName = findViewById(R.id.conversationUserName);
         if (getIntent().getStringExtra("sendTo") != null) {
             username = getIntent().getStringExtra("sendTo");
             conversationName.setText(username);
@@ -68,7 +66,7 @@ public class ConversationActivity extends AppCompatActivity {
         });
 
         sendMessageContent = findViewById(R.id.sendMessageContent);
-        sendMessageButton = findViewById(R.id.sendMessageButton);
+        Button sendMessageButton = findViewById(R.id.sendMessageButton);
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +148,6 @@ public class ConversationActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(),ProfileVisitPageActivity.class);
         i.putExtra("userName",username);
         startActivity(i);
-
     }
 
     @Override

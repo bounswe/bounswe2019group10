@@ -162,7 +162,6 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             i.putExtra("sendTo", userInfo.username)
 
             startActivity(i)
-         //   finish()
         }
     }
 
