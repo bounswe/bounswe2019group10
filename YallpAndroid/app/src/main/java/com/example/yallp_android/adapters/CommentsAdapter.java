@@ -71,7 +71,6 @@ public class CommentsAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         date = after.format(dateToWrite);
-        //date = date.substring(0,date.indexOf("T"));
         holder.date.setText(date);
         float rating = (float) listData.get(position).getRating();
         holder.rate.setRating(rating);
