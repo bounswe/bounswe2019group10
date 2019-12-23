@@ -219,7 +219,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
                     userInfo = response.body()
                     val userNameText = findViewById<TextView>(R.id.profileUsername)
                     var username = userInfo.username
-                    if (!(userInfo.name == "" && userInfo.surname == "")) {
+                    if (!(userInfo.name == "" || userInfo.surname == "") && (userInfo.name != null && userInfo.surname != null)) {
                         username += " ( "
                         username += userInfo.name
                         username += " "
@@ -250,7 +250,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
                         }
                     }
                     seeFullBio.callOnClick()
-                    if (userInfo.profileImageUrl != null || userInfo.profileImageUrl != "") {
+                    if (userInfo.profileImageUrl != null && userInfo.profileImageUrl != "") {
                         val profileImage = findViewById<ImageView>(R.id.profileImage)
                         Picasso.with(applicationContext)
                                 .load(userInfo.profileImageUrl)
