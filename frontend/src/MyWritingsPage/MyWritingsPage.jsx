@@ -143,7 +143,7 @@ class MyWritingsPage extends React.Component {
       '0' + d.getDate(),
       '0' + (d.getMonth() + 1),
       '' + d.getFullYear(),
-      '0' + d.getHours(),
+      '0' + d.getHours()-3,
       '0' + d.getMinutes()
     ].map(component => component.slice(-2));
     d[2] = date.getFullYear();

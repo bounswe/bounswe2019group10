@@ -111,11 +111,6 @@ class OpeningPage extends React.Component {
               </Row>
               <Row style={{ marginTop: '24px' }}>
                 <Col>
-                  <Button type='primary' style={{width: '250px'}}>Get Started</Button>
-                </Col>
-              </Row>
-              <Row style={{ marginTop: '24px' }}>
-                <Col>
                   <Button type='primary' onClick={() => this.setModalVisible(true)}
                   style={{width: '250px'}}>
                     I Already Have An Account</Button>

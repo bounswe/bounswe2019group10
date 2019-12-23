@@ -150,13 +150,13 @@ class WritingReviewPage extends React.Component {
       }
     };
   }
-  convertDate(date){
+  convertDate(date,hour){
     let d = date;
     d = [
       '0' + d.getDate(),
       '0' + (d.getMonth() + 1),
       '' + d.getFullYear(),
-      '0' + d.getHours(),
+      '0' + hour,
       '0' + d.getMinutes()
     ].map(component => component.slice(-2));
     d[2] = date.getFullYear();
@@ -180,7 +180,9 @@ class WritingReviewPage extends React.Component {
         const end = Math.max(annotation.target.selector.start,annotation.target.selector.end);
         const annotatedText = annotatedAnswer[0].substring(start,end);
         const username = annotation.creator.nickname;
-        const updatedDate = this.convertDate(new Date(annotation.modified));
+        const splitted = annotation.modified.split("T");
+        const modifiedTime = splitted[1].split(":");
+        const updatedDate = this.convertDate(new Date(annotation.modified),modifiedTime[0]);
         const id = annotation.id.split("/").pop();
         const selectedText = <Popover placement="top" 
         title={

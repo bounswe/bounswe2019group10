@@ -121,9 +121,6 @@ class QuizPage extends React.Component {
                     <h1>
                       Your Score: {this.props.quiz.result.score}
                     </h1>
-                    <h1>
-                      Your Level: {this.props.quiz.result.level}
-                    </h1>
                     <Link to={{pathname: '/'}}>Return to home page</Link>
                   </div>
                   )
@@ -138,7 +135,7 @@ class QuizPage extends React.Component {
                 ? <h1 className="display-4">Quiz is loading..</h1>
                 : (
                 <div>
-                <h1 className="display-4">Quiz {quiz.quiz.id} - Level: {quiz.quiz.level}</h1>
+                <h1 className="display-4">Quiz {quiz.quiz.levelName} - Type: {quiz.quiz.quizType.toUpperCase()}</h1>
                 <h2 style={{ margin: '20px' }} className="lead">{question.questionText}</h2>
                 <Radio.Group onChange={this.handleOptionChange} value={this.state.selectedOption}>
                   {options.map((value, index) => {
