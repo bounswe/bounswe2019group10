@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../images/logo.png';
 import { connect } from 'react-redux';
-import { Layout, Menu, Button, Col, Row, Modal, Input } from 'antd';
+import { Layout, Menu, Button, Col, Row, Modal, Input,Alert } from 'antd';
 import { Tabs } from 'antd';
 
 import './OpeningPage.css';
@@ -71,7 +71,8 @@ class OpeningPage extends React.Component {
 
   render() {
     const { username, password, mail } = this.state;
-    const { loggingIn } = this.props;
+    const { loggingIn,alert } = this.props;
+
     return (
         <Layout>
         <Header style={{ position: "fixed", zIndex: 1, width: "100%", height: "64px" }}>
@@ -128,10 +129,16 @@ class OpeningPage extends React.Component {
           >
             <Tabs defaultActiveKey="1" onChange={this.changeForm}>
               <TabPane tab="Log In" key="Log In">
+                {alert.message &&
+                  <Alert message={alert.message} type="error" />
+                } 
                 <Input placeholder="Username" value={username} name="username" onChange={this.handleChange} />
                 <Input.Password placeholder="Password" name="password" value={password} onChange={this.handleChange} style={{marginTop: '12px'}} />
               </TabPane>
               <TabPane tab="Sign Up" key="Sign Up">
+                {alert.message &&
+                  <Alert message={alert.message} type="error" />
+                } 
                 <Input placeholder="E-mail" value={mail} name="mail" onChange={this.handleChange} />
                 <Input placeholder="Username" style={{marginTop: '12px'}} name="username" value={username} onChange={this.handleChange} />
                 <Input.Password placeholder="Password" style={{marginTop: '12px'}} name="password" value={password} onChange={this.handleChange}/>
@@ -140,9 +147,6 @@ class OpeningPage extends React.Component {
             {loggingIn &&
               <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
             }
-            {alert.message &&
-              <div className={`alert ${alert.type}`}>{alert.message}</div>
-            } 
           </Modal>
         </Content>
       </Layout>

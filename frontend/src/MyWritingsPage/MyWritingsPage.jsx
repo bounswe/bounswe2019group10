@@ -137,13 +137,13 @@ class MyWritingsPage extends React.Component {
     };
   }
 
-  convertDate(date){
+  convertDate(date,hour){
     let d = date;
     d = [
       '0' + d.getDate(),
       '0' + (d.getMonth() + 1),
       '' + d.getFullYear(),
-      '0' + d.getHours()-3,
+      '0' + hour,
       '0' + d.getMinutes()
     ].map(component => component.slice(-2));
     d[2] = date.getFullYear();
