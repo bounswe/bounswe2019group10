@@ -63,7 +63,7 @@ public interface UserApi {
 
     @Headers({"Content-Type: application/json"})
     @POST("member/removelang")
-    Call<UserInfo> removeLanguage(
+    Call<MemberLanguage[]> removeLanguage(
             @Header("Authorization") String token,
             @Body String[] languageToRemove
     );
