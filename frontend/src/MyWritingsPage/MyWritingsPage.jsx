@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   Layout, Menu, Breadcrumb, Row, Col, Card, Radio,
-  Avatar, Descriptions, List, Input, Button, Typography, Modal, Select
+  Avatar, Descriptions, List, Input, Button, Typography, Modal, Select,Popover,Icon
 } from 'antd';
 import 'antd//dist/antd.css';
 import { HeaderComponent } from '../HeaderComponent';
@@ -29,11 +29,20 @@ class MyWritingsPage extends React.Component {
       selectedUser: "",
       writingResultId: 0,
       imageUrl: File,
-      oktext: "Done" 
+      oktext: "Done",
+      hovered: true,
+      annotatedAnswer: [],
+      newAnnotatedAnswer: [],
+      annotationText: "",
+      annotationStart: 0,
+      annotationEnd: 0,
     };
     this.handleChange = this.handleChange.bind(this);
     this.selectScore= this.selectScore.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
+    this.convertDate = this.convertDate.bind(this);
+    this.createAnnotation = this.createAnnotation.bind(this);
+    this.deleteAnnotation = this.deleteAnnotation.bind(this);
   }
   selectScore(score){
     this.setState({score});
@@ -47,23 +56,162 @@ class MyWritingsPage extends React.Component {
     this.setState({ scored });
     this.setState({ score });
     this.setState({ imageUrl });
-    this.setState({oktext: "Return to your Writings"}) 
+    this.setState({oktext: "Return to your Writings"});
+    if (writingResultId){
+      this.props.getWritingAnnotations(writingResultId);
+    }else{
+      this.props.clearAnnotations();
+      this.setState({
+        annotatedAnswer: [],
+      });
+    }
   }
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   }
+
+  createAnnotation(e){
+    const text = this.state.annotationText;
+    const writingResultId = this.state.writingResultId;
+    const start = this.state.annotationStart;
+    const end = this.state.annotationEnd;
+    this.props.createAnnotation(writingResultId, text, start,end);
+  }
+
   componentDidMount() {
     this.props.getMyWritings();
+    document.onmouseup = () => {
+      const selected = window.getSelection();
+      if (selected.baseNode && selected.baseNode.parentNode.classList 
+        && selected.baseNode.parentNode.classList[0]==="part" && selected.baseNode.parentNode.classList[1]){
+        const start = Math.min(window.getSelection().baseOffset,window.getSelection().focusOffset);
+        const end = Math.max(window.getSelection().baseOffset,window.getSelection().focusOffset);
+        if (start - end != 0){
+          const partId = parseInt(selected.baseNode.parentNode.classList[1]);
+          let newAnnotatedAnswer = this.state.annotatedAnswer.slice();
+          if (this.state.annotatedAnswer.length===0){
+            newAnnotatedAnswer = [this.state.selectedAnswer];
+          }
+          const selectedPart = newAnnotatedAnswer[partId];
+          const selectedText = <Popover placement="top" title={"Add a new annotation"} content={
+            <div>
+              <Input placeholder="Your annotation..." name="annotationText" onChange={this.handleChange}/>
+              <Button onClick={this.createAnnotation}>Submit</Button>
+            </div>
+          } 
+          trigger="click" visible={this.state.hovered} onVisibleChange={this.handleHoverChange} >
+              <span className="1" style={{backgroundColor: "#FFFF00"}}>{ selectedPart.substring(start,end) }</span>
+          </Popover>;
+          newAnnotatedAnswer.splice(partId+1, 0, selectedPart.substring(end));
+          newAnnotatedAnswer.splice(partId+1, 0, selectedText);
+          newAnnotatedAnswer[partId] = selectedPart.substring(0,start);
+          let annotationStart = start;
+          for (let index = 0; index < partId; index++) {
+            const element = newAnnotatedAnswer[index];
+            if (element.props){
+              annotationStart += element.props.children.props.text.length;
+            }else{
+              annotationStart += element.length;
+            }
+          }
+          const annotationEnd = annotationStart + end - start;
+          this.setState({newAnnotatedAnswer,annotationStart,annotationEnd});
+        }
+      }
+    };
   }
+
+  convertDate(date){
+    let d = date;
+    d = [
+      '0' + d.getDate(),
+      '0' + (d.getMonth() + 1),
+      '' + d.getFullYear(),
+      '0' + d.getHours(),
+      '0' + d.getMinutes()
+    ].map(component => component.slice(-2));
+    d[2] = date.getFullYear();
+    return ""+d[3]+"."+d[4]+" "+d[0]+"."+d[1]+"."+d[2];
+  }
+  
+  deleteAnnotation(annotationId) {
+    this.props.deleteAnnotation(annotationId);
+  }
+
+  componentDidUpdate(){
+    if (this.state.selectedAnswer && 
+      this.props.annotations && this.props.annotations.length>0 && 
+      this.state.annotatedAnswer && this.state.annotatedAnswer.length===0){
+      let annotatedAnswer = [this.state.selectedAnswer];
+      const annotations = this.props.annotations;
+      annotations.sort((a, b) => (a.target.selector.start < b.target.selector.start) ? 1 : -1);
+
+      annotations.forEach(annotation => {
+        const start = Math.min(annotation.target.selector.start,annotation.target.selector.end);
+        const end = Math.max(annotation.target.selector.start,annotation.target.selector.end);
+        const annotatedText = annotatedAnswer[0].substring(start,end);
+        const username = annotation.creator.nickname;
+        const updatedDate = this.convertDate(new Date(annotation.modified));
+        const id = annotation.id.split("/").pop();
+        const selectedText = <Popover placement="top" 
+        title={
+          <div>
+            <span>{ username + " " }</span>
+            <span style={{fontSize: "10px"}}>{ " "+updatedDate }</span>
+            { this.props.profile.username===username && <Icon type="delete" onClick={()=>this.deleteAnnotation(id)}/>}  
+          </div>
+          } content={annotation.bodyValue} trigger="hover">
+            <span text={ annotatedText } className="1" style={{backgroundColor: "#FFFF00"}}>{ annotatedText }</span>
+        </Popover>;
+        
+        annotatedAnswer.splice(1, 0, annotatedAnswer[0].substring(end));
+        annotatedAnswer.splice(1, 0, selectedText);
+        annotatedAnswer[0] = annotatedAnswer[0].substring(0,start);
+      });
+      this.setState({ annotatedAnswer });
+    }
+    if ((this.props.newAnnotation && Object.entries(this.props.newAnnotation).length !== 0)
+      || (this.props.deletedAnnotation && this.props.deletedAnnotation!=="")){
+      this.props.clearNewAnnotations();
+      this.props.clearDeleteAnnotation();
+      this.props.clearAnnotations();
+      this.setState({
+        annotatedAnswer: [],
+        newAnnotatedAnswer: [],
+      });
+      this.props.getWritingAnnotations(this.state.writingResultId);
+    }
+  }
+
   onChange = e => {
     this.setState({
       reviewer: e.target.value,
     });
   };
 
+  handleHoverChange = visible => {
+    if (visible){
+      this.setState({
+        hovered: visible,
+      });
+    } else {
+      this.setState({
+        hovered: visible,
+        newAnnotatedAnswer: [],
+        hovered: true,
+        annotatedText: ""
+      });
+    }
+  };
+
   render() {
     const { writings } = this.props;
+
+    const selectedAnswer = this.state.selectedAnswer;
+    const annotatedAnswer = this.state.annotatedAnswer;
+    const newAnnotatedAnswer = this.state.newAnnotatedAnswer;
+    
     return (
       <Layout className="layout">
         <HeaderComponent />
@@ -123,8 +271,21 @@ class MyWritingsPage extends React.Component {
           >
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
             <div style={{ margin: '10px 0' }} />
-            <h1> Answer: {this.state.selectedAnswer}</h1>
-            <img style={{width: "100%"}} src={this.state.imageUrl}/>
+            <h1> Answer: </h1>
+            <h1>
+              <div className="answerText">
+                { newAnnotatedAnswer && newAnnotatedAnswer.map((part, i) => {     
+                  return (<span key={i} className={"part "+i}>{part}</span>) 
+                })}
+                { newAnnotatedAnswer.length===0 && annotatedAnswer && annotatedAnswer.map((part, i) => {
+                  return (<span key={i} className={"part "+i}>{part}</span>) 
+                })}
+                { ( newAnnotatedAnswer.length===0 && annotatedAnswer.length===0 && selectedAnswer) && 
+                  <span className={"part 0"}>{selectedAnswer}</span> 
+                }
+              </div>
+              { this.state.imageUrl &&  <img style={{width: "100%"}} src={this.state.imageUrl}/> }
+            </h1>
             <div style={{ margin: '10px 0' }} />
             <h2> Sent to User: {this.state.selectedUser}</h2>
             {
@@ -144,13 +305,23 @@ class MyWritingsPage extends React.Component {
 }
 
 function mapState(state) {
-  const { writing } = state;
+  const { writing,users } = state;
   const { writings } = writing;
-  return { writings };
+  const { annotations } = writing;
+  const { newAnnotation } = writing;
+  const { deletedAnnotation } = writing;
+  const { profile } = users;
+  return { writings,annotations,newAnnotation,deletedAnnotation,profile };
 }
 
 const actionCreators = {
-  getMyWritings: writingActions.getMyWritings
+  getMyWritings: writingActions.getMyWritings,
+  getWritingAnnotations: writingActions.getWritingAnnotations,
+  clearAnnotations: writingActions.clearAnnotations,
+  createAnnotation: writingActions.createAnnotation,
+  clearNewAnnotations: writingActions.clearNewAnnotations,
+  deleteAnnotation: writingActions.deleteAnnotation,
+  clearDeleteAnnotation: writingActions.clearDeleteAnnotation,
 }
 
 const connectedMyWritingsPage = connect(mapState, actionCreators)(MyWritingsPage);

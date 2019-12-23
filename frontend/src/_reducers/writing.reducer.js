@@ -30,6 +30,24 @@ export function writing(state = {}, action) {
       return { ...state, writingList: action.result };
     case writingConstants.GET_WRITING_LIST_FAILURE:
       return { ...state, error: action.error };
+    case writingConstants.GET_WRITING_ANNOTATIONS:
+      return { ...state, annotations: action.result };
+    case writingConstants.GET_WRITING_ANNOTATIONS_FAILURE:
+      return { ...state, error: action.error };
+    case writingConstants.ANNOTATIONS_CLEAR:
+      return { ...state, annotations: [] };
+    case writingConstants.CREATE_WRITING_ANNOTATIONS:
+      return { ...state, newAnnotation: action.result };
+    case writingConstants.CREATE_WRITING_ANNOTATIONS_FAILURE:
+      return { ...state, error: action.error };
+    case writingConstants.NEW_ANNOTATION_CLEAR:
+      return { ...state, newAnnotation: {} };
+    case writingConstants.DELETE_ANNOTATION:
+      return { ...state, deletedAnnotation: action.result };
+    case writingConstants.DELETE_ANNOTATION_FAILURE:
+      return { ...state, error: action.error };
+    case writingConstants.DELETE_ANNOTATION_CLEAR:
+      return { ...state, deletedAnnotation: "" };
     case writingConstants.SUBMIT_WRITING_TOPIC:
       return { ...state, writingsuggestion: action.result };
     case writingConstants.SUBMIT_WRITING_TOPIC_FAILURE:
