@@ -13,9 +13,15 @@ class Comment extends React.Component {
         this.state = {
             selfPage: this.props.selfPage,
             anyComment: this.props.anyComment,
+            // selfPage: false,
+            // anyComment: true,
 
             isCommenting: false,
-            usersComment: ''
+            userComment: "",
+            rating: 0,
+
+            comments: this.props.comments,
+            memberId: this.props.memberId
         }
     }
 
@@ -24,15 +30,27 @@ class Comment extends React.Component {
     }
 
     handleCommentButton() {
-        this.state.isCommenting ? 
-        this.setState({ isCommenting: false }) 
-        : 
-        this.setState({ isCommenting: true });
+        if (this.state.isCommenting) {
+            this.setState({ isCommenting: false });
+        } else {
+            this.setState({ isCommenting: true });
+        }
+
+        if (this.state.isCommenting) {
+            const memberComment = {
+                comment: this.state.userComment,
+                memberId: 138,
+                rating: this.state.rating
+            };
+            this.props.makeComment(memberComment);
+            
+        }
+
     }
 
     handleInputChange(e) {
         const { value } = e.target;
-        this.setState({ usersComment: value })
+        this.setState({ userComment: value })
     }
 
     handleMenuClick(e) {
@@ -62,27 +80,34 @@ class Comment extends React.Component {
             </Menu>
         );
 
+        const height = 200;
         return (
             this.state.selfPage ?
-                this.state.anyComment &&
-                <div style={{ background: '#fff', padding: 24, minHeight: 280, width: 600 }}>
-                    <Card title="Comments">
-                        {
-                            comments && comments.map((comment, i) => {
-                                return (
-                                    <Card title={comment.commentatorName}
-                                        extra={<Button type="default" onClick={this.handleDeleteButton(comment.id)}> DELETE </Button>}
-                                        key={i}>
-                                        {comment.comment}
-                                    </Card>
-                                )
-                            })
-                        }
-                    </Card>
-                </div>
+                this.state.anyComment ?
+                    <div style={{ background: '#fff', padding: 24, minHeight: height }}>
+                        <Card title="Comments">
+                            {
+                                comments && comments.map((comment, i) => {
+                                    return (
+                                        <Card title={comment.commentatorName}
+                                            extra={<Button type="default" onClick={this.handleDeleteButton(comment.id)}> DELETE </Button>}
+                                            key={i}>
+                                            {comment.comment}
+                                        </Card>
+                                    )
+                                })
+                            }
+                        </Card>
+                    </div>
+                    :
+                    <div style={{ background: '#fff', padding: 24, minHeight: height }}>
+                        <Card title="Comments">
+                            There is no comment made for you :(
+                        </Card>
+                    </div>
                 :
                 this.state.anyComment ?
-                    <div style={{ background: '#fff', padding: 24, minHeight: 280, width: 600 }}>
+                    <div style={{ background: '#fff', padding: 24, minHeight: height }}>
                         <Card title="Comments"
                             extra={<Button type="default" onClick={this.handleCommentButton}>
                                 {this.state.isCommenting ? "DONE" : "COMMENT"}
@@ -93,7 +118,7 @@ class Comment extends React.Component {
                                         <Col span={20}>
                                             <Input placeholder="Your comment goes here..." onChange={this.handleInputChange} />
                                         </Col>
-                                        <Col span={2}>
+                                        <Col span={2} offset={2}>
                                             <Dropdown overlay={menu}>
                                                 <Button>
                                                     Rating <Icon type="down" />
@@ -111,19 +136,21 @@ class Comment extends React.Component {
                         </Card>
                     </div>
                     :
-                    <div style={{ background: '#fff', padding: 24, minHeight: 280, width: 600 }}>
-                        <Row>
-                            <Col span={20}>
-                                <Input placeholder="Your comment goes here..." onChange={this.handleInputChange} />
-                            </Col>
-                            <Col span={2}>
-                                <Dropdown overlay={menu}>
-                                    <Button>
-                                        Rating <Icon type="down" />
-                                    </Button>
-                                </Dropdown>
-                            </Col>
-                        </Row>
+                    <div style={{ background: '#fff', padding: 24, minHeight: height }}>
+                        <Card title="Comments">
+                            <Row>
+                                <Col span={19}>
+                                    <Input placeholder="Your comment goes here..." onChange={this.handleInputChange} />
+                                </Col>
+                                <Col span={2}>
+                                    <Dropdown overlay={menu}>
+                                        <Button>
+                                            Rating <Icon type="down" />
+                                        </Button>
+                                    </Dropdown>
+                                </Col>
+                            </Row>
+                        </Card>
                     </div>
 
         )

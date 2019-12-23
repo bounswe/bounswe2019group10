@@ -15,7 +15,6 @@ class Profile extends React.Component {
         this.onClose = this.onClose.bind(this)
 
         this.state = {
-            //true if the user is looking at his own profile page (not another user)
             selfPage: this.props.selfPage,
             isHidden: this.props.isHidden,
 
@@ -72,7 +71,8 @@ class Profile extends React.Component {
         return (
             this.state.selfPage ?
                 <div style={{ background: '#fff', padding: 24 }}>
-                    <Descriptions title={username ? username : "No username provided yet!"} bordered={true} column={1}>
+                    <Descriptions title={username ? username : "No username provided yet!"} 
+                    bordered={true} column={1} style={{height: "450px"}}>
                         {/* <Descriptions.Item label="Picture">
                             <Col span={10} offset={1}>
                                 <Avatar
@@ -129,7 +129,7 @@ class Profile extends React.Component {
                             {
                                 this.state.isEditing ?
                                     <Input placeholder={bio ? bio : "No bio provided yet!"}
-                                        defaultValue={bio ? bio : "bio"} name="bio" onChange={this.handleChange} />
+                                        defaultValue={bio ?? bio} name="bio" onChange={this.handleChange} />
                                     : bio ? bio : "No bio provided yet!"
                             }
                         </Descriptions.Item>
@@ -137,7 +137,7 @@ class Profile extends React.Component {
                             {
                                 this.state.isEditing ?
                                     <Input placeholder={nativeLanguage ? nativeLanguage : "No language provided yet!"}
-                                        defaultValue={nativeLanguage ? nativeLanguage : "nativeLanguage"} onChange={this.handleChange} />
+                                        defaultValue={nativeLanguage ?? nativeLanguage} name="nativeLanguage" onChange={this.handleChange} />
                                     : nativeLanguage ? nativeLanguage : "No language provided yet!"
                             }
                         </Descriptions.Item>
@@ -160,10 +160,10 @@ class Profile extends React.Component {
                         THIS PROFILE IS HIDDEN AND THIS PAGE WILL BE EDITED LATER ! PEACE !
                     </div>
                     :
-                    <div style={{ background: '#fff', padding: 24 }}>
+                    <div style={{ background: '#fff', padding: 24, height:"500px"}}>
                         <Descriptions title={username ? username : "No username provided yet!"}
-                            style={{ background: 'yellow' }}>
-                            <Descriptions.Item label="Picture">
+                        bordered={true} column={1}>
+                            {/* <Descriptions.Item label="Picture">
                                 <Col span={10} offset={1}>
                                     <Avatar
                                         width={200}
@@ -176,7 +176,7 @@ class Profile extends React.Component {
                                         src=''
                                     />
                                 </Col>
-                            </Descriptions.Item>
+                            </Descriptions.Item> */}
                             <Descriptions.Item label="Name"> {name ? name : "No name provided yet!"} </Descriptions.Item>
                             <Descriptions.Item label="Surname"> {surname ? surname : "No surname provided yet!"} </Descriptions.Item>
                             <Descriptions.Item label="User Name"> {username ? username : "No username provided yet!"} </Descriptions.Item>

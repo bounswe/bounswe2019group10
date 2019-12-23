@@ -22,55 +22,49 @@ class Language extends React.Component {
         const { memberLanguages } = this.props;
         return (
             this.state.selfPage ?
-                <div style={{ background: '#fff', padding: 24, minHeight: 280, width: 600 }}>
-                    <Card title="Languages">
+                <Card title="Languages" bodyStyle={{ overflow: "scroll", height: "500px" }}>
+                    {
+                        memberLanguages && memberLanguages.map((memberLanguage, i) => {
+                            return (
+                                <Card title={memberLanguage.language.languageName}
+                                    extra={<Button type="default" onClick={() => this.handleRemoveButton(memberLanguage.language.languageName)}>Remove</Button>}
+                                    style={{ minHeight: '200px', marginBottom: '24px' }} key={i}>
+                                    <p>Level: {memberLanguage.levelName ? memberLanguage.levelName : "No level provided yet!"}</p>
+                                    <Progress type="circle" percent={75} />
+                                </Card>
+                            )
+                        })
+
+                    }
+                </Card>
+                :
+                this.state.isHidden ?
+                    <Card title="Languages" bodyStyle={{ overflow: "scroll", height: "500px" }}>
                         {
                             memberLanguages && memberLanguages.map((memberLanguage, i) => {
                                 return (
                                     <Card title={memberLanguage.language.languageName}
-                                        extra={<Button type="default" onClick={() => this.handleRemoveButton(memberLanguage.language.languageName)}>Remove</Button>}
+                                        style={{ minHeight: '100px', marginBottom: '24px' }} key={i}>
+                                        <p>Level: {memberLanguage.levelName ? memberLanguage.levelName : "No level provided yet!"}</p>
+                                    </Card>
+                                )
+                            })
+                        }
+                    </Card>
+                    :
+                    <Card title="Languages" bodyStyle={{ overflow: "scroll", height: "500px" }}>
+                        {
+                            memberLanguages && memberLanguages.map((memberLanguage, i) => {
+                                return (
+                                    <Card title={memberLanguage.language.languageName}
                                         style={{ minHeight: '200px', marginBottom: '24px' }} key={i}>
                                         <p>Level: {memberLanguage.levelName ? memberLanguage.levelName : "No level provided yet!"}</p>
                                         <Progress type="circle" percent={75} />
                                     </Card>
                                 )
                             })
-
                         }
                     </Card>
-                </div>
-                :
-                this.state.isHidden ?
-                    <div style={{ background: '#fff', padding: 24, minHeight: 280, width: 600 }}>
-                        <Card title="Languages">
-                            {
-                                memberLanguages && memberLanguages.map((memberLanguage, i) => {
-                                    return (
-                                        <Card title={memberLanguage.language.languageName}
-                                            style={{ minHeight: '100px', marginBottom: '24px' }} key={i}>
-                                            <p>Level: {memberLanguage.levelName ? memberLanguage.levelName : "No level provided yet!"}</p>
-                                        </Card>
-                                    )
-                                })
-                            }
-                        </Card>
-                    </div>
-                    :
-                    <div style={{ background: '#fff', padding: 24, minHeight: 280, width: 600 }}>
-                        <Card title="Languages">
-                            {
-                                memberLanguages && memberLanguages.map((memberLanguage, i) => {
-                                    return (
-                                        <Card title={memberLanguage.language.languageName}
-                                            style={{ minHeight: '200px', marginBottom: '24px' }} key={i}>
-                                            <p>Level: {memberLanguage.levelName ? memberLanguage.levelName : "No level provided yet!"}</p>
-                                            <Progress type="circle" percent={75} />
-                                        </Card>
-                                    )
-                                })
-                            }
-                        </Card>
-                    </div>
         )
     }
 }

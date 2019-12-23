@@ -34,7 +34,7 @@ class ProfilePage extends React.Component {
 
   render() {
     const { profile } = this.props;
-    const { comments } = this.props;
+    const { comments } = this.props.comment;
 
     return (
       <Layout>
@@ -50,11 +50,11 @@ class ProfilePage extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col span={8} offset={1} style={{marginTop:'24px'}}>
+            <Col span={17} offset={4} style={{marginTop:'24px'}}>
               {comments ?
-                <Comment {...comments} anyComment={true} selfPage={true} />
+                <Comment {...comments} makeComment={this.props.makeComment} anyComment={true} selfPage={true} />
                 :
-                <Comment {...comments} anyComment={false} selfPage={true} />}
+                <Comment {...comments} makeComment={this.props.makeComment} anyComment={false} selfPage={true} />}
             </Col>
           </Row>
         </Content>
@@ -66,9 +66,10 @@ class ProfilePage extends React.Component {
 
 function mapState(state) {
   const { users } = state;
+  const { comment } = state;
   const { profile } = users;
 
-  return { profile };
+  return { profile, comment };
 }
 
 const actionCreators = {
@@ -76,7 +77,8 @@ const actionCreators = {
   updateProfile: userActions.updateProfile,
   logOut: userActions.logout,
   removeLanguage: userActions.removeLanguage,
-  getComments: commentActions.getComments
+  getComments: commentActions.getComments,
+  makeComment: commentActions.makeComment
 }
 
 const connectedProfilePage = connect(mapState, actionCreators)(ProfilePage);

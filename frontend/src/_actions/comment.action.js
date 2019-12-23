@@ -49,6 +49,7 @@ function getCommentsForMember(memberId) {
 }
 
 function makeComment(memberComment) {
+    console.log('HERE:', memberComment)
     return dispatch => {
         commentService.makeComment(memberComment)
             .then(
