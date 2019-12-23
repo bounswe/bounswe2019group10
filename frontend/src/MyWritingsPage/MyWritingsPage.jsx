@@ -9,6 +9,8 @@ import 'antd//dist/antd.css';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
 
+import Annotation from 'react-image-annotation/lib';
+
 import { history } from '../_helpers';
 import { userActions, writingActions } from '../_actions';
 const { Header, Content, Footer } = Layout;
@@ -36,6 +38,8 @@ class MyWritingsPage extends React.Component {
       annotationText: "",
       annotationStart: 0,
       annotationEnd: 0,
+      annotationImage: {},
+      annotationsImage: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.selectScore= this.selectScore.bind(this);
@@ -43,6 +47,8 @@ class MyWritingsPage extends React.Component {
     this.convertDate = this.convertDate.bind(this);
     this.createAnnotation = this.createAnnotation.bind(this);
     this.deleteAnnotation = this.deleteAnnotation.bind(this);
+    this.onAnnotationChange = this.onAnnotationChange.bind(this);
+    this.onAnnotationSubmit = this.onAnnotationSubmit.bind(this);
   }
   selectScore(score){
     this.setState({score});
@@ -65,7 +71,16 @@ class MyWritingsPage extends React.Component {
         annotatedAnswer: [],
       });
     }
+    if (imageUrl){
+      this.props.getWritingImageAnnotations(imageUrl);
+    }else{
+      this.props.clearImageAnnotations();
+      this.setState({
+        annotationsImage: [],
+      });
+    }
   }
+
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
@@ -182,6 +197,16 @@ class MyWritingsPage extends React.Component {
       });
       this.props.getWritingAnnotations(this.state.writingResultId);
     }
+    // image annotation
+    if (this.props.newImageAnnotation && Object.entries(this.props.newImageAnnotation).length !== 0){
+      this.props.clearNewImageAnnotations();
+      this.props.clearImageAnnotations();
+      this.setState({
+        annotationImage: {},
+        annotationsImage: [],
+      });
+      this.props.getWritingImageAnnotations(this.state.imageUrl);
+    }
   }
 
   onChange = e => {
@@ -205,13 +230,56 @@ class MyWritingsPage extends React.Component {
     }
   };
 
+  onAnnotationChange = (annotationImage) => {
+    this.setState({ annotationImage });
+  }
+ 
+  onAnnotationSubmit = (annotation) => {
+    const { geometry, data } = annotation;
+    console.log(annotation);
+    const imageUrl = this.state.imageUrl;
+    const annotationParam = {
+      imageUrl: this.state.imageUrl,
+      annotationText: data.text,
+      x: geometry.x,
+      y: geometry.y,
+      h: geometry.height,
+      w: geometry.width,
+    };
+    
+    this.props.createImageAnnotation(annotationParam);
+  }
+
   render() {
     const { writings } = this.props;
 
     const selectedAnswer = this.state.selectedAnswer;
     const annotatedAnswer = this.state.annotatedAnswer;
     const newAnnotatedAnswer = this.state.newAnnotatedAnswer;
-    
+
+    const imageAnnotationList = []
+    if (this.props.imageAnnotations){
+      for (const annotation of this.props.imageAnnotations) {
+        const target = annotation.target.selector.value;
+        const splitted = target.split("=");
+        const coordinates = splitted[splitted.length-1].split(",");
+        const newAnnotation = {
+          data: {
+            text: annotation.bodyValue,
+            id: Math.random()
+          },
+          geometry: {
+            height: parseInt(coordinates[3]),
+            width: parseInt(coordinates[2]),
+            x:parseInt(coordinates[0]),
+            y:parseInt(coordinates[1]),
+            type: "RECTANGLE"
+          }
+        }
+        imageAnnotationList.push(newAnnotation);
+      }
+    }
+
     return (
       <Layout className="layout">
         <HeaderComponent />
@@ -243,13 +311,15 @@ class MyWritingsPage extends React.Component {
                 sc= " ,Score is Pending";
                 }
                 let t = value.writingName + sc;
-                let t2 = value.answerText && value.answerText.split('.') + " ... ";
+                let t2 = value.answerText ? value.answerText.split('.') + " ... " : "";
                 return (
                   <Card type="inner" title={t} key={index + 1}
                     extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.assignedMemberName,value.id,value.scored,value.score,value.imageUrl)} >View</Button>}>
-                    { value.image ?
+                    { value.imageUrl ?
                      (
-                      <img style={{width: "100%"}} src={value.imageUrl}/>
+                      <div>
+                        <img style={{width: "100%"}} src={value.imageUrl}/>
+                      </div>
                      ) : 
                       t2 }
                   </Card>
@@ -271,7 +341,7 @@ class MyWritingsPage extends React.Component {
           >
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
             <div style={{ margin: '10px 0' }} />
-            <h1> Answer: </h1>
+            <h1> Answer: <span style={{fontSize: "14px"}}>select answer to annotate</span></h1>
             <h1>
               <div className="answerText">
                 { newAnnotatedAnswer && newAnnotatedAnswer.map((part, i) => {     
@@ -284,7 +354,16 @@ class MyWritingsPage extends React.Component {
                   <span className={"part 0"}>{selectedAnswer}</span> 
                 }
               </div>
-              { this.state.imageUrl &&  <img style={{width: "100%"}} src={this.state.imageUrl}/> }
+              { this.state.imageUrl &&  
+                <Annotation 
+                  src={this.state.imageUrl}
+                  alt='Writing exercise'
+                  annotations={imageAnnotationList}
+                  value={this.state.annotationImage}
+                  onChange={this.onAnnotationChange}
+                  onSubmit={this.onAnnotationSubmit}
+                  />
+               }
             </h1>
             <div style={{ margin: '10px 0' }} />
             <h2> Sent to User: {this.state.selectedUser}</h2>
@@ -310,8 +389,10 @@ function mapState(state) {
   const { annotations } = writing;
   const { newAnnotation } = writing;
   const { deletedAnnotation } = writing;
+  const { newImageAnnotation } = writing;
+  const { imageAnnotations } = writing;
   const { profile } = users;
-  return { writings,annotations,newAnnotation,deletedAnnotation,profile };
+  return { writings,annotations,newAnnotation,deletedAnnotation,profile,newImageAnnotation,imageAnnotations };
 }
 
 const actionCreators = {
@@ -322,6 +403,10 @@ const actionCreators = {
   clearNewAnnotations: writingActions.clearNewAnnotations,
   deleteAnnotation: writingActions.deleteAnnotation,
   clearDeleteAnnotation: writingActions.clearDeleteAnnotation,
+  createImageAnnotation: writingActions.createImageAnnotation,
+  clearNewImageAnnotations: writingActions.clearNewImageAnnotations,
+  getWritingImageAnnotations: writingActions.getWritingImageAnnotations,
+  clearImageAnnotations: writingActions.clearImageAnnotations,
 }
 
 const connectedMyWritingsPage = connect(mapState, actionCreators)(MyWritingsPage);

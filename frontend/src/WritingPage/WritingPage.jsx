@@ -40,14 +40,17 @@ class WritingPage extends React.Component {
     this.setPic = this.setPic.bind(this);
   }
   handleClick(action) {
+    let imageUrl="";
+    if (this.props.writing.upload){
+      imageUrl = this.props.writing.upload.url;
+    }
     const t = {
       writingId: this.state.writingId,
       answer: this.state.answer,
-      imageUrl: this.props.writing.upload.url,
+      imageUrl: imageUrl,
       evaluatorUsername: this.state.reviewer,
       answerType: this.state.answerType
     }
-    console.log(t);
     this.props.submitWriting(t);
     this.setState({
       writingFinished: true

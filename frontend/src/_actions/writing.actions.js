@@ -18,7 +18,11 @@ export const writingActions = {
   clearDeleteAnnotation,
   submitWritingTopic,
   getMyWritings,
-  uploadWritingImage
+  uploadWritingImage,
+  createImageAnnotation,
+  clearNewImageAnnotations,
+  getWritingImageAnnotations,
+  clearImageAnnotations,
 };
 
 function getWriting(writingId){
@@ -235,4 +239,52 @@ function clearDeleteAnnotation(){
     };
 
     function success() { return { type: writingConstants.DELETE_ANNOTATION_CLEAR, } }
+}
+
+function createImageAnnotation(annotation){
+  return dispatch => {
+    writingService.createImageAnnotation(annotation)
+        .then(
+            result => {
+              dispatch(success(result))
+            },
+            error => {
+              dispatch(failure(error.toString()));
+            }
+        );
+  };
+  function success(result) { return { type: writingConstants.CREATE_WRITING_IMAGE_ANNOTATIONS, result } }
+  function failure(error) { return { type: writingConstants.CREATE_WRITING_IMAGE_ANNOTATIONS_FAILURE, error } }
+}
+
+function clearNewImageAnnotations(){
+    return dispatch => {
+        dispatch(success());
+    };
+
+    function success() { return { type: writingConstants.NEW_IMAGE_ANNOTATION_CLEAR, } }
+}
+
+function getWritingImageAnnotations(imageUrl){
+  return dispatch => {
+    writingService.getWritingImageAnnotations(imageUrl)
+        .then(
+            result => {
+              dispatch(success(result))
+            },
+            error => {
+              dispatch(failure(error.toString()));
+            }
+        );
+  };
+  function success(result) { return { type: writingConstants.GET_WRITING_IMAGE_ANNOTATIONS, result } }
+  function failure(error) { return { type: writingConstants.GET_WRITING_IMAGE_ANNOTATIONS_FAILURE, error } }
+}
+
+function clearImageAnnotations(){
+    return dispatch => {
+        dispatch(success());
+    };
+
+    function success() { return { type: writingConstants.IMAGE_ANNOTATION_CLEAR, } }
 }

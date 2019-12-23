@@ -12,7 +12,9 @@ export const writingService = {
   deleteAnnotation,
   getMyWritings,
   submitWritingTopic,
-  uploadWritingImage
+  uploadWritingImage,
+  createImageAnnotation,
+  getWritingImageAnnotations,
 };
 
 function scoreWriting(IdnScore) {
@@ -114,6 +116,26 @@ function deleteAnnotation(writingResultId){
     };
     return fetch(`${config.apiUrl}/annotation/delete?id=${writingResultId}`, requestOptions);
 }
+
+function createImageAnnotation(annotation){
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeader() },
+        body: JSON.stringify(annotation)
+    };
+    return fetch(`${config.apiUrl}/annotation/image/create`, requestOptions)
+        .then(handleResponse);
+}
+
+function getWritingImageAnnotations(imageUrl){
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...authHeader() },
+    };
+    return fetch(`${config.apiUrl}/annotation/image/all?url=${imageUrl}`, requestOptions)
+        .then(handleResponse);
+}
+
 function submitWritingTopic(newTopic) {
     const requestOptions = {
         method: 'POST',
