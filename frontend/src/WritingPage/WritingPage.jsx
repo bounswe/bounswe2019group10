@@ -65,7 +65,7 @@ class WritingPage extends React.Component {
   setPic(e){
     this.setState({file: e.target.files[0]});
     const data = new FormData()
-    data.append('file', this.state.file)
+    data.append('file', e.target.files[0])
     this.props.uploadWritingImage(data);
   }
   onChange = e => {
@@ -131,10 +131,10 @@ class WritingPage extends React.Component {
                     {this.state.answerType==="picture" &&
                     <input type="file"
                     onChange= {this.setPic}
-                    id="writingpic" name="writingpic  "
-                    accept="image/png, image/jpeg, image/jpg"/>
+                    id="writingpic" name="writingpic"
+                    accept="image/png, image/jpeg"/>
                     }
-                    <img src={this.state.imageUrl}/>
+                    <img src={this.state.file}/>
                     
                     <div style={{ margin: '10px 0' }} />
                     <Button type="primary" onClick={() => this.setModalVisible(true)} >Submit</Button>

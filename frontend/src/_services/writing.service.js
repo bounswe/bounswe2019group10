@@ -96,12 +96,12 @@ function submitWritingTopic(newTopic) {
   }
 
 function uploadWritingImage(upload) {
-
     const requestOptions = {
         method: 'POST',
         headers: { ...authHeader() },
-        file: upload
+        body: upload
     };
+    
     return fetch(`${config.apiUrl}/writing/uploadWritingImage`, requestOptions)
         .then(handleResponse);
   }
