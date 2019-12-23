@@ -43,10 +43,11 @@ class WritingPage extends React.Component {
     const t = {
       writingId: this.state.writingId,
       answer: this.state.answer,
-      imageUrl: this.state.imageUrl,
+      imageUrl: this.props.writing.upload.url,
       evaluatorUsername: this.state.reviewer,
       answerType: this.state.answerType
     }
+    console.log(t);
     this.props.submitWriting(t);
     this.setState({
       writingFinished: true
@@ -133,9 +134,7 @@ class WritingPage extends React.Component {
                     onChange= {this.setPic}
                     id="writingpic" name="writingpic"
                     accept="image/png, image/jpeg"/>
-                    }
-                    <img src={this.state.file}/>
-                    
+                    }                
                     <div style={{ margin: '10px 0' }} />
                     <Button type="primary" onClick={() => this.setModalVisible(true)} >Submit</Button>
                   </Col>
