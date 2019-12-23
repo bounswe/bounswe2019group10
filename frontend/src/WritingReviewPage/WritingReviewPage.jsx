@@ -48,7 +48,7 @@ class WritingReviewPage extends React.Component {
   selectScore(score){
     this.setState({score});
   }
-  setModalVisible(modalVisible, selectedAssignment,selectedAnswer,selectedUser,writingResultId,scored,score) {
+  setModalVisible(modalVisible, selectedAssignment,selectedAnswer,selectedUser,writingResultId,scored,score,imageUrl) {
     this.setState({ modalVisible });
     this.setState({ selectedAssignment });
     this.setState({ selectedAnswer });
@@ -56,6 +56,7 @@ class WritingReviewPage extends React.Component {
     this.setState({ writingResultId });
     this.setState({ scored });
     this.setState({ score });
+    this.setState({ imageUrl });
     {
       if(!scored)
     {
@@ -107,11 +108,15 @@ class WritingReviewPage extends React.Component {
               }
               {assignments && assignments.map((value, index) => {
                 let t = value.writingName + " by " + value.memberName;
-                let t2 = value.answerText.split('.') + " ... ";
+                let t2 = value.answerText && value.answerText.split('.') + " ... ";
                 return (
                   <Card type="inner" title={t} key={index + 1}
-                    extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored,value.score)} >Score</Button>}>
-                    {t2}
+                    extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored,value.score,value.imageUrl)} >Score</Button>}>
+                    { value.image ?
+                     (
+                      <img style={{width: "100%"}} src={value.imageUrl}/>
+                     ) : 
+                      t2 }
                   </Card>
                 );
               })}
@@ -127,11 +132,15 @@ class WritingReviewPage extends React.Component {
             </p>
             {cassignments && cassignments.map((value, index) => {
                 let t = value.writingName + " by " + value.memberName;
-                let t2 = value.answerText.split('.') + " ... ";
+                let t2 = value.answerText && value.answerText.split('.') + " ... ";
                 return (
                   <Card type="inner" title={t} key={index + 1}
-                  extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored,value.score)} >Review</Button>}>
-                    {t2} 
+                  extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored,value.score,value.imageUrl)} >Review</Button>}>
+                  { value.image ?
+                     (
+                      <img style={{width: "100%"}} src={value.imageUrl}/>
+                     ) : 
+                      t2 }
                   </Card>
                 );
               })}
@@ -151,6 +160,7 @@ class WritingReviewPage extends React.Component {
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
             <div style={{ margin: '10px 0' } } />
             <h2 style={{fontSize: 20 }}> Answer: {this.state.selectedAnswer} </h2>
+            <img style={{width: "100%"}} src={this.state.imageUrl}/>
             <div style={{ margin: '10px 0' }} />
             <h2 style={{fontSize: 20 }}> by user: {this.state.selectedUser}</h2>
             {
