@@ -70,7 +70,7 @@ function submitWriting(exercise) {
     const requestOptions1 = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...authHeader() },
-      body: JSON.stringify({imageUrl: exercise.imageUrl,evaluatorUsername: exercise.evaluatorUsername,writingId: exercise.writingId})
+      body: JSON.stringify({imageURL: exercise.imageUrl,evaluatorUsername: exercise.evaluatorUsername,writingId: exercise.writingId})
     };
     const requestOptions2 = {
         method: 'POST',

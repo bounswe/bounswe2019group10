@@ -99,7 +99,11 @@ class MyWritingsPage extends React.Component {
                 return (
                   <Card type="inner" title={t} key={index + 1}
                     extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.assignedMemberName,value.id,value.scored,value.score,value.imageUrl)} >View</Button>}>
-                    {t2}
+                    { value.image ?
+                     (
+                      <img style={{width: "100%"}} src={value.imageUrl}/>
+                     ) : 
+                      t2 }
                   </Card>
                 );
               })}
@@ -120,7 +124,7 @@ class MyWritingsPage extends React.Component {
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
             <div style={{ margin: '10px 0' }} />
             <h1> Answer: {this.state.selectedAnswer}</h1>
-            <img src={this.state.imageUrl}/>
+            <img style={{width: "100%"}} src={this.state.imageUrl}/>
             <div style={{ margin: '10px 0' }} />
             <h2> Sent to User: {this.state.selectedUser}</h2>
             {
