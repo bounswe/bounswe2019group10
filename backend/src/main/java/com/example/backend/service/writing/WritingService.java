@@ -383,7 +383,7 @@ public class WritingService {
             double progress = ((double) memberStatus.getNumberOfQuestions() / 30) * 100;
             int intProgress = (int)progress;
             memberLanguage.setProgress(intProgress);
-            if (memberStatus.getNumberOfQuestions() >= 60) {
+            if (memberStatus.getNumberOfQuestions() >= 30) {
                 memberStatus.setNumberOfQuestions(0);
                 if (memberStatus.getLevelName() == LevelName.BEGINNER) {
                     memberStatus.setLevelName(LevelName.INTERMEDIATE);

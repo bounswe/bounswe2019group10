@@ -156,7 +156,7 @@ public class QuizService {
                 memberStatus.setLangId(quiz.getLanguageId());
                 memberStatus.setNumberOfQuestions(memberStatus.getNumberOfQuestions() + score);
                 memberStatus.setLevelName(LevelName.BEGINNER);
-                if (memberStatus.getNumberOfQuestions() >= 60) {
+                if (memberStatus.getNumberOfQuestions() >= 30) {
                     memberStatus.setLevelName(LevelName.INTERMEDIATE);
                     memberStatus.setNumberOfQuestions(0);
                     memberLanguage.setProgress(0);
@@ -170,7 +170,7 @@ public class QuizService {
                 int intProgress = (int)progress;
                 memberLanguage.setProgress(intProgress);
 
-                if (memberStatus.getNumberOfQuestions() >= 60) {
+                if (memberStatus.getNumberOfQuestions() >= 30) {
                     memberStatus.setNumberOfQuestions(0);
                     if (memberStatus.getLevelName() == LevelName.BEGINNER) {
                         memberStatus.setLevelName(LevelName.INTERMEDIATE);
