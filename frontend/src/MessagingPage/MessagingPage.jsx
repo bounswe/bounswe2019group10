@@ -6,6 +6,7 @@ import { userActions } from '../_actions';
 
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
+import { relativeTimeThreshold } from 'moment';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -112,10 +113,15 @@ class MessagingPage extends React.Component {
           userSearchData: searchResult,
         });
       }
+      let conversationId = -1;
       if (this.props.messageSent){
+        conversationId = this.props.messageSent.conversationId
         this.props.clearMessageSent();
         this.props.getConversations();
-        this.props.getConversation(this.state.conversationId);
+        this.props.getConversation(conversationId);
+        if (conversationId!=this.state.conversationId){
+          this.setState({conversationId});
+        }
       }
     }
 

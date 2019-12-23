@@ -10,6 +10,12 @@ export const writingActions = {
   getnonCompletedAssignments,
   getCompletedAssignments,
   getWritingList,
+  getWritingAnnotations,
+  clearAnnotations,
+  createAnnotation,
+  clearNewAnnotations,
+  deleteAnnotation,
+  clearDeleteAnnotation,
   submitWritingTopic,
   getMyWritings
 };
@@ -140,4 +146,76 @@ function getWritingList(languageId){
   };
   function success(result) { return { type: writingConstants.GET_WRITING_LIST, result } }
   function failure(error) { return { type: writingConstants.GET_WRITING_LIST_FAILURE, error } }
+}
+
+function getWritingAnnotations(writingResultId){
+  return dispatch => {
+    writingService.getWritingAnnotations(writingResultId)
+        .then(
+            result => {
+              dispatch(success(result))
+            },
+            error => {
+              dispatch(failure(error.toString()));
+            }
+        );
+  };
+  function success(result) { return { type: writingConstants.GET_WRITING_ANNOTATIONS, result } }
+  function failure(error) { return { type: writingConstants.GET_WRITING_ANNOTATIONS_FAILURE, error } }
+}
+
+function clearAnnotations(){
+    return dispatch => {
+        dispatch(success());
+    };
+
+    function success() { return { type: writingConstants.ANNOTATIONS_CLEAR, } }
+}
+
+function createAnnotation(writingResultId, text, start,end){
+  return dispatch => {
+    writingService.createAnnotation(writingResultId, text, start,end)
+        .then(
+            result => {
+              dispatch(success(result))
+            },
+            error => {
+              dispatch(failure(error.toString()));
+            }
+        );
+  };
+  function success(result) { return { type: writingConstants.CREATE_WRITING_ANNOTATIONS, result } }
+  function failure(error) { return { type: writingConstants.CREATE_WRITING_ANNOTATIONS_FAILURE, error } }
+}
+
+function clearNewAnnotations(){
+    return dispatch => {
+        dispatch(success());
+    };
+
+    function success() { return { type: writingConstants.NEW_ANNOTATION_CLEAR, } }
+}
+
+function deleteAnnotation(writingResultId){
+  return dispatch => {
+    writingService.deleteAnnotation(writingResultId)
+        .then(
+            result => {
+              dispatch(success(result))
+            },
+            error => {
+              dispatch(failure(error.toString()));
+            }
+        );
+  };
+  function success(result) { return { type: writingConstants.DELETE_ANNOTATION, result } }
+  function failure(error) { return { type: writingConstants.DELETE_ANNOTATION_FAILURE, error } }
+}
+
+function clearDeleteAnnotation(){
+    return dispatch => {
+        dispatch(success());
+    };
+
+    function success() { return { type: writingConstants.DELETE_ANNOTATION_CLEAR, } }
 }

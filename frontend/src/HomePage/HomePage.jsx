@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Layout, Row, Col, Typography,Empty } from 'antd';
+import { Layout, Row, Col, Typography,Empty,Popover } from 'antd';
 import { userActions,quizActions, writingActions } from '../_actions';
 import './HomePage.css';
 import { HeaderComponent } from '../HeaderComponent';
@@ -74,6 +74,7 @@ class HomePage extends React.Component {
         if (this.props.writing){
             searchResults = this.props.writing.writingList;
         }
+        
         return (
             <Layout className="layout">
             <HeaderComponent />
@@ -81,7 +82,11 @@ class HomePage extends React.Component {
                 <Row>
                     <Col span={2} />
                     <Col span={8}>
-                        <Title level={3} style={{textAlign: "center"}}>Quizes</Title>                        
+                        <Title level={3} style={{textAlign: "center"}}>
+                        <Popover placement="top" title={"asd"} content={"sda"} trigger="hover">
+                            Quizes
+                        </Popover>
+                        </Title>                        
                         {quizList && (
                         quizList.map((searchResult, i) => {
                         return (
