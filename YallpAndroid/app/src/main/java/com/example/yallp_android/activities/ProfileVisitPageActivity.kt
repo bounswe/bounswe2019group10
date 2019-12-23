@@ -46,7 +46,12 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             callById(intent.getIntExtra("memberId", 120))
         }
 
+        val avgRate = findViewById<TextView>(R.id.avgRate)
+        getAvgRating(avgRate)
+
         val addComment = findViewById<Button>(R.id.addComment)
+
+
         addComment.setOnClickListener {
 
             val builder = AlertDialog.Builder(this@ProfileVisitPageActivity)
@@ -67,6 +72,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
                             call.enqueue(object : Callback<Comment> {
                                 override fun onResponse(call: Call<Comment>, response: Response<Comment>) {
                                     if (response.isSuccessful) {
+                                        getAvgRating(avgRate)
                                         Toast.makeText(baseContext, "Your comment has been successfully added", Toast.LENGTH_LONG).show()
 
                                     } else {
@@ -153,8 +159,11 @@ class ProfileVisitPageActivity : AppCompatActivity() {
             finish()
         }
 
-        val avgRate = findViewById<TextView>(R.id.avgRate)
 
+
+    }
+
+    private fun getAvgRating(avgRate:TextView){
         val call: Call<Rating>
         call = CommentRetroClient.getInstance().getCommentApi().getRatingByMemberId("Bearer " + sharedPref.getString("token", null)!!, intent.getIntExtra("memberId", 110))
         call.enqueue(object : Callback<Rating> {
@@ -175,8 +184,6 @@ class ProfileVisitPageActivity : AppCompatActivity() {
 
             }
         })
-
-
     }
 
     private fun getUserReportCauses(context: Context) {
