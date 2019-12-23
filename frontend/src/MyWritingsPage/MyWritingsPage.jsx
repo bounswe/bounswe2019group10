@@ -8,6 +8,9 @@ import {
 import 'antd//dist/antd.css';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
+import Annotation from 'react-image-annotation/lib';
+
+ 
 
 import { history } from '../_helpers';
 import { userActions, writingActions } from '../_actions';
@@ -36,6 +39,8 @@ class MyWritingsPage extends React.Component {
       annotationText: "",
       annotationStart: 0,
       annotationEnd: 0,
+      annotationImage: {},
+      annotationsImage: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.selectScore= this.selectScore.bind(this);
@@ -43,6 +48,8 @@ class MyWritingsPage extends React.Component {
     this.convertDate = this.convertDate.bind(this);
     this.createAnnotation = this.createAnnotation.bind(this);
     this.deleteAnnotation = this.deleteAnnotation.bind(this);
+    this.onAnnotationChange = this.onAnnotationChange.bind(this);
+    this.onAnnotationSubmit = this.onAnnotationSubmit.bind(this);
   }
   selectScore(score){
     this.setState({score});
@@ -205,6 +212,25 @@ class MyWritingsPage extends React.Component {
     }
   };
 
+  onAnnotationChange = (annotationImage) => {
+    this.setState({ annotationImage });
+  }
+ 
+  onAnnotationSubmit = (annotation) => {
+    const { geometry, data } = annotation
+ 
+    this.setState({
+      annotationImage: {},
+      annotationsImage: this.state.annotationsImage.concat({
+        geometry,
+        data: {
+          ...data,
+          id: Math.random()
+        }
+      })
+    })
+  }
+
   render() {
     const { writings } = this.props;
 
@@ -243,13 +269,15 @@ class MyWritingsPage extends React.Component {
                 sc= " ,Score is Pending";
                 }
                 let t = value.writingName + sc;
-                let t2 = value.answerText && value.answerText.split('.') + " ... ";
+                let t2 = value.answerText ? value.answerText.split('.') + " ... " : "";
                 return (
                   <Card type="inner" title={t} key={index + 1}
                     extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.assignedMemberName,value.id,value.scored,value.score,value.imageUrl)} >View</Button>}>
-                    { value.image ?
+                    { value.imageUrl ?
                      (
-                      <img style={{width: "100%"}} src={value.imageUrl}/>
+                      <div>
+                        <img style={{width: "100%"}} src={value.imageUrl}/>
+                      </div>
                      ) : 
                       t2 }
                   </Card>
@@ -284,7 +312,16 @@ class MyWritingsPage extends React.Component {
                   <span className={"part 0"}>{selectedAnswer}</span> 
                 }
               </div>
-              { this.state.imageUrl &&  <img style={{width: "100%"}} src={this.state.imageUrl}/> }
+              { this.state.imageUrl &&  
+                <Annotation 
+                  src={this.state.imageUrl}
+                  alt='Two pebbles anthropomorphized holding hands'
+                  annotations={this.state.annotationsImage}
+                  value={this.state.annotationImage}
+                  onChange={this.onAnnotationChange}
+                  onSubmit={this.onAnnotationSubmit}
+                  />
+               }
             </h1>
             <div style={{ margin: '10px 0' }} />
             <h2> Sent to User: {this.state.selectedUser}</h2>
