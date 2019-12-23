@@ -188,10 +188,6 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
             public void onResponse(Call<Notification[]> call, Response<Notification[]> response) {
                 if (response.isSuccessful()) {
                     unreadNotifications = response.body();
-                    if (unreadNotifications.length == 0) {
-                        noCommentsImage.setVisibility(View.VISIBLE);
-                        noCommentsText.setVisibility(View.VISIBLE);
-                    }
                 } else {
                     Toast.makeText(getContext(), "There has been an error!", Toast.LENGTH_LONG).show();
                 }
@@ -221,14 +217,16 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
                     for (Comment comment : comments) {
                         commentsMadeForUser.add(comment);
                     }
+                    ImageView shochedImage = view.findViewById(R.id.shockedImage);
+                    TextView noCommentText = view.findViewById(R.id.noCommentText);
                     if (commentsMadeForUser.size() != 0) {
-                        ImageView shochedImage = view.findViewById(R.id.shockedImage);
-                        TextView noCommentText = view.findViewById(R.id.noCommentText);
                         shochedImage.setVisibility(View.GONE);
                         noCommentText.setVisibility(View.GONE);
                         adapter = new CommentsAdapter(getContext(), commentsMadeForUser);
                         listView.setAdapter(adapter);
                     } else {
+                        shochedImage.setVisibility(View.VISIBLE);
+                        noCommentText.setVisibility(View.VISIBLE);
                         listView.setVisibility(View.GONE);
                         listView.setEnabled(false);
                     }
