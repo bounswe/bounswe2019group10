@@ -19,7 +19,8 @@ export const userService = {
     getAll,
     getById,
     update,
-    delete: _delete
+    delete: _delete,
+    notificationsSeen
 };
 
 function login(username, password) {
@@ -57,7 +58,16 @@ function getNotifications(){
         method: 'GET',
         headers: { ...authHeader(), "Access-Control-Allow-Origin": "*" }
     };
-    return fetch(`${config.apiUrl}/notification/read`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/notification/not/read`, requestOptions).then(handleResponse);
+}
+
+function notificationsSeen(notifications){
+    const requestOptions = {
+        method: 'POST',
+        headers: { ...authHeader(),'Content-Type': 'application/json' },
+        body: JSON.stringify(notifications)
+    };
+    return fetch(`${config.apiUrl}/notification/make/read`, requestOptions).then(handleResponse);
 }
 
 function updateProfile(newProfile) {

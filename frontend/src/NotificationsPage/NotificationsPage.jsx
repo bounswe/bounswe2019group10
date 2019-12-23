@@ -25,6 +25,7 @@ class NotificationsPage extends React.Component {
       notificationText:"",
     };
     this.handleChange = this.handleChange.bind(this);
+    this.seeNotifications = this.seeNotifications.bind(this);
   }
   handleChange(e) {
     const { name, value } = e.target;
@@ -32,7 +33,12 @@ class NotificationsPage extends React.Component {
   }
   componentDidMount() {
     this.props.getNotifications();
+    this.props.notificationsSeen(this.props.notifications); 
   }
+  seeNotifications(notifications){
+    this.props.notificationsSeen(notifications);
+  }
+
   onChange = e => {
     this.setState({
       reviewer: e.target.value,
@@ -40,6 +46,7 @@ class NotificationsPage extends React.Component {
   };
   render() {
     const { notifications } = this.props;
+
     return (
       <Layout className="layout">
         <HeaderComponent />
@@ -80,9 +87,10 @@ class NotificationsPage extends React.Component {
                   </Card>
                 );
               })}
-
             </Card>
             <div style={{ margin: '10px 0' }} />
+            
+
           </Col>
           <Col span={4} />
         </Content>
@@ -98,7 +106,8 @@ return { notifications };
 }
 
 const actionCreators = {
-getNotifications: userActions.getNotifications
+getNotifications: userActions.getNotifications,
+notificationsSeen: userActions.notificationsSeen
 }
 
 const connectedNotificationsPage = connect(mapState, actionCreators)(NotificationsPage);

@@ -28,13 +28,14 @@ class MyWritingsPage extends React.Component {
       selectedAnswer: "",
       selectedUser: "",
       writingResultId: 0,
+      imageUrl: File,
       oktext: "Done",
       hovered: true,
       annotatedAnswer: [],
       newAnnotatedAnswer: [],
       annotationText: "",
       annotationStart: 0,
-      annotationEnd: 0
+      annotationEnd: 0,
     };
     this.handleChange = this.handleChange.bind(this);
     this.selectScore= this.selectScore.bind(this);
@@ -46,7 +47,7 @@ class MyWritingsPage extends React.Component {
   selectScore(score){
     this.setState({score});
   }
-  setModalVisible(modalVisible, selectedAssignment,selectedAnswer,selectedUser,writingResultId,scored,score) {
+  setModalVisible(modalVisible, selectedAssignment,selectedAnswer,selectedUser,writingResultId,scored,score,imageUrl) {
     this.setState({ modalVisible });
     this.setState({ selectedAssignment });
     this.setState({ selectedAnswer });
@@ -54,6 +55,7 @@ class MyWritingsPage extends React.Component {
     this.setState({ writingResultId });
     this.setState({ scored });
     this.setState({ score });
+    this.setState({ imageUrl });
     this.setState({oktext: "Return to your Writings"});
     if (writingResultId){
       this.props.getWritingAnnotations(writingResultId);
@@ -241,11 +243,15 @@ class MyWritingsPage extends React.Component {
                 sc= " ,Score is Pending";
                 }
                 let t = value.writingName + sc;
-                let t2 = value.answerText.split('.') + " ... ";
+                let t2 = value.answerText && value.answerText.split('.') + " ... ";
                 return (
                   <Card type="inner" title={t} key={index + 1}
-                    extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.assignedMemberName,value.id,value.scored,value.score)} >Review</Button>}>
-                    {t2}
+                    extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.assignedMemberName,value.id,value.scored,value.score,value.imageUrl)} >View</Button>}>
+                    { value.image ?
+                     (
+                      <img style={{width: "100%"}} src={value.imageUrl}/>
+                     ) : 
+                      t2 }
                   </Card>
                 );
               })}
@@ -277,7 +283,8 @@ class MyWritingsPage extends React.Component {
                 { ( newAnnotatedAnswer.length===0 && annotatedAnswer.length===0 && selectedAnswer) && 
                   <span className={"part 0"}>{selectedAnswer}</span> 
                 }
-              </div>  
+              </div>
+              { this.state.imageUrl &&  <img style={{width: "100%"}} src={this.state.imageUrl}/> }
             </h1>
             <div style={{ margin: '10px 0' }} />
             <h2> Sent to User: {this.state.selectedUser}</h2>

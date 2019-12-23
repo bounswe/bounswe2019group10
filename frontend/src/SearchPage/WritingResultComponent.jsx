@@ -18,10 +18,17 @@ class WritingResultComponent extends React.Component {
     onClick(e){
       const { writingId,writingName,taskText,solved } = this.props;
       console.log(writingId,writingName,taskText,solved);
+      if(solved){
+      history.push({
+        pathname: '/mywritings-page',
+      }
+      )}else{
       history.push({
         pathname: '/writing-page',
         state: { writingId: writingId }
-      })
+        }
+        )    
+      }
     }
 
     componentDidMount() {

@@ -38,5 +38,8 @@ export const writingConstants = {
 
     DELETE_ANNOTATION_CLEAR: "WRITING_DELETE_ANNOTATION_CLEAR",
     
+    UPLOAD_SUCCESS: 'UPLOAD_SUCCESS',
+    UPLOAD_FAILURE: 'UPLOAD_FAILURE'
+    
   };
   

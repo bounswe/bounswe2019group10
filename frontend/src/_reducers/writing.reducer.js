@@ -52,6 +52,10 @@ export function writing(state = {}, action) {
       return { ...state, writingsuggestion: action.result };
     case writingConstants.SUBMIT_WRITING_TOPIC_FAILURE:
       return { ...state, error: action.error };
+    case writingConstants.UPLOAD_SUCCESS:
+      return { ...state, upload: action.upload };
+    case writingConstants.UPLOAD_FAILURE:
+      return { ...state, error: action.error };  
     default:
       return state
   }
