@@ -11,7 +11,10 @@ import android.widget.TextView;
 import com.example.yallp_android.R;
 import com.example.yallp_android.models.Comment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CommentsAdapter extends BaseAdapter {
 
@@ -58,7 +61,16 @@ public class CommentsAdapter extends BaseAdapter {
         holder.comment.setText(listData.get(position).getComment());
         holder.comentatorName.setText("-"+listData.get(position).getCommentatorName());
         String date = listData.get(position).getUpdatedAt();
-        date = date.substring(0,date.indexOf("T"));
+
+        SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        SimpleDateFormat after = new SimpleDateFormat("d MMM yyyy");
+        Date dateToWrite = new Date();
+        try {
+            dateToWrite = before.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        date = after.format(dateToWrite);
         holder.date.setText(date);
         float rating = (float) listData.get(position).getRating();
         holder.rate.setRating(rating);
