@@ -56,6 +56,18 @@ export function writing(state = {}, action) {
       return { ...state, upload: action.upload };
     case writingConstants.UPLOAD_FAILURE:
       return { ...state, error: action.error };  
+    case writingConstants.CREATE_WRITING_IMAGE_ANNOTATIONS:
+      return { ...state, newImageAnnotation: action.result };
+    case writingConstants.CREATE_WRITING_IMAGE_ANNOTATIONS_FAILURE:
+      return { ...state, error: action.error };  
+    case writingConstants.NEW_IMAGE_ANNOTATION_CLEAR:
+      return { ...state, newImageAnnotation: {} };
+    case writingConstants.GET_WRITING_IMAGE_ANNOTATIONS:
+      return { ...state, imageAnnotations: action.result };
+    case writingConstants.GET_WRITING_IMAGE_ANNOTATIONS_FAILURE:
+      return { ...state, error: action.error };  
+    case writingConstants.IMAGE_ANNOTATION_CLEAR:
+      return { ...state, imageAnnotations: [] };  
     default:
       return state
   }
