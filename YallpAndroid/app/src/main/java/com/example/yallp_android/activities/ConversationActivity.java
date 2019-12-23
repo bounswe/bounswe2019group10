@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +67,7 @@ public class ConversationActivity extends AppCompatActivity {
         });
 
         sendMessageContent = findViewById(R.id.sendMessageContent);
-        Button sendMessageButton = findViewById(R.id.sendMessageButton);
+        ImageButton sendMessageButton = findViewById(R.id.sendMessageButton);
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

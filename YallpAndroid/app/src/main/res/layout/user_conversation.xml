@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="5dp"
-    app:cardCornerRadius="10dp"
     android:id="@+id/listItemBox">
 
     <LinearLayout
@@ -70,4 +64,4 @@
                 android:textColor="#969693" />
         </RelativeLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</RelativeLayout>
