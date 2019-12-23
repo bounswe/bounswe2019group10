@@ -99,7 +99,6 @@ class SearchUserActivity : AppCompatActivity(), UserListAdapter.UserListAdapterC
         val i = Intent(this.applicationContext,ProfileVisitPageActivity::class.java)
         i.putExtra("memberId",id)
         startActivity(i)
-        finish()
     }
 
     override fun onBackPressed() {

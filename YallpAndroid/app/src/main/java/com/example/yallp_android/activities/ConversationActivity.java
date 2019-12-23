@@ -44,6 +44,7 @@ public class ConversationActivity extends AppCompatActivity {
     private TextView conversationName;
     private EditText sendMessageContent;
     private Button sendMessageButton;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +55,29 @@ public class ConversationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_conversation);
 
         messageList = findViewById(R.id.messageList);
-        conversationName = findViewById(R.id.conversationName);
-        conversationName.setText("Conversation with " + getIntent().getStringExtra("sendTo"));
+        conversationName = findViewById(R.id.conversationUserName);
+        if (getIntent().getStringExtra("sendTo") != null) {
+            username = getIntent().getStringExtra("sendTo");
+            conversationName.setText(username);
+        }
+        conversationName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    profileVisitWithName(username);
+            }
+        });
+
         sendMessageContent = findViewById(R.id.sendMessageContent);
         sendMessageButton = findViewById(R.id.sendMessageButton);
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sendMessageContent.getText().toString().length()>0)
+                if (sendMessageContent.getText().toString().length() > 0)
                     sendMessage();
             }
         });
 
-        if(getIntent().hasExtra("conversationId"))
+        if (getIntent().hasExtra("conversationId"))
             getConversation();
 
     }
@@ -84,7 +95,7 @@ public class ConversationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Conversation> call, Response<Conversation> response) {
                 messages = response.body().getMessages();
-                for(int i = 0; i < messages.length; i++){
+                for (int i = 0; i < messages.length; i++) {
                     messageSenderList.add(messages[i].getSenderUsername() + ":");
 
                     SimpleDateFormat before = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -118,8 +129,8 @@ public class ConversationActivity extends AppCompatActivity {
         SendMessage sendMessage = new SendMessage(sendMessageText, sendTo);
         String token = "Bearer " + sharedPref.getString("token", null);
         Call<Message> call = MessageRetroClient.getInstance()
-                                               .getMessageApi()
-                                               .sendMessage(token, sendMessage);
+                .getMessageApi()
+                .sendMessage(token, sendMessage);
 
         call.enqueue(new Callback<Message>() {
             @Override
@@ -135,16 +146,23 @@ public class ConversationActivity extends AppCompatActivity {
         });
     }
 
+    private void profileVisitWithName(String username){
+        Intent i = new Intent(getApplicationContext(),ProfileVisitPageActivity.class);
+        i.putExtra("userName",username);
+        startActivity(i);
+
+    }
+
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this,HomePageActivity.class);
+        Intent i = new Intent(this, HomePageActivity.class);
         i.putExtra("tabNumber", TabHelper.Companion.getMESSAGE_TAB_NUMBER());
         startActivity(i);
         finish();
     }
 
-    private void refreshPage(int conversationId){
-        Intent i = new Intent(this,ConversationActivity.class);
+    private void refreshPage(int conversationId) {
+        Intent i = new Intent(this, ConversationActivity.class);
         i.putExtra("conversationId", conversationId);
         i.putExtra("sendTo", getIntent().getStringExtra("sendTo"));
         startActivity(i);
