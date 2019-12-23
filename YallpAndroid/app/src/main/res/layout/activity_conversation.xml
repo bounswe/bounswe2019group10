@@ -1,109 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.WritingActivity">
+    android:clipToPadding="false"
+    android:focusableInTouchMode="true"
+    tools:context="com.example.yallp_android.activities.ConversationActivity">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/conversationLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="horizontal"
             android:background="@drawable/border_image"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/conversationTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/conversation_with"
-                android:textSize="@dimen/titleTextSize"
-                android:id="@+id/conversationTitle"/>
+                android:textSize="@dimen/titleTextSize" />
+
             <View
                 android:id="@+id/blankView"
                 android:layout_width="5dp"
                 android:layout_height="1dp">
 
             </View>
+
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/conversationUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/titleTextSize"
-                android:id="@+id/conversationUserName"
-                android:textColor="@color/colorOrange"/>
+                android:textColor="@color/colorOrange"
+                android:textSize="@dimen/titleTextSize" />
         </LinearLayout>
 
-        <ScrollView
+        <ListView
+            android:id="@+id/messageList"
+            android:layout_below="@+id/conversationLayout"
+            android:layout_above="@+id/sendMessageLayout"
             android:layout_width="match_parent"
+            android:divider="@null"
+            android:layout_height="480dp" />
+
+
+        <RelativeLayout
+            android:id="@+id/sendMessageLayout"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fillViewport="false">
+            android:layout_marginBottom="10dp"
+            android:gravity="bottom"
+            android:padding="10dp">
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/sendMessageContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/sendMessageButton"
+                android:layout_weight="2"
+                android:ems="10"
+                android:hint="Write a message"
+                android:inputType="text"
+                android:paddingHorizontal="10dp"
+                android:text="" />
 
-                <ListView
-                    android:id="@+id/messageList"
-                    android:layout_width="match_parent"
-                    android:layout_height="480dp" />
+            <ImageButton
+                android:id="@+id/sendMessageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_send_black_24dp"
+                android:padding="20dp"
+                android:scaleType="fitCenter" />
+        </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_toLeftOf="@id/sendMessageButton">
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <androidx.appcompat.widget.AppCompatEditText
-                                android:id="@+id/sendMessageContent"
-                                style="@style/InputModel"
-                                android:layout_width="match_parent"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginRight="15dp"
-                                android:inputType="textMultiLine"
-                                android:lines="1"
-                                android:maxLength="2000"
-                                android:maxLines="1"
-                                android:text="" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/sendMessageButton"
-                        style="@style/OrangeBackgroundButtonTheme"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:text="send"></Button>
-
-                </RelativeLayout>
-
-
-            </LinearLayout>
-
-
-
-        </ScrollView>
-
-
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

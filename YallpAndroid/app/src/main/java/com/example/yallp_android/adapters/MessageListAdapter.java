@@ -22,7 +22,6 @@ public class MessageListAdapter extends BaseAdapter {
     private ArrayList<String> messageContentList;
     private LayoutInflater layoutInflater;
     private SharedPreferences sharedPref;
-    private Context context;
 
     public MessageListAdapter(Context aContext, ArrayList<String> messageSenderList, ArrayList<String> messageDateList,
                               ArrayList<String> messageContentList, SharedPreferences sharedPref) {
@@ -31,7 +30,6 @@ public class MessageListAdapter extends BaseAdapter {
         this.messageContentList = messageContentList;
         layoutInflater = LayoutInflater.from(aContext);
         this.sharedPref = sharedPref;
-        this.context = aContext;
     }
 
     @Override
@@ -49,32 +47,38 @@ public class MessageListAdapter extends BaseAdapter {
         return position;
     }
 
-    public View getView(final int position, View v, ViewGroup vg) {
-        ViewHolderMessage messageHolder;
+    public View getView(int position, View v, ViewGroup vg) {
+        ViewHolderMessage messageHolder = new ViewHolderMessage();
 
-        v = layoutInflater.inflate(R.layout.user_message, null);
-        messageHolder = new ViewHolderMessage();
-        messageHolder.backgroundLayout = v.findViewById(R.id.listItem);
-        messageHolder.sender = v.findViewById(R.id.senderName);
-        messageHolder.messageDate = v.findViewById(R.id.messageDate);
-        messageHolder.messageContent = v.findViewById(R.id.messageContent);
-        v.setTag(messageHolder);
+        String username = sharedPref.getString("username","");
 
-        messageHolder.sender.setText(messageSenderList.get(position));
-        messageHolder.messageDate.setText(messageDateList.get(position));
-        messageHolder.messageContent.setText(messageContentList.get(position));
+        if(messageSenderList.get(position).equals(username+":")){
 
-        if(messageSenderList.get(position).equals(messageSenderList.get(0))){
-            messageHolder.backgroundLayout.setBackgroundColor(Color.LTGRAY);
+            v = layoutInflater.inflate(R.layout.my_message, null);
+            messageHolder.messageContent = v.findViewById(R.id.message_body);
+            v.setTag(messageHolder);
+            messageHolder.messageContent.setText(messageContentList.get(position));
+
+        }else{
+
+            v = layoutInflater.inflate(R.layout.their_message, null);
+            messageHolder.sender = v.findViewById(R.id.name);
+            messageHolder.messageContent = v.findViewById(R.id.message_body);
+            v.setTag(messageHolder);
+            if((position != 0 && messageSenderList.get(position-1).equals(username+":"))
+                    || (position == 0 && !messageSenderList.get(0).equals(username+":") )){
+                messageHolder.sender.setText(messageSenderList.get(position));
+            }else{
+                messageHolder.sender.setVisibility(View.GONE);
+            }
+            messageHolder.messageContent.setText(messageContentList.get(position));
         }
 
         return v;
     }
 
     static class ViewHolderMessage {
-        LinearLayout backgroundLayout;
         TextView sender;
-        TextView messageDate;
         TextView messageContent;
     }
 
