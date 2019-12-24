@@ -1,6 +1,6 @@
 package com.example.yallp_android.models;
 
-public class AnnotationDeleteDTO {
+public class TextAnnotationDeleteDTO {
     private String message;
 
     public String getMessage() {
@@ -11,7 +11,7 @@ public class AnnotationDeleteDTO {
         this.message = message;
     }
 
-    public AnnotationDeleteDTO(String message) {
+    public TextAnnotationDeleteDTO(String message) {
         this.message = message;
     }
 }

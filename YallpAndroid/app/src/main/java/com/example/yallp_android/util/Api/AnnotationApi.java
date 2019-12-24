@@ -2,11 +2,9 @@ package com.example.yallp_android.util.Api;
 
 
 import com.example.yallp_android.models.Annotation;
+import com.example.yallp_android.models.ImageAnnotationDTO;
 import com.example.yallp_android.models.AnnotationDTO;
-import com.example.yallp_android.models.AnnotationDeleteDTO;
-import com.example.yallp_android.models.Conversation;
-import com.example.yallp_android.models.Message;
-import com.example.yallp_android.models.SendMessage;
+import com.example.yallp_android.models.TextAnnotationDeleteDTO;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -22,22 +20,25 @@ public interface AnnotationApi {
 
     @Headers({"Content-Type: application/json"})
     @POST("annotation/create")
-    Call<AnnotationDTO> createAnnotation(@Header("Authorization") String token, @Body AnnotationDTO annotationDTO);
+    Call<AnnotationDTO> createTextAnnotation(@Header("Authorization") String token, @Body AnnotationDTO annotationDTO);
 
     @Headers({"Content-Type: application/json"})
     @POST("annotation/update")
-    Call<AnnotationDTO> updateAnnotation(@Header("Authorization") String token, @Body AnnotationDTO annotationDTO);
+    Call<AnnotationDTO> updateTextAnnotation(@Header("Authorization") String token, @Body AnnotationDTO annotationDTO);
 
     @Headers({"Content-Type: application/json"})
     @POST("annotation/delete")
-    Call<AnnotationDeleteDTO> deleteAnnotation(@Header("Authorization") String token, @Query("id") int id);
+    Call<TextAnnotationDeleteDTO> deleteTextAnnotation(@Header("Authorization") String token, @Query("id") int id);
 
     @Headers({"Content-Type: application/json"})
     @GET("annotation/all/{writingId}")
-    Call<Annotation[]> getAllAnnotationsOfWriting(@Header("Authorization") String token, @Path("writingId") int writingId);
+    Call<Annotation[]> getAllTextAnnotationsOfWriting(@Header("Authorization") String token, @Path("writingId") int writingId);
 
     @Headers({"Content-Type: application/json"})
-    @GET("annotation/{id}")
-    Call<Annotation> getAnnotationById(@Header("Authorization") String token, @Path("writingId") int writingId);
+    @POST("annotation/image/create")
+    Call<AnnotationDTO> createImageAnnotation(@Header("Authorization") String token, @Body ImageAnnotationDTO imageAnnotationDTO);
 
+    @Headers({"Content-Type: application/json"})
+    @GET("annotation/image/all")
+    Call<Annotation[]> getAllImageAnnotationsOfWriting(@Header("Authorization") String token, @Query("url") String url);
 }
