@@ -5,7 +5,6 @@ export const userService = {
     logout,
     register,
     getProfile,
-    getMemberProfile,
     updateProfile,
     getNotifications,
     getUserLanguages,

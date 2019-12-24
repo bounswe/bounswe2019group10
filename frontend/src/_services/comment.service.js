@@ -3,7 +3,6 @@ import { authHeader, config } from '../_helpers';
 export const commentService = {
     getComments,
     getCommentsForMember,
-    // deleteComment,
     makeComment
 };
 
@@ -12,7 +11,7 @@ function getComments() {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', ...authHeader() }
     };
-    return fetch(`${config.apiUrl}/comment/`, requestOptions)
+    return fetch(`${config.apiUrl}/comment`, requestOptions)
         .then(handleResponse);
 }
 
@@ -46,13 +45,3 @@ function handleResponse(response) {
         return data;
     });
 }
-
-//TODO: HandleResponse a girmiyo
-// function deleteComment(commentId) {
-//     const requestOptions = {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json', ...authHeader() },
-//         body: JSON.stringify({ id: commentId })
-//     };
-//     return fetch(`${config.apiUrl}/comment/delete`, requestOptions);
-// }

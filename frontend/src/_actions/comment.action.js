@@ -4,7 +4,6 @@ import { commentService } from '../_services';
 export const commentActions = {
     getComments,
     getCommentsForMember,
-    // deleteComment,
     makeComment
 };
 
@@ -49,7 +48,6 @@ function getCommentsForMember(memberId) {
 }
 
 function makeComment(memberComment) {
-    console.log('HERE:', memberComment)
     return dispatch => {
         commentService.makeComment(memberComment)
             .then(
@@ -68,7 +66,3 @@ function makeComment(memberComment) {
         return { type: commentConstants.MAKE_COMMENT_FAILURE, error }
     }
 }
-
-// function deleteComment(commentId) {
-
-// }

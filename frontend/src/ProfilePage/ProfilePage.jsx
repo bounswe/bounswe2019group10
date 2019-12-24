@@ -10,9 +10,10 @@ import { FooterComponent } from '../FooterComponent';
 import { Profile } from './Profile';
 import { Language } from './Language';
 import { Comment } from './Comment';
+import { Writing } from './Writing';
 
 import { history } from '../_helpers';
-import { userActions, commentActions } from '../_actions';
+import { userActions, commentActions, writingActions } from '../_actions';
 
 const { Content } = Layout;
 
@@ -25,6 +26,7 @@ class ProfilePage extends React.Component {
   componentDidMount() {
     this.props.getProfile();
     this.props.getComments();
+    this.props.getMyWritings();
   }
 
   logOut() {
@@ -33,28 +35,25 @@ class ProfilePage extends React.Component {
   }
 
   render() {
-    const { profile } = this.props;
-    const { comments } = this.props.comment;
-
+    const { profile, writing, comment } = this.props;
     return (
       <Layout>
         <HeaderComponent />
         <Content style={{ marginTop: '24px' }}>
           <Row>
             <Col span={8} offset={4}>
-              {profile && <Profile {...profile} updateProfile={this.props.updateProfile} 
-              selfPage={true} isHidden={false}/>}
+              {profile && <Profile {...profile} updateProfile={this.props.updateProfile}/>}
             </Col>
             <Col span={8} offset={1}>
-              {profile && <Language {...profile} removeLanguage={this.props.removeLanguage} selfPage={true} />}
+              {profile && <Language {...profile} removeLanguage={this.props.removeLanguage}/>}
             </Col>
           </Row>
           <Row>
-            <Col span={17} offset={4} style={{marginTop:'24px'}}>
-              {comments ?
-                <Comment {...comments} makeComment={this.props.makeComment} anyComment={true} selfPage={true} />
-                :
-                <Comment {...comments} makeComment={this.props.makeComment} anyComment={false} selfPage={true} />}
+            <Col span={8} offset={4} style={{ marginTop: '24px' }}>
+              {comment && <Comment {...comment}/>}
+            </Col>
+            <Col span={8} offset={1} style={{ marginTop: '24px' }}>
+              {writing && <Writing {...writing} />}
             </Col>
           </Row>
         </Content>
@@ -65,11 +64,11 @@ class ProfilePage extends React.Component {
 }
 
 function mapState(state) {
-  const { users } = state;
   const { comment } = state;
-  const { profile } = users;
+  const { profile } = state.users;
+  const { writing } = state;
 
-  return { profile, comment };
+  return { profile, comment, writing };
 }
 
 const actionCreators = {
@@ -78,7 +77,7 @@ const actionCreators = {
   logOut: userActions.logout,
   removeLanguage: userActions.removeLanguage,
   getComments: commentActions.getComments,
-  makeComment: commentActions.makeComment
+  getMyWritings: writingActions.getMyWritings
 }
 
 const connectedProfilePage = connect(mapState, actionCreators)(ProfilePage);
