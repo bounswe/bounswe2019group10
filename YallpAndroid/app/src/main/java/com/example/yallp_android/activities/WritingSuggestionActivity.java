@@ -51,10 +51,12 @@ public class WritingSuggestionActivity extends AppCompatActivity {
 
                 if(topic.length() == 0 ){
                     topicName.setError("This area cannot be blank.");
+                    return;
                 }
 
                 if(question.length() == 0 ){
                     questionByUser.setError("This area cannot be blank.");
+                    return;
                 }
 
                 WritingSuggestion suggestion = new WritingSuggestion(0,langugeId,question,topic);
