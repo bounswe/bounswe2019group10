@@ -15,12 +15,18 @@ import retrofit2.http.Path;
 public interface SearchApi {
 
     @Headers({"Content-Type: application/json"})
-    @POST("quiz/{languageId}/{term}")
-    Call<QuizListElement[]> searchQuiz(@Header("Authorization") String token, @Path("languageId") int languageId, @Path("term") String term);
+    @POST("quiz/{languageId}")
+    Call<QuizListElement[]> searchQuiz(
+            @Header("Authorization") String token,
+            @Path("languageId") int languageId,
+            @Body String term);
 
     @Headers({"Content-Type: application/json"})
-    @POST("writing/{languageId}/{term}")
-    Call<WritingListElement[]> searchWriting(@Header("Authorization") String token, @Path("languageId") int languageId, @Path("term") String term);
+    @POST("writing/{languageId}")
+    Call<WritingListElement[]> searchWriting(
+            @Header("Authorization") String token,
+            @Path("languageId") int languageId,
+            @Body String term);
 
     @Headers({"Content-Type: application/json"})
     @GET("member/{username}")
