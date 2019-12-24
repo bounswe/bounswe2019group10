@@ -1,4 +1,4 @@
-import { authHeader,config } from '../_helpers';
+import { authHeader, config } from '../_helpers';
 
 export const userService = {
     login,
@@ -112,7 +112,7 @@ function addLanguage(language) {
     return fetch(`${config.apiUrl}/member/addlang`, requestOptions).then(handleResponse);
 }
 
-function removeLanguage(language){
+function removeLanguage(language) {
     const requestOptions = {
         method: 'POST',
         headers: { ...authHeader(), "Access-Control-Allow-Origin": "*", 'Content-Type': 'application/json' },
@@ -121,7 +121,7 @@ function removeLanguage(language){
     return fetch(`${config.apiUrl}/member/removelang`, requestOptions).then(handleResponse);
 }
 
-function search(type,term,languageId){
+function search(type, term, languageId) {
     const requestOptions = {
         method: 'POST',
         headers: {...authHeader(),"Access-Control-Allow-Origin":"*",'Content-Type': 'application/json'},

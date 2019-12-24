@@ -1,15 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Layout, Menu, Breadcrumb, Row, Col, Radio, Button,Alert,
-  Avatar, Descriptions, List } from 'antd';
+import { Layout, Radio, Button,Alert } from 'antd';
 import { Link } from 'react-router-dom';
-import { quizActions,userActions } from '../_actions';
+import { quizActions } from '../_actions';
 import './QuizPage.css';
-import { history } from '../_helpers';
 import { HeaderComponent } from '../HeaderComponent';
 import { FooterComponent } from '../FooterComponent';
-const { Header, Content, Footer } = Layout;
-const { SubMenu } = Menu;
+const { Content } = Layout;
 
 class QuizPage extends React.Component {
     constructor(props) {
@@ -55,7 +52,7 @@ class QuizPage extends React.Component {
         const quiz = this.props.quiz.quiz;
         const questions = quiz.questions;
         console.log("questions leng",questions.length,this.state.current);
-        if (questions.length-1 == this.state.current){
+        if (questions.length-1 === this.state.current){
           console.log("asdsd");
           console.log(quiz.id,this.state.answers);
           this.props.submitQuiz(quiz.id,this.state.answers);
@@ -148,10 +145,10 @@ class QuizPage extends React.Component {
                 </Radio.Group>
                 <br></br>
                 <Button style={{ margin: '20px' }} type="primary" onClick={this.handleFormSubmit}>{this.state.isSubmit ? "Next Question" : "Submit" }</Button>
-                {this.state.isSubmit && this.state.selectedOption==question.correct &&
+                {this.state.isSubmit && this.state.selectedOption===question.correct &&
                   <Alert message="Your answer is correct!" type="success" />
                 }
-                {this.state.isSubmit && this.state.selectedOption!=question.correctChoiceId &&
+                {this.state.isSubmit && this.state.selectedOption!==question.correctChoiceId &&
                   <Alert message={"Your answer is wrong! Correct answer is " + options[question.correctChoiceId-1]+"!"} type="error" />
                 }
                 </div>

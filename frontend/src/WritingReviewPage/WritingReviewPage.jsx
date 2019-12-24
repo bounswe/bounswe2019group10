@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 import {
   Layout, Menu, Breadcrumb, Row, Col, Card, Radio,
   Avatar, Descriptions, List, Input, Button, Typography, Modal, Select,Popover,Icon
@@ -17,7 +17,7 @@ const { Header, Content, Footer } = Layout;
 const { SubMenu } = Menu;
 const { TextArea } = Input;
 const { Title } = Typography;
-const {Option} = Select;
+const { Option } = Select;
 
 class WritingReviewPage extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class WritingReviewPage extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.selectScore= this.selectScore.bind(this);
+    this.selectScore = this.selectScore.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
     this.convertDate = this.convertDate.bind(this);
     this.createAnnotation = this.createAnnotation.bind(this);
@@ -53,13 +53,13 @@ class WritingReviewPage extends React.Component {
       writingResultId: this.state.writingResultId,
       score: this.state.score
     }
-    {!this.state.scored &&
-    this.props.scoreWriting(IdnScore);
-    }
-    this.setState({modalVisible: false});
+
+    !this.state.scored && this.props.scoreWriting(IdnScore);
+
+    this.setState({ modalVisible: false });
   }
-  selectScore(score){
-    this.setState({score});
+  selectScore(score) {
+    this.setState({ score });
   }
   setModalVisible(modalVisible, selectedAssignment,selectedAnswer,selectedUser,writingResultId,scored,score,imageUrl) {
     this.setState({ modalVisible });
@@ -344,7 +344,7 @@ class WritingReviewPage extends React.Component {
                   </Card>
                 );
               })}
-            <p
+              <p
                 style={{
                   fontSize: 14,
                   color: 'rgba(0, 0, 0, 0.85)',
@@ -354,7 +354,7 @@ class WritingReviewPage extends React.Component {
               >
                 Already Reviewed
             </p>
-            {cassignments && cassignments.map((value, index) => {
+              {cassignments && cassignments.map((value, index) => {
                 let t = value.writingName + " by " + value.memberName;
                 let t2 = value.answerText && value.answerText.split('.') + " ... ";
                 return (
@@ -375,11 +375,11 @@ class WritingReviewPage extends React.Component {
           <Modal
             title=""
             centered
-            width= "1000px"
+            width="1000px"
             visible={this.state.modalVisible}
             onOk={() => this.handleClick()}
             onCancel={() => this.setModalVisible(false)}
-            okText= {this.state.oktext}
+            okText={this.state.oktext}
           >
             <Title style={{ paddingTop: "25px", paddingBottom: "25px" }} level={2}>Question: {this.state.selectedAssignment}</Title>
             <div style={{ margin: '10px 0' } } />
@@ -410,20 +410,20 @@ class WritingReviewPage extends React.Component {
             <div style={{ margin: '10px 0' }} />
             <h2 style={{fontSize: 20 }}> by user: {this.state.selectedUser}</h2>
             {
-            !this.state.scored &&
-            <Select defaultValue="score:" style={{ width: 120 }} onChange={this.selectScore}>
-              <Option value="0">0</Option>
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-              <Option value="4">4</Option>
-              <Option value="5">5</Option>
-              <Option value="6">6</Option>
-              <Option value="7">7</Option>
-              <Option value="8">8</Option>
-              <Option value="9">9</Option>
-              <Option value="10">10</Option>
-            </Select>
+              !this.state.scored &&
+              <Select defaultValue="score:" style={{ width: 120 }} onChange={this.selectScore}>
+                <Option value="0">0</Option>
+                <Option value="1">1</Option>
+                <Option value="2">2</Option>
+                <Option value="3">3</Option>
+                <Option value="4">4</Option>
+                <Option value="5">5</Option>
+                <Option value="6">6</Option>
+                <Option value="7">7</Option>
+                <Option value="8">8</Option>
+                <Option value="9">9</Option>
+                <Option value="10">10</Option>
+              </Select>
             }
             {
             this.state.scored &&
