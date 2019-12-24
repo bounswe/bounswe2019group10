@@ -48,7 +48,7 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
         adapter = QuizListAdapter(this.activity?.applicationContext, quizList, this)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                if (query.isEmpty()) {
+               if (query=="" || query=="  ")  {
                     listAllQuizzes()
                 } else {
                     submitQuery(query)
@@ -104,6 +104,8 @@ class QuizListFragment : Fragment(), QuizListAdapter.QuizListAdapterClickListene
                     Collections.addAll(quizList, *response.body())
                     quizRecyclerView.adapter = adapter
                     adapter?.notifyDataSetChanged()
+                }else{
+                    Toast.makeText(context, response.code(), Toast.LENGTH_SHORT).show()
                 }
             }
 
