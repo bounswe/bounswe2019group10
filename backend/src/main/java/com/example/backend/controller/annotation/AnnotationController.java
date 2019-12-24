@@ -76,4 +76,10 @@ public class AnnotationController {
         return ResponseEntity.ok(annotationService.createImageAnnotation(imageAnnotationDTO));
     }
 
+    @PostMapping("/image/delete")
+    @ApiOperation(value = "delete image annotation")
+    public ResponseEntity<AnnotationResponseMessage> deleteImageAnnotation(@RequestParam(value = "id") int id) {
+        return ResponseEntity.ok(annotationService.deleteImageAnnotation(id));
+    }
+
 }

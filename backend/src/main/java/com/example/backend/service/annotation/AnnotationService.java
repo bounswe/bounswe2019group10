@@ -170,6 +170,28 @@ public class AnnotationService {
 
     }
 
+    public AnnotationResponseMessage deleteImageAnnotation(int id){
+
+        AnnotationResponseMessage message = new AnnotationResponseMessage();
+
+        ImageAnnotation imageAnnotation = imageAnnotationRepository.findById(id).orElse(null);
+        if (imageAnnotation == null){
+            message.setMessage("No such Image Annotation exists!");
+            return message;
+        }
+
+        if(imageAnnotation.getAnnotatorId() != jwtUserDetailsService.getUserId()){
+            message.setMessage("This image annotation belongs to someone else!");
+            return message;
+        }
+
+        imageAnnotationRepository.delete(imageAnnotation);
+
+        message.setMessage("Image Annotation is deleted successfully!");
+        return message;
+
+    }
+
 
 /*
     public List<Annotation> findAllByWriting(int writingResultId){
