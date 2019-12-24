@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/topic_name_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/topic_name"
+        android:textSize="18sp"
+        android:paddingLeft="3dp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/topic_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topic_name_question"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topic_name"
+        android:layout_marginTop="20dp"
+        android:text="@string/question_for_writing"
+        android:textSize="18sp"
+        android:paddingLeft="3dp"
+        android:textStyle="bold"/>
+
+    <ScrollView
+        android:id="@+id/question"
+        android:layout_below="@id/questionText"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/settings_border"
+        android:padding="20dp">
+
+        <EditText
+            android:background="@null"
+            android:id="@+id/questionByUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:hint="@string/write_here"
+            android:inputType="textMultiLine"
+            android:textSize="18sp" />
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/select_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/question"
+        android:layout_marginTop="20dp"
+        android:text="@string/select_language"
+        android:textSize="18sp"
+        android:paddingLeft="3dp"
+        android:textStyle="bold"/>
+
+    <Spinner
+        android:id="@+id/spinnerForLanguage"
+        android:layout_below="@id/select_language"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="50dp"
+        android:entries="@array/spinner_language_list"/>
+
+    <Button
+        android:id="@+id/suggest_button"
+        android:layout_alignParentBottom="true"
+        style="@style/WhiteBackgroundButtonTheme"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:text="@string/suggest_button"
+        android:textSize="9sp" />
+
+
+</RelativeLayout>

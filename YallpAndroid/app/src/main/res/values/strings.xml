@@ -56,6 +56,19 @@
     <string name="optional_explanatipon">You can write optional explanation here</string>
     <string name="report_user">Report User</string>
     <string name="conversation_with">Conversation with </string>
+    <string name="topic_name">What is your topic name for this writing? </string>
+    <string name="question_for_writing">What is your question for this writing? </string>
+    <string name="select_language">For which language, are you suggesting this writing?</string>
+    <string name="suggest_button">Suggest</string>
+
+
+    <string-array name="spinner_language_list">
+        <item>English</item>
+        <item>Spanish</item>
+        <item>Italian</item>
+        <item>Turkish</item>
+        <item>French</item>
+    </string-array>
 
 
 </resources>

@@ -8,6 +8,8 @@ import com.example.yallp_android.models.WritingExerciseElement;
 import com.example.yallp_android.models.WritingListElement;
 import com.example.yallp_android.models.WritingRequest;
 import com.example.yallp_android.models.WritingRequestWithUrl;
+import com.example.yallp_android.models.WritingSuggestion;
+import com.example.yallp_android.models.WritingSuggestionResponse;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -75,4 +77,11 @@ public interface WritingApi {
             @Header("Authorization") String token,
             @Part MultipartBody.Part file
     );
+
+
+    @Headers({"Content-Type: application/json"})
+    @POST("add")
+    Call<WritingSuggestionResponse> suggestWriting(
+            @Header("Authorization") String token,
+            @Body WritingSuggestion suggestion);
 }

@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.example.yallp_android.activities.WritingSuggestionActivity;
 import com.example.yallp_android.helper.PermissionUtil;
 import com.example.yallp_android.R;
 import com.example.yallp_android.activities.CompletedWritingExerciseActivity;
@@ -88,7 +89,7 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
 
         ImageView noCommentsImage = view.findViewById(R.id.shockedImage);
         TextView noCommentsText = view.findViewById(R.id.noCommentText);
-        
+
         getUnreadNotifications(token, noCommentsImage, noCommentsText);
 
         expandableTextView = view.findViewById(R.id.expandableTextView);
@@ -262,6 +263,8 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
             completedWritingExercises();
         } else if (item == 3) {
             nonCompletedAssignments();
+        } else if (item == 4) {
+            suggestWriting();
         } else {
             logout();
         }
@@ -297,6 +300,12 @@ public class ProfilePageFragment extends Fragment implements ThreeDotsView.Three
 
     private void nonCompletedAssignments() {
         Intent i = new Intent(getActivity(), NonCompletedAssignmentsActivity.class);
+        startActivity(i);
+        getActivity().finish();
+
+    }
+    private void suggestWriting() {
+        Intent i = new Intent(getActivity(), WritingSuggestionActivity.class);
         startActivity(i);
         getActivity().finish();
 
