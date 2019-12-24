@@ -167,7 +167,9 @@ class MyWritingsPage extends React.Component {
         const end = Math.max(annotation.target.selector.start,annotation.target.selector.end);
         const annotatedText = annotatedAnswer[0].substring(start,end);
         const username = annotation.creator.nickname;
-        const updatedDate = this.convertDate(new Date(annotation.modified));
+        const splitted = annotation.modified.split("T");
+        const modifiedTime = splitted[1].split(":");
+        const updatedDate = this.convertDate(new Date(annotation.modified),modifiedTime[0]);
         const id = annotation.id.split("/").pop();
         const selectedText = <Popover placement="top" 
         title={
@@ -311,7 +313,7 @@ class MyWritingsPage extends React.Component {
                 sc= " ,Score is Pending";
                 }
                 let t = value.writingName + sc;
-                let t2 = value.answerText ? value.answerText.split('.') + " ... " : "";
+                let t2 = value.answerText ? value.answerText.split('.')[0] + " ... " : "";
                 return (
                   <Card type="inner" title={t} key={index + 1}
                     extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.assignedMemberName,value.id,value.scored,value.score,value.imageUrl)} >View</Button>}>

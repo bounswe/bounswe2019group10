@@ -332,7 +332,7 @@ class WritingReviewPage extends React.Component {
               }
               {assignments && assignments.map((value, index) => {
                 let t = value.writingName + " by " + value.memberName;
-                let t2 = value.answerText && value.answerText.split('.') + " ... ";
+                let t2 = value.answerText && value.answerText.split('.')[0] + " ... ";
                 return (
                   <Card type="inner" title={t} key={index + 1}
                     extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored,value.score,value.imageUrl)} >Score</Button>}>
@@ -356,7 +356,7 @@ class WritingReviewPage extends React.Component {
             </p>
               {cassignments && cassignments.map((value, index) => {
                 let t = value.writingName + " by " + value.memberName;
-                let t2 = value.answerText && value.answerText.split('.') + " ... ";
+                let t2 = value.answerText && value.answerText.split('.')[0] + " ... ";
                 return (
                   <Card type="inner" title={t} key={index + 1}
                   extra={<Button type="primary" onClick={() => this.setModalVisible(true,value.writingName, value.answerText,value.memberName,value.id,value.scored,value.score,value.imageUrl)} >Review</Button>}>
