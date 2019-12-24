@@ -32,7 +32,7 @@ class HomePage extends React.Component {
         let level = 0;
         let activeLanguageId = 0;
         if (this.props.profile){
-            for (const [language] of this.props.profile.memberLanguages.entries()) {
+            for (const [key,language] of this.props.profile.memberLanguages.entries()) {
                 if (this.props.activeLanguage.languageName===language.language.languageName){
                     level = language.languageLevel;
                     activeLanguageId = language.language.id;

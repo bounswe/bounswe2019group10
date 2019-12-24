@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Descriptions, Input, Col, Row, Button } from 'antd';
-import { Avatar } from 'react-avatar-edit';
+
 import 'antd//dist/antd.css';
 
 class Profile extends React.Component {
@@ -89,7 +89,7 @@ class Profile extends React.Component {
                         {
                             this.state.isEditing ?
                                 <Input placeholder={bio ? bio : "No bio provided yet!"}
-                                    defaultValue={bio ?? bio} name="bio" onChange={this.handleChange} />
+                                    defaultValue={bio ? bio: ""} name="bio" onChange={this.handleChange} />
                                 : bio ? bio : "No bio provided yet!"
                         }
                     </Descriptions.Item>
@@ -97,7 +97,7 @@ class Profile extends React.Component {
                         {
                             this.state.isEditing ?
                                 <Input placeholder={nativeLanguage ? nativeLanguage : "No language provided yet!"}
-                                    defaultValue={nativeLanguage ?? nativeLanguage} name="nativeLanguage" onChange={this.handleChange} />
+                                    defaultValue={nativeLanguage ? nativeLanguage:""} name="nativeLanguage" onChange={this.handleChange} />
                                 : nativeLanguage ? nativeLanguage : "No language provided yet!"
                         }
                     </Descriptions.Item>
