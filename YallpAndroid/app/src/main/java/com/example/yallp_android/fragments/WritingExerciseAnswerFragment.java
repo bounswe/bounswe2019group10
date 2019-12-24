@@ -1,19 +1,28 @@
 package com.example.yallp_android.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -30,7 +39,7 @@ import androidx.fragment.app.Fragment;
 import com.example.yallp_android.R;
 import com.example.yallp_android.models.Annotation;
 import com.example.yallp_android.models.AnnotationDTO;
-import com.example.yallp_android.models.AnnotationDeleteDTO;
+import com.example.yallp_android.models.TextAnnotationDeleteDTO;
 import com.example.yallp_android.models.WritingListElement;
 import com.example.yallp_android.util.RetroClients.AnnotationRetroClient;
 import com.example.yallp_android.util.RetroClients.WritingRetroClient;
@@ -38,6 +47,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Dictionary;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +66,8 @@ public class WritingExerciseAnswerFragment extends Fragment {
     private String token;
     private int writingResultId;
     private String answer;
+    private String imageUrl;
+    private int clickedAnnoIndex;
 
 
     public static WritingExerciseAnswerFragment newInstance(int writingId,String answerText, String token, String userOrEvaluator, String imageUrl, int writingResultId) {
@@ -79,7 +91,7 @@ public class WritingExerciseAnswerFragment extends Fragment {
         textScrollView = view.findViewById(R.id.textScrollView);
         writingImageLayout = view.findViewById(R.id.writingImageLayout);
         writingImageView = view.findViewById(R.id.writingImageView);
-        final String imageUrl = (String) getArguments().getSerializable("imageUrl");
+        imageUrl = (String) getArguments().getSerializable("imageUrl");
         answerText.setMovementMethod(LinkMovementMethod.getInstance());
         final int writingId =(Integer) getArguments().getSerializable("writingId");
         answer = (String) getArguments().getSerializable("answerText");
@@ -102,11 +114,27 @@ public class WritingExerciseAnswerFragment extends Fragment {
                     questionText.setText(result.getWritingDTO().getTaskText());
                     if (imageUrl != null && !imageUrl.equals("")) {
 
-                        Picasso.with(getContext())
+                        /*Picasso.with(getContext())
                                 .load(imageUrl)
-                                .into(writingImageView);
-                        textScrollView.setVisibility(View.GONE);
-                        writingImageLayout.setVisibility(View.VISIBLE);
+                                .into(writingImageView);*/
+
+                        Picasso.with(getContext()).load(imageUrl).into(writingImageView, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                textScrollView.setVisibility(View.GONE);
+                                writingImageLayout.setVisibility(View.VISIBLE);
+
+                                getAnnotationsList(writingResultId);
+                                //if(userOrEvaluator == "evaluator"){
+                                //    enableAnnotations(writingResultId);
+                                //}
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
 
                     } else {
                         answerText.setText(answer);
@@ -183,7 +211,7 @@ public class WritingExerciseAnswerFragment extends Fragment {
                 );
 
                 Call<AnnotationDTO> call;
-                call = AnnotationRetroClient.getInstance().getAnnotationApi().createAnnotation("Bearer " + token, anno);
+                call = AnnotationRetroClient.getInstance().getAnnotationApi().createTextAnnotation("Bearer " + token, anno);
 
                 call.enqueue(new Callback<AnnotationDTO>() {
                     @Override
@@ -213,85 +241,193 @@ public class WritingExerciseAnswerFragment extends Fragment {
     private void getAnnotationsList(int writingId) {
         annotations.clear();
 
-        Call<Annotation[]> call;
+        if (imageUrl != null && !imageUrl.equals("")) {
+            Call<Annotation[]> call;
 
-        call = AnnotationRetroClient.getInstance()
-                .getAnnotationApi()
-                .getAllAnnotationsOfWriting("Bearer " + token, writingId);
+            call = AnnotationRetroClient.getInstance()
+                    .getAnnotationApi()
+                    .getAllImageAnnotationsOfWriting("Bearer " + token, imageUrl);
 
-        call.enqueue(new Callback<Annotation[]>() {
-            @Override
-            public void onResponse(Call<Annotation[]> call, Response<Annotation[]> response) {
-                if(response.isSuccessful()){
-                    Collections.addAll(annotations, response.body());
+            call.enqueue(new Callback<Annotation[]>() {
+                @Override
+                public void onResponse(Call<Annotation[]> call, Response<Annotation[]> response) {
+                    if(response.isSuccessful()){
+                        Collections.addAll(annotations, response.body());
 
-                    showAnnotations(answer, answerText);
+                        showAnnotations();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Annotation[]> call, Throwable t) {
-                Log.e("tag", t.getMessage());
+                @Override
+                public void onFailure(Call<Annotation[]> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+
+        } else {
+            Call<Annotation[]> call;
+
+            call = AnnotationRetroClient.getInstance()
+                    .getAnnotationApi()
+                    .getAllTextAnnotationsOfWriting("Bearer " + token, writingId);
+
+            call.enqueue(new Callback<Annotation[]>() {
+                @Override
+                public void onResponse(Call<Annotation[]> call, Response<Annotation[]> response) {
+                    if(response.isSuccessful()){
+                        Collections.addAll(annotations, response.body());
+
+                        showAnnotations();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Annotation[]> call, Throwable t) {
+                    Log.e("tag", t.getMessage());
+
+                }
+            });
+        }
+
     }
 
 
-    private void showAnnotations(String answer, TextView answerText) {
-        if(!annotations.isEmpty()){
-            Spannable newAnswer = new SpannableString(answer);
-            for(final Annotation anno : annotations){
-                final int annoId = Integer.parseInt(anno.getId().substring(anno.getId().lastIndexOf('/') + 1));
-                final int startIndex = Math.min(anno.getTarget().getSelector().getStart(), anno.getTarget().getSelector().getEnd());
-                final int endIndex = Math.max(anno.getTarget().getSelector().getStart(), anno.getTarget().getSelector().getEnd());
-                final String annotator = anno.getCreator().getNickname();
-                final String annotationText = anno.getBodyValue();
-                newAnswer.setSpan(new BackgroundColorSpan(Color.GREEN), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                newAnswer.setSpan(new ClickableSpan() {
+    @SuppressLint("ClickableViewAccessibility")
+    private void showAnnotations() {
+        if (imageUrl != null && !imageUrl.equals("")) {
+            if(!annotations.isEmpty()){
+                //draw annotations
+                Bitmap originalImage = ((BitmapDrawable)writingImageView.getDrawable()).getBitmap();
+                int originalWidth = originalImage.getWidth();
+                int originalHeight = originalImage.getHeight();
+                float viewWidth = convertDpToPixel(writingImageView.getWidth(),getContext());
+                float viewHeight = convertDpToPixel(writingImageView.getHeight(),getContext());
+                final float xOffset = (viewWidth - originalWidth) / 2;
+                final float yOffset = (viewHeight - originalHeight) / 2;
+                DisplayMetrics dm = new DisplayMetrics();
+                writingImageView.getDisplay().getMetrics(dm);
+                Bitmap tempBitmap = Bitmap.createBitmap(dm, originalWidth, originalHeight, Bitmap.Config.RGB_565);
+                Canvas tempCanvas = new Canvas(tempBitmap);
+                Paint drawPaint = new Paint();
+                drawPaint.setColor(Color.GREEN);
+                drawPaint.setAntiAlias(true);
+                drawPaint.setStrokeWidth(10);
+                drawPaint.setStyle(Paint.Style.FILL);
+                drawPaint.setStrokeJoin(Paint.Join.ROUND);
+                drawPaint.setStrokeCap(Paint.Cap.ROUND);
+                drawPaint.setAlpha(100);
+
+                final ArrayList<RectF> annoBoxes = new ArrayList<>();
+                final ArrayList<String> annoCreators = new ArrayList<>();
+                final ArrayList<String> annoMessages = new ArrayList<>();
+
+                for(final Annotation anno : annotations){
+                    String[] xywh = anno.getTarget().getSelector().getValue().split("[(xywh=),]+", 0);
+
+                    float x = (float)Integer.parseInt(xywh[1]) / 100f * (float)originalWidth;
+                    float y = (float)Integer.parseInt(xywh[2]) / 100f * (float)originalHeight;
+                    float w = (float)Integer.parseInt(xywh[3]) / 100f * (float)originalWidth;
+                    float h = (float)Integer.parseInt(xywh[4]) / 100f * (float)originalHeight;
+                    annoBoxes.add(new RectF(x,y,x+w,y+h));
+
+                    annoCreators.add(anno.getCreator().getNickname());
+                    annoMessages.add(anno.getBodyValue());
+                }
+
+                tempCanvas.drawBitmap(originalImage, 0, 0, null);
+
+                for(RectF ab : annoBoxes) {
+                    tempCanvas.drawRoundRect(ab, 2, 2, drawPaint);
+                }
+                writingImageView.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+                writingImageView.bringToFront();
+
+                writingImageView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public void onClick(@NonNull View widget) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                        alert.setTitle(annotator + " said:");
-                        alert.setMessage(annotationText);
-                        alert.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        if(userOrEvaluator == "evaluator"){
-                            alert.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    editAnnotation(startIndex,endIndex,annoId);
+                    public boolean onTouch(View v, MotionEvent event) {
+                        int touchX = (int) (convertDpToPixel(event.getX(), getContext()) - xOffset);
+                        int touchY = (int) (convertDpToPixel(event.getY(), getContext()) - yOffset);
+                        if(event.getAction() == MotionEvent.ACTION_DOWN){
+
+                                System.out.println("Touch x = " + touchX + " y = " + touchY );
+                                for(int i =0; i< annoBoxes.size();i++){
+                                    if(annoBoxes.get(i).contains(touchX,touchY)){
+                                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                                        alert.setTitle(annoCreators.get(i) + " said:");
+                                        alert.setMessage(annoMessages.get(i));
+                                        alert.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                        alert.show();
+                                        return true;
+                                    }
                                 }
-                            });
-                            alert.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    deleteAnnotation(annoId);
-                                }
-                            });
                         }
-                        alert.show();
+                        return true;
                     }
-                } , startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                });
+
             }
-            answerText.setText(newAnswer);
         } else {
-            answerText.setText(answer);
+            if(!annotations.isEmpty()){
+                Spannable newAnswer = new SpannableString(answer);
+                for(final Annotation anno : annotations){
+                    final int annoId = Integer.parseInt(anno.getId().substring(anno.getId().lastIndexOf('/') + 1));
+                    final int startIndex = Math.min(anno.getTarget().getSelector().getStart(), anno.getTarget().getSelector().getEnd());
+                    final int endIndex = Math.max(anno.getTarget().getSelector().getStart(), anno.getTarget().getSelector().getEnd());
+                    final String annotator = anno.getCreator().getNickname();
+                    final String annotationText = anno.getBodyValue();
+                    newAnswer.setSpan(new BackgroundColorSpan(Color.GREEN), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    newAnswer.setSpan(new ClickableSpan() {
+                        @Override
+                        public void onClick(@NonNull View widget) {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                            alert.setTitle(annotator + " said:");
+                            alert.setMessage(annotationText);
+                            alert.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            if(userOrEvaluator == "evaluator"){
+                                alert.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        editTextAnnotation(startIndex,endIndex,annoId);
+                                    }
+                                });
+                                alert.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        deleteTextAnnotation(annoId);
+                                    }
+                                });
+                            }
+                            alert.show();
+                        }
+                    } , startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                answerText.setText(newAnswer);
+            } else {
+                answerText.setText(answer);
+            }
         }
     }
 
-    private boolean deleteAnnotation(int annoId) {
-        Call<AnnotationDeleteDTO> call2;
 
-        call2 = AnnotationRetroClient.getInstance().getAnnotationApi().deleteAnnotation("Bearer " + token, annoId);
 
-        call2.enqueue(new Callback<AnnotationDeleteDTO>() {
+    private boolean deleteTextAnnotation(int annoId) {
+        Call<TextAnnotationDeleteDTO> call2;
+
+        call2 = AnnotationRetroClient.getInstance().getAnnotationApi().deleteTextAnnotation("Bearer " + token, annoId);
+
+        call2.enqueue(new Callback<TextAnnotationDeleteDTO>() {
             @Override
-            public void onResponse(Call<AnnotationDeleteDTO> call, Response<AnnotationDeleteDTO> response) {
+            public void onResponse(Call<TextAnnotationDeleteDTO> call, Response<TextAnnotationDeleteDTO> response) {
                 if(response.isSuccessful()) {
                     Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_LONG).show();
                     getAnnotationsList(writingResultId);
@@ -299,7 +435,7 @@ public class WritingExerciseAnswerFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<AnnotationDeleteDTO> call, Throwable t) {
+            public void onFailure(Call<TextAnnotationDeleteDTO> call, Throwable t) {
                 Toast.makeText(getContext(), "There was an error", Toast.LENGTH_LONG).show();
             }
         });
@@ -308,7 +444,7 @@ public class WritingExerciseAnswerFragment extends Fragment {
         return true;
     }
 
-    private boolean editAnnotation(final int startIndex, final int endIndex,final int annoId){
+    private boolean editTextAnnotation(final int startIndex, final int endIndex, final int annoId){
         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         final EditText edittext = new EditText(getContext());
         alert.setTitle(answerText.getText().toString().substring(startIndex, endIndex));
@@ -322,7 +458,7 @@ public class WritingExerciseAnswerFragment extends Fragment {
                 );
 
                 Call<AnnotationDTO> call;
-                call = AnnotationRetroClient.getInstance().getAnnotationApi().updateAnnotation("Bearer " + token, anno);
+                call = AnnotationRetroClient.getInstance().getAnnotationApi().updateTextAnnotation("Bearer " + token, anno);
 
                 call.enqueue(new Callback<AnnotationDTO>() {
                     @Override
@@ -347,5 +483,9 @@ public class WritingExerciseAnswerFragment extends Fragment {
         });
         alert.show();
         return true;
+    }
+
+    public static float convertDpToPixel(float dp, Context context){
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }
