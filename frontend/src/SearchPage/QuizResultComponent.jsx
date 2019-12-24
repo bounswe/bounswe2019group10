@@ -1,12 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Avatar, Card,Icon,Modal,Typography } from 'antd';
+import { Card,Icon,Typography } from 'antd';
 
-import { userActions } from '../_actions';
 import { history } from '../_helpers';
 const { Title } = Typography;
-
-const { confirm } = Modal;
 
 class QuizResultComponent extends React.Component {
 
@@ -16,7 +13,7 @@ class QuizResultComponent extends React.Component {
     }
 
     onClick(e){
-      const { quizId,quizType,levelName,solved,score } = this.props;
+      const { quizId } = this.props;
       history.push({
         pathname: '/quiz',
         state: { quizId: quizId }
@@ -27,7 +24,7 @@ class QuizResultComponent extends React.Component {
     }
 
     render() {
-      const { quizId,quizType,levelName,solved,score } = this.props;
+      const { quizType,levelName,solved,score } = this.props;
       
       return (
         <Card style={{textAlign: 'left'}} hoverable={true} onClick={this.onClick}>

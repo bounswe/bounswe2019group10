@@ -7,6 +7,7 @@ export const userActions = {
     login,
     getNotifications,
     getProfile,
+    getMemberProfile,
     updateProfile,
     logout,
     register,
@@ -127,6 +128,23 @@ function getProfile() {
     function failure(error) { return { type: userConstants.PROFILE_FAILURE, error } }
 }
 
+function getMemberProfile(memberId) {
+    return dispatch => {
+        userService.getMemberProfile(memberId)
+            .then(
+                memberProfile => {
+                    dispatch(success(memberProfile));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function success(profile) { return { type: userConstants.MEMBER_PROFILE_SUCCESS, profile } }
+    function failure(error) { return { type: userConstants.MEMBER_PROFILE_FAILURE, error } }
+}
+
 function updateProfile(newProfile) {
     return dispatch => {
         userService.updateProfile(newProfile)
@@ -230,11 +248,11 @@ function changeActiveLanguage(language) {
     function success(language) { return { type: userConstants.CHANGE_LANGUAGE_SUCCESS, language } }
 }
 
-function search(type,term,languageId) {
+function search(type, term, languageId) {
     return dispatch => {
-        userService.search(type,term,languageId)
+        userService.search(type, term, languageId)
             .then(
-                result => { 
+                result => {
                     dispatch(success(result));
                 },
                 error => {

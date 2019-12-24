@@ -1,12 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Avatar, Card,Icon,Modal,Typography } from 'antd';
+import { Card, Icon, Typography } from 'antd';
 
-import { userActions } from '../_actions';
 import { history } from '../_helpers';
 const { Title } = Typography;
-
-const { confirm } = Modal;
 
 class WritingResultComponent extends React.Component {
 
@@ -35,7 +32,7 @@ class WritingResultComponent extends React.Component {
     }
 
     render() {
-      const { writingId,writingName,taskText,solved } = this.props;
+      const { writingName,taskText,solved } = this.props;
       return (
         <Card style={{textAlign: 'left'}} hoverable={true} onClick={this.onClick}>
             <div style={{display: "flex", justifyContent: "flex-end"}}>

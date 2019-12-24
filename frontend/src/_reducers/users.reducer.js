@@ -70,6 +70,16 @@ export function users(state = initialState, action) {
         ...state,
         error: action.error
       };
+    case userConstants.MEMBER_PROFILE_SUCCESS:
+      return {
+        ...state,
+        memberProfile: action.profile
+      };
+    case userConstants.MEMBER_PROFILE_FAILURE:
+      return {
+        ...state,
+        error: action.error
+      };
     case userConstants.UPDATE_PROFILE_SUCCESS:
         return {
           ...state,
