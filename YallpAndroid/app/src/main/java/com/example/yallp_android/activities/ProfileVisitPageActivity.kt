@@ -172,6 +172,7 @@ class ProfileVisitPageActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body().rating > 0) {
                         avgRate.text = (response.body().rating.toString() + "").substring(0, 1) + "." + (response.body().rating.toString() + "").substring(2, 3)
+                        avgRate.visibility = View.VISIBLE
                     } else {
                         avgRate.visibility = View.GONE
                     }
