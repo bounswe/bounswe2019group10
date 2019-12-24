@@ -50,6 +50,7 @@ public class ThreeDotsView extends RelativeLayout {
         TextView notifications = findViewById(R.id.notifications);
         TextView my_writings = findViewById(R.id.my_writings);
         TextView waiting_writings = findViewById(R.id.waiting_writings);
+        TextView suggest_writing = findViewById(R.id.suggest_writing);
         TextView log_out = findViewById(R.id.log_out);
 
         edit_profile.setOnClickListener(new OnClickListener() {
@@ -80,10 +81,16 @@ public class ThreeDotsView extends RelativeLayout {
             }
         });
 
-        log_out.setOnClickListener(new OnClickListener() {
+        suggest_writing.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.itemClick(4);
+            }
+        });
+        log_out.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.itemClick(5);
             }
         });
     }

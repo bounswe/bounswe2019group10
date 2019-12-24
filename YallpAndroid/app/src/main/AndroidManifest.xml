@@ -50,6 +50,8 @@
         <activity android:name=".activities.ProfileVisitPageActivity" />
         <activity android:name=".activities.SeeCommentsActivity" />
         <activity android:name=".activities.NotificationActivity" />
+        <activity android:name=".activities.WritingSuggestionActivity"
+            android:windowSoftInputMode="stateHidden" />/>
     </application>
 
 </manifest>
