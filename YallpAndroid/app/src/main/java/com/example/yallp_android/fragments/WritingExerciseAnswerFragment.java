@@ -39,6 +39,7 @@ import androidx.fragment.app.Fragment;
 import com.example.yallp_android.R;
 import com.example.yallp_android.models.Annotation;
 import com.example.yallp_android.models.AnnotationDTO;
+import com.example.yallp_android.models.ImageAnnotationDTO;
 import com.example.yallp_android.models.TextAnnotationDeleteDTO;
 import com.example.yallp_android.models.WritingListElement;
 import com.example.yallp_android.util.RetroClients.AnnotationRetroClient;
@@ -67,7 +68,12 @@ public class WritingExerciseAnswerFragment extends Fragment {
     private int writingResultId;
     private String answer;
     private String imageUrl;
-    private int clickedAnnoIndex;
+    private float imageAnnoStartCornerX;
+    private float imageAnnoStartCornerY;
+    private boolean currentlyDrawing = false;
+    private boolean currentlyViewing = false;
+    private int viewedAnnotationIndex;
+    private Bitmap originalImage;
 
 
     public static WritingExerciseAnswerFragment newInstance(int writingId,String answerText, String token, String userOrEvaluator, String imageUrl, int writingResultId) {
@@ -114,20 +120,18 @@ public class WritingExerciseAnswerFragment extends Fragment {
                     questionText.setText(result.getWritingDTO().getTaskText());
                     if (imageUrl != null && !imageUrl.equals("")) {
 
-                        /*Picasso.with(getContext())
-                                .load(imageUrl)
-                                .into(writingImageView);*/
 
-                        Picasso.with(getContext()).load(imageUrl).into(writingImageView, new com.squareup.picasso.Callback() {
+                        Picasso.with(getContext())
+                                .load(imageUrl)
+                                .into(writingImageView, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
+                                originalImage = ((BitmapDrawable)writingImageView.getDrawable()).getBitmap();
+
                                 textScrollView.setVisibility(View.GONE);
                                 writingImageLayout.setVisibility(View.VISIBLE);
 
                                 getAnnotationsList(writingResultId);
-                                //if(userOrEvaluator == "evaluator"){
-                                //    enableAnnotations(writingResultId);
-                                //}
                             }
 
                             @Override
@@ -146,7 +150,7 @@ public class WritingExerciseAnswerFragment extends Fragment {
 
                         getAnnotationsList(writingResultId);
 
-                        if(userOrEvaluator == "evaluator"){
+                        if(userOrEvaluator.equals("evaluator")){
                             enableAnnotations(writingResultId);
                         }
 
@@ -167,6 +171,7 @@ public class WritingExerciseAnswerFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void enableAnnotations(final int writingResultId) {
         answerText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
             @Override
@@ -295,20 +300,18 @@ public class WritingExerciseAnswerFragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     private void showAnnotations() {
         if (imageUrl != null && !imageUrl.equals("")) {
-            if(!annotations.isEmpty()){
+
                 //draw annotations
-                Bitmap originalImage = ((BitmapDrawable)writingImageView.getDrawable()).getBitmap();
                 int originalWidth = originalImage.getWidth();
                 int originalHeight = originalImage.getHeight();
-                float viewWidth = convertDpToPixel(writingImageView.getWidth(),getContext());
-                float viewHeight = convertDpToPixel(writingImageView.getHeight(),getContext());
+                final float viewWidth = writingImageView.getWidth();
+                float viewHeight = writingImageView.getHeight();
+
                 final float xOffset = (viewWidth - originalWidth) / 2;
                 final float yOffset = (viewHeight - originalHeight) / 2;
-                DisplayMetrics dm = new DisplayMetrics();
-                writingImageView.getDisplay().getMetrics(dm);
-                Bitmap tempBitmap = Bitmap.createBitmap(dm, originalWidth, originalHeight, Bitmap.Config.RGB_565);
-                Canvas tempCanvas = new Canvas(tempBitmap);
-                Paint drawPaint = new Paint();
+                final Bitmap tempBitmap = Bitmap.createBitmap(originalWidth, originalHeight, Bitmap.Config.RGB_565);
+                final Canvas tempCanvas = new Canvas(tempBitmap);
+                final Paint drawPaint = new Paint();
                 drawPaint.setColor(Color.GREEN);
                 drawPaint.setAntiAlias(true);
                 drawPaint.setStrokeWidth(10);
@@ -345,32 +348,58 @@ public class WritingExerciseAnswerFragment extends Fragment {
                 writingImageView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-                        int touchX = (int) (convertDpToPixel(event.getX(), getContext()) - xOffset);
-                        int touchY = (int) (convertDpToPixel(event.getY(), getContext()) - yOffset);
-                        if(event.getAction() == MotionEvent.ACTION_DOWN){
-
-                                System.out.println("Touch x = " + touchX + " y = " + touchY );
+                        float touchX = event.getX() - xOffset;
+                        float touchY = event.getY() - yOffset;
+                        System.out.println(touchX + " " + touchY);
+                        switch (event.getAction()){
+                            case MotionEvent.ACTION_DOWN:
+                                if(userOrEvaluator.equals("evaluator")) {
+                                    imageAnnoStartCornerX = touchX;
+                                    imageAnnoStartCornerY = touchY;
+                                }
                                 for(int i =0; i< annoBoxes.size();i++){
                                     if(annoBoxes.get(i).contains(touchX,touchY)){
-                                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                                        alert.setTitle(annoCreators.get(i) + " said:");
-                                        alert.setMessage(annoMessages.get(i));
-                                        alert.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                        alert.show();
-                                        return true;
+                                        viewedAnnotationIndex = i;
+                                        currentlyViewing = true;
                                     }
                                 }
+                                break;
+                            case MotionEvent.ACTION_MOVE:
+                                if(userOrEvaluator.equals("evaluator")) {
+                                    if(touchX - imageAnnoStartCornerX > 20 || touchY - imageAnnoStartCornerY > 20) {
+                                        tempCanvas.drawBitmap(originalImage, 0, 0, null);
+                                        tempCanvas.drawRoundRect(new RectF(imageAnnoStartCornerX, imageAnnoStartCornerY, touchX, touchY), 2, 2, drawPaint);
+                                        writingImageView.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+                                        currentlyDrawing = true;
+                                    }
+                                }
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                if(currentlyDrawing) {
+                                    annotateImage(imageAnnoStartCornerX, imageAnnoStartCornerY, touchX, touchY);
+                                    currentlyDrawing = false;
+                                } else if (currentlyViewing) {
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                                    alert.setTitle(annoCreators.get(viewedAnnotationIndex) + " said:");
+                                    alert.setMessage(annoMessages.get(viewedAnnotationIndex));
+                                    alert.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    alert.show();
+                                    currentlyViewing = false;
+                                    return true;
+                                }
+                                break;
+                            default:
+                                break;
                         }
                         return true;
                     }
                 });
 
-            }
         } else {
             if(!annotations.isEmpty()){
                 Spannable newAnswer = new SpannableString(answer);
@@ -393,7 +422,7 @@ public class WritingExerciseAnswerFragment extends Fragment {
                                     dialog.dismiss();
                                 }
                             });
-                            if(userOrEvaluator == "evaluator"){
+                            if(userOrEvaluator.equals("evaluator")){
                                 alert.setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -418,9 +447,57 @@ public class WritingExerciseAnswerFragment extends Fragment {
         }
     }
 
+    private void annotateImage(float x1, float y1, float x2, float y2) {
+        int originalWidth = originalImage.getWidth();
+        int originalHeight = originalImage.getHeight();
+        final int x = (int)(x1 * 100 / originalWidth);
+        final int y = (int)(y1 * 100 / originalHeight);
+        final int w = (int)((x2 - x1) * 100 / originalWidth);
+        final int h = (int)((y2 - y1) * 100 / originalHeight);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        final EditText edittext = new EditText(getContext());
+        alert.setTitle("Add annotation here:");
+        alert.setView(edittext);
+        alert.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                final ImageAnnotationDTO imageAnno = new ImageAnnotationDTO(
+                        edittext.getText().toString(), h, imageUrl, w, x, y);
+
+                Call<AnnotationDTO> call;
+                call = AnnotationRetroClient.getInstance()
+                        .getAnnotationApi()
+                        .createImageAnnotation("Bearer " + token, imageAnno);
+
+                call.enqueue(new Callback<AnnotationDTO>() {
+                    @Override
+                    public void onResponse(Call<AnnotationDTO> call, Response<AnnotationDTO> response) {
+                        Toast.makeText(getContext(), "Annotation created", Toast.LENGTH_LONG).show();
+                        getAnnotationsList(writingResultId);
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFailure(Call<AnnotationDTO> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                getAnnotationsList(writingResultId);
+            }
+        });
+        alert.show();
+
+    }
 
 
-    private boolean deleteTextAnnotation(int annoId) {
+    private void deleteTextAnnotation(int annoId) {
         Call<TextAnnotationDeleteDTO> call2;
 
         call2 = AnnotationRetroClient.getInstance().getAnnotationApi().deleteTextAnnotation("Bearer " + token, annoId);
@@ -439,12 +516,9 @@ public class WritingExerciseAnswerFragment extends Fragment {
                 Toast.makeText(getContext(), "There was an error", Toast.LENGTH_LONG).show();
             }
         });
-
-
-        return true;
     }
 
-    private boolean editTextAnnotation(final int startIndex, final int endIndex, final int annoId){
+    private void editTextAnnotation(final int startIndex, final int endIndex, final int annoId){
         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         final EditText edittext = new EditText(getContext());
         alert.setTitle(answerText.getText().toString().substring(startIndex, endIndex));
@@ -482,10 +556,6 @@ public class WritingExerciseAnswerFragment extends Fragment {
             }
         });
         alert.show();
-        return true;
     }
 
-    public static float convertDpToPixel(float dp, Context context){
-        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-    }
 }
