@@ -33,8 +33,12 @@ class NotificationsPage extends React.Component {
   }
   componentDidMount() {
     this.props.getNotifications();
+  }
+
+  componentWillUnmount() {
     this.props.notificationsSeen(this.props.notifications); 
   }
+
   seeNotifications(notifications){
     this.props.notificationsSeen(notifications);
   }
