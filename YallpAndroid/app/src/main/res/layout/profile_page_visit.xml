@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+    <TextView
+        android:id="@+id/reportUser"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/report_user"
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/profileLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/border_image"
+            android:src="@drawable/orangebird" />
+
+        <TextView
+            android:id="@+id/avgRate"
+            style="@style/MainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:textColor="@color/gray"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:drawableRight="@drawable/star"/>
+
+        <TextView
+            android:id="@+id/profileUsername"
+            style="@style/MainTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="username(name surname)" />
+
+        <TextView
+            android:id="@+id/profileMail"
+            style="@style/MainTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="mail address"
+            android:textColor="#888"
+            android:textSize="15dp" />
+
+        <com.example.yallp_android.custom_views.ExpandableTextView
+            android:id="@+id/expandableTextView"
+            style="@style/MainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#888" />
+
+        <TextView
+            android:id="@+id/seeFullBio"
+            style="@style/MainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/hide_bio"
+            android:textColor="@color/colorBrown"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileLayout"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/seeComments"
+            style="@style/WhiteBackgroundButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="@string/see_comments"
+            android:textSize="9sp" />
+
+        <Button
+            android:id="@+id/addComment"
+            style="@style/WhiteBackgroundButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="Add Comment"
+            android:textSize="9sp" />
+
+        <Button
+            android:id="@+id/sendMessage"
+            style="@style/WhiteBackgroundButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:text="Message"
+            android:textSize="9sp"
+            android:drawableLeft="@drawable/ic_message"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/languagesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonLayout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/languages"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/blankLine"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/languagesTitle"
+        android:background="#000" />
+
+    <ListView
+        android:id="@+id/languages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/blankLine" />
+
+
+</RelativeLayout>

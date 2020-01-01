@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+
+    <LinearLayout
+        android:id="@+id/signInLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="What is _____ name?"
+            android:textSize="@dimen/titleTextSize"
+            android:id="@+id/questionText"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/inputMarginHorizontal"
+            android:layout_marginRight="@dimen/inputMarginHorizontal"/>
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/optionGroup">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/option1"
+                android:tag="1"
+                style="@style/RadioButtonModel"
+                android:text="our"
+                android:button="@null"/>
+
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/option2"
+                android:tag="2"
+                style="@style/RadioButtonModel"
+                android:text="your"
+                android:button="@null"/>
+
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/option3"
+                android:tag="3"
+                style="@style/RadioButtonModel"
+                android:text="their"
+                android:button="@null"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</LinearLayout>

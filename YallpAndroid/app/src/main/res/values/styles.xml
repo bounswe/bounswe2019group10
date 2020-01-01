@@ -1,0 +1,90 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="MainTitle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/titleTextSize</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">casual</item>
+    </style>
+
+    <style name="hintText" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/hintTextSize</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">casual</item>
+    </style>
+
+    <style name="ButtonModel" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/buttonMargin</item>
+        <item name="android:layout_marginRight">@dimen/buttonMargin</item>
+        <item name="android:textSize">@dimen/titleTextSize</item>
+    </style>
+
+    <style name="OrangeBackgroundButtonTheme" parent="@style/ButtonModel">
+        <item name="android:background">@drawable/signin_button_shape</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="WhiteBackgroundButtonTheme" parent="@style/ButtonModel">
+        <item name="android:background">@drawable/getstarted_button_shape</item>
+        <item name="android:textColor">@color/colorOrange</item>
+    </style>
+
+    <style name="InputModel" parent="@style/MainTitle">
+        <item name="android:background">@drawable/getstarted_button_shape</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/inputMarginHorizontal</item>
+        <item name="android:layout_marginRight">@dimen/inputMarginHorizontal</item>
+        <item name="android:layout_marginBottom">@dimen/inputBottomMargin</item>
+        <item name="android:paddingLeft">@dimen/inputHorizantalPadding</item>
+        <item name="android:paddingRight">@dimen/inputHorizantalPadding</item>
+        <item name="android:paddingBottom">@dimen/inputVerticalPaddings</item>
+        <item name="android:paddingTop">@dimen/inputVerticalPaddings</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">@dimen/titleTextSize</item>
+    </style>
+
+
+    <style name="MarginPaddingStyle" parent="@style/MainTitle">
+        <item name="android:layout_marginLeft">@dimen/inputMarginHorizontal</item>
+        <item name="android:layout_marginRight">@dimen/inputMarginHorizontal</item>
+        <item name="android:layout_marginBottom">@dimen/inputBottomMargin</item>
+        <item name="android:paddingLeft">@dimen/inputHorizantalPadding</item>
+        <item name="android:paddingRight">@dimen/inputHorizantalPadding</item>
+        <item name="android:paddingBottom">@dimen/inputVerticalPaddings</item>
+        <item name="android:paddingTop">@dimen/inputVerticalPaddings</item>
+    </style>
+
+
+    <style name="RadioButtonModel" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:background">@drawable/radio_button</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/inputMarginHorizontal</item>
+        <item name="android:layout_marginRight">@dimen/inputMarginHorizontal</item>
+        <item name="android:layout_marginBottom">@dimen/inputBottomMargin</item>
+        <item name="android:paddingLeft">@dimen/inputHorizantalPadding</item>
+        <item name="android:paddingRight">@dimen/inputHorizantalPadding</item>
+        <item name="android:paddingBottom">@dimen/inputVerticalPaddings</item>
+        <item name="android:paddingTop">@dimen/inputVerticalPaddings</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">@dimen/titleTextSize</item>>
+    </style>
+
+    <style name="customRatingBar" parent="android:style/Widget.Material.RatingBar.Small"></style>
+</resources>

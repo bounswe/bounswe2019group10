@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/three_dot"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/three_dot"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/settings_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
+        android:layout_margin="44dp"
+        android:visibility="gone"
+        android:background="@drawable/settings_border">
+
+        <TextView
+            android:id="@+id/edit_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile"
+            android:padding="10dp"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notifications"
+            android:padding="10dp"
+            android:drawableRight="@drawable/ic_notifications_none"
+            android:drawablePadding="5dp"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/my_writings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See My Writings"
+            android:padding="10dp"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/waiting_writings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Writing Assignments"
+            android:padding="10dp"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/suggest_writing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Suggest New Writing"
+            android:padding="10dp"
+            android:textSize="18sp"/>
+        <TextView
+            android:id="@+id/log_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log out"
+            android:padding="10dp"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+</RelativeLayout>

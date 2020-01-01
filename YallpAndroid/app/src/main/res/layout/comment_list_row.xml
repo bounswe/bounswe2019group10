@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_margin="20dp">
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="He is very hardworking and successfull student"
+        android:textColor="#000000"/>
+    <RatingBar
+        android:id="@+id/rate"
+        style="@style/customRatingBar"
+        android:layout_below="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"/>
+    <TextView
+        android:id="@+id/comentatorName"
+        android:layout_below="@+id/rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:layout_marginTop="10dp"
+        android:text="-Ali"/>
+    <TextView
+        android:id="@+id/date"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rate"
+        android:layout_alignRight="@+id/comentatorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:text="12.12.2019"/>
+</RelativeLayout>

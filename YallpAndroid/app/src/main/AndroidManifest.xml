@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.yallp_android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+    android:requestLegacyExternalStorage="true">
+        <activity android:name=".activities.ConversationActivity"></activity>
+        <activity android:name=".activities.WritingActivity" />
+        <activity android:name=".activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.EditProfileActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.GetStartedActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.SignInActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activities.QuizActivity" />
+        <activity android:name=".activities.QuizScoreActivity" />
+        <activity android:name=".activities.AddLanguageActivity" />
+        <activity android:name=".activities.QuizListActivity" />
+        <activity android:name=".activities.CompletedWritingExerciseActivity" />
+        <activity android:name=".activities.LanguageMainActivity" />
+        <activity
+            android:name=".activities.WritingDetailActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.GiveScoreForWritingActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activities.NonCompletedAssignmentsActivity" />
+        <activity android:name=".activities.HomePageActivity" />
+        <activity android:name=".activities.SearchUserActivity" />
+        <activity android:name=".activities.ProfileVisitPageActivity" />
+        <activity android:name=".activities.SeeCommentsActivity" />
+        <activity android:name=".activities.NotificationActivity" />
+        <activity android:name=".activities.WritingSuggestionActivity"
+            android:windowSoftInputMode="stateHidden" />/>
+    </application>
+
+</manifest>

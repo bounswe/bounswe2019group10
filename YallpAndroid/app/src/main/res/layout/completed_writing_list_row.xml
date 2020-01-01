@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp">
+        <TextView
+            android:id="@+id/writingName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile"
+            android:textSize="18sp"
+            android:textColor="@color/writingColor"
+            android:layout_centerVertical="true"
+            android:layout_weight="5"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/writingStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pending"
+                android:textColor="@color/pendingColor"
+                android:textSize="18sp"
+                android:layout_centerVertical="true"
+                android:textAlignment="center"/>
+            <TextView
+                android:id="@+id/writingScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="8/10"
+                android:textColor="@color/writingColor"
+                android:textSize="15sp"
+                android:layout_centerVertical="true"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

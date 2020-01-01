@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/cryingBird"
+            android:src="@drawable/crying_bird"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="left"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/areYouSureText"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/cryingBird"
+            android:layout_marginStart="20dp"
+            android:paddingHorizontal="@dimen/inputHorizantalPadding"
+            android:text="@string/are_you_sure"
+            android:textSize="20sp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

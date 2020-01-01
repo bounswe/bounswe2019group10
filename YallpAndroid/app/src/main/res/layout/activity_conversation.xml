@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:focusableInTouchMode="true"
+    tools:context="com.example.yallp_android.activities.ConversationActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/conversationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_image"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/conversationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/conversation_with"
+                android:textSize="@dimen/titleTextSize" />
+
+            <View
+                android:id="@+id/blankView"
+                android:layout_width="5dp"
+                android:layout_height="1dp">
+
+            </View>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/conversationUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorOrange"
+                android:textSize="@dimen/titleTextSize" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/messageList"
+            android:layout_below="@+id/conversationLayout"
+            android:layout_above="@+id/sendMessageLayout"
+            android:layout_width="match_parent"
+            android:divider="@null"
+            android:layout_height="480dp" />
+
+
+        <RelativeLayout
+            android:id="@+id/sendMessageLayout"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="bottom"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/sendMessageContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/sendMessageButton"
+                android:layout_weight="2"
+                android:ems="10"
+                android:hint="Write a message"
+                android:inputType="text"
+                android:paddingHorizontal="10dp"
+                android:text="" />
+
+            <ImageButton
+                android:id="@+id/sendMessageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_send_black_24dp"
+                android:padding="20dp"
+                android:scaleType="fitCenter" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

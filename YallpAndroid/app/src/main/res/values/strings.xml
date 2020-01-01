@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Yallp-Android</string>
+    <string name="profile_page_return">Return to Profile Page</string>
+    <string name="finish">Finish</string>
+    <string name="next">Next</string>
+    <string name="check">Check</string>
+    <string name="enter_details">Enter your details</string>
+    <string name="your_username">Your username...</string>
+    <string name="your_email_address">Your email adress...</string>
+    <string name="your_password">Your password...</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="take_example_tour">Or, take an example tour</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="new_to_yallp">New to YALLP?</string>
+    <string name="get_started">GET STARTED</string>
+    <string name="log_out">Log Out</string>
+    <string name="edit_profile">Edit Profile...</string>
+    <string name="email_or_username">Email or username</string>
+    <string name="forgot_password">FORGOT PASSWORD</string>
+    <string name="are_you_sure">Are you sure? You\'ll lose all of your saved answers!</string>
+    <string name="see_full_bio">See Full Bio</string>
+    <string name="hide_bio">Hide Bio</string>
+    <string name="not_graded_yet">Not Graded Yet</string>
+    <string name="quiz_list_tab">Quizzes</string>
+    <string name="writing_list_tab">Writings</string>
+    <string name="not_solved">Not Solved</string>
+    <string name="pending">Pending</string>
+    <string name="solved">Solved</string>
+    <string name="return_to_language_dashboard">Return to Language Dashboard</string>
+    <string name="submit">Submit</string>
+    <string name="username_title">UserName :</string>
+    <string name="name_surname_title">Name Surname :</string>
+    <string name="search_user">Search User</string>
+    <string name="see_languages">See Languages</string>
+    <string name="no_comments">Unfortunately, there are not any comments made for you</string>
+    <string name="comments">Comments</string>
+    <string name="languages">Languages</string>
+    <string name="see_comments">See Comments</string>
+    <string name="home">Home</string>
+    <string name="sd_card">sd card</string>
+    <string name="choose_writing_type">Choose Writing Type</string>
+    <string name="choose_evaluator">choose evaluator</string>
+    <string name="write_here">Write here</string>
+    <string name="subject_goes_here">Subject goes here</string>
+    <string name="writing_exercise">Writing Exercise</string>
+    <string name="choose_file">Choose File</string>
+
+
+    <string-array name="spinner_option_list">
+        <item>Text</item>
+        <item>Image</item>
+    </string-array>
+
+    <string name="choose_cause">Please choose the best cause for reporting this user</string>
+    <string name="optional_explanatipon">You can write optional explanation here</string>
+    <string name="report_user">Report User</string>
+    <string name="conversation_with">Conversation with </string>
+    <string name="topic_name">What is your topic name for this writing? </string>
+    <string name="question_for_writing">What is your question for this writing? </string>
+    <string name="select_language">For which language, are you suggesting this writing?</string>
+    <string name="suggest_button">Suggest</string>
+
+
+    <string-array name="spinner_language_list">
+        <item>English</item>
+        <item>Spanish</item>
+        <item>Italian</item>
+        <item>Turkish</item>
+        <item>French</item>
+    </string-array>
+
+
+</resources>

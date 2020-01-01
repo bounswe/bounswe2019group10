@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/evaluatorOrOwnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/inputMarginHorizontal"
+        android:layout_marginRight="@dimen/inputMarginHorizontal"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/evaluatorOrOwnerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Evaluator:"
+            android:textColor="@color/colorOrange"
+            android:textSize="@dimen/titleTextSize"
+            android:layout_marginRight="10dp"/>
+        <TextView
+            android:id="@+id/evaluatorOrOwnerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="David Shine"
+            android:textSize="@dimen/titleTextSize"
+            android:textColor="@color/writingColor"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/scoreLayout"
+        android:layout_below="@+id/evaluatorOrOwnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/inputMarginHorizontal"
+        android:layout_marginRight="@dimen/inputMarginHorizontal"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Score:"
+            android:textColor="@color/colorOrange"
+            android:textSize="@dimen/titleTextSize"
+            android:layout_marginRight="10dp"/>
+        <EditText
+            android:inputType="number"
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8/10"
+            android:textSize="@dimen/titleTextSize"
+            android:textColor="@color/writingColor"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

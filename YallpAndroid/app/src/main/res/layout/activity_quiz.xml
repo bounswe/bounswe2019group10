@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/parent">
+
+    <RelativeLayout
+        android:id="@+id/questionNumberLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/questionNumberText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Question"
+            android:textSize="@dimen/titleTextSize"/>
+    </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/pBar"
+        android:layout_below="@+id/questionNumberLayout"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="10dp"
+        android:max="1000"
+        android:indeterminate="false"
+        android:progress="100"
+        android:layout_marginBottom="35dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/questionFrameLayout"
+        android:layout_below="@+id/pBar">
+    </FrameLayout>
+
+
+    <Button
+        android:id="@+id/quizSubmitButton"
+        style="@style/OrangeBackgroundButtonTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/check"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp">
+    </Button>
+
+</RelativeLayout>
